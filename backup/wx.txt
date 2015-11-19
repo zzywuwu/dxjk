@@ -1,0 +1,36 @@
+公众号
+
+curl -v "https://api.weixin.qq.com/cgi-bin/template/api_set_industry?access_token=BpLdD_EUC5-HRP5_9eZSFH8aC4p5KhQueO2-GaPM6Hc55uATdjpqAf87f0TTrKqSsNkgTKShHIEHAqY3SFnK8UkrpnO0qBhchG03OSAkD7kZRXcAFAOGM" -d "{\"industry_id1\":\"1\",\"industry_id2\":\"4\"}" 
+
+curl -v "https://api.weixin.qq.com/cgi-bin/template/api_add_template?access_token=BpLdD_EUC5-HRP5_9eZSFH8aC4p5KhQueO2-GaPM6Hc55uATdjpqAf87f0TTrKqSsNkgTKShHIEHAqY3SFnK8UkrpnO0qBhchG03OSAkD7kZRXcAFAOGM" -d "{\"template_id_short\":\"TM00015\"}"
+
+{"errcode":0,"errmsg":"ok","template_id":"3jtXgolLPW4-dQzIaFgYtqxMHmDijo09VdknkQnaTZw"}
+
+curl -v "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=pGFK7kvpY98qebuqWc_QyQMYzIX0SbRQLvjaJAIuIyiKROYgLpX2pY6_nkR0omdkfbQ5HQZ4JUTWeKExFi5Qj6kHqyqG3F4_qIjAFhht2RgBQLbAIAKZU" -d "{\"touser\":\"of6N7wfiXHyG8PMZ54J8nLuqmh7E\",\"template_id\":\"3jtXgolLPW4-dQzIaFgYtqxMHmDijo09VdknkQnaTZw\",\"url\":\"http://www.tenda.com.cn\",\"data\":{\"first\":{\"value\":\"恭喜你购买成功！\",\"color\":\"#173177\"},\"keynote1\":{\"value\":\"巧克力\",\"color\":\"#173177\"},\"keynote2\": {\"value\":\"39.8元\",\"color\":\"#173177\"},\"keynote3\": {\"value\":\"2014年9月22日\",\"color\":\"#173177\"},\"remark\":{\"value\":\"欢迎再次购买！\",\"color\":\"#173177\"}}}"
+
+{{first1.DATA}} 商品名称 : {{first2.DATA}} {{first3.DATA}}
+
+curl -v "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=pGFK7kvpY98qebuqWc_QyQMYzIX0SbRQLvjaJAIuIyiKROYgLpX2pY6_nkR0omdkfbQ5HQZ4JUTWeKExFi5Qj6kHqyqG3F4_qIjAFhht2RgBQLbAIAKZU" -d "{\"touser\":\"of6N7wfiXHyG8PMZ54J8nLuqmh7E\",\"template_id\":\"s655XqXkbc8Q3HJU9968ChmbDrK_dXUOKpZEWv4TpkE\",\"url\":\"\",\"data\":{\"first1\":{\"value\":\"恭喜你购买成功！\",\"color\":\"#FF0000\"},\"first2\":{\"value\":\"巧克力\",\"color\":\"#00FF00\"},\"first3\":{\"value\":\"欢迎惠顾！\",\"color\":\"#0000FF\"}}}"
+
+企业号
+
+curl -v "https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=tn0r7qtlXhLOu653fqEwHVCS3GouL91tmIvczj0JD01Y3AjOf8MP_e19M_efuXyYuLOruMZtWRTuTTpcT6OJfg" -d "{
+   \"touser\": \"\",
+   \"toparty\": \"1\",
+   \"totag\": \"\",
+   \"msgtype\": \"text\",
+   \"agentid\": \"21\",
+   \"text\": {
+       \"content\": \"hello 我的企业\"
+   },
+   \"safe\":\"0\"
+}"
+
+curl -v "https://qyapi.weixin.qq.com/cgi-bin/tag/list?access_token=tn0r7qtlXhLOu653fqEwHVCS3GouL91tmIvczj0JD01Y3AjOf8MP_e19M_efuXyYuLOruMZtWRTuTTpcT6OJfg"
+
+curl -v "https://qyapi.weixin.qq.com/cgi-bin/department/list?access_token=tn0r7qtlXhLOu653fqEwHVCS3GouL91tmIvczj0JD01Y3AjOf8MP_e19M_efuXyYuLOruMZtWRTuTTpcT6OJfg&id=我的企业"
+
+
+你在指掌天下的账号信息如下
+企业编号：41313
+管理员密码：123456

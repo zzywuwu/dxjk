@@ -1,0 +1,49 @@
+
+需要安装
+yum -y install pcre-devel openssl openssl-devel bzip2-devel libjpeg-devel libpng-devel libxml2 libxml2-devel curl curl-devel libmcrypt libmcrypt-devel
+
+安装mysql
+CentOS 7的yum源中貌似没有正常安装mysql时的mysql-sever文件，需要去官网上下载
+ 	
+# wget http://dev.mysql.com/get/mysql-community-release-el7-5.noarch.rpm
+# rpm -ivh mysql-community-release-el7-5.noarch.rpm
+# yum install mysql-community-server
+成功安装之后重启mysql服务
+ 	
+# service mysqld restart
+初次安装mysql是root账户是没有密码的
+设置密码的方法
+ 	
+# mysql -uroot
+mysql> set password for ‘root’@‘localhost’ = password('mypasswd');
+mysql> exit
+
+进入mysql 增加远程访问账号
+grant all privileges on *.* to admin@"%" identified by 'diy12345' with grant option
+
+在/etc/my.cfg [mysqld] 加入
+
+default-storage-engine=INNODB
+character-set-server=utf8
+collation-server=utf8_general_ci
+
+git使用
+http://www.cnblogs.com/sunada2005/archive/2013/06/06/3121098.html
+
+lsftp
+选择windows目录 lcd f:\
+上传，下载 get put
+
+虚拟内存解决:
+dd if = /dev/zero of=/swap bs=1024 count=1M
+mkswap /swap
+swapon /swap
+echo "/swap  swap  swap  sw  0  0"  >> /etc/fstab
+
+
+
+
+
+
+
+
