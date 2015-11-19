@@ -1,59 +1,65 @@
-DROP DATABASE IF EXISTS cloud;
-CREATE DATABASE cloud;
-USE cloud;
-CREATE TABLE IF NOT EXISTS `KF_SYS_USR` (
+DROP DATABASE IF EXISTS dxjk;
+CREATE DATABASE dxjk;
+USE dxjk;
+
+CREATE TABLE IF NOT EXISTS `user` (
         `id` INT NOT NULL AUTO_INCREMENT,
         `create_time` TIMESTAMP DEFAULT NOW(),
-        `update_time` TIMESTAMP DEFAULT '0000-00-00 00:00:00',
-        `last_login_time` TIMESTAMP DEFAULT '0000-00-00 00:00:00',
-        `status` VARCHAR(32)  DEFAULT 'not actived' NOT NULL,
-        `privilege` INT,
-        `name` VARCHAR(128),
-        `email` VARCHAR(128),
-        `password` VARCHAR(32) DEFAULT NULL COMMENT '密码',
-         PRIMARY KEY (`name`),
-         KEY(`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统用户名';
+        `update_time` TIMESTAMP DEFAULT NOW(),
+        `last_login_time` TIMESTAMP DEFAULT NOW(),
+		`status` VARCHAR(32)  DEFAULT 'not actived' NOT NULL,
+        `privilege` INT NOT NULL DEFAULT 0,
+        `name` VARCHAR(32) NOT NULL,
+        `password` VARCHAR(32) DEFAULT NULL,
+		`phonenumber` VARCHAR(32) NOT NULL,
+		`wx` VARCHAR(32),
+         PRIMARY KEY (`id`),
+		 KEY(`name`),
+         KEY(`phonenumber`)
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci;
 
-CREATE TABLE IF NOT EXISTS `market_upgrade_message` (
+CREATE TABLE IF NOT EXISTS `customer` (
         `id` INT NOT NULL AUTO_INCREMENT,
-        `type` INT DEFAULT 0,
-        `title` VARCHAR(64) DEFAULT NULL,
-        `zhcn_msg` VARCHAR(1024),
-        `en_msg` VARCHAR(1024),
-        `zhtw_msg` VARCHAR(1024),
-        `start_time` TIMESTAMP DEFAULT NOW() ,
-        `end_time` TIMESTAMP DEFAULT '2030-12-31 00:00:00',
-        `production` VARCHAR(128) DEFAULT NULL,
+        `create_time` TIMESTAMP NOT NULL DEFAULT NOW(),
+        `update_time` TIMESTAMP NOT NULL DEFAULT NOW(),
+        `name` VARCHAR(32) NOT NULL,
+		`idnumber` VARCHAR(32) NOT NULL,
+		`phonenumber` VARCHAR(32) NOT NULL,
+		`wx` VARCHAR(32),
+		`email` VARCHAR(32) DEFAULT NULL,
+		`user_id` INT NOT NULL DEFAULT 0,
+		`doctor_name` VARCHAR(32) NOT NULL,
+		`next_visit_time` TIMESTAMP NOT NULL DEFAULT NOW(),
+		 FOREIGN KEY (`user_id`) REFERENCES user(`id`),
+         PRIMARY KEY (`id`),
+		 KEY(`name`),
+		 KEY(`phonenumber`)
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci; 
+
+CREATE TABLE IF NOT EXISTS `bingli` (
+        `id` INT NOT NULL AUTO_INCREMENT,
+        `create_time` TIMESTAMP NOT NULL DEFAULT NOW(),
+        `update_time` TIMESTAMP NOT NULL DEFAULT NOW(),
+		`customer_id` INT NOT NULL DEFAULT 0,
+		`visit_time` DATETIME NOT NULL DEFAULT NOW(),
+        `doctor_advise` VARCHAR(2048),
+		`remark` VARCHAR(2048),	
+		 FOREIGN KEY (`customer_id`) REFERENCES customer(`id`),
          PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='营销升级消息';
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci;
 
-CREATE TABLE IF NOT EXISTS `KF_SYS_ORDER` (
-`id` INT NOT NULL AUTO_INCREMENT,
-`create_time` TIMESTAMP DEFAULT NOW(),
-`update_time` TIMESTAMP DEFAULT NOW(),
-`status` VARCHAR(128) NOT NULL,
-`user_id` INT,
-`kf_id` INT,
-`feedback` INT,
-PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='问题单表';
+use dxjk;
 
-CREATE TABLE IF NOT EXISTS `KF_APP_USR` (
-`id` INT NOT NULL AUTO_INCREMENT,
-`create_time` TIMESTAMP DEFAULT NOW(),
-`name` VARCHAR(128),
-PRIMARY KEY (`name`),
-KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='APP用户名';
+insert into user(privilege, name, password, phonenumber, wx, status) VALUES(3, 'zzy', '123456', '18081189210', 'zzywuwu', 'actived');
+insert into user(privilege, name, password, phonenumber, wx, status) VALUES(3, '王君', '123456', '13980870629', 'wj0629', 'not actived');
+insert into user(privilege, name, password, phonenumber, wx, status) VALUES(3, '秋容', '123456', '13980870629', 'wj0629', 'not actived');
 
-CREATE TABLE IF NOT EXISTS `KF_SYS_CONTENT` (
-`id` INT NOT NULL,
-`contents` MEDIUMTEXT,
-PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='内容表';
-CREATE OR REPLACE VIEW KF_VIEW_UNDISTRIBUTED AS select KF_SYS_CONTENT.id,update_time,status,user_id,kf_id,contents from KF_SYS_ORDER inner join KF_SYS_CONTENT on KF_SYS_ORDER.id=KF_SYS_CONTENT.id and status=1;
-CREATE OR REPLACE VIEW KF_VIEW_DISTRIBUTED AS select KF_SYS_CONTENT.id,update_time,status,user_id,kf_id,contents from KF_SYS_ORDER inner join KF_SYS_CONTENT on KF_SYS_ORDER.id=KF_SYS_CONTENT.id and status=2;
-CREATE OR REPLACE VIEW KF_VIEW_PROCESSING AS select KF_SYS_CONTENT.id,update_time,status,user_id,kf_id,contents from KF_SYS_ORDER inner join KF_SYS_CONTENT on KF_SYS_ORDER.id=KF_SYS_CONTENT.id and status=3;
-CREATE OR REPLACE VIEW KF_VIEW_PROCESSED AS select KF_SYS_CONTENT.id,update_time,status,user_id,kf_id,contents from KF_SYS_ORDER inner join KF_SYS_CONTENT on KF_SYS_ORDER.id=KF_SYS_CONTENT.id and status=4;
+insert into customer(name, phonenumber, idnumber, user_id, doctor_name, next_visit_time) VALUES('张三', '18012345678', '511002197903140617', 2, '游泳', NOW());
+insert into customer(name, phonenumber, idnumber, user_id, doctor_name, next_visit_time) VALUES('李四', '18112345678', '511002197903140618', 3, '刘兴慧', NOW());
+insert into customer(name, phonenumber, idnumber, user_id, doctor_name, next_visit_time) VALUES('王麻子', '18212345678', '511002197903140619', 3, '游泳', NOW());
+
+insert into bingli(customer_id, doctor_advise, remark) VALUES(1, '吃药1', '记得吃药');
+insert into bingli(customer_id, doctor_advise, remark) VALUES(1, '吃药2', '记得吃药');
+insert into bingli(customer_id, doctor_advise, remark) VALUES(1, '吃药3', '记得吃药');
+insert into bingli(customer_id, doctor_advise, remark) VALUES(1, '吃药4', '记得吃药');
 

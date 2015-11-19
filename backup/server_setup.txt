@@ -29,6 +29,17 @@ collation-server=utf8_general_ci
 
 git使用
 http://www.cnblogs.com/sunada2005/archive/2013/06/06/3121098.html
+linux下clone库
+git clone https://github.com/zzywuwu/dxjk.git
+$cd dxjk
+$git add filename.py 　　　　　　　　　　　　　　　　　　　　　　　　　#添加文件到版本库
+$git commit -m 'add filename.py to src' 　　　　　　　　　　　　　　#提交，产生版本记录，注意代码依然在本地
+$vim README.md　　　　　　　　　　　　　　　　　　　　　　　　　　　　　#修改Spoon-Knife中的README.md文件内容
+$git commit -m 'modify the README.md' 　　　　　　　　　　　　　  　#提交，产生版本记录，注意代码依然在本地
+$git [remote] rm filename1.py　　　　　　　　　　　　　　　　　　　　#删除repo中的filename1.py文件
+$git commit -m 'delete filename1.py' 　　　　　　　　　　　　　 　 　#提交，产生版本记录，注意代码依然在本地
+$git push origin 　　　　　　　　　　　　　　　　　　　　　　　　　　　 #将修改提交到github上<br>
+
 
 lsftp
 选择windows目录 lcd f:\
