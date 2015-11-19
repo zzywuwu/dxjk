@@ -1,0 +1,204 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Tenda | 版本列表</title>
+
+
+
+<!-- BEGIN PAGE LEVEL STYLES -->
+	<link href="/media/css/bootstrap-fileupload.css" rel="stylesheet" type="text/css" />
+
+	<link href="/media/css/chosen.css" rel="stylesheet" type="text/css" />
+
+	<link href="/media/css/profile.css" rel="stylesheet" type="text/css" />
+
+
+	<!-- END PAGE LEVEL STYLES -->
+</head>
+
+<body>
+	
+	<!--Account Management Modal END-->
+	<div class="row-fluid">
+		<div class="span12">
+			<h3 class="page-title">
+				个人信息
+				<small></small>
+			</h3>
+			<ul class="breadcrumb">
+				<li>
+					<i class="icon-home"></i>
+					<a href="#">账户</a>
+					<span class="icon-angle-right"></span>
+				</li>
+				<li>
+					<a href="#">个人信息</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="row-fluid">
+		<div class="span12">
+			<div class="tabbable tabbable-custom tabbable-full-width">
+				<ul class="nav nav-tabs">
+					<li class="active">
+						<a href="#tab_1_1" data-taggle="tab">账户信息</a>
+					</li>
+					<!-- <li>
+						<a href="#tab_1_2" data-taggle="tab">账户信息</a>
+					</li> -->
+					
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane row-fluid profile-account active" id="tab_1_1">
+						<div class="row-fluid">
+							<div class="span12">
+								<div class="span3">
+									<ul class="ver-inline-menu tabbable margin-bottom-10">
+										<li class="active">
+											<a data-toggle="tab" href="#tab_1-1">
+												<i class="icon-picture"></i> 改变头像
+											</a>
+										</li>
+
+										<li>
+											<a data-toggle="tab" href="#tab_2-2">
+												<i class="icon-lock"></i> 修改密码
+											</a>
+										</li>
+									</ul>
+								</div>
+
+								<div class="span9">
+									<div class="tab-content">
+										<div id="tab_1-1" class="tab-pane active">
+											<div style="height:auto;" id="accordion1-1" class="accordion collapse">
+												<form action="#">
+													<p>可以上传图片改变头像</p>
+													<div class="controls">
+														<div class="thumbnail" style="width: 291px; height: 170px;">
+
+															<img src="media/image/AAAAAA&amp;text=no+image" alt="" />
+
+														</div>
+													</div>
+
+													<div class="space10"></div>
+
+													<div class="fileupload fileupload-new" data-provides="fileupload">
+
+														<div class="input-append">
+
+															<div class="uneditable-input">
+
+																<i class="icon-file fileupload-exists"></i> 
+
+																<span class="fileupload-preview"></span>
+
+															</div>
+
+															<span class="btn btn-file">
+
+															<span class="fileupload-new">选择文件</span>
+
+															<span class="fileupload-exists">改变</span>
+
+															<input type="file" class="default" />
+
+															</span>
+
+															<a href="#" class="btn fileupload-exists" data-dismiss="fileupload">删除</a>
+
+														</div>
+
+													</div>
+
+													<div class="clearfix"></div>
+
+													
+													<div class="space10"></div>
+
+													<div class="submit-btn">
+
+														<a href="#" class="btn green">提交</a>
+
+														<a href="#" class="btn">取消</a>
+
+													</div>
+
+												</form>
+											</div>
+										</div>
+
+										<div id="tab_2-2" class="tab-pane">
+											<div style="height: auto;" id="accordion2-2" class="accordion collapse">
+
+												<form action="#" id="profile_resetpwd">
+
+													<div class="alert alert-error alert-dismissible hide fade in" role="alert">
+
+														<button type="button" class="close"></button>
+
+														<span></span>
+
+													</div>
+													<div class="control-group">
+														<label class="control-label">新密码</label>
+														<div class="controls">
+															<input type="password" name="new_password" id="new_password" class="m-wrap span8" />
+														</div>
+														
+													</div>
+													
+													<div class="control-group">
+														<label class="control-label">确认密码</label>
+														<div class="controls">
+															<input type="password" name="rpassword" class="m-wrap span8" />
+														</div>
+														
+													</div>
+													
+
+													<div class="submit-btn">
+
+														<button type="submit" class="btn green">修改密码</button>
+
+														<button type="button" class="btn">取消</button>
+
+													</div>
+
+												</form>
+
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+</body>
+
+	
+
+	<script src="/media/js/jquery.validate.min.js" type="text/javascript"></script>
+
+
+	
+
+	<script type="text/javascript" src="/media/js/bootstrap-fileupload.js"></script>
+<!-- END PAGE LEVEL PLUGINS -->
+
+	<script type="text/javascript" src="/js/jquery.form.js"></script>
+	<script type="text/javascript" src="/js/profile.js"></script>
+</html>
