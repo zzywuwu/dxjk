@@ -1,12 +1,26 @@
 require("kf_debug")
+
+DEBUGINIT("ngx_lua.log", 0)
+
 mysql = require("connect_mysql")
 common = require("common")
 cjson = require("cjson")
 
 local login = require("login")
 local update_password = require("update_password")
-local update_config = require("update_config")
 local au_menu = require("au_menu")
+
+local customer_get_list = require("customer_get_list")
+local customer_modify = require("customer_modify")
+local customer_add = require("customer_add")
+local customer_del = require("customer_del")
+local customer_up = require("customer_up")
+local get_privilege = require("get_privilege")
+local vip_modify = require("vip_modify")
+local vip_del = require("vip_del")
+local vip_get_list = require("vip_get_list")
+
+local update_config = require("update_config")
 local ac_add = require("ac_add")
 local ac_del = require("ac_del")
 local ac_get_list = require("ac_get_list")
@@ -35,16 +49,28 @@ end
 cloud_database = {
 	host = "127.0.0.1",
 	port = 3306,
-	database = "cloud",
+	database = "dxjk",
 	user = "root",
-	password = "server"
+	password = ""
 }
 
 funcsinit = {
+
 	login = login,
 	update_password = update_password,
-	update_config = update_config,
 	au_menu = au_menu,
+
+	customer_get_list = customer_get_list,
+	customer_modify = customer_modify,
+	customer_add = customer_add,
+	customer_del = customer_del,
+	customer_up = customer_up,
+	get_privilege = get_privilege,
+	vip_modify = vip_modify,
+	vip_del = vip_del,
+	vip_get_list = vip_get_list,
+
+	update_config = update_config,
 	ac_add = ac_add,
 	ac_del = ac_del,
 	ac_get_list = ac_get_list,
@@ -61,53 +87,36 @@ funcsinit = {
 	rd_search = rd_search
 }
 
-g_privilege = {
-	admin = {
-		value = 1,
-		jsontbl = {
-			title = "人员管理",
-			url = "ac_index"
-		}
-	},
-	kf_manager = {
-		value = 2,
-		jsontbl = {
-			title = "客服管理",
-			url = "kf_index"
-		}
-	},
-	kf = {
-		value = 4,
-		jsontbl = {
-			title = "处理问题单",
-			url = "rd_index"
-		}
-	},
-	inspedtor = {
-		value = 8,
-		jsontbl = {
-			title = "查看报表",
-			url = "rp_index"
-		}
-	},
-	ver_manager = {
-		value = 16,
-		jsontbl = {
-			title = "版本管理",
-			child = {
-				{title = "版本列表", url = "pd_list"},
-				{title = "发布新版本", url = "pd_add"}
+g_privilege = {};
+
+g_privilege[1] = {
+				value = 1
 			}
-		}
-	},
-	ad_manager = {
-		value = 32,
-		jsontbl = {
-			title = "发布广告",
-			url = "ad_index"
-		}
-	}
-}
+
+g_privilege[2] = {
+				value = 2,
+				jsontbl = {
+					title = "会员管理",
+					url = "vip_index"
+				}
+			}
+
+g_privilege[3] = {
+				value = 4,
+				jsontbl = {
+					title = "预签客户",
+					url = "customer_index"
+				}
+			}
+
+g_privilege[4] = {
+				value = 8,
+				jsontbl = {
+					title = "人员管理",
+					url = "ac_index"
+				}
+			}
+
 
 WEBERR = {
 	NO_ERR = "成功",
@@ -121,7 +130,7 @@ WEBERR = {
 	ACCOUNT_NOT_ACTIVE = "帐号未激活",
 	USER_PRIVILEGE_ERR = "用户权限值不对",
 	USER_ALREADY_EXIST = "用户已存在",
-	USER_NO_EXIST = "用户名不存在",
+	USER_NO_EXIST = "用户不存在",
 	NO_USER_PRIVIDED = "未提交用户",
 	NO_AD_PRIVIDED = "未提交广告",
 	NO_VER_PRIVIDED = "未提交版本号",
@@ -137,4 +146,4 @@ WEBERR = {
 	SESSION_TIMEOUT = "长时间未操作,请重新登录"
 }
 
-DEBUGINIT("ngx_lua.log", 0)
+

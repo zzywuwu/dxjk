@@ -5,6 +5,7 @@ local function MysqlCallback(res)
 			user_list = res
 		}
 	}
+	
 	return _jsontbl
 end
 
@@ -17,10 +18,10 @@ local function ParamCheck(post)
 end
 
 local function Execute(post)
-	local _privilege = post.web.privilege
 	
-	local _query_sql = "select * from user"
-	INFO("get user list")
+	local _query_sql = "select * from customer where vip = 1 order by next_visit_time asc"
+
+	INFO("get customer list ".._query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)
 end
 

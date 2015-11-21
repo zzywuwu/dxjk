@@ -63,14 +63,10 @@ var ResetPwd = function () {
 
 	            submitHandler: function (form) {
 	                var new_password = form.new_password.value;
-					//var data = transformSubmit({"name":name, "password":hex_md5(password), "randcode":randcode});
+		
+					var data = {"script":"update_password","new_password":new_password};
 					
-					//var data = "script=au_login&name=" + name + "&password=" + password + "&randcode=" + randcode;
-					
-					var obj = {};
-					obj.script = "update_password";
-					obj.new_password = new_password;
-					TendaAjax.getData(obj, function(result){
+					TendaAjax.getData(data, function(result){
 					 	ResetPwd.resetPwdHandle(result);
 					});
 

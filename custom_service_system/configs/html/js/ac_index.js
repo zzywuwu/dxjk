@@ -28,14 +28,12 @@ var TableAdvanced = function() {
 
 	var initTableList =  function() {
 
-			 TendaAjax.getData({"script":"ac_get_list", "privilege":63}, function(result){
+			 TendaAjax.getData({"script":"ac_get_list"}, function(result){
 				
 				if(result.error == GLOBAL.SUCCESS) {
 			
 					initTable1(result.user_list);
-				}
-				
-
+				}				
 			});
 			// initTable1(testData.account_list1);
 			// initTable1(testData.account_list2);
@@ -96,8 +94,8 @@ var TableAdvanced = function() {
 
 			"aoColumns": [{"mDataProp": "id", "bSortable":false},
 				{"mDataProp": "name"},
-				{"mDataProp": "email", "sClass":"hidden-480"},
-				{"mDataProp": "create_time", "sClass":"hidden-480"},
+				{"mDataProp": "phonenumber", "sClass":"hidden-480"},
+				{"mDataProp": "wx", "sClass":"hidden-480"},
 				{"mDataProp": "update_time", "sClass":"hidden-480"},
 				{"mDataProp": "last_login_time", "sClass":"hidden-480"},
 				{"mDataProp": "status", "sClass":"hidden-480"}
@@ -228,14 +226,13 @@ var TableAdvanced = function() {
                 	}
                 });
 
-                if(arr.length == 0) {
-                	alert("请至少选择一条数据");
-                	return;
-                }
-
-                //console.log(arr);
-
                 if(operation == "MODIFY") {
+
+                	if(arr.length != 1) {
+	                	alert("请选择一条数据");
+	                	return;
+	                }
+
                 	//默认编辑第一条
                 	//显示模态框，并将数据显示到模态框中
                 	$("#ac_username").val(arr[0].name).prop("disabled", true);
@@ -245,15 +242,20 @@ var TableAdvanced = function() {
                 	initModalCheck(arr[0].privilege);
                 	$("#ac_modal").modal("show");
 
-
                 } else {
+
+                	if(arr.length == 0) {
+	                	alert("请至少选择一条数据");
+	                	return;
+	                }
+
                 	//删除数据
                 	var submitData = {};
                 	submitData.script = "ac_del";
                 	submitData.name = arr_name;
 
                 	TendaAjax.getData(submitData, function(result){
-                		alert(result.error);
+                		
                 		initTableList();
                 	});
                 }

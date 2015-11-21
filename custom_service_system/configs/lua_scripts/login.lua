@@ -51,10 +51,10 @@ local function Execute(post)
 	local _name = post.web.name
 	local _password = post.web.password
 
-	INFO("login name:" .. _name)
-	local _get_user_password = "select privilege,status from KF_SYS_USR where name = " 
+	INFO("login name: " .. _name)
+	local _get_user_password = "select privilege,status from user where name = " 
 					.. ngx.quote_sql_str(_name) .. " and password = " .. ngx.quote_sql_str(_password)
-	local _update_login_time = "update KF_SYS_USR set last_login_time = NOW() where name = " 
+	local _update_login_time = "update user set last_login_time = NOW() where name = " 
 					.. ngx.quote_sql_str(_name) .. " and password = " .. ngx.quote_sql_str(_password)
 	local _query_sql = _get_user_password .. ";" .. _update_login_time
 	

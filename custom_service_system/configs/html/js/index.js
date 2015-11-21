@@ -1,6 +1,6 @@
 var GLOBAL = {};
 GLOBAL.SUCCESS = "成功";
-GLOBAL.domain = "http://192.168.10.84";
+GLOBAL.domain = "http://192.168.0.101";
 //为了长连接，跳转页面后仍然可以显示离开时的状态
 GLOBAL.RDINDEX = {};
 

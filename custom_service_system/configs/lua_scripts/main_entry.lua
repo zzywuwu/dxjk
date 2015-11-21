@@ -19,6 +19,7 @@ if not _funcs then
 	return common.ErrToJson(WEBERR.PARAM_ERR)
 end
 
+DEBUG("Begin Execute " .. _post_tbl.web.script)
 local _res, _err = _funcs.ParamCheck(_post_tbl)
 if not _res then
 	ERROR(_post_tbl.web.script .. " " .. _err)
@@ -30,7 +31,7 @@ if not _res then
 	ERROR(_post_tbl.web.script .. " " .. _err)
 	return common.ErrToJson(_err)
 else
-	DEBUG(_post_tbl.web.script .. " success")
+	DEBUG("Execute " .. _post_tbl.web.script .. " success")
 	return common.SuccessToJson(_res)
 end
 

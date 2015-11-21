@@ -1,13 +1,15 @@
 local function GetMenuTable(privilege)
 	local _menu = {}
-	local i = 1
-	for k, v in pairs(g_privilege) do
-		if common.BitAnd(privilege, v.value) == v.value then
-			_menu[i] = v.jsontbl
-			i = i + 1
+	local k = 1
+	for i=1, #g_privilege do
+		if common.BitAnd(privilege, g_privilege[i].value) == g_privilege[i].value then
+			if g_privilege[i].jsontbl ~= nil then
+				_menu[k] = g_privilege[i].jsontbl
+				k = k + 1
+			end
 		end
 	end
-	if i == 1 then
+	if k == 1 then
 		return _menu, WEBERR.USER_PRIVILEGE_ERR
 	end
 	
@@ -27,7 +29,7 @@ local function ParamCheck(post)
 end
 
 local function Execute(post)
-	INFO("get menu privilege:" .. post.session.privilege)
+	INFO("get menu, privilege = " .. post.session.privilege)
 	local _menu, _err = GetMenuTable(post.session.privilege)
 	if _err then
 		return nil, _err
