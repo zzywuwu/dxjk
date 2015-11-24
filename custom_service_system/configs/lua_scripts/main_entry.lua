@@ -19,6 +19,14 @@ if not _funcs then
 	return common.ErrToJson(WEBERR.PARAM_ERR)
 end
 
+-- if not _post_tbl.session then
+-- 		return false, WEBERR.SESSION_TIMEOUT
+-- 	end
+	
+-- if not (_post_tbl.session.name) then
+-- 	return false, WEBERR.SESSION_TIMEOUT
+-- end
+
 DEBUG("Begin Execute " .. _post_tbl.web.script)
 local _res, _err = _funcs.ParamCheck(_post_tbl)
 if not _res then

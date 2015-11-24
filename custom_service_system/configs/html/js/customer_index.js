@@ -9,6 +9,8 @@ var KFTableAdvanced = function() {
 		
 		 		initTable1(result.user_list);
 		 	}
+		 	else 
+		 		alert(result.error)
 		 });
 	}
 
@@ -29,7 +31,6 @@ var KFTableAdvanced = function() {
 					"sNext": "下一页",
 					"sLast": "尾页"
 				}
-				//sProcessing : "<img src=... /loading.gif/>"
 			},
 			
 			"aoColumnDefs": [
@@ -41,29 +42,20 @@ var KFTableAdvanced = function() {
 								}
 							},
 							{
-								"aTargets":[3],
-								"data":"next_visit_time",
-								"mRender": function(data, type, full) {
-									var result = data.split(" ",1);
-									return result;
-								}
-							},
-							{
 								"aTargets":[6],
-								"data":"due_time",
-								"mRender": function(data, type, full) {
-									var result = data.split(" ",1);
-									return result;
+								"mRender":function(data, type, full){
+									//return "<span class='row-details row-details-close event'></span>";
+									return "<span class='row-details row-details-close event'></span>";
 								}
 							},
 							{
-								"aTargets":[8],
+								"aTargets":[7],
 								"mRender":function(data, type, full){
-									return "<span class='row-details row-details-close xiangqing'></span>";
+									return "<span class='row-details row-details-close desc'></span>";
 								}
 							}
 			],
-			"aaSorting": [[3, 'asc']],
+			// "aaSorting": [[3, 'asc']],
 			// "aLengthMenu": [
 			// 	[1,5, 15, 20, -1],
 			// 	[1,5, 15, 20, "所有"]
@@ -76,11 +68,10 @@ var KFTableAdvanced = function() {
 				{"mDataProp": "id", "bSortable":false,"sWidth":"0px"}, 
 				{"mDataProp": "name"},
 				{"mDataProp": "phonenumber","sClass":"hidden-480","sWidth":"95px"},
-				{"mDataProp": "next_visit_time","sClass":"hidden-480","sWidth":"95px"},
 				{"mDataProp": "doctor_name","sClass":"hidden-480"},
 				{"mDataProp": "sellname","sClass":"hidden-480"},
-				{"mDataProp": "due_time","sClass":"hidden-480","sWidth":"95"},
 				{"mDataProp": "remarks","sClass":"hidden-480","sWidth":"300px"},
+				{"mDataProp": "id"},
 				{"mDataProp": "id"}
 				]
 
@@ -99,19 +90,33 @@ var KFTableAdvanced = function() {
         sOut += '<tr><td>电话:</td><td>'+aData.phonenumber+'</td></tr>';
         sOut += '<tr><td>建卡医生:</td><td>'+aData.doctor_name+'</td></tr>';
         sOut += '<tr><td>销售员:</td><td>'+aData.sellname+'</td></tr>';
-        sOut += '<tr><td>下次就诊日:</td><td>'+aData.next_visit_time.split(" ",1)+'</td></tr>';
 		sOut += '<tr><td>末次月经:</td><td>'+aData.last_menses_time.split(" ",1)+'</td></tr>';
 		sOut += '<tr><td>预产期:</td><td>'+aData.due_time.split(" ",1)+'</td></tr>';
         sOut += '<tr><td>身份证:</td><td>'+aData.idnumber+'</td></tr>';
         sOut += '<tr><td>微信号:</td><td>'+aData.wx+'</td></tr>';
         sOut += '<tr><td>会员:</td><td>'+(aData.vip == 1 ? "会员" : "非会员")+'</td></tr>';
         sOut += '<tr><td>备注:</td><td>'+aData.remarks+'</td></tr>';
-        sOut += '</table>';
-         
+        sOut += '</table>';  
         return sOut;
     }
 
- 
+    var fnFormatDetailsNoEvent = function() {
+		var sOut = '<table>';
+        sOut += '<tr><td>事件未创建</td><td>'+'</td></tr>';
+        return sOut;	
+    }
+
+    var fnFormatDetailsEvent = function(eventobj) {
+		var sOut = '<table>';
+        sOut += '<tr><td>姓名:</td><td>'+eventobj.name+'</td></tr>';
+		sOut += '<tr><td>时间:</td><td>'+eventobj.visit_time.split(" ",1)+'</td></tr>';
+		sOut += '<tr><td>上下午:</td><td>'+eventobj.morning_or_noon+'</td></tr>';
+        sOut += '<tr><td>项目:</td><td>'+eventobj.visit_type+'</td></tr>';
+        sOut += '<tr><td>备注:</td><td>'+eventobj.remarks+'</td></tr>';
+        sOut += '</table>';  
+        return sOut;	
+    }
+
 
 	var initModalCheck = function(num) {
 
@@ -156,12 +161,7 @@ var KFTableAdvanced = function() {
 	            messages:{
                     kf_username:{
                         required:"必填"
-                    },
-                    kf_email:{
-                        required:"必填",
-                        email:"E-Mail格式不正确"
-                    }
-                                                   
+                    }                          
                 },
 				submitHandler: function(form){
 					//根据获取的ID来进行判断，是修改还是添加
@@ -177,7 +177,7 @@ var KFTableAdvanced = function() {
 
 					submitData.name = form.kf_username.value;
 					submitData.phonenumber = form.kf_phonenumber.value;
-					submitData.next_visit_time = form.kf_next_visit_time.value;
+					
 					submitData.doctor_name = form.kf_doctor_name.value;
 					submitData.due_time = form.kf_due_time.value;
 					submitData.idnumber = form.kf_idnumber.value;
@@ -192,11 +192,13 @@ var KFTableAdvanced = function() {
 					// 	submitData = 0;
 					// }
 					TendaAjax.getData(submitData, function(result){
-						//提示成功或失败
-						//console.log(result);
-						//alert(result.error);
-						initTableList();
-						$("#kf_modal").modal("hide");
+						if(result.error == GLOBAL.SUCCESS) {
+							initTableList();
+							$("#kf_modal").modal("hide");
+						}				
+                		else
+                			alert(result.error);
+						
 					});
 
 				}
@@ -209,19 +211,11 @@ var KFTableAdvanced = function() {
 				 		for(var i = 0; i < result.user_list.length; i++) {
 				 			jQuery('#sellname_option').append("<option>" + result.user_list[i].name + "</option>");
 				 		}
-				 	}				 	
+				 	}
+				 	else 
+				 		alert(result.error);				 	
 				});
-				
-				TendaAjax.getData({"script":"get_privilege"}, function(result){
-				 	if(result.error == GLOBAL.SUCCESS) {
-				 		if (result.privilege & 1) {
-			 				jQuery('#kf_vip').attr("disabled",false);
-				 		}
-				 		else {
-			 				jQuery('#kf_vip').attr("disabled",true);
-				 		}
-				 	}	 	
-				});
+
 			});
 
 			jQuery('#kf_modal').on('hidden.bs.modal', function (e) {
@@ -229,6 +223,64 @@ var KFTableAdvanced = function() {
 				$("input[type='date']").val('');
 				$("#kf_username").prop("disabled", false);
 				jQuery("#sellname_option").empty();
+			});
+
+			$(".event-form").validate({
+
+				errorElement: 'span', //default input error message container
+	            errorClass: 'error', // default input error message class
+	            focusInvalid: false, // do not focus the last invalid input
+	            rules: {
+	                event_username: {
+	                    required: false
+	                }
+	            },
+
+	            messages:{
+                    event_username:{
+                        required:"必填"
+                    }                                                       
+                },
+				submitHandler: function(form){
+					//根据获取的ID来进行判断，是修改还是添加
+					//TODO验证还需要进行权限是否为空的验证
+					var submitData = {};
+
+					submitData.script = "event_add";
+					submitData.customer_id = form.event_customer_id.value;
+					submitData.visit_time = form.event_visit_time.value;
+					submitData.morning_or_noon = jQuery('#event_moring_or_noon').val();
+					submitData.visit_type = jQuery('#event_project_option').val();
+					submitData.remarks = form.event_remarks.value;
+					TendaAjax.getData(submitData, function(result){
+						if(result.error == GLOBAL.SUCCESS) {
+							initTableList();
+							$("#event_modal").modal("hide");
+						}				
+                		else
+                			alert(result.error);
+					});
+
+				}
+			});
+
+			jQuery('#addbutton').on("click", function(){
+				TendaAjax.getData({"script":"ac_get_list"}, function(result){
+				 	if(result.error == GLOBAL.SUCCESS) {
+						jQuery('#sellname_option').append("<option> </option>");
+				 		for(var i = 0; i < result.user_list.length; i++) {
+				 			jQuery('#sellname_option').append("<option>" + result.user_list[i].name + "</option>");
+				 		}
+				 	}
+				 	else
+				 		alert(result.error);				 	
+				});
+			});
+
+			jQuery('#event_modal').on('hidden.bs.modal', function (e) {
+				$("input[type='text'], input[type='hidden']").val('');
+				$("input[type='date']").val('');
+				$("#evnet_username").prop("disabled", false);
 			});
 
 			jQuery('.kf-index>li').on("click", function(){
@@ -242,8 +294,12 @@ var KFTableAdvanced = function() {
 				else if ($(this).find("i").hasClass("icon-user")) {
 					operation = "UPVIP";	
 				}
+				else if ($(this).find("i").hasClass("icon-star")) {
+					operation = "EVENT";	
+				}
 				else {
-					alert("error");
+					alert("开发中,请耐心等待");
+					return 
 				}
 
 				var set = jQuery("#kf_list .group-checkable").attr("data-set");
@@ -280,6 +336,8 @@ var KFTableAdvanced = function() {
 					 			jQuery('#sellname_option').append("<option>" + result.user_list[i].name + "</option>");
 					 		}
 					 	}
+					 	else
+					 		alert(result.error);
 					 	
 						jQuery('#sellname_option option').each(function(){
 							if (arr[0].sellname == $(this).text()){
@@ -290,7 +348,6 @@ var KFTableAdvanced = function() {
 
 					$("#kf_username").val(arr[0].name).prop("disabled", true);
                 	$("#kf_phonenumber").val(arr[0].phonenumber);
-                	$("#kf_next_visit_time").val(arr[0].next_visit_time.split(" ",1));
                 	$("#kf_doctor_name").val(arr[0].doctor_name);
                 	$("#kf_due_time").val(arr[0].due_time.split(" ",1));
                 	$("#kf_idnumber").val(arr[0].idnumber);
@@ -302,8 +359,8 @@ var KFTableAdvanced = function() {
                 } 
                 else if (operation == "DELETE") {
 
-                	if(arr.length == 0) {
-	                	alert("请至少选择一条数据!");
+                	if(arr.length != 1) {
+	                	alert("请选择一条数据!");
 	                	return;
 	                }
                 	//删除数据
@@ -312,7 +369,11 @@ var KFTableAdvanced = function() {
                 	submitData.id = arr_id;
 
                 	TendaAjax.getData(submitData, function(result){
-                		initTableList();
+                		if(result.error == GLOBAL.SUCCESS) {
+							initTableList();
+						}				
+                		else
+                			alert(result.error);
                 	});
                 }
                 else if (operation == "UPVIP") {
@@ -325,8 +386,71 @@ var KFTableAdvanced = function() {
                 	submitData.script = "customer_up";
                 	submitData.id = arr_id;
                 	TendaAjax.getData(submitData, function(result){
-                		initTableList();
+                		if(result.error == GLOBAL.SUCCESS) {
+							initTableList();
+						}				
+                		else
+                			alert(result.error);
                 	});
+                }
+
+                else if (operation == "EVENT") {
+                	if(arr.length != 1) {
+	                	alert("请选择一条数据!");
+	                	return;
+	                }
+
+	                var submitData = {};
+			    	submitData.script = "event_get";
+			    	submitData.customer_id = arr[0].id;
+			    	TendaAjax.getData(submitData, function(result){
+			    		if(result.error != GLOBAL.SUCCESS) {
+							alert(result.error);
+						}	
+						else {
+							if (result.user_event.length) {
+								var eventobj = result.user_event[0];
+			                	$("#event_username").val(arr[0].name).prop("disabled", true);
+			                	$("#event_customer_id").val(eventobj.customer_id).prop("disabled", true);
+			                	$("#event_visit_time").val(eventobj.visit_time.split(" ",1));
+			                	jQuery('#event_moring_or_noon option').each(function(){
+									if (eventobj.morning_or_noon == $(this).text()){
+										$(this).attr("selected",true);
+									}
+								});
+								jQuery('#event_project_option option').each(function(){
+									if (eventobj.visit_type == $(this).text()){
+										$(this).attr("selected",true);
+									}
+								});
+								if (eventobj.visit_type == "看医生" ||
+									eventobj.visit_type == "建卡") {
+									jQuery('#event_order_success option').each(function(){
+										if ("已预约" == $(this).text() && eventobj.order_success){
+											$(this).attr("selected",true);
+											return false;
+										}
+										else {
+											$(this).attr("selected",true);
+										}
+									});
+								}	
+			                	$("#event_remarks").val(eventobj.remarks);
+			                	$("#event_modal").modal("show");		
+							}
+							else {
+								$("#event_username").val(arr[0].name).prop("disabled", true);
+			                	$("#event_customer_id").val(arr[0].id).prop("disabled", true);
+			                	jQuery('#event_order_success option').each(function(){
+									if ("未预约" == $(this).text()){
+										$(this).attr("selected",true);
+										return false;
+									}
+								});
+			                	$("#event_modal").modal("show");		
+							}	
+						}			         				    	
+					});  
                 }
 			});
 
@@ -344,7 +468,41 @@ var KFTableAdvanced = function() {
                 jQuery.uniform.update(set);
             });
 
-	        $('#kf_list').on('click', '  tbody td .xiangqing', function () {
+            $('#kf_list').on('click', '  tbody td .event', function () {
+
+            	var oTable = $("#kf_list").dataTable();
+	            var nTr = $(this).parents('tr')[0];
+	            if ( oTable.fnIsOpen(nTr) )
+	            {
+	                /* This row is already open - close it */
+	                $(this).addClass("row-details-close").removeClass("row-details-open");
+	                oTable.fnClose( nTr );
+	            }
+	            else
+	            {
+	                /* Open this row */ 
+	                var aData = oTable.fnGetData( nTr );	
+			    	var submitData = {};
+			    	submitData.script = "event_get";
+			    	submitData.customer_id = aData.id;
+			    	$(this).addClass("row-details-open").removeClass("row-details-close");
+			    	TendaAjax.getData(submitData, function(result){
+			    		if(result.error == GLOBAL.SUCCESS) {
+			    			if (result.user_event.length) {
+			    				var eventobj = result.user_event[0];
+			    				eventobj.name = aData.name;	
+			    				oTable.fnOpen( nTr, fnFormatDetailsEvent(eventobj), 'details' );
+			    			}
+			    			else
+	                			oTable.fnOpen( nTr, fnFormatDetailsNoEvent(), 'details' );
+					 	}
+				    	else
+				    		alert(result.error)
+					});  
+	            }
+	        });
+
+	        $('#kf_list').on('click', '  tbody td .desc', function () {
 
             	var oTable = $("#kf_list").dataTable();
 	            var nTr = $(this).parents('tr')[0];

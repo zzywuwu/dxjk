@@ -10,9 +10,9 @@ CREATE TABLE IF NOT EXISTS `user` (
         `status` VARCHAR(32)  DEFAULT 'not actived' NOT NULL,
         `privilege` INT NOT NULL DEFAULT 0,
         `name` VARCHAR(32) NOT NULL,
-        `password` VARCHAR(32) DEFAULT NULL,
+        `password` VARCHAR(32) NOT NULL,
         `phonenumber` VARCHAR(32) NOT NULL,
-        `wx` VARCHAR(32),
+        `wx` VARCHAR(32) DEFAULT '',
         PRIMARY KEY (`id`),
         KEY(`name`),
         KEY(`phonenumber`)
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `customer` (
         `svrname` VARCHAR(32) DEFAULT '',
         `sellname` VARCHAR(32) DEFAULT '',
         `doctor_name` VARCHAR(32) DEFAULT '',
-        `next_visit_time` TIMESTAMP NOT NULL DEFAULT NOW(),
+        `next_visit_order` INT DEFAULT 0,
         `last_menses_time` DATETIME NOT NULL DEFAULT NOW(),
         `due_time` DATETIME NOT NULL DEFAULT NOW(),
         `remarks` VARCHAR(128) DEFAULT '',
@@ -41,31 +41,33 @@ CREATE TABLE IF NOT EXISTS `customer` (
         KEY(`sellname`)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci; 
 
-CREATE TABLE IF NOT EXISTS `bingli` (
-        `id` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `event` (
+        `customer_id` INT NOT NULL DEFAULT 0,
         `create_time` TIMESTAMP NOT NULL DEFAULT NOW(),
         `update_time` TIMESTAMP NOT NULL DEFAULT NOW(),
-        `customer_id` INT NOT NULL DEFAULT 0,
-        `visit_time` DATETIME NOT NULL DEFAULT NOW(),
-        `doctor_advise` VARCHAR(128),
-        `remarks` VARCHAR(128),	
-        FOREIGN KEY (`customer_id`) REFERENCES customer(`id`),
-        PRIMARY KEY (`id`)
+        `visit_time` DATETIME NOT NULL,
+        `morning_or_noon` VARCHAR(32) DEFAULT '上午',
+        `visit_type` VARCHAR(32) DEFAULT '',
+        `order_success` INT DEFAULT 0,
+        `result` VARCHAR(128) DEFAULT '',
+        `doctor_advise` VARCHAR(128) DEFAULT '',
+        `remarks` VARCHAR(128) DEFAULT '',	
+        PRIMARY KEY (`customer_id`)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci;
 
 use dxjk;
 
-insert into user(privilege, name, password, phonenumber, wx, status) VALUES(7, '王君', '123456', '13980870629', 'wj0629', 'actived');
-insert into user(privilege, name, password, phonenumber, wx, status) VALUES(6, '赵哥', '123456', '18081189210', 'zzywuwu', 'actived');
-insert into user(privilege, name, password, phonenumber, wx, status) VALUES(6, '秋容', '123456', '13980870629', 'wj0629', 'not actived');
+insert into user(privilege, name, password, phonenumber, wx, status) VALUES(31, '王君', '123456', '13980870629', 'wj0629', 'actived');
+insert into user(privilege, name, password, phonenumber, wx, status) VALUES(22, '赵哥', '123456', '18081189210', 'zzywuwu', 'actived');
+insert into user(privilege, name, password, phonenumber, wx, status) VALUES(22, '邱容', '123456', '13980870629', 'wj0629', 'not actived');
 
-insert into customer(name, phonenumber, idnumber, svrname, sellname, doctor_name, wx, remarks, vip, next_visit_time) VALUES('张三', '18012345678', '511002197903140617', '赵哥', '秋容', '游泳', 'zzy1121', '老公是个程序员！', 1, "2015-11-30");
-insert into customer(name, phonenumber, idnumber, svrname, sellname, doctor_name, wx, remarks, vip, next_visit_time) VALUES('李四', '18112345678', '511002197903140618', '赵哥', '秋容', '刘兴慧', '785692', '弱不禁风', 0, "2015-11-20");
-insert into customer(name, phonenumber, idnumber, svrname, sellname, doctor_name, wx, remarks, vip, next_visit_time) VALUES('王麻子', '18212345678', '511002197903140619', '赵哥', '秋容', '游泳', '3261451', '大美女一个', 0, "2015-11-10");
-insert into customer(name, phonenumber, idnumber, svrname, sellname, doctor_name, wx, remarks, vip, next_visit_time) VALUES('预售人员', '18212345678', '511002197903140619', '赵哥', '秋容', '游泳', '3261451', '大美女一个', 0, "2015-11-1");
+insert into customer(name, phonenumber, idnumber, svrname, sellname, doctor_name, wx, remarks, vip) VALUES('张三', '18012345678', '511002197903140617', '赵哥', '邱容', '游泳', 'zzy1121', '', 1);
+insert into customer(name, phonenumber, idnumber, svrname, sellname, doctor_name, wx, remarks, vip) VALUES('李四', '18112345678', '511002197903140618', '赵哥', '邱容', '刘兴慧', '785692', '', 0);
+insert into customer(name, phonenumber, idnumber, svrname, sellname, doctor_name, wx, remarks, vip) VALUES('钱五', '18212345678', '511002197903140619', '赵哥', '邱容', '游泳', '3261451', '', 0);
+insert into customer(name, phonenumber, idnumber, svrname, sellname, doctor_name, wx, remarks, vip) VALUES('王六', '18212345678', '511002197903140619', '赵哥', '邱容', '游泳', '3261451', '', 0);
 
-insert into bingli(customer_id, doctor_advise, remarks) VALUES(1, '吃药1', '记得吃药');
-insert into bingli(customer_id, doctor_advise, remarks) VALUES(1, '吃药2', '记得吃药');
-insert into bingli(customer_id, doctor_advise, remarks) VALUES(1, '吃药3', '记得吃药');
-insert into bingli(customer_id, doctor_advise, remarks) VALUES(1, '吃药4', '记得吃药');
+
+insert into event(customer_id, visit_type, order_success, visit_time) VALUES(1, '建卡', 0, NOW());
+insert into event(customer_id, visit_type, order_success, visit_time) VALUES(3, '建卡', 1, NOW());
+insert into event(customer_id, visit_type, order_success, visit_time) VALUES(4, '建卡', 0, NOW());
 

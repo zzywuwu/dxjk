@@ -17,6 +17,9 @@
 		#kf_modal .control-group {
 		  margin-bottom: 5px;
 		}
+		#event_modal .control-group {
+		  margin-bottom: 5px;
+		}
 		#kf_remarks {
 			/*width: 380px !important;*/
 		}
@@ -30,7 +33,7 @@
 	<!--Account Management Modal END-->
 	<div class="row-fluid">
 		<div class="span12">
-			<h3 class="page-title">
+			<!-- <h3 class="page-title">
 				会员管理
 				<small>可以查询，修改，添加客服人员信息</small>
 			</h3>
@@ -43,7 +46,7 @@
 				<li>
 					<a href="#">会员管理</a>
 				</li>
-			</ul>
+			</ul> -->
 		</div>
 	</div>
 
@@ -66,6 +69,7 @@
 
 							<ul class="kf-index dropdown-menu pull-right">
 								<li><a href="#"><i class="icon-pencil"></i>编辑</a></li>
+								<li><a href="#"><i class="icon-star"></i>事件</a></li>
 								<li><a href="#"><i class="icon-trash"></i>结束服务</a></li>
 							</ul>
 
@@ -86,12 +90,10 @@
 								</th>
 								<th >姓名</th>
 								<th class="hidden-480">电话</th>
-								<th class="hidden-480">下次就诊日期</th>
 								<th class="hidden-480">建卡医生</th>
-								<th class="hidden-480">客服人员</th>
-								<th class="hidden-480">预产期</th>
+								<th class="hidden-480">客服人员</th>	
 								<th class="hidden-480">备注</th>
-								<th>病历</th>
+								<th>事件</th>
 								<th>详情</th>
 							</tr>
 						</thead>
@@ -135,12 +137,7 @@
 							</div>
 						</div>
 
-						<div class="control-group">
-							<label class="control-label">下次就诊日:</label>
-							<div class="controls">
-								<input type="date" id="kf_next_visit_time" name="kf_next_visit_time" class="m-wrap medium">
-							</div>
-						</div>
+						
 
 						<div class="control-group">
 							<label class="control-label">建卡医生:</label>
@@ -209,17 +206,94 @@
 					</div>
 				</form>
 			</div>
-		</div>
-
-		
+		</div>	
 	</div>
 
+	<!--event modal-->
+	<div class="modal fade" id="event_modal" tabindex="-1" role="dialog" aria-labelledby="event_modal_label">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true"></span>
+					</button>
+					<h4 class="modal-title" id="event_modal_label">事件</h4>
+				</div>
+				<form action="" class="form-horizontal event-form" style="margin-bottom:0px;">
+					<div class="modal-body">
+						<div class="control-group">
+							<label class="control-label">姓名:</label>
+							<div class="controls">
+								<input type="text" id="event_username" name="event_username" class="m-wrap medium">
+							</div>
+						</div>
+
+						<div class="control-group">
+							<label class="control-label">ID:</label>
+							<div class="controls">
+								<input type="text" id="event_customer_id" name="event_customer_id" class="m-wrap medium">
+							</div>
+						</div>
+
+						<div class="control-group">
+							<label class="control-label">时间:</label>
+							<div class="controls">
+								<input type="date" id="event_visit_time" name="event_visit_time" class="m-wrap medium">
+							</div>
+						</div>
+
+						<div class="control-group">
+							<label class="control-label">上下午:</label>
+							<div class="controls">
+								<select class="form-control" id="event_moring_or_noon">
+									<option>上午</option>
+									<option>下午</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="control-group">
+							<label class="control-label">项目:</label>
+							<div class="controls">
+								<select class="form-control" id="event_project_option">
+									<option>建卡</option>
+									<option>看医生</option>
+									<option>查血</option>
+									<option>B超</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="control-group">
+							<label class="control-label">已预约号:</label>
+							<div class="controls">
+								<select class="form-control" id="event_order_success">
+									<option>已预约</option>
+									<option>未预约</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="control-group">
+							<label class="control-label">备注:</label>
+							<div class="controls">
+								<textarea id="event_remarks" name="event_remarks" class="m-wrap medium" style="height:100px"></textarea>
+							</div>
+						</div>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+						<button type="submit" class="btn btn-default" id="save_changes">保存</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+
 </body>
-<!-- BEGIN CORE PLUGINS -->
 
-
-
-	<!-- BEGIN PAGE LEVEL PLUGINS -->
 	<script type="text/javascript" src="/media/js/select2.min.js"></script>
 
 	<script type="text/javascript" src="/media/js/jquery.dataTables.min.js"></script>
@@ -228,7 +302,7 @@
 	
 	<script src="/media/js/jquery.validate.min.js" type="text/javascript"></script>
 
-<!-- END PAGE LEVEL PLUGINS -->
 	<script src="/media/js/app.js" type="text/javascript" ></script>
+
 	<script type="text/javascript" src="/js/vip.js"></script>
 </html>

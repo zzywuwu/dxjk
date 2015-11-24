@@ -8,16 +8,10 @@ jQuery(document).ready(function() {
 
            App.init(); // initlayout and core plugins
 
-
            Index.initNavInfo();
 
            Index.initNavEvent();
 
-           // TendaAjax.getHtml({"script":"ac_index"}, function(data){
-
-           //      $(".page-content .container-fluid").html(data);
-           // });
-           
         });
 
 
@@ -132,14 +126,13 @@ var Index = function () {
 
             $(".navbar .user .dropdown-menu li").on("click", function(){
                 var script = $(this).attr("data");
-
+               
                 if(script !== "") {
 
                     TendaAjax.getHtml({"page":script + ".html"}, function(data){
 
                         $(".page-content .container-fluid").html(data);
-                    });
-
+                    });  
                 }
             });
 
@@ -166,9 +159,7 @@ var Index = function () {
                     $this.parents(".page-sidebar-menu").find(".selected").remove();
 
                     $this.append('<span class="selected"></span>');
-                    
-                    
-                    
+
                 }
                 script = $this.children(".title").attr("data");
 
@@ -193,14 +184,15 @@ var Index = function () {
                 } 
                 script = $this.attr("data"); 
             }
-
+            
             if(script !== "") {
 
                 TendaAjax.getHtml({"page":script + ".html"}, function(data){
 
                     $(".page-content .container-fluid").html(data);
-                });
+                }); 
 
+                 
             }
 
         }

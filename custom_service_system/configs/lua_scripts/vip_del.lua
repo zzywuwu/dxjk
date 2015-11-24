@@ -22,6 +22,19 @@ local function ParamCheck(post)
 		return false, WEBERR.PARAM_ERR
 	end
 	
+	if not post.session then
+		return false, WEBERR.SESSION_TIMEOUT
+	end
+	
+	if not (post.session.privilege) then
+		return false, WEBERR.SESSION_TIMEOUT
+	end
+
+	DEBUG("post.session.privilege" .. post.session.privilege);
+	if (common.BitAnd(post.session.privilege, 1) ~= 1) then
+		return false, WEBERR.USER_PRIVILEGE_NOT_ENOUGH
+	end
+
 	return true
 end
 

@@ -19,6 +19,10 @@ local get_privilege = require("get_privilege")
 local vip_modify = require("vip_modify")
 local vip_del = require("vip_del")
 local vip_get_list = require("vip_get_list")
+local event_add = require("event_add")
+local event_get = require("event_get")
+local event_get_all = require("event_get_all")
+local get_no_event_user = require("get_no_event_user")
 
 local update_config = require("update_config")
 local ac_add = require("ac_add")
@@ -69,6 +73,10 @@ funcsinit = {
 	vip_modify = vip_modify,
 	vip_del = vip_del,
 	vip_get_list = vip_get_list,
+	event_add = event_add,
+	event_get = event_get,
+	event_get_all = event_get_all,
+	get_no_event_user = get_no_event_user,
 
 	update_config = update_config,
 	ac_add = ac_add,
@@ -117,6 +125,14 @@ g_privilege[4] = {
 				}
 			}
 
+g_privilege[5] = {
+				value = 16,
+				jsontbl = {
+					title = "日历",
+					url = "calendar_index"
+				}
+			}
+
 
 WEBERR = {
 	NO_ERR = "成功",
@@ -143,7 +159,8 @@ WEBERR = {
 	MESSAGE_ALREADY_EXIST = "消息已存在",
 	MESSAGE_NO_EXIST = "消息不存在",
 	KEY_ALREADY_EXIST = "MYSQL主键已经存在",
-	SESSION_TIMEOUT = "长时间未操作,请重新登录"
+	SESSION_TIMEOUT = "长时间未操作,请重新登录",
+	USER_PRIVILEGE_NOT_ENOUGH = "你没有权限进行此操作"
 }
 
 

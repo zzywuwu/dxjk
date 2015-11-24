@@ -2,7 +2,7 @@ local function MysqlCallback(res)
 	local _jsontbl = {
 		web = {
 			error = WEBERR.NO_ERR,
-			user_list = res
+			user_event = res
 		}
 	}
 
@@ -19,9 +19,9 @@ end
 
 local function Execute(post)
 	
-	local _query_sql = "select * from customer where vip = 0 order by id asc"
+	local _query_sql = "select event.*,customer.name as customer_name from event,customer where customer.id = event.customer_id and customer.vip !=2 order by event.morning_or_noon asc"
 
-	INFO("get customer list ".._query_sql)
+	INFO("event_get_all sql ".._query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)
 end
 

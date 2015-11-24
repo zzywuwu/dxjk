@@ -13,6 +13,10 @@ local function MysqlCallback(res)
 end
 
 local function ParamCheck(post)
+	if not post.session then
+		return false, WEBERR.SESSION_TIMEOUT
+	end
+
 	if not post.session.name then
 		return false, WEBERR.SESSION_TIMEOUT
 	end

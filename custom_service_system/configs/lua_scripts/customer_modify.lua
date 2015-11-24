@@ -13,9 +13,6 @@ local function MysqlCallback(res)
 end
 
 local function ParamCheck(post)
-	if not post.session.name then
-		return false, WEBERR.SESSION_TIMEOUT
-	end
 	
 	if not post.web then
 		return false, WEBERR.PARAM_ERR
@@ -33,12 +30,7 @@ local function Execute(post)
 	local _name = post.web.name
 	local _phonenumber = post.web.phonenumber
 
-	local _next_visit_time
-	if post.web.next_visit_time == '' then
-		_next_visit_time = current_time
-	else
-		_next_visit_time = post.web.next_visit_time
-	end
+	
 
 	local _due_time
 	if post.web.due_time == '' then
@@ -61,8 +53,7 @@ local function Execute(post)
 	local _remarks = post.web.remarks
 	
 	local _query_sql = "update customer set update_time = NOW(), phonenumber = " 
-						.. ngx.quote_sql_str(_phonenumber) .. ", next_visit_time = " 
-						.. ngx.quote_sql_str(_next_visit_time) .. ", due_time = " 
+						.. ngx.quote_sql_str(_phonenumber) .. ",  due_time= " 
 						.. ngx.quote_sql_str(_due_time) .. ", last_menses_time = " 
 						.. ngx.quote_sql_str(_last_menses_time) .. ", doctor_name = " 
 						.. ngx.quote_sql_str(_doctor_name) .. ", idnumber = " 

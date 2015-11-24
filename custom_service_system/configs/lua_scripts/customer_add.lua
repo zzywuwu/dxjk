@@ -29,13 +29,6 @@ local function Execute(post)
 	local _name = post.web.name
 	local _phonenumber = post.web.phonenumber
 
-	local _next_visit_time
-	if post.web.next_visit_time == '' then
-		_next_visit_time = current_time
-	else
-		_next_visit_time = post.web.next_visit_time
-	end
-
 	local _due_time
 	if post.web.due_time == '' then
 		_due_time = current_time
@@ -56,7 +49,7 @@ local function Execute(post)
 	local _sellname = post.web.sellname
 	local _remarks = post.web.remarks
 	
-	local _query_sql = "insert into customer (name,phonenumber,next_visit_time,doctor_name,svrname,due_time,idnumber,wx,last_menses_time,sellname,remarks) value("..ngx.quote_sql_str(_name)..","..ngx.quote_sql_str(_phonenumber)..","..ngx.quote_sql_str(_next_visit_time)..","..ngx.quote_sql_str(_doctor_name)..","..ngx.quote_sql_str(_sellname)..","..ngx.quote_sql_str(_due_time)..","..ngx.quote_sql_str(_idnumber)..","..ngx.quote_sql_str(_wx)..","..ngx.quote_sql_str(_last_menses_time)..","..ngx.quote_sql_str(_sellname)..","..ngx.quote_sql_str(_remarks)..")" 
+	local _query_sql = "insert into customer (name,phonenumber,doctor_name,sellname,due_time,idnumber,wx,last_menses_time,remarks) value("..ngx.quote_sql_str(_name)..","..ngx.quote_sql_str(_phonenumber)..","..ngx.quote_sql_str(_doctor_name)..","..ngx.quote_sql_str(_sellname)..","..ngx.quote_sql_str(_due_time)..","..ngx.quote_sql_str(_idnumber)..","..ngx.quote_sql_str(_wx)..","..ngx.quote_sql_str(_last_menses_time)..","..ngx.quote_sql_str(_remarks)..")" 
 
 	INFO("add user name:" .. _query_sql)
 	local _res,_err = mysql.query(cloud_database, _query_sql, MysqlCallback)

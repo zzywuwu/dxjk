@@ -19,9 +19,9 @@ end
 
 local function Execute(post)
 	
-	local _query_sql = "select * from customer where vip = 0 order by id asc"
+	local _query_sql = "select xxx.name,xxx.vip from (select customer.name,event.customer_id,customer.vip from event right join customer on customer.id = event.customer_id) AS xxx where customer_id is null and vip !=2"
 
-	INFO("get customer list ".._query_sql)
+	INFO("get_no_event_user sql ".._query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)
 end
 
