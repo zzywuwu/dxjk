@@ -57,9 +57,14 @@ CREATE TABLE IF NOT EXISTS `event` (
 
 use dxjk;
 
-insert into user(privilege, name, password, phonenumber, wx, status) VALUES(31, '王君', '123456', '13980870629', 'wj0629', 'actived');
-insert into user(privilege, name, password, phonenumber, wx, status) VALUES(22, '赵哥', '123456', '18081189210', 'zzywuwu', 'actived');
-insert into user(privilege, name, password, phonenumber, wx, status) VALUES(22, '邱容', '123456', '13980870629', 'wj0629', 'not actived');
+insert into user(privilege, name, password, phonenumber, wx, status) VALUES(31, '王君',  '123456', '13980870629', 'zz830629',             'actived');
+insert into user(privilege, name, password, phonenumber, wx, status) VALUES(22, '赵哥',  '123456', '18081189210', 'zzywuwu',              'not actived');
+insert into user(privilege, name, password, phonenumber, wx, status) VALUES(22, '邱容',  '123456', '13541235352', '',                     'not actived');
+insert into user(privilege, name, password, phonenumber, wx, status) VALUES(22, '余军',  '123456', '15108407210', 'huaxibaishitong',      'not actived');
+insert into user(privilege, name, password, phonenumber, wx, status) VALUES(22, '张红莉','123456', '18908182406', '',                     'not actived');
+insert into user(privilege, name, password, phonenumber, wx, status) VALUES(22, '陈淘',  '123456', '15198073537', 'Caroline1468178921',   'not actived');
+insert into user(privilege, name, password, phonenumber, wx, status) VALUES(22, '吕环宇','123456', '13980870629', '',                     'not actived');
+insert into user(privilege, name, password, phonenumber, wx, status) VALUES(22, '余澜悦', '123456','13980870629', '',                     'not actived');
 
 insert into customer(name, phonenumber, idnumber, svrname, sellname, doctor_name, wx, remarks, vip) VALUES('张三', '18012345678', '511002197903140617', '赵哥', '邱容', '游泳', 'zzy1121', '', 1);
 insert into customer(name, phonenumber, idnumber, svrname, sellname, doctor_name, wx, remarks, vip) VALUES('李四', '18112345678', '511002197903140618', '赵哥', '邱容', '刘兴慧', '785692', '', 0);
