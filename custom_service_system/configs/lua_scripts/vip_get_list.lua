@@ -18,8 +18,8 @@ local function MysqlCallback(res)
 		local diffsecond = os.difftime(current_time_,time_)
 		local diffday = diffsecond/(24*60*60)
 		local diffweeks = diffday/7
-		_jsontbl.web.user_list[i]["diffday"] = tonumber(string.format("%.1f", diffday))
 		_jsontbl.web.user_list[i]["diffweeks"] = tonumber(string.format("%.1f", diffweeks))
+		_jsontbl.web.user_list[i]["diffdays"] = (string.format("%.1f", diffweeks)).."周("..string.format("%d", diffday).."天)"
 	end
 
 	return _jsontbl

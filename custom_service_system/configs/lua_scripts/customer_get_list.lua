@@ -26,8 +26,8 @@ local function MysqlCallback(res)
 		-- DEBUG("diffday = "..string.format("%.1f", diffday))
 		local diffweeks = diffday/7
 		-- DEBUG("diffweeks = "..string.format("%.1f", diffweeks))
-		_jsontbl.web.user_list[i]["diffday"] = tonumber(string.format("%.1f", diffday))
 		_jsontbl.web.user_list[i]["diffweeks"] = tonumber(string.format("%.1f", diffweeks))
+		_jsontbl.web.user_list[i]["diffdays"] = (string.format("%.1f", diffweeks)).."周("..string.format("%d", diffday).."天)"
 	end
 
 	return _jsontbl

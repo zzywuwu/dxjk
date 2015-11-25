@@ -49,7 +49,9 @@ var KFTableAdvanced = function() {
 								 	// var endTime = new Date().getTime();   
 								 	// var dates = Math.abs((endTime - startTime))/(1000*60*60*24);     
 								    // return  dates
-									return data;
+
+								    return data;
+									
 								}
 							},
 							{
@@ -83,7 +85,7 @@ var KFTableAdvanced = function() {
 				{"mDataProp": "doctor_name","sClass":"hidden-480"},
 				{"mDataProp": "sellname","sClass":"hidden-480"},
 				{"mDataProp": "remarks","sClass":"hidden-480","sWidth":"300px"},
-				{"mDataProp": "id"},
+				{"mDataProp": "diffdays"},
 				{"mDataProp": "id"}
 				]
 
@@ -98,8 +100,9 @@ var KFTableAdvanced = function() {
 	var fnFormatDetails = function( oTable, nTr ) {
         var aData = oTable.fnGetData( nTr );
         var sOut = '<table>';
-        sOut += '<tr><td>姓名:</td><td>'+aData.name+'</td></tr>';
+        // sOut += '<tr><td>姓名:</td><td>'+aData.name+'</td></tr>';
         sOut += '<tr><td>电话:</td><td>'+aData.phonenumber+'</td></tr>';
+        sOut += '<tr><td>孕周:</td><td>'+aData.diffdays+'</td></tr>';
         sOut += '<tr><td>建卡医生:</td><td>'+aData.doctor_name+'</td></tr>';
         sOut += '<tr><td>销售员:</td><td>'+aData.sellname+'</td></tr>';
 		sOut += '<tr><td>末次月经:</td><td>'+aData.last_menses_time.split(" ",1)+'</td></tr>';
