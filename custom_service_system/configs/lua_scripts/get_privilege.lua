@@ -11,7 +11,7 @@ local function ParamCheck(post)
 end
 
 local function Execute(post)
-	INFO("get privilege:" .. post.session.privilege)
+	DEBUG("get_privilege: " .. post.session.privilege)
 	local _jsontbl = {
 		web = {
 			error = WEBERR.NO_ERR,

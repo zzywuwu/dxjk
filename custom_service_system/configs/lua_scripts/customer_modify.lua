@@ -63,7 +63,7 @@ local function Execute(post)
 						.. ngx.quote_sql_str(_sellname) .. ", sellname = " 
 						.. ngx.quote_sql_str(_sellname) .. " where name = " .. ngx.quote_sql_str(_name)
 
-	INFO("update customer sql : " .. _query_sql)
+	DEBUG("customer_modify: " .. _query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)
 end
 

@@ -91,6 +91,7 @@
 								</th>
 								<th >姓名</th>
 								<th class="hidden-480">电话</th>
+								<th class="hidden-480">孕周</th>
 								<th class="hidden-480">建卡医生</th>
 								<th class="hidden-480">销售人员</th>
 								<th class="hidden-480">备注</th>
@@ -139,7 +140,37 @@
 						<div class="control-group">
 							<label class="control-label">建卡医生:</label>
 							<div class="controls">
-								<input type="text" id="kf_doctor_name" name="kf_doctor_name" class="m-wrap medium">
+								<select class="form-control" id="kf_doctor_name">
+									<option>李维敏</option>
+									<option>邱文玉</option>
+									<option>刘兴会</option>
+									<option>游泳</option>
+									<option>王晓东</option>
+									<option>周容</option>
+									<option>邢爱耘</option>
+									<option>张力</option>
+									<option>刘淑德</option>
+									<option>彭冰</option>
+									<option>余海燕</option>
+									<option>姚强</option>
+									<option>周淑</option>
+									<option>胡雅毅</option>
+									<option>候敏敏</option>
+									<option>廖华</option>
+									<option>陈慧</option>
+									<option>龚云辉</option>
+									<option>吴琳</option>
+									<option>吕斌</option>
+									
+								</select>
+							</div>
+						</div>
+
+						<div class="control-group">
+							<label class="control-label">销售人员:</label>
+							<div class="controls">
+								<select class="form-control" id="sellname_option">
+								</select>
 							</div>
 						</div>
 
@@ -147,6 +178,13 @@
 							<label class="control-label">预产期:</label>
 							<div class="controls">
 								<input type="date" id="kf_due_time" name="kf_due_time" class="m-wrap medium">
+							</div>
+						</div>
+
+						<div class="control-group">
+							<label class="control-label">末次月经:</label>
+							<div class="controls">
+								<input type="date" id="kf_last_menses_time" name="kf_last_menses_time" class="m-wrap medium">
 							</div>
 						</div>
 
@@ -162,21 +200,6 @@
 							<label class="control-label">微信号:</label>
 							<div class="controls">
 								<input type="text" id="kf_wx" name="kf_wx" class="m-wrap medium">
-							</div>
-						</div>
-
-						<div class="control-group">
-							<label class="control-label">末次月经:</label>
-							<div class="controls">
-								<input type="date" id="kf_last_menses_time" name="kf_last_menses_time" class="m-wrap medium">
-							</div>
-						</div>
-
-						<div class="control-group">
-							<label class="control-label">销售人员:</label>
-							<div class="controls">
-								<select class="form-control" id="sellname_option">
-								</select>
 							</div>
 						</div>
 
@@ -311,6 +334,8 @@
 									<option>看医生</option>
 									<option>查血</option>
 									<option>B超</option>
+									<option>羊水穿刺</option>
+									
 								</select>
 							</div>
 						</div>
@@ -329,6 +354,47 @@
 							<label class="control-label">备注:</label>
 							<div class="controls">
 								<textarea id="event_remarks" name="event_remarks" class="m-wrap medium" style="height:100px"></textarea>
+							</div>
+						</div>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+						<button type="submit" class="btn btn-default" id="save_changes">保存</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!--upvip modal-->
+	<div class="modal fade" id="upvip_modal" tabindex="-1" role="dialog" aria-labelledby="upvip_modal_label">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true"></span>
+					</button>
+					<h4 class="modal-title" id="upvip_modal_label">升级为会员</h4>
+				</div>
+				<form action="" class="form-horizontal upvip-form" style="margin-bottom:0px;">
+					<div class="modal-body">
+						
+						<div class="control-group">
+							<label class="control-label" id="upvip_id"></label>
+						</div>
+
+						<div class="control-group">
+							<label class="control-label">会员签单日:</label>
+							<div class="controls">
+								<input type="date" id="upvip_order_time" name="upvip_order_time" class="m-wrap medium">
+							</div>
+						</div>
+
+						<div class="control-group">
+							<label class="control-label">会员到期日:</label>
+							<div class="controls">
+								<input type="date" id="upvip_order_over_time" name="upvip_order_over_time" class="m-wrap medium">
 							</div>
 						</div>
 

@@ -30,7 +30,6 @@ local function ParamCheck(post)
 		return false, WEBERR.SESSION_TIMEOUT
 	end
 
-	DEBUG("post.session.privilege" .. post.session.privilege);
 	if (common.BitAnd(post.session.privilege, 1) ~= 1) then
 		return false, WEBERR.USER_PRIVILEGE_NOT_ENOUGH
 	end
@@ -51,7 +50,7 @@ local function Execute(post)
 		end
 	end
 
-	INFO("_query_sql ".._query_sql)
+	DEBUG("vid_del: " .. _query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)
 end
 local _M = {

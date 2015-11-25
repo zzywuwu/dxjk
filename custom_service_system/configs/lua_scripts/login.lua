@@ -58,6 +58,7 @@ local function Execute(post)
 					.. ngx.quote_sql_str(_name) .. " and password = " .. ngx.quote_sql_str(_password)
 	local _query_sql = _get_user_password .. ";" .. _update_login_time
 	
+	DEBUG("login: " .. _query_sql)
 	local _res,_err = mysql.query(cloud_database, _query_sql, MysqlCallback)
 	if _res then
 		_res.session.name = _name

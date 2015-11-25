@@ -21,6 +21,14 @@ local function ParamCheck(post)
 		return false, WEBERR.PARAM_ERR
 	end
 
+	if post.web.order_time == '' then
+		return false, WEBERR.PARAM_ERR
+	end
+
+	if post.web.order_over_time == '' then
+		return false, WEBERR.PARAM_ERR
+	end
+
 	if not post.session then
 		return false, WEBERR.SESSION_TIMEOUT
 	end
@@ -29,7 +37,6 @@ local function ParamCheck(post)
 		return false, WEBERR.SESSION_TIMEOUT
 	end
 
-	DEBUG("post.session.privilege" .. post.session.privilege);
 	if (common.BitAnd(post.session.privilege, 1) ~= 1) then
 		return false, WEBERR.USER_PRIVILEGE_NOT_ENOUGH
 	end
@@ -39,8 +46,10 @@ end
 
 local function Execute(post)
 	local _id = post.web.id
+	local _order_time = post.web.order_time
+	local _order_over_time = post.web.order_over_time
 
-	local _query_sql = "update customer set update_time = NOW(), vip = 1 where id = "
+	local _query_sql = "update customer set update_time = NOW(), vip = 1, order_time = "..ngx.quote_sql_str(_order_time)..", order_over_time = "..ngx.quote_sql_str(_order_over_time).." where id = "
 
 	for k, v in pairs(_id) do
 		if k == 1 then
@@ -50,7 +59,7 @@ local function Execute(post)
 		end
 	end
 
-	INFO("_query_sql ".._query_sql)
+	DEBUG("customer_up: " .. _query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)
 end
 local _M = {

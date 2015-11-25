@@ -26,7 +26,7 @@ local function Execute(post)
 	local _query_sql = "select * from event where event.customer_id = "
 	..post.web.customer_id.." limit 1"
 
-	INFO("event_get sql ".._query_sql)
+	DEBUG("customer_get: " .. _query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)
 end
 

@@ -42,19 +42,30 @@ var KFTableAdvanced = function() {
 								}
 							},
 							{
-								"aTargets":[6],
+								"aTargets":[3],
 								"mRender":function(data, type, full){
-									return "<span class='row-details row-details-close event'></span>";
+									// var last_menses_data = data.split(" ",1);	
+									// var startTime = new Date(last_menses_data).getTime();     
+								 	// var endTime = new Date().getTime();   
+								 	// var dates = Math.abs((endTime - startTime))/(1000*60*60*24);     
+								    // return  dates
+									return data;
 								}
 							},
 							{
 								"aTargets":[7],
 								"mRender":function(data, type, full){
+									return "<span class='row-details row-details-close event'></span>";
+								}
+							},
+							{
+								"aTargets":[8],
+								"mRender":function(data, type, full){
 									return "<span class='row-details row-details-close desc'></span>";
 								}
 							}
 			],
-			// "aaSorting": [[3, 'asc']],
+			 "aaSorting": [[3, 'asc']],
 			// "aLengthMenu": [
 			// 	[1,5, 15, 20, -1],
 			// 	[1,5, 15, 20, "所有"]
@@ -67,6 +78,7 @@ var KFTableAdvanced = function() {
 				{"mDataProp": "id", "bSortable":false,"sWidth":"0px"}, 
 				{"mDataProp": "name"},
 				{"mDataProp": "phonenumber","sClass":"hidden-480","sWidth":"95px"},
+				{"mDataProp": "diffweeks","sClass":"hidden-480"},
 				{"mDataProp": "doctor_name","sClass":"hidden-480"},
 				{"mDataProp": "svrname","sClass":"hidden-480"},
 				{"mDataProp": "remarks","sClass":"hidden-480","sWidth":"300px"},
@@ -94,7 +106,15 @@ var KFTableAdvanced = function() {
 		sOut += '<tr><td>预产期:</td><td>'+aData.due_time.split(" ",1)+'</td></tr>';
         sOut += '<tr><td>身份证:</td><td>'+aData.idnumber+'</td></tr>';
         sOut += '<tr><td>微信号:</td><td>'+aData.wx+'</td></tr>';
-        sOut += '<tr><td>会员:</td><td>'+(aData.vip == 1 ? "会员" : "非会员")+'</td></tr>';
+        if (aData.order_time)
+        	sOut += '<tr><td>会员签单日:</td><td>'+aData.order_time.split(" ",1)+'</td></tr>';
+        else
+        	sOut += '<tr><td>会员签单日:</td><td>'+'未设置'+'</td></tr>';
+        if (aData.order_over_time)
+        	sOut += '<tr><td>会员到期日:</td><td>'+aData.order_over_time.split(" ",1)+'</td></tr>';
+    	else
+    		sOut += '<tr><td>会员到期日:</td><td>'+'未设置'+'</td></tr>';
+        // sOut += '<tr><td>会员:</td><td>'+(aData.vip == 1 ? "会员" : "非会员")+'</td></tr>';
         sOut += '<tr><td>备注:</td><td>'+aData.remarks+'</td></tr>';
         sOut += '</table>';
          
@@ -112,7 +132,16 @@ var KFTableAdvanced = function() {
         sOut += '<tr><td>姓名:</td><td>'+eventobj.name+'</td></tr>';
 		sOut += '<tr><td>时间:</td><td>'+eventobj.visit_time.split(" ",1)+'</td></tr>';
 		sOut += '<tr><td>上下午:</td><td>'+eventobj.morning_or_noon+'</td></tr>';
-        sOut += '<tr><td>项目:</td><td>'+eventobj.visit_type+'</td></tr>';
+        if (eventobj.visit_type == "看医生" || eventobj.visit_type == "建卡") {
+        	if (eventobj.order_success) {
+        		sOut += '<tr><td>项目:</td><td>'+eventobj.visit_type+'(已预约)</td></tr>';	
+        	}
+        	else{
+        		sOut += '<tr><td>项目:</td><td>'+eventobj.visit_type+'(未预约)</td></tr>';
+        	}
+        }
+        else
+        	sOut += '<tr><td>项目:</td><td>'+eventobj.visit_type+'</td></tr>';
         sOut += '<tr><td>备注:</td><td>'+eventobj.remarks+'</td></tr>';
         sOut += '</table>';  
         return sOut;	
@@ -231,6 +260,10 @@ var KFTableAdvanced = function() {
 					submitData.visit_time = form.event_visit_time.value;
 					submitData.morning_or_noon = jQuery('#event_moring_or_noon').val();
 					submitData.visit_type = jQuery('#event_project_option').val();
+					if (jQuery('#event_order_success').val() == "已预约")
+						submitData.order_success = 1;
+					else
+						submitData.order_success = 0;
 					submitData.remarks = form.event_remarks.value;
 					TendaAjax.getData(submitData, function(result){
 						if(result.error == GLOBAL.SUCCESS) {
@@ -321,14 +354,16 @@ var KFTableAdvanced = function() {
 					});
 
 					$("#kf_username").val(arr[0].name).prop("disabled", true);
+                	
                 	$("#kf_phonenumber").val(arr[0].phonenumber).prop("disabled", true);
+                	$("#kf_idnumber").val(arr[0].idnumber).prop("disabled", true);
+                	$('#sellname_option').prop("disabled",true);
+                	$("#kf_wx").val(arr[0].wx).prop("disabled", true);
+
                 	$("#kf_doctor_name").val(arr[0].doctor_name);
                 	$("#kf_due_time").val(arr[0].due_time.split(" ",1));
-                	$("#kf_idnumber").val(arr[0].idnumber).prop("disabled", true);
-                	$("#kf_wx").val(arr[0].wx).prop("disabled", true);
                 	$("#kf_last_menses_time").val(arr[0].last_menses_time.split(" ",1));
                 	$("#kf_remarks").val(arr[0].remarks);
-                	$('#sellname_option').prop("disabled",true);
                 	$("#kf_modal").modal("show");
                 }
                 else if (operation == "DELETE") {

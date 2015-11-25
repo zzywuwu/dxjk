@@ -29,7 +29,7 @@ local function ParamCheck(post)
 end
 
 local function Execute(post)
-	INFO("get menu, privilege = " .. post.session.privilege)
+	DEBUG("au_menu: privilege = " .. post.session.privilege)
 	local _menu, _err = GetMenuTable(post.session.privilege)
 	if _err then
 		return nil, _err

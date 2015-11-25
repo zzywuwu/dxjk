@@ -158,7 +158,7 @@ WEBERR = {
 	RD_EMPTY = "问题单为空",
 	MESSAGE_ALREADY_EXIST = "消息已存在",
 	MESSAGE_NO_EXIST = "消息不存在",
-	KEY_ALREADY_EXIST = "MYSQL主键已经存在",
+	KEY_ALREADY_EXIST = "主键已经存在",
 	SESSION_TIMEOUT = "长时间未操作,请重新登录",
 	USER_PRIVILEGE_NOT_ENOUGH = "你没有权限进行此操作"
 }

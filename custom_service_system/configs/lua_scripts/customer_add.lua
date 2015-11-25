@@ -51,7 +51,7 @@ local function Execute(post)
 	
 	local _query_sql = "insert into customer (name,phonenumber,doctor_name,sellname,due_time,idnumber,wx,last_menses_time,remarks) value("..ngx.quote_sql_str(_name)..","..ngx.quote_sql_str(_phonenumber)..","..ngx.quote_sql_str(_doctor_name)..","..ngx.quote_sql_str(_sellname)..","..ngx.quote_sql_str(_due_time)..","..ngx.quote_sql_str(_idnumber)..","..ngx.quote_sql_str(_wx)..","..ngx.quote_sql_str(_last_menses_time)..","..ngx.quote_sql_str(_remarks)..")" 
 
-	INFO("add user name:" .. _query_sql)
+	DEBUG("customer_add: " .. _query_sql)
 	local _res,_err = mysql.query(cloud_database, _query_sql, MysqlCallback)
 	if _err == WEBERR.KEY_ALREADY_EXIST then
 		_err = WEBERR.USER_ALREADY_EXIST

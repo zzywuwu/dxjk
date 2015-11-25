@@ -68,8 +68,7 @@ var ProfileConfig = function(){
 							case "成功":
 								window.location = GLOBAL.domain;
 								break;
-							
-							
+						
 							default:
 								$('#profile_resetpwd .alert-error span').text(result.error);
 				                $('#profile_resetpwd .alert-error').show();

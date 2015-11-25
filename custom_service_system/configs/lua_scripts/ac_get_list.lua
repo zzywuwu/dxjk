@@ -17,10 +17,9 @@ local function ParamCheck(post)
 end
 
 local function Execute(post)
-	local _privilege = post.web.privilege
 	
 	local _query_sql = "select * from user"
-	INFO("get user list")
+	DEBUG("ac_get_list: ".._query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)
 end
 

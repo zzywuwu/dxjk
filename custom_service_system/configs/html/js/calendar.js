@@ -18,9 +18,9 @@ var Calendar = function () {
 
                     if (result.user_event[i].visit_type == "看医生" || result.user_event[i].visit_type == "建卡") {
                         if (result.user_event[i].order_success)
-                            object.backgroundColor = App.getLayoutColorCode('green');
+                            object.backgroundColor = '#35aa47';//App.getLayoutColorCode('green');
                         else
-                            object.backgroundColor = App.getLayoutColorCode('red');
+                            object.backgroundColor = '#e02222';//App.getLayoutColorCode('red');
                     }
                     else {
                         object.backgroundColor = App.getLayoutColorCode('green');
@@ -103,9 +103,10 @@ var Calendar = function () {
                 });
             }
 
-            var addEvent = function (title) {
+            var addEvent = function (title,ic) {
                 title = title.length == 0 ? "Untitled Event" : title;
-                var html = $('<div class="external-event label" style="background-color:red">' + title + '</div>');
+                var str = '<div class="external-event label" '+ ic + '>' + title + '</div>'
+                var html = $(str);
                 jQuery('#event_box').append(html);
                 initDrag(html);
             }
@@ -125,12 +126,20 @@ var Calendar = function () {
             TendaAjax.getData(submitData, function(result){
                 $('#event_box').html("");
                 for(var i = 0; i<result.user_list.length; i++) {
-                    if (result.user_list[i].vip == 0) {
-                       addEvent(result.user_list[i].name + " (预签)");     
+                    var str = result.user_list[i].name;
+                    var color = 'style="background-color:#852b99"';
+                    if (result.user_list[i].vip == 1) {
+                        str = str + "(会员)";
+                        // color = 'style="background-color:#ffb848"';
                     }
                     else {
-                       addEvent(result.user_list[i].name + " (会员)");
+                        str = str + "(预签)" 
                     }
+                    // if (result.user_list[i].visit_time) {
+                    //     // var time = result.user_list[i].visit_time.split(" ",1);
+                    //     str = str + "[过期]"
+                    // }
+                    addEvent(str,color);//icon-star-empty
                 }
             }); 
 
@@ -145,7 +154,7 @@ var Calendar = function () {
                 dayNames: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"],    
                 dayNamesShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"],    
                 today: ["今天"],  
-                //firstDay: 1,    
+                firstDay: 0,    
                 buttonText: {    
                     today: '今天',    
                     month: '月',    
@@ -157,7 +166,7 @@ var Calendar = function () {
                 allDaySlot:true,  
                 selectable: true,  
                 selectHelper: true,   
-                aspectRatio:2,     
+                aspectRatio:1.6,     
                 drop: function (date, allDay) { // this function is called when something is dropped
                     // retrieve the dropped element's stored Event Object
                     var originalEventObject = $(this).data('eventObject');
@@ -231,3 +240,13 @@ var Calendar = function () {
 }();
 
 Calendar.init();
+
+    // var layoutColorCodes = {
+    //     'blue': '#4b8df8',
+    //     'red': '#e02222',
+    //     'green': '#35aa47',
+    //     'purple': '#852b99',
+    //     'grey': '#555555',
+    //     'light-grey': '#fafafa',
+    //     'yellow': '#ffb848'
+    // };

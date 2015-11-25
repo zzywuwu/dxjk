@@ -1,43 +1,15 @@
-// JavaScript Document
-
-// var testData = {
-// "account_list":[
-// 	{"name": "admin1",
-// "create_time": "2015-10-24 13:54:44",
-// "email": "null",
-// "id":2,
-// "last_login_time": "2015-10-28 09:25:06",
-// "password": "12345678",
-// "privilege": 63,
-// "status": 1,
-// "update_time": "0000-00-00 00:00:00"},
-// {"name": "admin2",
-// "create_time": "2015-10-24 13:54:44",
-// "email": "null",
-// "id":2,
-// "last_login_time": "2015-10-28 09:25:06",
-// "password": "12345678",
-// "privilege": 63,
-// "status": 1,
-// "update_time": "0000-00-00 00:00:00"}
-// ]
-// };
-
 
 var TableAdvanced = function() {
 
 	var initTableList =  function() {
 
 			 TendaAjax.getData({"script":"ac_get_list"}, function(result){
-				
 				if(result.error == GLOBAL.SUCCESS) {
-			
 					initTable1(result.user_list);
-				}				
+				}
+				else
+					alert(result.error)			
 			});
-			// initTable1(testData.account_list1);
-			// initTable1(testData.account_list2);
-
 		}
 
 	var initTable1 = function(account_list) {
@@ -83,12 +55,12 @@ var TableAdvanced = function() {
 									return result;
 								}
 							}],
-			"aaSorting": [[1, 'asc']],
-			"aLengthMenu": [
-				[1,5, 15, 20, -1],
-				[1,5, 15, 20, "所有"]
-			],
-			"iDisplayLength": 10,
+			"aaSorting": [[5, 'desc']],
+			// "aLengthMenu": [
+			// 	[1,5, 15, 20, -1],
+			// 	[1,5, 15, 20, "所有"]
+			// ],
+			"iDisplayLength": 100,
 			
 			"aaData": account_list,
 
@@ -103,9 +75,7 @@ var TableAdvanced = function() {
 				]
 
 		});
-
 		
-
 		jQuery("#ac_list_wrapper .dataTables_filter input").addClass("m-wrap small");
 		jQuery("#ac_list_wrapper .dataTables_length select").addClass("m-wrap small");
 
@@ -172,24 +142,23 @@ var TableAdvanced = function() {
 					var submitData = {};
 					var operation = $("#ac_username").prop("disabled") ? "MODIFY" : "ADD";
 					
-					submitData.email = form.ac_email.value;
-					submitData.privilege = getModalCheckVal();
 					submitData.name = form.ac_username.value;
+					submitData.name = form.ac_username.value;
+					submitData.phonenumber = form.ac_phonenumber.value;
+					submitData.wx = form.ac_wx.value;
 					if(operation == "MODIFY") {
-						
 						submitData.script = "ac_modify";
 					} else {
-						submitData.password = form.ac_password.value;
 						submitData.script = "ac_add";
 					}
 
 					TendaAjax.getData(submitData, function(result){
-						//提示成功或失败
-						//console.log(result);
-						alert(result.error);
-						initTableList();
-						$("#ac_modal").modal("hide");
-
+						if(result.error == GLOBAL.SUCCESS) {
+					 		initTableList();
+							$("#ac_modal").modal("hide");
+					 	}
+					 	else
+					 		alert(result.error);
 					});
 
 				}
@@ -209,6 +178,7 @@ var TableAdvanced = function() {
 				var operation = $(this).find("i").hasClass("icon-pencil") ? "MODIFY" : "DELETE";
 				var set = jQuery("#ac_list .group-checkable").attr("data-set");
                 var arr = [];
+                var arr_id = [];
                 var arr_name = [];
                 var oTable = $("#ac_list").dataTable();
                 jQuery(set).each(function () {
@@ -221,6 +191,7 @@ var TableAdvanced = function() {
                 		if(tmpObj) {
                 			arr.push(tmpObj);
                 			arr_name.push(tmpObj.name);
+                			arr_id.push(tmpObj.id)
                 		}
 
                 	}
@@ -244,19 +215,22 @@ var TableAdvanced = function() {
 
                 } else {
 
-                	if(arr.length == 0) {
-	                	alert("请至少选择一条数据");
+                	if(arr.length != 1) {
+	                	alert("请选择一条数据");
 	                	return;
 	                }
 
                 	//删除数据
                 	var submitData = {};
                 	submitData.script = "ac_del";
-                	submitData.name = arr_name;
+                	submitData.id = arr_id;
 
                 	TendaAjax.getData(submitData, function(result){
-                		
-                		initTableList();
+                		if(result.error == GLOBAL.SUCCESS) {
+					 		initTableList();
+					 	}
+					 	else
+					 		alert(result.error);
                 	});
                 }
 

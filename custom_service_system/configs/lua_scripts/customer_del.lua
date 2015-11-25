@@ -32,14 +32,12 @@ local function Execute(post)
 	for k, v in pairs(_id) do
 		if k == 1 then
 			_query_sql = _query_sql .. ngx.quote_sql_str(v)
-			-- _debug_str = _debug_str .. v
 		else
 			_query_sql = _query_sql .. " or id = " .. ngx.quote_sql_str(v)
-			-- _debug_str = _debug_str .. "," .. v
 		end
 	end
 
-	INFO("_query_sql ".._query_sql)
+	DEBUG("customer_del: " .. _query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)
 end
 local _M = {

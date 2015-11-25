@@ -42,20 +42,31 @@ var KFTableAdvanced = function() {
 								}
 							},
 							{
-								"aTargets":[6],
+								"aTargets":[3],
+								"mRender":function(data, type, full){
+									// var last_menses_data = data.split(" ",1);	
+									// var startTime = new Date(last_menses_data).getTime();     
+								 	// var endTime = new Date().getTime();   
+								 	// var dates = Math.abs((endTime - startTime))/(1000*60*60*24);     
+								    // return  dates
+									return data;
+								}
+							},
+							{
+								"aTargets":[7],
 								"mRender":function(data, type, full){
 									//return "<span class='row-details row-details-close event'></span>";
 									return "<span class='row-details row-details-close event'></span>";
 								}
 							},
 							{
-								"aTargets":[7],
+								"aTargets":[8],
 								"mRender":function(data, type, full){
 									return "<span class='row-details row-details-close desc'></span>";
 								}
 							}
 			],
-			// "aaSorting": [[3, 'asc']],
+			 "aaSorting": [[3, 'asc']],
 			// "aLengthMenu": [
 			// 	[1,5, 15, 20, -1],
 			// 	[1,5, 15, 20, "所有"]
@@ -68,6 +79,7 @@ var KFTableAdvanced = function() {
 				{"mDataProp": "id", "bSortable":false,"sWidth":"0px"}, 
 				{"mDataProp": "name"},
 				{"mDataProp": "phonenumber","sClass":"hidden-480","sWidth":"95px"},
+				{"mDataProp": "diffweeks","sClass":"hidden-480"},
 				{"mDataProp": "doctor_name","sClass":"hidden-480"},
 				{"mDataProp": "sellname","sClass":"hidden-480"},
 				{"mDataProp": "remarks","sClass":"hidden-480","sWidth":"300px"},
@@ -111,7 +123,16 @@ var KFTableAdvanced = function() {
         sOut += '<tr><td>姓名:</td><td>'+eventobj.name+'</td></tr>';
 		sOut += '<tr><td>时间:</td><td>'+eventobj.visit_time.split(" ",1)+'</td></tr>';
 		sOut += '<tr><td>上下午:</td><td>'+eventobj.morning_or_noon+'</td></tr>';
-        sOut += '<tr><td>项目:</td><td>'+eventobj.visit_type+'</td></tr>';
+        if (eventobj.visit_type == "看医生" || eventobj.visit_type == "建卡") {
+        	if (eventobj.order_success) {
+        		sOut += '<tr><td>项目:</td><td>'+eventobj.visit_type+'(已预约)</td></tr>';	
+        	}
+        	else{
+        		sOut += '<tr><td>项目:</td><td>'+eventobj.visit_type+'(未预约)</td></tr>';
+        	}
+        }
+        else
+        	sOut += '<tr><td>项目:</td><td>'+eventobj.visit_type+'</td></tr>';
         sOut += '<tr><td>备注:</td><td>'+eventobj.remarks+'</td></tr>';
         sOut += '</table>';  
         return sOut;	
@@ -204,20 +225,6 @@ var KFTableAdvanced = function() {
 				}
 			});
 
-			jQuery('#addbutton').on("click", function(){
-				TendaAjax.getData({"script":"ac_get_list"}, function(result){
-				 	if(result.error == GLOBAL.SUCCESS) {
-						jQuery('#sellname_option').append("<option> </option>");
-				 		for(var i = 0; i < result.user_list.length; i++) {
-				 			jQuery('#sellname_option').append("<option>" + result.user_list[i].name + "</option>");
-				 		}
-				 	}
-				 	else 
-				 		alert(result.error);				 	
-				});
-
-			});
-
 			jQuery('#kf_modal').on('hidden.bs.modal', function (e) {
 				$("input[type='text'], input[type='hidden']").val('');
 				$("input[type='date']").val('');
@@ -251,6 +258,10 @@ var KFTableAdvanced = function() {
 					submitData.visit_time = form.event_visit_time.value;
 					submitData.morning_or_noon = jQuery('#event_moring_or_noon').val();
 					submitData.visit_type = jQuery('#event_project_option').val();
+					if (jQuery('#event_order_success').val() == "已预约")
+						submitData.order_success = 1;
+					else
+						submitData.order_success = 0;
 					submitData.remarks = form.event_remarks.value;
 					TendaAjax.getData(submitData, function(result){
 						if(result.error == GLOBAL.SUCCESS) {
@@ -264,17 +275,55 @@ var KFTableAdvanced = function() {
 				}
 			});
 
+			$(".upvip-form").validate({
+
+				errorElement: 'span', //default input error message container
+	            errorClass: 'error', // default input error message class
+	            focusInvalid: false, // do not focus the last invalid input
+	            rules: {
+	                event_id: {
+	                    required: false
+	                }
+	            },
+
+	            messages:{
+                    event_id:{
+                        required:"必填"
+                    }                                                       
+                },
+				submitHandler: function(form){
+					//根据获取的ID来进行判断，是修改还是添加
+					//TODO验证还需要进行权限是否为空的验证
+
+					var submitData = {};
+                	submitData.script = "customer_up";
+                	// alert($("#upvip_id").val());
+                	submitData.id = $("#upvip_id").val();
+                	submitData.order_time = form.upvip_order_time.value;
+                	submitData.order_over_time = form.upvip_order_over_time.value;
+                	TendaAjax.getData(submitData, function(result){
+                		if(result.error == GLOBAL.SUCCESS) {
+							initTableList();
+							$("#upvip_modal").modal("hide");
+						}				
+                		else
+                			alert(result.error);
+                	});
+				}
+			});
+
 			jQuery('#addbutton').on("click", function(){
 				TendaAjax.getData({"script":"ac_get_list"}, function(result){
 				 	if(result.error == GLOBAL.SUCCESS) {
-						jQuery('#sellname_option').append("<option> </option>");
+						// jQuery('#sellname_option').append("<option> </option>");
 				 		for(var i = 0; i < result.user_list.length; i++) {
 				 			jQuery('#sellname_option').append("<option>" + result.user_list[i].name + "</option>");
 				 		}
 				 	}
-				 	else
+				 	else 
 				 		alert(result.error);				 	
 				});
+
 			});
 
 			jQuery('#event_modal').on('hidden.bs.modal', function (e) {
@@ -381,17 +430,13 @@ var KFTableAdvanced = function() {
 	                	alert("请选择一条数据!");
 	                	return;
 	                }
+
+					$("#upvip_id").val(arr_id);//.prop("disabled", true);
+					$("#upvip_order_time").val('');
+                	$("#upvip_order_over_time").val('');
+                	$("#upvip_modal").modal("show");
             
-                	var submitData = {};
-                	submitData.script = "customer_up";
-                	submitData.id = arr_id;
-                	TendaAjax.getData(submitData, function(result){
-                		if(result.error == GLOBAL.SUCCESS) {
-							initTableList();
-						}				
-                		else
-                			alert(result.error);
-                	});
+     
                 }
 
                 else if (operation == "EVENT") {
