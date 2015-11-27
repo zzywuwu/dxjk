@@ -231,6 +231,7 @@ var KFTableAdvanced = function() {
 
 					submitData.name = form.kf_username.value;
 					submitData.phonenumber = form.kf_phonenumber.value;
+					submitData.id = $("#kf_customer_id").val();
 					submitData.doctor_name = form.kf_doctor_name.value;
 					submitData.due_time = form.kf_due_time.value;
 					submitData.idnumber = form.kf_idnumber.value;
@@ -238,7 +239,6 @@ var KFTableAdvanced = function() {
 					submitData.last_menses_time = form.kf_last_menses_time.value;
 					submitData.sellname = jQuery('#sellname_option').val();
 					submitData.remarks = form.kf_remarks.value;
-					submitData.vip = 1;
 					submitData.address = form.kf_address.value;
 					submitData.familyname = form.kf_familyname.value;
 					submitData.familyphonenumber = form.kf_familyphonenumber.value;
@@ -376,7 +376,7 @@ var KFTableAdvanced = function() {
 					});
 
 					$("#kf_username").val(arr[0].name).prop("disabled", true);
-                	
+                	$("#kf_customer_id").val(arr[0].id).prop("disabled", true);
                 	$("#kf_phonenumber").val(arr[0].phonenumber).prop("disabled", true);
                 	$("#kf_idnumber").val(arr[0].idnumber).prop("disabled", true);
                 	$('#sellname_option').prop("disabled",true);
