@@ -110,8 +110,11 @@ funcsinit = {
 g_privilege = {};
 
 g_privilege[1] = {
-				value = 1
-				-- 会员升级和会员过期权限
+				value = 16,
+				jsontbl = {
+					title = "日历",
+					url = "calendar_index"
+				}
 			}
 
 g_privilege[2] = {
@@ -139,24 +142,21 @@ g_privilege[4] = {
 			}
 
 g_privilege[5] = {
-				value = 16,
-				jsontbl = {
-					title = "日历",
-					url = "calendar_index"
-				}
-			}
-
-g_privilege[6] = {
-				value = 32,
-				--审核病历的权限 & 修改他人创建的未审核的病历
-			}
-
-g_privilege[7] = {
 				value = 8,
 				jsontbl = {
 					title = "人员管理",
 					url = "ac_index"
 				}
+			}
+
+g_privilege[6] = {
+				value = 1
+				-- 会员升级和会员过期权限
+			}
+
+g_privilege[7] = {
+				value = 32,
+				--审核病历的权限 & 修改他人创建的未审核的病历
 			}
 
 

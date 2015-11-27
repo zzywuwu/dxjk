@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS `user` (
         `update_time` TIMESTAMP DEFAULT NOW(),
         `last_login_time` TIMESTAMP DEFAULT NOW(),
         `status` VARCHAR(32)  DEFAULT 'not actived' NOT NULL,
-        `privilege` INT NOT NULL DEFAULT 2014,
+        `privilege` INT NOT NULL DEFAULT 2006,
         `name` VARCHAR(32) NOT NULL,
         `password` VARCHAR(32) NOT NULL,
         `phonenumber` VARCHAR(32) NOT NULL,
@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS `record` (
 use dtjx;
 
 
-insert into user(privilege, name, password, phonenumber, wx, status) VALUES(2046,'邱容',  '123456', '13541235352', '',                     'not actived');
+insert into user(privilege, name, password, phonenumber, wx, status) VALUES(2038,'邱容',  '123456', '13541235352', '',                     'not actived');
 insert into user(name, password, phonenumber, wx, status) VALUES('张红莉','123456', '18908182406', '',                     'not actived');
 insert into user(name, password, phonenumber, wx, status) VALUES('陈淘',  '123456', '15198073537', 'Caroline1468178921',   'not actived');
 insert into user(name, password, phonenumber, wx, status) VALUES('吕环宇','123456', '13980870629', '',                     'not actived');
