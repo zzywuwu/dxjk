@@ -16,9 +16,20 @@ local function ParamCheck(post)
 		return false, WEBERR.PARAM_ERR
 	end
 	
-	if not (post.web.name and post.web.phonenumber 
-			and post.web.wx) then
+	if not (post.web.name and post.web.phonenumber and post.web.wx) then
 		return false, WEBERR.PARAM_ERR
+	end
+
+	if not (post.web.name ~= '' and post.web.phonenumber ~= '' and post.web.wx ~= '') then
+		return false, WEBERR.PARAM_ERR
+	end
+
+	if not post.session then
+		return false, WEBERR.SESSION_TIMEOUT
+	end
+	
+	if not (post.session.privilege) then
+		return false, WEBERR.SESSION_TIMEOUT
 	end
 	
 	return true

@@ -18,32 +18,30 @@ local function ParamCheck(post)
 		return false, WEBERR.PARAM_ERR
 	end
 	
-	if not (post.web.name and post.web.phonenumber) then
+	if not (post.web.name and post.web.phonenumber and post.web.sellname and post.web.age and post.web.due_time and post.web.last_menses_time) then
 		return false, WEBERR.PARAM_ERR
+	end
+
+	if not (post.web.name ~= '' and post.web.phonenumber ~= '' and post.web.sellname ~= '' and post.web.age ~= '' and post.web.due_time ~= '' and post.web.last_menses_time ~= '') then
+		return false, WEBERR.PARAM_ERR
+	end
+
+	if not post.session then
+		return false, WEBERR.SESSION_TIMEOUT
+	end
+	
+	if not (post.session.privilege) then
+		return false, WEBERR.SESSION_TIMEOUT
 	end
 	
 	return true
 end
 
 local function Execute(post)
-	local current_time = os.date("%Y-%m-%d %H:%M:%S")
 	local _name = post.web.name
 	local _phonenumber = post.web.phonenumber
-	
-	local _due_time
-	if post.web.due_time == '' then
-		_due_time = current_time
-	else
-		_due_time = post.web.due_time
-	end
-	
-	local _last_menses_time
-	if post.web.last_menses_time == '' then
-		_last_menses_time = current_time
-	else
-		_last_menses_time = post.web.last_menses_time
-	end
-	
+	local _due_time = post.web.due_time
+	local _last_menses_time = post.web.last_menses_time
 	local _doctor_name = post.web.doctor_name
 	local _idnumber = post.web.idnumber
 	local _wx = post.web.wx

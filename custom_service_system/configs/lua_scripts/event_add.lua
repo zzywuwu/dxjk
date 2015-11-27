@@ -24,6 +24,14 @@ local function ParamCheck(post)
 	if post.web.visit_date == '' then
 		return false, WEBERR.PARAM_ERR
 	end
+
+	if not post.session then
+		return false, WEBERR.SESSION_TIMEOUT
+	end
+	
+	if not (post.session.privilege) then
+		return false, WEBERR.SESSION_TIMEOUT
+	end
 	
 	return true
 end

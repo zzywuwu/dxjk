@@ -17,15 +17,11 @@ local function ParamCheck(post)
 		return false, WEBERR.PARAM_ERR
 	end
 	
-	if not post.web.id then
+	if not (post.web.id and post.web.order_time and post.web.order_over_time) then
 		return false, WEBERR.PARAM_ERR
 	end
 
-	if post.web.order_time == '' then
-		return false, WEBERR.PARAM_ERR
-	end
-
-	if post.web.order_over_time == '' then
+	if not (post.web.order_time ~= '' and post.web.order_over_time ~= '') then
 		return false, WEBERR.PARAM_ERR
 	end
 

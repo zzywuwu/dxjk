@@ -20,6 +20,14 @@ local function ParamCheck(post)
 	if not post.web.id then
 		return false, WEBERR.PARAM_ERR
 	end
+
+	if not post.session then
+		return false, WEBERR.SESSION_TIMEOUT
+	end
+	
+	if not (post.session.privilege) then
+		return false, WEBERR.SESSION_TIMEOUT
+	end
 	
 	return true
 end
@@ -32,7 +40,7 @@ local function Execute(post)
 
 	for k, v in pairs(_id) do
 		if k == 1 then
-			if v == _loginid then
+			if tonumber(v) == tonumber(_loginid) then
 				return nil, WEBERR.DEL_USER_SELF
 			end
 			_query_sql = _query_sql .. ngx.quote_sql_str(v)

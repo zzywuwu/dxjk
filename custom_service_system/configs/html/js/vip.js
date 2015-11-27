@@ -161,7 +161,7 @@ var KFTableAdvanced = function() {
         else
         	sOut += '<tr><td>就诊项目:</td><td>'+eventobj.visit_type+'</td></tr>';
          sOut += '<tr><td>就诊医生:</td><td>'+eventobj.visit_doctor_name+'</td></tr>';
-        sOut += '<tr><td>就诊地址:</td><td>'+eventobj.visit_address+'</td></tr>';
+        sOut += '<tr><td>就诊科室:</td><td>'+eventobj.visit_address+'</td></tr>';
         sOut += '<tr><td>备注:</td><td>'+eventobj.remarks+'</td></tr>';
         sOut += '</table>';  
         return sOut;	

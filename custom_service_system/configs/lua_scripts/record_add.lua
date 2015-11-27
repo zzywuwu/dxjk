@@ -21,6 +21,10 @@ local function ParamCheck(post)
 		return false, WEBERR.PARAM_ERR
 	end
 
+	if not (post.web.visit_date ~= '' and post.web.next_visit_date ~= '') then
+		return false, WEBERR.PARAM_ERR
+	end
+
 	if not post.session then
 		return false, WEBERR.SESSION_TIMEOUT
 	end
