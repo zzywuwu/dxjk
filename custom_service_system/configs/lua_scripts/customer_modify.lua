@@ -30,8 +30,6 @@ local function Execute(post)
 	local _name = post.web.name
 	local _phonenumber = post.web.phonenumber
 
-	
-
 	local _due_time
 	if post.web.due_time == '' then
 		_due_time = current_time
@@ -51,6 +49,10 @@ local function Execute(post)
 	local _wx = post.web.wx
 	local _sellname = post.web.sellname
 	local _remarks = post.web.remarks
+	local _age = post.web.age
+	local _address = post.web.address
+	local _familyname = post.web.familyname
+	local _familyphonenumber = post.web.familyphonenumber
 	
 	local _query_sql = "update customer set update_time = NOW(), phonenumber = " 
 						.. ngx.quote_sql_str(_phonenumber) .. ",  due_time= " 
@@ -59,9 +61,12 @@ local function Execute(post)
 						.. ngx.quote_sql_str(_doctor_name) .. ", idnumber = " 
 						.. ngx.quote_sql_str(_idnumber) .. ", wx = " 
 						.. ngx.quote_sql_str(_wx) .. ", remarks = "
-						.. ngx.quote_sql_str(_remarks) .. ", svrname = " 
-						.. ngx.quote_sql_str(_sellname) .. ", sellname = " 
-						.. ngx.quote_sql_str(_sellname) .. " where name = " .. ngx.quote_sql_str(_name)
+						.. ngx.quote_sql_str(_remarks) .. ", sellname = "
+						.. ngx.quote_sql_str(_sellname) .. ", age = " 
+						.. ngx.quote_sql_str(_age) .. ", address = " 
+						.. ngx.quote_sql_str(_address) .. ", familyname = " 
+						.. ngx.quote_sql_str(_familyname) .. ", familyphonenumber = "  
+						.. ngx.quote_sql_str(_familyphonenumber) .. " where name = " .. ngx.quote_sql_str(_name)
 
 	DEBUG("customer_modify: " .. _query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)

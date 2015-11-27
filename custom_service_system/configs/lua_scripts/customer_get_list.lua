@@ -22,12 +22,12 @@ local function MysqlCallback(res)
 		-- DEBUG(time_)
 		local diffsecond = os.difftime(current_time_,time_)
 		-- DEBUG("diff = "..diffsecond)
-		local diffday = diffsecond/(24*60*60)
+		local diffday = math.floor(diffsecond/(24*60*60)) + 1
 		-- DEBUG("diffday = "..string.format("%.1f", diffday))
-		local diffweeks = diffday/7
+		local diffweeks = math.floor(diffday/7).." + "..diffday%7
 		-- DEBUG("diffweeks = "..string.format("%.1f", diffweeks))
-		_jsontbl.web.user_list[i]["diffweeks"] = tonumber(string.format("%.1f", diffweeks))
-		_jsontbl.web.user_list[i]["diffdays"] = (string.format("%.1f", diffweeks)).."周("..string.format("%d", diffday).."天)"
+		_jsontbl.web.user_list[i]["diffweeks"] = diffweeks
+		_jsontbl.web.user_list[i]["diffdays"] = diffweeks
 	end
 
 	return _jsontbl
@@ -43,7 +43,7 @@ end
 
 local function Execute(post)
 	
-	local _query_sql = "select * from customer where vip = 0 order by id asc"
+	local _query_sql = "select * from customer where vip = 0 order by last_menses_time asc"
 
 	DEBUG("customer_get_list: " .. _query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)

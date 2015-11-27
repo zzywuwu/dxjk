@@ -31,14 +31,14 @@ var TableAdvanced = function() {
 				}
 				//sProcessing : "<img src=... /loading.gif/>"
 			},
-			
-			"aoColumnDefs": [{"aTargets":[0],
-							"data":"id",
-							"mRender": function(data, type, full) {
-								return '<input type="checkbox" class="checkboxes" value="' + data +  '"/>';
-							}
-
-							},{
+			"aoColumnDefs": [
+							{	"aTargets":[0],
+								"data":"id",
+								"mRender": function(data, type, full) {
+									return '<input type="checkbox" class="checkboxes" value="' + data +  '"/>';
+								}
+							},
+							{
 								"aTargets":[6],
 								"data":"status",
 								"mRender": function(data, type, full) {
@@ -54,7 +54,8 @@ var TableAdvanced = function() {
 									}
 									return result;
 								}
-							}],
+							}
+			],
 			"aaSorting": [[5, 'desc']],
 			// "aLengthMenu": [
 			// 	[1,5, 15, 20, -1],

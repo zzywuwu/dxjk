@@ -48,8 +48,13 @@ local function Execute(post)
 	local _wx = post.web.wx
 	local _sellname = post.web.sellname
 	local _remarks = post.web.remarks
+
+	local _age = post.web.age
+	local _address = post.web.address
+	local _familyname = post.web.familyname
+	local _familyphonenumber = post.web.familyphonenumber
 	
-	local _query_sql = "insert into customer (name,phonenumber,doctor_name,sellname,due_time,idnumber,wx,last_menses_time,remarks) value("..ngx.quote_sql_str(_name)..","..ngx.quote_sql_str(_phonenumber)..","..ngx.quote_sql_str(_doctor_name)..","..ngx.quote_sql_str(_sellname)..","..ngx.quote_sql_str(_due_time)..","..ngx.quote_sql_str(_idnumber)..","..ngx.quote_sql_str(_wx)..","..ngx.quote_sql_str(_last_menses_time)..","..ngx.quote_sql_str(_remarks)..")" 
+	local _query_sql = "insert into customer (name,phonenumber,doctor_name,sellname,due_time,idnumber,wx,last_menses_time,age,address,familyname,familyphonenumber,remarks) value("..ngx.quote_sql_str(_name)..","..ngx.quote_sql_str(_phonenumber)..","..ngx.quote_sql_str(_doctor_name)..","..ngx.quote_sql_str(_sellname)..","..ngx.quote_sql_str(_due_time)..","..ngx.quote_sql_str(_idnumber)..","..ngx.quote_sql_str(_wx)..","..ngx.quote_sql_str(_last_menses_time)..","..ngx.quote_sql_str(_age)..","..ngx.quote_sql_str(_address)..","..ngx.quote_sql_str(_familyname)..","..ngx.quote_sql_str(_familyphonenumber)..","..ngx.quote_sql_str(_remarks)..")" 
 
 	DEBUG("customer_add: " .. _query_sql)
 	local _res,_err = mysql.query(cloud_database, _query_sql, MysqlCallback)

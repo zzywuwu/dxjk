@@ -16,10 +16,12 @@ local function MysqlCallback(res)
 		local tab = {year=tonumber(year_), month=tonumber(month_), day=tonumber(day_), hour=0,min=0,sec=0,isdst=false}
 		local time_ = os.time(tab)
 		local diffsecond = os.difftime(current_time_,time_)
-		local diffday = diffsecond/(24*60*60)
-		local diffweeks = diffday/7
-		_jsontbl.web.user_list[i]["diffweeks"] = tonumber(string.format("%.1f", diffweeks))
-		_jsontbl.web.user_list[i]["diffdays"] = (string.format("%.1f", diffweeks)).."周("..string.format("%d", diffday).."天)"
+		local diffday = math.floor(diffsecond/(24*60*60)) + 1
+		local diffweeks = math.floor(diffday/7).." + "..diffday%7
+		-- _jsontbl.web.user_list[i]["diffweeks"] = tonumber(string.format("%.1f", diffweeks))
+		-- _jsontbl.web.user_list[i]["diffdays"] = (string.format("%.1f", diffweeks)).."周("..string.format("%d", diffday).."天)"
+		_jsontbl.web.user_list[i]["diffweeks"] = diffweeks
+		_jsontbl.web.user_list[i]["diffdays"] = diffweeks
 	end
 
 	return _jsontbl
@@ -35,7 +37,7 @@ end
 
 local function Execute(post)
 	
-	local _query_sql = "select * from customer where vip = 1 order by id asc"
+	local _query_sql = "select * from customer where vip = 1 order by last_menses_time asc"
 
 	DEBUG("vid_get_list: " .. _query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)

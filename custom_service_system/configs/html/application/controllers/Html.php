@@ -18,11 +18,11 @@ class Html extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see http://codeigniter.com/user_guide/general/urls.html
 	 */
-    	public function __construct()
-    	{
-        	parent::__construct();
-        	$this->load->helper(array('form', 'url'));
-    	}
+	public function __construct()
+	{
+		parent::__construct();
+		$this->load->helper(array('form', 'url'));
+	}
 	public function index()
 	{
 		$this->load->view('index.html');
@@ -40,6 +40,13 @@ class Html extends CI_Controller {
 		$page = $this->input->post("page", true);
 		if (empty($page))
 			return;
-		$this->load->view($page);
+		$customer_id = $this->input->post("customer_id", true);
+		if (empty($customer_id)) {
+			$this->load->view($page);
+		}
+		else {
+			$data['customer_id'] = $customer_id;
+			$this->load->view($page,$data);
+		}
 	}
 }

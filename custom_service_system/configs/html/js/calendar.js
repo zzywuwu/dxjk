@@ -10,12 +10,13 @@ var Calendar = function () {
                 var arr = [];
                 for (i = 0; i < result.user_event.length; i++) {
                     var object = {};
-                    var date = result.user_event[i].visit_time.split(" ",1); 
+                    var date = result.user_event[i].visit_date.split(" ",1); 
                     var datearr = date[0].split("-",3);
-                    object.title = result.user_event[i].customer_name + "[" + result.user_event[i].morning_or_noon + "]" + "(" + result.user_event[i].visit_type + ")";
-                    object.start = new Date(datearr[0],datearr[1]-1,datearr[2]);
-                    object.allDay = true;
-
+                    object.title = result.user_event[i].customer_name + "(" + result.user_event[i].visit_type + ")" + "[" + result.user_event[i].servicename + "]";
+                    var timearr = result.user_event[i].visit_time.split(":",2); 
+                    object.start = new Date(parseInt(datearr[0]),parseInt(datearr[1])-1,parseInt(datearr[2]),parseInt(timearr[0]),parseInt(timearr[1]));
+                    object.end = new Date(parseInt(datearr[0]),parseInt(datearr[1])-1,parseInt(datearr[2]),parseInt(timearr[0]),parseInt(timearr[1])+30);
+                    object.allDay = false;
                     if (result.user_event[i].visit_type == "看医生" || result.user_event[i].visit_type == "建卡") {
                         if (result.user_event[i].order_success)
                             object.backgroundColor = '#35aa47';//App.getLayoutColorCode('green');
@@ -135,8 +136,8 @@ var Calendar = function () {
                     else {
                         str = str + "(预签)" 
                     }
-                    // if (result.user_list[i].visit_time) {
-                    //     // var time = result.user_list[i].visit_time.split(" ",1);
+                    // if (result.user_list[i].visit_date) {
+                    //     // var time = result.user_list[i].visit_date.split(" ",1);
                     //     str = str + "[过期]"
                     // }
                     addEvent(str,color);//icon-star-empty

@@ -3,7 +3,6 @@ local function MysqlCallback(res)
 		return nil, WEBERR.NAME_OR_PASSWORD_ERR
 	end
 
-	local _privilege = res[1].privilege
 	local _status = res[1].status
 	local _err = WEBERR.NO_ERR
 	if _status == "not actived" then
@@ -15,11 +14,13 @@ local function MysqlCallback(res)
 			error = _err
 		},
 		session = {
-			name = nil,
-			privilege = _privilege
+			loginid = res[1].id,
+			name = res[1].name,
+			privilege = res[1].privilege
 		}
 	}
 	
+	INFO("login name: " .. res[1].name ..", id: "..res[1].id..", privilege: "..res[1].privilege)
 	return _jsontbl
 end
 
@@ -51,19 +52,14 @@ local function Execute(post)
 	local _name = post.web.name
 	local _password = post.web.password
 
-	INFO("login name: " .. _name)
-	local _get_user_password = "select privilege,status from user where name = " 
+	local _get_user_password = "select privilege,status,name,id from user where name = " 
 					.. ngx.quote_sql_str(_name) .. " and password = " .. ngx.quote_sql_str(_password)
 	local _update_login_time = "update user set last_login_time = NOW() where name = " 
 					.. ngx.quote_sql_str(_name) .. " and password = " .. ngx.quote_sql_str(_password)
 	local _query_sql = _get_user_password .. ";" .. _update_login_time
 	
-	DEBUG("login: " .. _query_sql)
-	local _res,_err = mysql.query(cloud_database, _query_sql, MysqlCallback)
-	if _res then
-		_res.session.name = _name
-	end
-	return _res, _err
+	DEBUG("login_sql: " .. _query_sql)
+	return mysql.query(cloud_database, _query_sql, MysqlCallback)
 end
 
 local _M = {

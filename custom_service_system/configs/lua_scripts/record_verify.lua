@@ -21,14 +21,25 @@ local function ParamCheck(post)
 		return false, WEBERR.PARAM_ERR
 	end
 
+	if not post.session then
+		return false, WEBERR.SESSION_TIMEOUT
+	end
+	
+	if not (post.session.privilege) then
+		return false, WEBERR.SESSION_TIMEOUT
+	end
+
+	if (common.BitAnd(post.session.privilege, 32) ~= 32) then
+		return false, WEBERR.USER_PRIVILEGE_NOT_ENOUGH
+	end
+
 	return true
 end
 
 local function Execute(post)
 	local _id = post.web.id
 	
-	-- local _query_sql = "delete from customer where id = "
-	local _query_sql = "update customer set update_time = NOW(), vip = 3 where id = "
+	local _query_sql = "update record set update_time = NOW(), verify = 1 where id = "
 
 	for k, v in pairs(_id) do
 		if k == 1 then
@@ -38,7 +49,7 @@ local function Execute(post)
 		end
 	end
 
-	DEBUG("customer_del: " .. _query_sql)
+	DEBUG("record_verify: " .. _query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)
 end
 local _M = {

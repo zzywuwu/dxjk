@@ -23,6 +23,12 @@ local event_add = require("event_add")
 local event_get = require("event_get")
 local event_get_all = require("event_get_all")
 local get_no_event_user = require("get_no_event_user")
+local record_get_list = require("record_get_list")
+local record_add = require("record_add")
+local record_del = require("record_del")
+local record_modify = require("record_modify")
+local record_verify = require("record_verify")
+local record_get_list_verify = require("record_get_list_verify")
 
 local update_config = require("update_config")
 local ac_add = require("ac_add")
@@ -53,7 +59,7 @@ end
 cloud_database = {
 	host = "127.0.0.1",
 	port = 3306,
-	database = "dxjk",
+	database = "dtjx",
 	user = "root",
 	password = ""
 }
@@ -77,6 +83,12 @@ funcsinit = {
 	event_get = event_get,
 	event_get_all = event_get_all,
 	get_no_event_user = get_no_event_user,
+	record_get_list = record_get_list,
+	record_add = record_add,
+	record_del = record_del,
+	record_modify = record_modify,
+	record_verify = record_verify,
+	record_get_list_verify = record_get_list_verify,
 
 	update_config = update_config,
 	ac_add = ac_add,
@@ -99,6 +111,7 @@ g_privilege = {};
 
 g_privilege[1] = {
 				value = 1
+				-- 会员升级和会员过期权限
 			}
 
 g_privilege[2] = {
@@ -118,10 +131,10 @@ g_privilege[3] = {
 			}
 
 g_privilege[4] = {
-				value = 8,
+				value = 64,
 				jsontbl = {
-					title = "人员管理",
-					url = "ac_index"
+					title = "审核陪诊记录",
+					url = "verify_record_index"
 				}
 			}
 
@@ -130,6 +143,19 @@ g_privilege[5] = {
 				jsontbl = {
 					title = "日历",
 					url = "calendar_index"
+				}
+			}
+
+g_privilege[6] = {
+				value = 32,
+				--审核病历的权限 & 修改他人创建的未审核的病历
+			}
+
+g_privilege[7] = {
+				value = 8,
+				jsontbl = {
+					title = "人员管理",
+					url = "ac_index"
 				}
 			}
 
