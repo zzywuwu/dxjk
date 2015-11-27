@@ -81,7 +81,7 @@ var KFTableAdvanced = function() {
 			"aaData": account_list,
 
 			"aoColumns": [
-				{"mDataProp": "id", "bSortable":false,"sWidth":"0px"}, 
+				{"mDataProp": "id", "bSortable":false,"sWidth":"5px"}, 
 				{"mDataProp": "name","sWidth":"60px"},
 				{"mDataProp": "phonenumber","sClass":"hidden-480","sWidth":"80px"},
 				{"mDataProp": "diffweeks","sClass":"hidden-480","sWidth":"60px"},

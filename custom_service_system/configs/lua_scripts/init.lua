@@ -186,7 +186,8 @@ WEBERR = {
 	MESSAGE_NO_EXIST = "消息不存在",
 	KEY_ALREADY_EXIST = "主键已经存在",
 	SESSION_TIMEOUT = "长时间未操作,请重新登录",
-	USER_PRIVILEGE_NOT_ENOUGH = "你没有权限进行此操作"
+	USER_PRIVILEGE_NOT_ENOUGH = "你没有权限进行此操作",
+	DEL_USER_SELF = "不能删除自己"
 }
 
 

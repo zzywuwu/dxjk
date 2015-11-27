@@ -26,11 +26,15 @@ end
 
 local function Execute(post)
 	local _id = post.web.id
+	local _loginid = post.session.loginid
 	
 	local _query_sql = "delete from user where id = "
 
 	for k, v in pairs(_id) do
 		if k == 1 then
+			if v == _loginid then
+				return nil, WEBERR.DEL_USER_SELF
+			end
 			_query_sql = _query_sql .. ngx.quote_sql_str(v)
 		else
 			_query_sql = _query_sql .. " or id = " .. ngx.quote_sql_str(v)

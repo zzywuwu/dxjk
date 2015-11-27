@@ -187,9 +187,7 @@ var Index = function () {
                 TendaAjax.getHtml({"page":script + ".html"}, function(data){
 
                     $(".page-content .container-fluid").html(data);
-                }); 
-
-                 
+                });     
             }
 
         }
