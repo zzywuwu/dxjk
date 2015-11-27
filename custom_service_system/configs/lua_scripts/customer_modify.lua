@@ -18,11 +18,11 @@ local function ParamCheck(post)
 		return false, WEBERR.PARAM_ERR
 	end
 	
-	if not (post.web.name and post.web.phonenumber and post.web.sellname and post.web.age and post.web.due_time and post.web.last_menses_time) then
+	if not (post.web.id and post.web.phonenumber and post.web.sellname and post.web.age and post.web.due_time and post.web.last_menses_time) then
 		return false, WEBERR.PARAM_ERR
 	end
 
-	if not (post.web.name ~= '' and post.web.phonenumber ~= '' and post.web.sellname ~= '' and post.web.age ~= '' and post.web.due_time ~= '' and post.web.last_menses_time ~= '') then
+	if not (post.web.phonenumber ~= '' and post.web.sellname ~= '' and post.web.age ~= '' and post.web.due_time ~= '' and post.web.last_menses_time ~= '') then
 		return false, WEBERR.PARAM_ERR
 	end
 
@@ -38,7 +38,7 @@ local function ParamCheck(post)
 end
 
 local function Execute(post)
-	local _name = post.web.name
+	local _id = post.web.id
 	local _phonenumber = post.web.phonenumber
 	local _due_time = post.web.due_time
 	local _last_menses_time = post.web.last_menses_time
@@ -64,7 +64,7 @@ local function Execute(post)
 						.. ngx.quote_sql_str(_age) .. ", address = " 
 						.. ngx.quote_sql_str(_address) .. ", familyname = " 
 						.. ngx.quote_sql_str(_familyname) .. ", familyphonenumber = "  
-						.. ngx.quote_sql_str(_familyphonenumber) .. " where name = " .. ngx.quote_sql_str(_name)
+						.. ngx.quote_sql_str(_familyphonenumber) .. " where id = " .. ngx.quote_sql_str(_id)
 
 	DEBUG("customer_modify: " .. _query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)

@@ -220,7 +220,7 @@ var KFTableAdvanced = function() {
 
 					submitData.name = form.kf_username.value;
 					submitData.phonenumber = form.kf_phonenumber.value;
-					
+					submitData.id = $("#kf_customer_id").val();
 					submitData.doctor_name = form.kf_doctor_name.value;
 					submitData.due_time = form.kf_due_time.value;
 					submitData.idnumber = form.kf_idnumber.value;
@@ -419,6 +419,7 @@ var KFTableAdvanced = function() {
 					});
 
 					$("#kf_username").val(arr[0].name).prop("disabled", true);
+					$("#kf_customer_id").val(arr[0].id).prop("disabled", true);
                 	$("#kf_phonenumber").val(arr[0].phonenumber);
                 	$("#kf_doctor_name").val(arr[0].doctor_name);
                 	$("#kf_due_time").val(arr[0].due_time.split(" ",1));
