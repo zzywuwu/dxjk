@@ -87,12 +87,13 @@ use dtjx;
 
 
 insert into user(privilege, name, password, phonenumber, wx, status) VALUES(2038,'邱容',  '123456', '13541235352', '',                     'not actived');
-insert into user(name, password, phonenumber, wx, status) VALUES('张红莉','123456', '18908182406', '',                     'not actived');
+insert into user(name, password, phonenumber, wx, status) VALUES('张红莉','123456', '18908182406', 'wxid_qlbwwb8rszlm21',                     'not actived');
 insert into user(name, password, phonenumber, wx, status) VALUES('陈淘',  '123456', '15198073537', 'Caroline1468178921',   'not actived');
 insert into user(name, password, phonenumber, wx, status) VALUES('吕环宇','123456', '13980870629', '',                     'not actived');
 insert into user(name, password, phonenumber, wx, status) VALUES('余澜悦', '123456','13980870629', '',                     'not actived');
 insert into user(privilege, name, password, phonenumber, wx, status) VALUES(2047, '王君',  '123456', '13980870629', 'zz830629',             'actived');
 insert into user(name, password, phonenumber, wx, status) VALUES('余军',  '123456', '15108407210', 'huaxibaishitong',      'not actived');
+insert into user(name, password, phonenumber, wx, status) VALUES('李瑞雪',  '123456', '18215676176', 'xue1599859401',      'not actived');
 
 -- insert into customer(name, phonenumber, idnumber, sellname, doctor_name, wx, remarks, vip, last_menses_time) VALUES('张三', '18012345678', '511002197903140617', '王君', '游泳', 'zzy1121', '', 1, '2015-11-01');
 -- insert into customer(name, phonenumber, idnumber, sellname, doctor_name, wx, remarks, vip, last_menses_time) VALUES('李四', '18112345678', '511002197903140618', '王君', '刘兴会', '785692', '', 0, '2015-10-01');
