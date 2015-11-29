@@ -34,3 +34,6 @@ curl -v "https://qyapi.weixin.qq.com/cgi-bin/department/list?access_token=tn0r7q
 你在指掌天下的账号信息如下
 企业编号：41313
 管理员密码：123456
+
+tcp
+tcpdump -vvvvvvvvvvvvvvvv -XXXX -i eth1 tcp port 80
