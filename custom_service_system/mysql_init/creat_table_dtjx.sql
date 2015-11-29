@@ -94,15 +94,15 @@ insert into user(name, password, phonenumber, wx, status) VALUES('余澜悦', '1
 insert into user(privilege, name, password, phonenumber, wx, status) VALUES(2047, '王君',  '123456', '13980870629', 'zz830629',             'actived');
 insert into user(name, password, phonenumber, wx, status) VALUES('余军',  '123456', '15108407210', 'huaxibaishitong',      'not actived');
 
-insert into customer(name, phonenumber, idnumber, sellname, doctor_name, wx, remarks, vip, last_menses_time) VALUES('张三', '18012345678', '511002197903140617', '王君', '游泳', 'zzy1121', '', 1, '2015-11-01');
-insert into customer(name, phonenumber, idnumber, sellname, doctor_name, wx, remarks, vip, last_menses_time) VALUES('李四', '18112345678', '511002197903140618', '王君', '刘兴会', '785692', '', 0, '2015-10-01');
-insert into customer(name, phonenumber, idnumber, sellname, doctor_name, wx, remarks, vip, last_menses_time) VALUES('钱五', '18212345678', '511002197903140619', '王君', '游泳', '3261451', '', 0, '2015-09-01');
-insert into customer(name, phonenumber, idnumber, sellname, doctor_name, wx, remarks, vip, last_menses_time) VALUES('王六', '18212345678', '511002197903140619', '王君', '游泳', '3261451', '', 0, '2015-08-01');
+-- insert into customer(name, phonenumber, idnumber, sellname, doctor_name, wx, remarks, vip, last_menses_time) VALUES('张三', '18012345678', '511002197903140617', '王君', '游泳', 'zzy1121', '', 1, '2015-11-01');
+-- insert into customer(name, phonenumber, idnumber, sellname, doctor_name, wx, remarks, vip, last_menses_time) VALUES('李四', '18112345678', '511002197903140618', '王君', '刘兴会', '785692', '', 0, '2015-10-01');
+-- insert into customer(name, phonenumber, idnumber, sellname, doctor_name, wx, remarks, vip, last_menses_time) VALUES('钱五', '18212345678', '511002197903140619', '王君', '游泳', '3261451', '', 0, '2015-09-01');
+-- insert into customer(name, phonenumber, idnumber, sellname, doctor_name, wx, remarks, vip, last_menses_time) VALUES('王六', '18212345678', '511002197903140619', '王君', '游泳', '3261451', '', 0, '2015-08-01');
 
 
-insert into event(customer_id, visit_type, order_success, visit_date) VALUES(1, '建卡', 0, '2015-11-01 23:59:59');
-insert into event(customer_id, visit_type, order_success, visit_date) VALUES(3, '建卡', 1, '2015-11-11 23:59:59');
-insert into event(customer_id, visit_type, order_success, visit_date) VALUES(4, '建卡', 0, '2015-11-30 23:59:59');
+-- insert into event(customer_id, visit_type, order_success, visit_date) VALUES(1, '建卡', 0, '2015-11-01 23:59:59');
+-- insert into event(customer_id, visit_type, order_success, visit_date) VALUES(3, '建卡', 1, '2015-11-11 23:59:59');
+-- insert into event(customer_id, visit_type, order_success, visit_date) VALUES(4, '建卡', 0, '2015-11-30 23:59:59');
 
-insert into record(customer_id, user_id, visit_type, visit_date, servicename, visit_time, next_visit_date,visit_doctor_name,result,doctor_advise) VALUES(3, 7,'建卡', '2015-11-01 00:00:00', '秋容', '08:30', '2015-12-01 00:00:00', '游泳', '高血压', '少吃糖');
-insert into record(customer_id, user_id, visit_type, visit_date, servicename, visit_time, next_visit_date,visit_doctor_name,result,doctor_advise) VALUES(3, 7,'建卡', '2015-11-02 00:00:00', '秋容', '08:30', '2015-12-01 00:00:00', '游泳', '高血压', '少吃糖');
+-- insert into record(customer_id, user_id, visit_type, visit_date, servicename, visit_time, next_visit_date,visit_doctor_name,result,doctor_advise) VALUES(3, 7,'建卡', '2015-11-01 00:00:00', '秋容', '08:30', '2015-12-01 00:00:00', '游泳', '高血压', '少吃糖');
+-- insert into record(customer_id, user_id, visit_type, visit_date, servicename, visit_time, next_visit_date,visit_doctor_name,result,doctor_advise) VALUES(3, 7,'建卡', '2015-11-02 00:00:00', '秋容', '08:30', '2015-12-01 00:00:00', '游泳', '高血压', '少吃糖');

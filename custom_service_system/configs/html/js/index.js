@@ -113,6 +113,10 @@ var Index = function () {
                 }
                 Index.showSubMenu(firstNav);
             });
+
+            jQuery("#loginout").click(function(){
+                window.location.href = "http://139.129.133.155/html/login";
+            });
         },
 
         initNavEvent: function () {
