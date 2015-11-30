@@ -37,3 +37,19 @@ curl -v "https://qyapi.weixin.qq.com/cgi-bin/department/list?access_token=tn0r7q
 
 tcp
 tcpdump -vvvvvvvvvvvvvvvv -XXXX -i eth1 tcp port 80
+
+curl -v "https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=tpLHmuOtBunJZVMMEiny6VczO8APrCyDiBazAkY7aUTmiCmnehN-zF53Xh7Kt0SulNjpBrQsT4zYqM6olwnYyw" -d "{\"touser\": \"@all\",\"toparty\": \"\",\"totag\": \"\",\"msgtype\": \"text\",\"agentid\": \"4\",\"text\": {\"content\": \"zhe shi yi ge ceshi\"},\"safe\":\"0\"}"
+
+curl -v "https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=tpLHmuOtBunJZVMMEiny6VczO8APrCyDiBazAkY7aUTmiCmnehN-zF53Xh7Kt0SulNjpBrQsT4zYqM6olwnYyw" -d "{\"touser\": \"zhaoyu\",\"toparty\": \"3\",\"totag\": \"\",\"msgtype\": \"text\",\"agentid\":4,\"text\": {\"content\": \"测试一下！\"},\"safe\":\"0\"}"
+
+tpLHmuOtBunJZVMMEiny6VczO8APrCyDiBazAkY7aUTmiCmnehN-zF53Xh7Kt0SulNjpBrQsT4zYqM6olwnYyw
+
+curl -v ""https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=wx755e6479b3b52da5&corpsecretgJqLx9cY77lfgEZr5VRh7ptsSsoWm_B8rlsDMHZrCkbxorkFWC4KAZOUnLBXuW3n"
+
+
+
+
+
+
+
+
