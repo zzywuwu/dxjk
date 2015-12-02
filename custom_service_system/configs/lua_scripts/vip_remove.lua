@@ -13,6 +13,7 @@ local function MysqlCallback(res)
 end
 
 local function ParamCheck(post)
+	
 	if not post.web then
 		return false, WEBERR.PARAM_ERR
 	end
@@ -20,7 +21,7 @@ local function ParamCheck(post)
 	if not post.web.id then
 		return false, WEBERR.PARAM_ERR
 	end
-
+	
 	if not post.session then
 		return false, WEBERR.SESSION_TIMEOUT
 	end
@@ -29,14 +30,17 @@ local function ParamCheck(post)
 		return false, WEBERR.SESSION_TIMEOUT
 	end
 
+	if (common.BitAnd(post.session.privilege, 1) ~= 1) then
+		return false, WEBERR.USER_PRIVILEGE_NOT_ENOUGH
+	end
+
 	return true
 end
 
 local function Execute(post)
 	local _id = post.web.id
-	
-	local _query_sql = "delete from customer where id = "
-	-- local _query_sql = "update customer set update_time = NOW(), vip = 3 where id = "
+
+	local _query_sql = "update customer set update_time = NOW(), vip = 2 where id = "
 
 	for k, v in pairs(_id) do
 		if k == 1 then
@@ -46,7 +50,7 @@ local function Execute(post)
 		end
 	end
 
-	DEBUG("customer_del: " .. _query_sql)
+	DEBUG("vid_remove: " .. _query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)
 end
 local _M = {

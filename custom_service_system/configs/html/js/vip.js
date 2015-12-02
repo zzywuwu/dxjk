@@ -61,12 +61,6 @@ var KFTableAdvanced = function() {
 							{
 								"aTargets":[8],
 								"mRender":function(data, type, full){
-									return "<span class='row-details row-details-close event'></span>";
-								}
-							},
-							{
-								"aTargets":[9],
-								"mRender":function(data, type, full){
 									return "<span class='row-details row-details-close desc'></span>";
 								}
 							}
@@ -89,7 +83,6 @@ var KFTableAdvanced = function() {
 				{"mDataProp": "sellname","sClass":"hidden-480","sWidth":"65px"},
 				{"mDataProp": "remarks","sClass":"hidden-480","sWidth":"400px"},
 				{"mDataProp": "id","sClass":"hidden-480","sWidth":"65px"},
-				{"mDataProp": "diffdays","sWidth":"40px"},
 				{"mDataProp": "id","sWidth":"40px"}
 				]				
 		});
@@ -137,61 +130,6 @@ var KFTableAdvanced = function() {
          
         return sOut;
     }
-
-    var fnFormatDetailsNoEvent = function() {
-		var sOut = '<table>';
-        sOut += '<tr><td>事件未创建</td><td>'+'</td></tr>';
-        return sOut;	
-    }
-
-    var fnFormatDetailsEvent = function(eventobj) {
-		var sOut = '<table>';
-        sOut += '<tr><td>姓名:</td><td>'+eventobj.name+'</td></tr>';
-        sOut += '<tr><td>陪诊人员:</td><td>'+eventobj.servicename+'</td></tr>';
-		sOut += '<tr><td>日期:</td><td>'+eventobj.visit_date.split(" ",1)+'</td></tr>';
-		sOut += '<tr><td>时间:</td><td>'+eventobj.visit_time+'</td></tr>';
-        if (eventobj.visit_type == "看医生" || eventobj.visit_type == "建卡") {
-        	if (eventobj.order_success) {
-        		sOut += '<tr><td>就诊项目:</td><td>'+eventobj.visit_type+'(已预约)</td></tr>';	
-        	}
-        	else{
-        		sOut += '<tr><td>就诊项目:</td><td>'+eventobj.visit_type+'(未预约)</td></tr>';
-        	}
-        }
-        else
-        	sOut += '<tr><td>就诊项目:</td><td>'+eventobj.visit_type+'</td></tr>';
-         sOut += '<tr><td>就诊医生:</td><td>'+eventobj.visit_doctor_name+'</td></tr>';
-        sOut += '<tr><td>就诊科室:</td><td>'+eventobj.visit_address+'</td></tr>';
-        sOut += '<tr><td>备注:</td><td>'+eventobj.remarks+'</td></tr>';
-        sOut += '</table>';  
-        return sOut;	
-    }
-
-	var initModalCheck = function(num) {
-
-        //var checked = jQuery(this).is(":checked");
-        jQuery(".kf-form .kf-group").each(function () {
-            var val = +jQuery(this).val();
-            if(num & val) {
-            	jQuery(this).attr("checked", true).parent("span").addClass("checked");
-            } else {
-            	jQuery(this).attr("checked", false).parent("span").removeClass("checked");
-            }
-        });
-              
-	}
-
-	var getModalCheckVal = function() {
-		
-		var num = 1;
-
-		jQuery(".kf-form .kf-group:checked").each(function () {
-            var val = +jQuery(this).val();
-            num = num | val;
-        });
-
-		return num;
-	}
 
 	return {
 		init: function () {
@@ -257,52 +195,6 @@ var KFTableAdvanced = function() {
 				}
 			});
 
-			$(".event-form").validate({
-
-				errorElement: 'span', //default input error message container
-	            errorClass: 'error', // default input error message class
-	            focusInvalid: false, // do not focus the last invalid input
-	            rules: {
-	                event_username: {
-	                    required: false
-	                }
-	            },
-
-	            messages:{
-                    event_username:{
-                        required:"必填"
-                    }                                                       
-                },
-				submitHandler: function(form){
-					//根据获取的ID来进行判断，是修改还是添加
-					//TODO验证还需要进行权限是否为空的验证
-					var submitData = {};
-
-					submitData.script = "event_add";
-					submitData.customer_id = $("#event_customer_id").val();
-					submitData.servicename = jQuery('#servicename_option').val();
-					submitData.visit_date = form.event_visit_date.value;
-					submitData.visit_time = jQuery('#event_visit_time').val();
-					submitData.visit_type = jQuery('#event_project_option').val();
-					if (jQuery('#event_order_success').val() == "已预约")
-						submitData.order_success = 1;
-					else
-						submitData.order_success = 0;
-					submitData.visit_address = form.event_visit_address.value;
-					submitData.visit_doctor_name = form.event_visit_doctor_name.value;
-					submitData.remarks = form.event_remarks.value;
-					TendaAjax.getData(submitData, function(result){
-						if(result.error == GLOBAL.SUCCESS) {
-							initTableList();
-							$("#event_modal").modal("hide");
-						}				
-                		else
-                			alert(result.error);
-					});
-
-				}
-			});
-
 			jQuery('#kf_modal').on('hidden.bs.modal', function (e) {
 				$("input[type='text'], input[type='hidden']").val('');
 				$("input[type='date']").val('');
@@ -317,11 +209,8 @@ var KFTableAdvanced = function() {
 				if ($(this).find("i").hasClass("icon-pencil")) {
 					operation = "MODIFY";
 				}
-				else if ($(this).find("i").hasClass("icon-trash")) {
-					operation = "DELETE";
-				}
-				else if ($(this).find("i").hasClass("icon-star")) {
-					operation = "EVENT";	
+				else if ($(this).find("i").hasClass("icon-remove")) {
+					operation = "REMOVE";
 				}
 				else {
 					alert("开发中,请耐心等待");
@@ -394,7 +283,7 @@ var KFTableAdvanced = function() {
 
                 	$("#kf_modal").modal("show");
                 }
-                else if (operation == "DELETE") {
+                else if (operation == "REMOVE") {
 
                 	if(arr.length != 1) {
 	                	alert("请选择一条数据!");
@@ -402,7 +291,7 @@ var KFTableAdvanced = function() {
 	                }
 
                 	var submitData = {};
-                	submitData.script = "vip_del";
+                	submitData.script = "vip_remove";
                 	submitData.id = arr_id;
 
                 	TendaAjax.getData(submitData, function(result){
@@ -412,80 +301,6 @@ var KFTableAdvanced = function() {
                 		else
                 			alert(result.error);
                 	});
-                }
-                else if (operation == "EVENT") {
-                	if(arr.length != 1) {
-	                	alert("请选择一条数据!");
-	                	return;
-	                }
-
-	                var submitData = {};
-			    	submitData.script = "event_get";
-			    	submitData.customer_id = arr[0].id;
-			    	TendaAjax.getData(submitData, function(result){
-			    		if(result.error != GLOBAL.SUCCESS) {
-							alert(result.error);
-						}	
-						else {
-
-							TendaAjax.getData({"script":"ac_get_list"}, function(result){
-							 	if(result.error == GLOBAL.SUCCESS) {
-							 		for(var i = 0; i < result.user_list.length; i++) {
-							 			jQuery('#servicename_option').append("<option>" + result.user_list[i].name + "</option>");
-							 		}
-							 	}
-							 	else
-							 		alert(result.error);
-							});
-
-							if (result.user_event.length) {
-								var eventobj = result.user_event[0];
-			                	$("#event_username").val(arr[0].name).prop("disabled", true);
-			                	$("#event_customer_id").val(eventobj.customer_id).prop("disabled", true);
-			                	$("#event_visit_date").val(eventobj.visit_date.split(" ",1));
-			                	jQuery('#servicename_option option').each(function(){
-									if (eventobj.servicename == $(this).text()){
-										$(this).attr("selected",true);
-									}
-								});
-			                	jQuery('#event_visit_time option').each(function(){
-									if (eventobj.visit_time == $(this).text()){
-										$(this).attr("selected",true);
-									}
-								});
-								jQuery('#event_project_option option').each(function(){
-									if (eventobj.visit_type == $(this).text()){
-										$(this).attr("selected",true);
-									}
-								});
-								if (eventobj.visit_type == "看医生" ||
-									eventobj.visit_type == "建卡") {
-									jQuery('#event_order_success option').each(function(){
-										if ("已预约" == $(this).text() && eventobj.order_success){
-											$(this).attr("selected",true);
-											return false;
-										}
-										else {
-											$(this).attr("selected",true);
-										}
-									});
-								}	
-			                	$("#event_remarks").val(eventobj.remarks);
-			                	$("#event_modal").modal("show");		
-							}
-							else {
-								$("#event_username").val(arr[0].name).prop("disabled", true);
-			                	$("#event_customer_id").val(arr[0].id).prop("disabled", true);
-			                	jQuery('#event_order_success option').each(function(){
-									if ("未预约" == $(this).text()){
-										$(this).attr("selected",true);
-										return false;
-									}
-								});
-			                	$("#event_modal").modal("show");		
-							}
-						}			         				    	
-					});  
                 }
 
 			});
@@ -519,40 +334,6 @@ var KFTableAdvanced = function() {
 	                /* Open this row */                
 	                $(this).addClass("row-details-open").removeClass("row-details-close");
 	                oTable.fnOpen( nTr, fnFormatDetails(oTable, nTr), 'details' );
-	            }
-	        });
-
-	        $('#kf_list').on('click', '  tbody td .event', function () {
-
-            	var oTable = $("#kf_list").dataTable();
-	            var nTr = $(this).parents('tr')[0];
-	            if ( oTable.fnIsOpen(nTr) )
-	            {
-	                /* This row is already open - close it */
-	                $(this).addClass("row-details-close").removeClass("row-details-open");
-	                oTable.fnClose( nTr );
-	            }
-	            else
-	            {
-	                /* Open this row */ 
-	                var aData = oTable.fnGetData( nTr );	
-			    	var submitData = {};
-			    	submitData.script = "event_get";
-			    	submitData.customer_id = aData.id;
-			    	$(this).addClass("row-details-open").removeClass("row-details-close");
-			    	TendaAjax.getData(submitData, function(result){
-			    		if(result.error == GLOBAL.SUCCESS) {
-			    			if (result.user_event.length) {
-			    				var eventobj = result.user_event[0];
-			    				eventobj.name = aData.name;	
-			    				oTable.fnOpen( nTr, fnFormatDetailsEvent(eventobj), 'details' );
-			    			}
-			    			else
-	                			oTable.fnOpen( nTr, fnFormatDetailsNoEvent(), 'details' );
-					 	}
-				    	else
-				    		alert(result.error)
-					});  
 	            }
 	        });
 

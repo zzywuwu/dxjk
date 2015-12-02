@@ -18,11 +18,11 @@ local function ParamCheck(post)
 		return false, WEBERR.PARAM_ERR
 	end
 	
-	if not (post.web.visit_date and post.web.next_visit_date and post.web.id) then
+	if not (post.web.visit_date and post.web.servicename and post.web.id) then
 		return false, WEBERR.PARAM_ERR
 	end
 
-	if not (post.web.visit_date ~= '' and post.web.next_visit_date ~= '') then
+	if not (post.web.visit_date ~= '' and post.web.servicename ~= '') then
 		return false, WEBERR.PARAM_ERR
 	end
 
@@ -48,26 +48,25 @@ local function Execute(post)
 	local _doctor_advise = post.web.doctor_advise
 	local _next_visit_date = post.web.next_visit_date
 	local _servicename = post.web.servicename
-
 	local _loginid =post.session.loginid
 	
 	local _query_sql
-	if (common.BitAnd(post.session.privilege, 32) ~= 32) then
-		-- 不能修改他人创建的记录
-		_query_sql = "update record set update_time = NOW(), visit_date = " 
-						.. ngx.quote_sql_str(_visit_date) .. ", visit_time = " 
-						.. ngx.quote_sql_str(_visit_time) .. ", visit_type = " 
-						.. ngx.quote_sql_str(_visit_type) .. ", visit_doctor_name = " 
-						.. ngx.quote_sql_str(_visit_doctor_name) .. ", result = " 
-						.. ngx.quote_sql_str(_result) .. ", doctor_advise = " 
-						.. ngx.quote_sql_str(_doctor_advise) .. ", remarks = "
-						.. ngx.quote_sql_str(_remarks) .. ", next_visit_date = "
-						.. ngx.quote_sql_str(_next_visit_date) .. ", servicename = " 
-						.. ngx.quote_sql_str(_servicename) .. " where id = " .. ngx.quote_sql_str(_id)
-						.. " and verify = 0 and user_id = " .. ngx.quote_sql_str(_loginid)
-	else
+	-- if (common.BitAnd(post.session.privilege, 32) ~= 32) then
+	-- 	-- 不能修改他人创建的记录
+	-- 	_query_sql = "update record set update_time = NOW(), visit_date = " 
+	-- 					.. ngx.quote_sql_str(_visit_date) .. ", visit_time = " 
+	-- 					.. ngx.quote_sql_str(_visit_time) .. ", visit_type = " 
+	-- 					.. ngx.quote_sql_str(_visit_type) .. ", visit_doctor_name = " 
+	-- 					.. ngx.quote_sql_str(_visit_doctor_name) .. ", result = " 
+	-- 					.. ngx.quote_sql_str(_result) .. ", doctor_advise = " 
+	-- 					.. ngx.quote_sql_str(_doctor_advise) .. ", remarks = "
+	-- 					.. ngx.quote_sql_str(_remarks) .. ", next_visit_date = "
+	-- 					.. ngx.quote_sql_str(_next_visit_date) .. ", servicename = " 
+	-- 					.. ngx.quote_sql_str(_servicename) .. " where id = " .. ngx.quote_sql_str(_id)
+	-- 					.. " and verify = 0 and user_id = " .. ngx.quote_sql_str(_loginid)
+	-- else
 		-- 有32权限的人可以修改任何人的记录
-		_query_sql = "update record set update_time = NOW(), visit_date = " 
+		_query_sql = "update record set update_time = NOW(), status = 1, visit_date = " 
 						.. ngx.quote_sql_str(_visit_date) .. ", visit_time = " 
 						.. ngx.quote_sql_str(_visit_time) .. ", visit_type = " 
 						.. ngx.quote_sql_str(_visit_type) .. ", visit_doctor_name = " 
@@ -78,7 +77,7 @@ local function Execute(post)
 						.. ngx.quote_sql_str(_next_visit_date) .. ", servicename = " 
 						.. ngx.quote_sql_str(_servicename) .. " where id = " .. ngx.quote_sql_str(_id)
 						.. " and verify = 0"	
-	end 
+	-- end 
 	
 	DEBUG("record_modify: " .. _query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)

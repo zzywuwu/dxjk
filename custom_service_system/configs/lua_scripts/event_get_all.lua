@@ -19,7 +19,9 @@ end
 
 local function Execute(post)
 	
-	local _query_sql = "select event.*,customer.name as customer_name from event,customer where customer.id = event.customer_id and customer.vip < 2 and visit_date >= now() order by event.visit_time asc"
+	-- local _query_sql = "select event.*,customer.name as customer_name from event,customer where customer.id = event.customer_id and customer.vip < 2 and visit_date >= now() order by event.visit_time asc"
+
+	local _query_sql = "select record.*,customer.name as customer_name from record,customer where (customer.id = record.customer_id and customer.vip < 2 and record.visit_date >= now() and record.status = 0) order by record.visit_time asc;"
 
 	DEBUG("customer_get_all: " .. _query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)
