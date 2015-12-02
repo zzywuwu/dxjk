@@ -1,112 +1,138 @@
 package.path = package.path..";/usr/lib64/lua/5.1/?.lua;/opt/nginx/lua_scripts/?.lua"
-package.cpath = package.cpath..";/usr/lib64/lua/5.1/?.so"
+package.cpath = package.cpath..";/usr/lib64/lua/5.1/?.so;/usr/local/lib/lua/5.1/?.so"
 require "kf_debug"
 local mysql = require "luasql.mysql"
 local http = require "socket.http"
 local cjson = require "cjson"
 local cjson_safe = require "cjson.safe"
 
-local conn = nil
+local mysql_conn = nil
+local message_agentid = 4  -- 孕妈妈信息
 
 function ConnectMysql()
 	local env = mysql.mysql()
     while not conn do
-	    conn = env:connect('cloud', 'root', 'server', '127.0.0.1', 3306)
-        if not conn then
+	    mysql_conn = env:connect('cloud', 'root', '', '127.0.0.1', 3306)
+        if not mysql_conn then
             ERROR("Can not connect to Mysql")
         end
-	    os.execute("sleep " .. 1)
+	    socket.select(nil, nil, 1)
 	end
     INFO("Connet to Mysql successful")
 end
 
 function GetTokenFromServer() 
     while true do
-        --os.execute("curl -v https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=wx755e6479b3b52da5&corpsecret=gJqLx9cY77lfgEZr5VRh7ptsSsoWm_B8rlsDMHZrCkbxorkFWC4KAZOUnLBXuW3n")
         local cmd = "curl -v \"https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=wx755e6479b3b52da5&corpsecret=gJqLx9cY77lfgEZr5VRh7ptsSsoWm_B8rlsDMHZrCkbxorkFWC4KAZOUnLBXuW3n\"" 
         local t = io.popen(cmd)
         local res = t:read("*all")
-        INFO(res)
-        local content = cjson.decode(res)
-        INFO("Get Token Success, Date = "..os.date()..", access_token = "..content["access_token"])
-        return content["access_token"]
+        local content = cjson_safe.decode(res)
+        if (content == nil) then
+            ERROR("GetTokenFromServer() failed! res = "..res)
+            socket.select(nil, nil, 1)
+        else
+            INFO("Get Token Success, Date = "..os.date()..", access_token = "..content["access_token"])
+            return content["access_token"]
+        end
     end
 end
 
 function GetToken()
     time = time or 0
     token = token or ""
-    INFO("time = "..time.." token = "..token)
     difftime = os.time()-time
-    if (time and (difftime<7000)) then
-        INFO("Token expires_in time "..difftime)
-    else 
+    if not (time and (difftime < 7000)) then
         token = GetTokenFromServer()
         time = os.time()
     end
     return token
 end
 
-function CreateUndistributed()
-	return coroutine.create(function ()
-        while true do
-            local i = 0
-            INFO("Run Loop")
-        	GetToken()
-            PushMessage("美女")
-            i = i + 1
-            coroutine.yield()
+function PushMessage(info,user)
+    local user_str = ""
+    local first = false
+    for i=1, #(user) do
+        if first == false then
+            user_str = user_str..user[i]
+            first = true
+        else
+            user_str = user_str.."|"..user[i]
         end
-	end)
-end
-
-function PushMessage(info)
-    local cmd = "curl -v \"https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token="..token.."\" -d \"{\\\"touser\\\": \\\"zhaoyu\\\",\\\"toparty\\\": \\\"3\\\",\\\"totag\\\": \\\"\\\",\\\"msgtype\\\": \\\"text\\\",\\\"agentid\\\":4,\\\"text\\\": {\\\"content\\\":\\\""..info.."\\\"},\\\"safe\\\":\\\"0\\\"}\"" 
-    INFO(cmd)
+    end
+    INFO("user_str = "..user_str)
+    local cmd = "curl -v \"https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token="..token.."\" -d \"{\\\"touser\\\":\\\""..user_str.."\\\",\\\"toparty\\\":\\\"\\\",\\\"totag\\\":\\\"\\\",\\\"msgtype\\\":\\\"text\\\",\\\"agentid\\\":"..message_agentid..",\\\"text\\\":{\\\"content\\\":\\\""..info.."\\\"},\\\"safe\\\":\\\"0\\\"}\"" 
     local t = io.popen(cmd)
     local res = t:read("*all")
-    INFO(res)
-    --local content = cjson.decode(res)
-    --INFO("Get Token Success, Date = "..os.date()..", access_token = "..content["access_token"])
+    local content = cjson_safe.decode(res)
+    if (content == nil) then
+        ERROR("PushMessage() failed! cmd = "..cmd.." res = "..res)
+    else
+        INFO(cmd)
+        INFO("errcode= "..content["errcode"]..", errmsg = "..content["errmsg"])
+    end
+end
+
+function PushGroupMessage(info,partyid)
+    local cmd = "curl -v \"https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token="..token.."\" -d \"{\\\"touser\\\": \\\"\\\",\\\"toparty\\\": \\\""..partyid.."\\\",\\\"totag\\\": \\\"\\\",\\\"msgtype\\\": \\\"text\\\",\\\"agentid\\\":"..message_agentid..",\\\"text\\\": {\\\"content\\\":\\\""..info.."\\\"},\\\"safe\\\":\\\"0\\\"}\"" 
+    local t = io.popen(cmd)
+    local res = t:read("*all")
+    local content = cjson_safe.decode(res)
+    if (content == nil) then
+        ERROR("PushGroupMessage() failed! cmd = "..cmd.." res = "..res)
+    else
+        INFO(cmd)
+        INFO("errcode= "..content["errcode"]..", errmsg = "..content["errmsg"])
+    end
+end
+
+function NotifySecondDay()
+
+    function GetPartyID()
+        return 3
+    end
+
+    local current_time = os.date("*t")
+    INFO("current hour "..current_time.hour.." current_time.min .."..current_time.min)
+    if (current_time.hour == 20 and current_time.min == 0) then
+        PushGroupMessage("测试群发消息!",GetPartyID())        
+        socket.select(nil, nil, 61)     
+    end
+end
+
+function NotifyEvent()
+    local event_str = "尊敬的客户：  你好！\\n\\n        今日"..os.date(os.date("%Y-%m-%d").."上午8点，已为你预约医生(张力)，请你于7点30分到达医院后联系客户专员(陈淘15198073537)。\\n\\n        祝你有美好的一天！")
+    local user = {"zhaoyu"}
+    -- local user = {"zhaoyu","wangjun"}
+    -- local user = {"zhaoyu","wangjun","zhanghongli","chentao","liruixue"}
+    PushMessage(event_str,user)
+    socket.select(nil, nil, 61)
+end
+
+function CreateMainLoop()
+    return coroutine.create(function ()
+        while true do
+            -- INFO("Run Main Loop")
+            GetToken()
+            -- NotifySecondDay()
+            NotifyEvent()
+            coroutine.yield()
+        end
+    end)
 end
 	
--- function PushMessage(kf_account, order_id)
---     local str_sql = "update KF_VIEW_UNDISTRIBUTED set update_time = NOW(),status='distributed' where id ="..order_id["id"]
---     DEBUG("Execute Sql: "..str_sql)
--- 	local cur, err = conn:execute(str_sql)
---     if not cur then
---         ERROR("Disconnect with Mysql,need to reconnect...")
---         ConnectMysql()
---         return nil
---     end
+function main()
+    DEBUGINIT("dtjx.log", 1)
+    local res = ConnectMysql()
+    local co_main_loop = CreateMainLoop()
 
---     local post_data = order_id["id"]
-
--- 	local res, code = http.request{  
--- 	    url = "http://127.0.0.1:9080/pub?id="..kf_account,
--- 		method = "POST",
--- 		headers =   
--- 		{  
--- 			["Content-Type"] = "application/x-www-form-urlencoded",  
--- 			["Content-Length"] = #post_data,  
--- 		},
--- 		source = ltn12.source.string(post_data) 
--- 	}  
---     if code ~= 200 then
---         ERROR("Can not Push Message please check nginx push config")
---     end
---     DEBUG("Push Message To "..kf_account.." With "..post_data)
--- end
-
-DEBUGINIT("dtjx.log", 1)
-local res = ConnectMysql()
-local co_undistributed = CreateUndistributed()
-
-while true do
-	coroutine.resume(co_undistributed)
-    if coroutine.status(co_undistributed) ~= "suspended" then
-        ERROR("co_undistributed dead need to restart")
-        co_undistributed = CreateUndistributed()
+    while true do
+    	coroutine.resume(co_main_loop)
+        if coroutine.status(co_main_loop) ~= "suspended" then
+            ERROR("co_main_loop dead need to restart")
+            co_main_loop = CreateMainLoop()
+        end
+        socket.select(nil, nil, 2)
     end
-    socket.select(nil, nil, 30)
 end
+
+main()

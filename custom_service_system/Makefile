@@ -6,6 +6,7 @@ LUA_JIT_DIR = LuaJIT-2.0.2
 LUA_CJSON = lua-cjson-2.1.0
 LUA_SQL = luasql-2.3.0
 RESTY_MYSQL = lua-resty-mysql-0.15
+RESTY_REDIS = lua-resty-redis-0.21
 NGX_VER = nginx-1.8.0
 NGX_DEV_KIT = ngx_devel_kit-0.2.19
 NGX_LUA_MODULE = lua-nginx-module-0.9.16
@@ -25,6 +26,7 @@ nginx:
 	@cd ../tools; \
 	tar -xvf $(LUA_JIT_DIR).tar.gz; \
 	tar -xvf $(RESTY_MYSQL).tar.gz; \
+	tar -xvf $(RESTY_REDIS).tar.gz; \
 	tar -xvf $(LUA_CJSON).tar.gz; \
 	tar -xvf $(LUA_SQL).tar.gz; \
 	cd $(LUA_JIT_DIR); \
@@ -35,6 +37,8 @@ nginx:
 	cd ../$(RESTY_MYSQL); \
 	make install LUA_INCLUDE_DIR=$(LUAJIT_INC) LUA_LIB_DIR=/usr/local/luajit/share/luajit-2.0.2; \
 	echo "export LD_LIBRARY_PATH=/usr/local/luajit/lib:$$LD_LIBRARY_PATH" >> ~/.bashrc; \
+	cd ../$(RESTY_REDIS); \
+	make install LUA_INCLUDE_DIR=$(LUAJIT_INC) LUA_LIB_DIR=/usr/local/luajit/share/luajit-2.0.2; \
 	cd ../$(LUA_CJSON); \
 	make install LUA_CMODULE_DIR=/usr/local/luajit/lib/lua/5.1/ LUA_INCLUDE_DIR=/usr/local/luajit/include/luajit-2.0/; \
 	cd ../$(LUA_SQL); \
@@ -92,5 +96,6 @@ clean:
 	rm -rf $(PHP_VER); \
 	rm -rf $(CI_VER); \
 	rm -rf $(RESTY_MYSQL); \
+	rm -rf $(RESTY_REDIS); \
 	rm -rf $(LUA_CJSON); \
 	rm -rf $(LUA_SQL); \
