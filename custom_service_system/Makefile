@@ -91,6 +91,7 @@ config:
 	\cp -rf configs/conf/ $(PREFIX_DIR); \
 	\cp -rf configs/lua_scripts/ $(PREFIX_DIR); \
 	\cp -rf configs/html/ $(PREFIX_DIR); \
+	mkdir $(PREFIX_DIR)/html/temp; \
 	chmod 777 -cR $(PREFIX_DIR)/html/temp;
 
 clean:

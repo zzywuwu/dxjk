@@ -51,7 +51,7 @@ mkswap /swap
 swapon /swap
 echo "/swap  swap  swap  sw  0  0"  >> /etc/fstab
 
-
+mysqldump -uroot dtjx > 1202.sql
 
 
 
