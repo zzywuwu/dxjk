@@ -3,6 +3,8 @@ require("kf_debug")
 DEBUGINIT("ngx_lua.log", 0)
 
 mysql = require("connect_mysql")
+redis = require("connect_redis")
+tcp = require("connect_tcp_svr")
 common = require("common")
 cjson = require("cjson")
 
