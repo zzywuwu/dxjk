@@ -92,9 +92,9 @@ config:
 	\cp -rf configs/lua_scripts/ $(PREFIX_DIR); \
 	\cp -rf configs/html/ $(PREFIX_DIR); \
 	mkdir $(PREFIX_DIR)/html/temp; \
-	mkdir $(PREFIX_DIR)/html/file; \
-	mkdir $(PREFIX_DIR)/html/log; \
-	mkdir $(PREFIX_DIR)/html/captcha; \
+	mkdir $(PREFIX_DIR)/html/temp/file; \
+	mkdir $(PREFIX_DIR)/html/temp/log; \
+	mkdir $(PREFIX_DIR)/html/temp/captcha; \
 	chmod 777 -cR $(PREFIX_DIR)/html/temp;
 
 clean:
