@@ -23,7 +23,6 @@ local vip_modify = require("vip_modify")
 local vip_remove = require("vip_remove")
 local vip_get_list = require("vip_get_list")
 local event_add = require("event_add")
-local event_get = require("event_get")
 local event_get_all = require("event_get_all")
 local event_modify = require("event_modify")
 local get_no_event_user = require("get_no_event_user")
@@ -32,13 +31,9 @@ local record_del = require("record_del")
 local record_modify = require("record_modify")
 local record_verify = require("record_verify")
 local record_get_list_verify = require("record_get_list_verify")
-
-local update_config = require("update_config")
 local ac_add = require("ac_add")
 local ac_del = require("ac_del")
 local ac_get_list = require("ac_get_list")
-local ac_modify = require("ac_modify")
-
 
 file_path = "/opt/nginx/html/temp/file/"
 url_path = "/temp/file/"
@@ -84,12 +79,9 @@ funcsinit = {
 	record_modify = record_modify,
 	record_verify = record_verify,
 	record_get_list_verify = record_get_list_verify,
-
-	update_config = update_config,
 	ac_add = ac_add,
 	ac_del = ac_del,
-	ac_get_list = ac_get_list,
-	ac_modify = ac_modify,
+	ac_get_list = ac_get_list
 	
 }
 

@@ -142,17 +142,19 @@ var KFTableAdvanced = function() {
         	sOut += '<tr><td>就诊地址:</td><td>'+aData.visit_address+'</td></tr>';
         }
         sOut += '<tr><td>备注:</td><td>'+aData.remarks+'</td></tr>';  
-        if (aData.next_visit_date != '') {
-        	if (aData.next_order_success)
-				sOut += '<tr><td>复诊时间:</td><td>'+aData.next_visit_date.split(" ",1)+ ' '+ aData.next_visit_time + ' (已预约)' + '</td></tr>';
-			else
-				sOut += '<tr><td>复诊时间:</td><td>'+aData.next_visit_date.split(" ",1)+ ' '+ aData.next_visit_time + ' (未预约)' + '</td></tr>';
-			sOut += '<tr><td>复诊医生:</td><td>'+aData.next_visit_doctor_name+'</td></tr>';
-        }
-        else {
-        	sOut += '<tr><td>复诊时间:</td><td></td></tr>';
-        	sOut += '<tr><td>复诊医生:</td><td></td></tr>';
-        }
+        if (aData.status == 1) {
+	        if (aData.next_visit_date != '') {
+	        	if (aData.next_order_success)
+					sOut += '<tr><td>复诊时间:</td><td>'+aData.next_visit_date.split(" ",1)+ ' '+ aData.next_visit_time + ' (已预约)' + '</td></tr>';
+				else
+					sOut += '<tr><td>复诊时间:</td><td>'+aData.next_visit_date.split(" ",1)+ ' '+ aData.next_visit_time + ' (未预约)' + '</td></tr>';
+				sOut += '<tr><td>复诊医生:</td><td>'+aData.next_visit_doctor_name+'</td></tr>';
+	        }
+	        else {
+	        	sOut += '<tr><td>复诊时间:</td><td></td></tr>';
+	        	sOut += '<tr><td>复诊医生:</td><td></td></tr>';
+	        }
+	    }
         sOut += '</table>';  
         return sOut;
     }
@@ -162,27 +164,32 @@ var KFTableAdvanced = function() {
 	return {
 		init: function () {
 
-			$(".kf-form").validate({
+			var v_kf_form = $('.kf-form');
+			v_kf_form.validate({
 
 				errorElement: 'span', //default input error message container
-	            errorClass: 'error', // default input error message class
-	            focusInvalid: false, // do not focus the last invalid input
-	            rules: {
-	                kf_username: {
-	                    required: false
-	                }
-	            },
-
-	            messages:{
-                    kf_username:{
-                        required:"必填"
-                    },
-                    kf_email:{
-                        required:"必填",
-                        email:"E-Mail格式不正确"
-                    }
-                                                   
+                errorClass: 'help-inline', // default input error message class
+                focusInvalid: false, // do not focus the last invalid input
+                ignore: "",
+	            
+	            highlight: function (element) { // hightlight error inputs
+                    $(element)
+                        .closest('.help-inline').removeClass('ok'); // display OK icon
+                    $(element)
+                        .closest('.control-group').removeClass('success').addClass('error'); // set error class to the control group
                 },
+
+                unhighlight: function (element) { // revert the change dony by hightlight
+                    $(element)
+                        .closest('.control-group').removeClass('error'); // set error class to the control group
+                },
+
+                success: function (label) {
+                    label
+                        .addClass('valid').addClass('help-inline ok') // mark the current input as valid and display OK icon
+                    .closest('.control-group').removeClass('error').addClass('success'); // set success class to the control group
+                },
+
 				submitHandler: function(form){
 					//根据获取的ID来进行判断，是修改还是添加
 					//TODO验证还需要进行权限是否为空的验证
@@ -220,30 +227,68 @@ var KFTableAdvanced = function() {
 				}
 			});
 
-			jQuery('#addbutton').on("click", function(){
-				jQuery('#kf_modal').on('hidden.bs.modal', function (e) {
-					$("input[type='text'], input[type='hidden']").val('');
-					$("input[type='date']").val('');
-					$("textarea").val('');
-				});
+			jQuery('#kf_modal').on('hidden.bs.modal', function (e) {
+				$("input[type='text'], input[type='hidden']").val('');
+				$("input[type='date']").val('');
+				$("textarea").val('');
+				$(".controls span",$(this)).remove();
+				$(".control-group").removeClass('success').removeClass('error')
 			});
+		
+			var v_event_form = $('.event-form');
+           
+			v_event_form.validate({
 
-			$(".event-form").validate({
+	   			errorElement: 'span', //default input error message container
+                errorClass: 'help-inline', // default input error message class
+                focusInvalid: false, // do not focus the last invalid input
+                ignore: "",
 
-				errorElement: 'span', //default input error message container
-	            errorClass: 'error', // default input error message class
-	            focusInvalid: false, // do not focus the last invalid input
 	            rules: {
-	                event_username: {
-	                    required: false
+	                event_visit_doctor_name: {
+	                    minlength: 2,
+                        required: function() {
+                        	if (jQuery('#event_visit_type').val() == "复诊" ) {
+                                return true;
+                        	}
+                        	else{
+                        		return false;
+                        	}
+                        }
+	                },
+	                event_visit_date: {
+	                    required: true,
+                        date: true
 	                }
 	            },
 
 	            messages:{
-                    event_username:{
+                    event_visit_doctor_name:{
                         required:"必填"
-                    }                                                       
+                    },
+                    event_visit_date:{
+                        required:"必填"
+                    }                                                     
                 },
+
+                highlight: function (element) { // hightlight error inputs
+                    $(element)
+                        .closest('.help-inline').removeClass('ok'); // display OK icon
+                    $(element)
+                        .closest('.control-group').removeClass('success').addClass('error'); // set error class to the control group
+                },
+
+                unhighlight: function (element) { // revert the change dony by hightlight
+                    $(element)
+                        .closest('.control-group').removeClass('error'); // set error class to the control group
+                },
+
+                success: function (label) {
+                    label
+                        .addClass('valid').addClass('help-inline ok') // mark the current input as valid and display OK icon
+                    .closest('.control-group').removeClass('error').addClass('success'); // set success class to the control group
+                },
+
 				submitHandler: function(form){
 					//根据获取的ID来进行判断，是修改还是添加
 					//TODO验证还需要进行权限是否为空的验证
@@ -277,6 +322,26 @@ var KFTableAdvanced = function() {
 					});
 
 				}
+			});
+
+        	jQuery('#event_visit_type').change(function () {
+        		$("#event_visit_doctor_name_group .controls span").remove();
+				$("#event_visit_doctor_name_group").removeClass('success').removeClass('error');
+            	if (jQuery('#event_visit_type').val() == "复诊" ) {
+	        		var html = '<span class="required">*</span>';
+	        		$('#event_visit_doctor_name_group').children('label').append(html);	
+	        	}
+	        	else{
+	        		$('#event_visit_doctor_name_group').children('label').children('span').remove();	
+	        	}
+            });
+
+			jQuery('#event_modal').on('hidden.bs.modal', function (e) {
+				$("input[type='text'], input[type='hidden']").val('');
+				$("input[type='date']").val('');
+				$("textarea").val('');
+				$(".controls span",$(this)).remove();
+				$(".control-group").removeClass('success').removeClass('error');	
 			});
 
 			jQuery('.kf-index>li').on("click", function(){

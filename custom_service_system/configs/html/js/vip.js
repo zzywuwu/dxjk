@@ -134,27 +134,98 @@ var KFTableAdvanced = function() {
 	return {
 		init: function () {
 
-			$(".kf-form").validate({
+			var v_kf_form = $('.kf-form');
+			v_kf_form.validate({
 
 				errorElement: 'span', //default input error message container
-	            errorClass: 'error', // default input error message class
-	            focusInvalid: false, // do not focus the last invalid input
+                errorClass: 'help-inline', // default input error message class
+                focusInvalid: false, // do not focus the last invalid input
+                ignore: "",
+
 	            rules: {
+	                kf_last_menses_time: {
+	                	date: true,
+                        required: function() {
+                        	if (jQuery('#kf_customer_type').val() == "孕妈妈" ) {
+                                return true;
+                        	}
+                        	else{
+                        		return false;
+                        	}
+                        }
+	                },
+	                kf_due_time: {
+	                	date: true,
+                        required: function() {
+                        	if (jQuery('#kf_customer_type').val() == "孕妈妈" ) {
+                                return true;
+                        	}
+                        	else{
+                        		return false;
+                        	}
+                        }
+	                }, 	
 	                kf_username: {
-	                    required: false
+	                    minlength: 2,
+                        required: true
+	                },
+	                kf_age: {
+	                    digits: true,
+                        required: true
+	                },
+	                kf_phonenumber: {
+	                	minlength: 8,
+	                    digits: true,
+                        required: true
+	                },
+	                kf_wx: {
+	                	minlength: 6,
+                        required: true
 	                }
 	            },
 
 	            messages:{
                     kf_username:{
                         required:"必填"
+
                     },
-                    kf_email:{
+                    kf_age:{
                         required:"必填",
-                        email:"E-Mail格式不正确"
-                    }
-                                                   
+                        digits: "请输入数字"
+                    },
+                    kf_phonenumber:{
+                        required:"必填",
+                        minlength: "请输入最少8位数字"
+                    },
+                    kf_due_time:{
+                        required:"必填"
+                    },
+                    kf_last_menses_time:{
+                        required:"必填"
+                    },
+                    kf_wx:{
+                        required:"必填"
+                    }                                                        
                 },
+
+                highlight: function (element) { // hightlight error inputs
+                    $(element)
+                        .closest('.help-inline').removeClass('ok'); // display OK icon
+                    $(element)
+                        .closest('.control-group').removeClass('success').addClass('error'); // set error class to the control group
+                },
+
+                unhighlight: function (element) { // revert the change dony by hightlight
+                    $(element)
+                        .closest('.control-group').removeClass('error'); // set error class to the control group
+                },
+
+                success: function (label) {
+                    label
+                        .addClass('valid').addClass('help-inline ok') // mark the current input as valid and display OK icon
+                    .closest('.control-group').removeClass('error').addClass('success'); // set success class to the control group
+                },
+
 				submitHandler: function(form){
 					//根据获取的ID来进行判断，是修改还是添加
 					//TODO验证还需要进行权限是否为空的验证
@@ -301,7 +372,6 @@ var KFTableAdvanced = function() {
                 }
 
 			});
-
 
 			jQuery('#kf_list .group-checkable').change(function () {
                 var set = jQuery(this).attr("data-set");
