@@ -46,12 +46,6 @@ var KFTableAdvanced = function() {
 								}
 							},
 							{
-								"aTargets":[3],
-								"mRender":function(data, type, full){
-									return data.split(" ",1);
-								}
-							},
-							{
 								"aTargets":[8],
 								"mRender":function(data, type, full){
 									return "<span class='row-details row-details-close desc'></span>";
@@ -71,9 +65,9 @@ var KFTableAdvanced = function() {
 				{"mDataProp": "id","bSortable":false,"sWidth":"5px"}, 
 				{"mDataProp": "customer_name","sClass":"hidden-480","sWidth":"70px"},
 				{"mDataProp": "visit_date","sClass":"hidden-480","sWidth":"70px"},
-				{"mDataProp": "next_visit_date","sClass":"hidden-480","sWidth":"70px"},
 				{"mDataProp": "servicename","sClass":"hidden-480","sWidth":"65px"},
 				{"mDataProp": "visit_type","sClass":"hidden-480","sWidth":"65px"},
+				{"mDataProp": "remarks","sClass":"hidden-480","sWidth":"160px"},
 				{"mDataProp": "result","sClass":"hidden-480","sWidth":"400px"},
 				{"mDataProp": "username","sClass":"hidden-480","sWidth":"50px"},
 				{"mDataProp": "id","sWidth":"40px"}
@@ -100,18 +94,20 @@ var KFTableAdvanced = function() {
         sOut += '<tr><td>医嘱:</td><td>'+aData.doctor_advise+'</td></tr>';
         sOut += '<tr><td>备注:</td><td>'+aData.remarks+'</td></tr>';
 
-        if (aData.next_visit_date != '') {
-        	if (aData.next_order_success)
-				sOut += '<tr><td>复诊时间:</td><td>'+aData.next_visit_date.split(" ",1)+ ' '+ aData.next_visit_time + ' (已预约)' + '</td></tr>';
-			else
-				sOut += '<tr><td>复诊时间:</td><td>'+aData.next_visit_date.split(" ",1)+ ' '+ aData.next_visit_time + ' (未预约)' + '</td></tr>';
-			sOut += '<tr><td>复诊医生:</td><td>'+aData.next_visit_doctor_name+'</td></tr>';
-        }
-        else {
-        	sOut += '<tr><td>复诊时间:</td><td></td></tr>';
-        	sOut += '<tr><td>复诊医生:</td><td></td></tr>';
-        }
-    
+   		var obj = jQuery.parseJSON(aData.fzinfo);
+		if (Array.isArray(obj)) {
+			for (var i = 0, j = 1; i < obj.length; i++,j++) {
+				sOut += '<tr><td>复诊('+ j +'):</td><td></td></tr>';
+				if (obj[i].next_order_success)
+					sOut += '<tr><td>复诊时间:</td><td>'+obj[i].next_visit_date.split(" ",1)+ ' '+ obj[i].next_visit_time + ' (已预约)' + obj[i].next_visit_doctor_name + '</td></tr>';
+				else
+					sOut += '<tr><td>复诊时间:</td><td>'+obj[i].next_visit_date.split(" ",1)+ ' '+ obj[i].next_visit_time + ' (未预约)' + obj[i].next_visit_doctor_name + '</td></tr>';
+				sOut += '<tr><td>复诊项目:</td><td>'+obj[i].next_visit_type+'</td></tr>';
+				sOut += '<tr><td>复诊地址:</td><td>'+obj[i].next_visit_address+'</td></tr>';
+				sOut += '<tr><td>复诊备注:</td><td>'+obj[i].next_visit_remarks+'</td></tr>';
+			};	
+		}
+	   
         sOut += '</table>';  
         return sOut;
     }
@@ -168,7 +164,6 @@ var KFTableAdvanced = function() {
       //           			alert(result.error);
       //           	});
 					jQuery('#verify_content').html("");
-					jQuery('#verify_content').append(html);
 					var html = '<ul>';
 					html += '<li>姓名:\t\t\t'+arr[0].customer_name+'</li>';
 			       	html += '<li>就诊日期:\t\t\t'+arr[0].visit_date.split(" ",1)+'</li>';
@@ -176,7 +171,6 @@ var KFTableAdvanced = function() {
 			       	html += '<li>陪诊人员:\t\t\t'+arr[0].servicename+'</li>';
 			       	html += '<li>就诊项目:\t\t\t'+arr[0].visit_type+'</li>';
 			       	html += '<li>就诊医生:\t\t\t'+arr[0].visit_doctor_name+'</li>';
-
 			        html +='</ul>';
                 	jQuery('#verify_content').append(html);
 					$("#event_modal").modal("show");	

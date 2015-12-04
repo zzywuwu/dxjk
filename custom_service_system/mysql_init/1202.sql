@@ -84,10 +84,7 @@ CREATE TABLE `record` (
   `servicename` varchar(32) DEFAULT '',
   `verify` int(11) DEFAULT '0',
   `status` int(11) DEFAULT '0',
-  `next_visit_date` varchar(32) DEFAULT '',
-  `next_visit_time` varchar(32) DEFAULT '',
-  `next_order_success` int(11) DEFAULT '0',
-  `next_visit_doctor_name` varchar(32) DEFAULT '',
+  `fzinfo` varchar(1024) DEFAULT '',
   PRIMARY KEY (`id`),
   KEY `customer_id` (`customer_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;

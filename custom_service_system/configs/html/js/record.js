@@ -143,17 +143,20 @@ var KFTableAdvanced = function() {
         }
         sOut += '<tr><td>备注:</td><td>'+aData.remarks+'</td></tr>';  
         if (aData.status == 1) {
-	        if (aData.next_visit_date != '') {
-	        	if (aData.next_order_success)
-					sOut += '<tr><td>复诊时间:</td><td>'+aData.next_visit_date.split(" ",1)+ ' '+ aData.next_visit_time + ' (已预约)' + '</td></tr>';
-				else
-					sOut += '<tr><td>复诊时间:</td><td>'+aData.next_visit_date.split(" ",1)+ ' '+ aData.next_visit_time + ' (未预约)' + '</td></tr>';
-				sOut += '<tr><td>复诊医生:</td><td>'+aData.next_visit_doctor_name+'</td></tr>';
-	        }
-	        else {
-	        	sOut += '<tr><td>复诊时间:</td><td></td></tr>';
-	        	sOut += '<tr><td>复诊医生:</td><td></td></tr>';
-	        }
+	  
+	   		var obj = jQuery.parseJSON(aData.fzinfo);
+			if (Array.isArray(obj)) {
+				for (var i = 0, j = 1; i < obj.length; i++,j++) {
+					sOut += '<tr><td>复诊('+ j +'):</td><td></td></tr>';
+					if (obj[i].next_order_success)
+						sOut += '<tr><td>复诊时间:</td><td>'+obj[i].next_visit_date.split(" ",1)+ ' '+ obj[i].next_visit_time + ' (已预约)' + obj[i].next_visit_doctor_name + '</td></tr>';
+					else
+						sOut += '<tr><td>复诊时间:</td><td>'+obj[i].next_visit_date.split(" ",1)+ ' '+ obj[i].next_visit_time + ' (未预约)' + obj[i].next_visit_doctor_name + '</td></tr>';
+					sOut += '<tr><td>复诊项目:</td><td>'+obj[i].next_visit_type+'</td></tr>';
+					sOut += '<tr><td>复诊地址:</td><td>'+obj[i].next_visit_address+'</td></tr>';
+					sOut += '<tr><td>复诊备注:</td><td>'+obj[i].next_visit_remarks+'</td></tr>';
+				};	
+			}
 	    }
         sOut += '</table>';  
         return sOut;
@@ -195,8 +198,7 @@ var KFTableAdvanced = function() {
 					//TODO验证还需要进行权限是否为空的验证
 					var submitData = {};
 					
-					submitData.script = "record_modify";
-					
+					submitData.script = "record_modify";					
 					submitData.id = $("#kf_id").val();
 					submitData.visit_date = form.kf_visit_date.value;
 					submitData.visit_time = jQuery('#kf_visit_time').val();
@@ -207,14 +209,28 @@ var KFTableAdvanced = function() {
 					submitData.remarks = form.kf_remarks.value;
 					submitData.servicename = jQuery('#kf_servicename').val();
 
-					submitData.next_visit_date = form.kf_next_visit_date.value;
-					submitData.next_visit_time = form.kf_next_visit_time.value;
-					if (jQuery('#kf_next_order_success').val() == "已预约")
-						submitData.next_order_success = 1;
-					else
-						submitData.next_order_success = 0;
-					submitData.next_visit_doctor_name = form.kf_next_visit_doctor_name.value;
-
+					var fzinfoarr = [];
+					for (var i = 0; i < 4; i++) {
+						var fzinfo = {};
+						alert(jQuery('#portlet_tab2 .accordion-body:eq(' + i + ') input[name="kf_next_visit_date"]').val());
+						if (jQuery('#portlet_tab2 .accordion-body:eq(' + i + ') input[name="kf_next_visit_date"]').val() == '')
+							continue;
+						fzinfo.next_visit_date = jQuery('#portlet_tab2 .accordion-body:eq(' + i + ') input[name="kf_next_visit_date"]').val();
+						fzinfo.next_visit_time = jQuery('#portlet_tab2 .accordion-body:eq(' + i + ') select[name="kf_next_visit_time"]').val();
+						if (jQuery('#portlet_tab2 .accordion-body:eq(' + i + ') select[name="kf_next_order_success"]').val() == "已预约") 
+							fzinfo.next_order_success = 1;
+						else
+							fzinfo.next_order_success = 0;
+						fzinfo.next_visit_doctor_name = jQuery('#portlet_tab2 .accordion-body:eq(' + i + ') input[name="kf_next_visit_doctor_name"]').val();
+						fzinfo.next_visit_type = jQuery('#portlet_tab2 .accordion-body:eq(' + i + ') select[name="kf_next_visit_type"]').val();
+						fzinfo.next_visit_address = jQuery('#portlet_tab2 .accordion-body:eq(' + i + ') input[name="kf_next_visit_address"]').val();
+						fzinfo.next_visit_remarks = jQuery('#portlet_tab2 .accordion-body:eq(' + i + ') textarea[name="kf_next_remarks"]').val();
+						//alert(JSON.stringify(fzinfo));
+						fzinfoarr.push(fzinfo);
+					};
+					//alert(fzinfoarr);
+					submitData.fzinfo = JSON.stringify(fzinfoarr);
+		
 					TendaAjax.getData(submitData, function(result){
 						if(result.error == GLOBAL.SUCCESS) {
 							initTableList();
@@ -227,18 +243,8 @@ var KFTableAdvanced = function() {
 				}
 			});
 
-			jQuery('#kf_modal').on('hidden.bs.modal', function (e) {
-				$("input[type='text'], input[type='hidden']").val('');
-				$("input[type='date']").val('');
-				$("textarea").val('');
-				$(".controls span",$(this)).remove();
-				$(".control-group").removeClass('success').removeClass('error')
-			});
-		
-			var v_event_form = $('.event-form');
-           
+			var v_event_form = $('.event-form');        
 			v_event_form.validate({
-
 	   			errorElement: 'span', //default input error message container
                 errorClass: 'help-inline', // default input error message class
                 focusInvalid: false, // do not focus the last invalid input
@@ -336,14 +342,6 @@ var KFTableAdvanced = function() {
 	        	}
             });
 
-			jQuery('#event_modal').on('hidden.bs.modal', function (e) {
-				$("input[type='text'], input[type='hidden']").val('');
-				$("input[type='date']").val('');
-				$("textarea").val('');
-				$(".controls span",$(this)).remove();
-				$(".control-group").removeClass('success').removeClass('error');	
-			});
-
 			jQuery('.kf-index>li').on("click", function(){
 
 				var operation;
@@ -386,6 +384,12 @@ var KFTableAdvanced = function() {
 	                	alert("请选择一条数据!");
 	                	return;
 	                }
+
+	                $("#event_modal input[type='text'], input[type='hidden']").val('');
+					$("#event_modal input[type='date']").val('');
+					$("#event_modal textarea").val('');
+					$("#event_modal .controls span",$(this)).remove();
+					$("#event_modal .control-group").removeClass('success').removeClass('error');	
 
           			$("#event_id").val(arr[0].id).prop("disabled", true);
 					$("#event_visit_date").val(arr[0].visit_date.split(" ",1));
@@ -435,10 +439,16 @@ var KFTableAdvanced = function() {
 	                	return;
 	                }
 
-					$("input[type='text'], input[type='hidden']").val('');
-					$("input[type='date']").val('');
-					$("textarea").val('');
+	                $(".tab-content .tab-pane").removeClass('active');
+	                $(".tab-content .tab-pane:first").addClass('active');
+	                $(".nav-tabs li").removeClass('active');
+	                $(".nav-tabs li:last").addClass('active');
+					$("#kf_modal input[type='text'], input[type='hidden']").val('');
+					$("#kf_modal input[type='date']").val('');
+					$("#kf_modal textarea").val('');
 					jQuery("#kf_servicename").empty();
+					$("#kf_modal .controls span",$(this)).remove();
+					$("#kf_modal .control-group").removeClass('success').removeClass('error');
 					
 	                TendaAjax.getData({"script":"ac_get_list"}, function(result){
 					 	if(result.error == GLOBAL.SUCCESS) {
@@ -474,20 +484,33 @@ var KFTableAdvanced = function() {
 					$("#kf_doctor_advise").val(arr[0].doctor_advise);
 					$("#kf_remarks").val(arr[0].remarks);
 
-					$("#kf_next_visit_date").val(arr[0].next_visit_date.split(" ",1));	
-                	jQuery('#kf_next_visit_time option').each(function(){
-						if (arr[0].next_visit_time == $(this).text()){
-							$(this).attr("selected",true);
-						}
-					});
-                	jQuery('#kf_next_order_success option').each(function(){
-						if ("已预约" == $(this).text() && arr[0].next_order_success){
-							$(this).attr("selected",true);
-							return false;
-						}
-					});
-                	$("#kf_next_visit_doctor_name").val(arr[0].next_visit_doctor_name);	
-
+					var obj = jQuery.parseJSON(arr[0].fzinfo);
+					if (Array.isArray(obj)) {
+						for (var i = 0; i < obj.length; i++) {
+							jQuery('#portlet_tab2 .accordion-body:eq(' + i + ') input[name="kf_next_visit_date"]').val(obj[i].next_visit_date);
+							jQuery('#portlet_tab2 .accordion-body:eq(' + i + ') select[name="kf_next_visit_time"] option').each(function(){
+								if (obj[i].next_visit_time == $(this).text()){
+									$(this).attr("selected",true);
+									return false;
+								}
+							});
+							jQuery('#portlet_tab2 .accordion-body:eq(' + i + ') select[name="kf_next_order_success"] option').each(function(){
+								if ("已预约" == $(this).text() && obj[i].next_order_success){
+									$(this).attr("selected",true);
+									return false;
+								}
+							});
+							jQuery('#portlet_tab2 .accordion-body:eq(' + i + ') input[name="kf_next_visit_doctor_name"]').val(obj[i].next_visit_doctor_name);
+							jQuery('#portlet_tab2 .accordion-body:eq(' + i + ') select[name="kf_next_visit_type"] option').each(function(){
+								if (obj[i].next_visit_type == $(this).text()){
+									$(this).attr("selected",true);
+									return false;
+								}
+							});
+							jQuery('#portlet_tab2 .accordion-body:eq(' + i + ')  input[name="kf_next_visit_address"]').val(obj[i].next_visit_address);
+							jQuery('#portlet_tab2 .accordion-body:eq(' + i + ')  textarea[name="kf_next_remarks"]').val(obj[i].next_visit_remarks);
+						};	
+					}
                 	$("#kf_modal").modal("show");	
                 }         
 
