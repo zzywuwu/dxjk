@@ -18,12 +18,22 @@ local function ParamCheck(post)
 		return false, WEBERR.PARAM_ERR
 	end
 	
-	if not (post.web.id and post.web.phonenumber and post.web.sellname and post.web.age and post.web.due_time and post.web.last_menses_time) then
+	if not (post.web.name and post.web.phonenumber and post.web.sellname and post.web.age and post.web.customer_type) then
 		return false, WEBERR.PARAM_ERR
 	end
 
-	if not (post.web.phonenumber ~= '' and post.web.sellname ~= '' and post.web.age ~= '' and post.web.due_time ~= '' and post.web.last_menses_time ~= '') then
+	if not (post.web.name ~= '' and post.web.phonenumber ~= '' and post.web.sellname ~= '' and post.web.age ~= '' and post.web.customer_type ~= '') then
 		return false, WEBERR.PARAM_ERR
+	end
+
+	if (post.web.customer_type == "孕妈妈") then
+		if not (post.web.due_time and post.web.last_menses_time) then
+			return false, WEBERR.PARAM_ERR
+		end
+
+		if not (post.web.due_time ~= '' and post.web.last_menses_time ~= '') then
+			return false, WEBERR.PARAM_ERR
+		end
 	end
 
 	if not post.session then
@@ -51,9 +61,13 @@ local function Execute(post)
 	local _address = post.web.address
 	local _familyname = post.web.familyname
 	local _familyphonenumber = post.web.familyphonenumber
-	
-	local _query_sql = "update customer set update_time = NOW(), phonenumber = " 
-						.. ngx.quote_sql_str(_phonenumber) .. ",  due_time= " 
+	local _customer_type = post.web.customer_type
+
+	local _query_sql
+	if (post.web.customer_type == "孕妈妈") then
+		_query_sql = "update customer set update_time = NOW(), phonenumber = "
+						.. ngx.quote_sql_str(_phonenumber) .. ", customer_type= " 
+						.. ngx.quote_sql_str(_customer_type) .. ",  due_time= " 
 						.. ngx.quote_sql_str(_due_time) .. ", last_menses_time = " 
 						.. ngx.quote_sql_str(_last_menses_time) .. ", doctor_name = " 
 						.. ngx.quote_sql_str(_doctor_name) .. ", idnumber = " 
@@ -65,6 +79,20 @@ local function Execute(post)
 						.. ngx.quote_sql_str(_address) .. ", familyname = " 
 						.. ngx.quote_sql_str(_familyname) .. ", familyphonenumber = "  
 						.. ngx.quote_sql_str(_familyphonenumber) .. " where id = " .. ngx.quote_sql_str(_id)
+	else
+		_query_sql = "update customer set update_time = NOW(), phonenumber = "
+						.. ngx.quote_sql_str(_phonenumber) .. ", customer_type= "  
+						.. ngx.quote_sql_str(_customer_type) .. ", doctor_name = " 
+						.. ngx.quote_sql_str(_doctor_name) .. ", idnumber = " 
+						.. ngx.quote_sql_str(_idnumber) .. ", wx = " 
+						.. ngx.quote_sql_str(_wx) .. ", remarks = "
+						.. ngx.quote_sql_str(_remarks) .. ", sellname = "
+						.. ngx.quote_sql_str(_sellname) .. ", age = " 
+						.. ngx.quote_sql_str(_age) .. ", address = " 
+						.. ngx.quote_sql_str(_address) .. ", familyname = " 
+						.. ngx.quote_sql_str(_familyname) .. ", familyphonenumber = "  
+						.. ngx.quote_sql_str(_familyphonenumber) .. " where id = " .. ngx.quote_sql_str(_id)
+	end
 
 	DEBUG("customer_modify: " .. _query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)

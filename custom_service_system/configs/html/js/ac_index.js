@@ -205,8 +205,6 @@ var TableAdvanced = function() {
 	                	return;
 	                }
 
-                	//默认编辑第一条
-                	//显示模态框，并将数据显示到模态框中
                 	$("#ac_username").val(arr[0].name).prop("disabled", true);
                 	$("#ac_email").val(arr[0].email);
                 	$("#ac_password").parents(".control-group").css("display", "none");

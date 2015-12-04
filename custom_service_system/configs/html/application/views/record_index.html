@@ -9,16 +9,19 @@
 	<style >
 
 		#kf_modal .control-group {
-		  margin-bottom: 5px;
+		  	margin-bottom: 5px;
 		}
 		#event_modal .control-group {
-		  margin-bottom: 5px;
+		  	margin-bottom: 5px;
 		}
 		#kf_remarks {
 			/*width: 380px !important;*/
 		}
 		.row-fluid {
 			margin-top: 10px;
+		}
+		.portlet {
+			margin-bottom: 0px;	
 		}
 
 	</style>
@@ -58,7 +61,7 @@
 					<div class="actions">
 
 						<a href="#" class="btn blue" data-toggle="modal" data-target="#event_modal" id="addbutton">
-							<i class="icon-pencil" ></i> 添加
+							<i class="icon-pencil" ></i> 添加事件
 						</a>
 						
 						<div class="btn-group">
@@ -70,9 +73,10 @@
 							</a>
 
 							<ul class="kf-index dropdown-menu pull-right">
-								<li><a href="#"><i class="icon-pencil"></i>编辑</a></li>
+								<li><a href="#"><i class="icon-pencil"></i>修改</a></li>
 								<li><a href="#"><i class="icon-trash"></i>删除</a></li>
 								<li><a href="#"><i class="icon-plus"></i>陪诊记录</a></li>
+								
 							</ul>
 
 						</div>
@@ -91,11 +95,13 @@
 									<input type="checkbox" class="group-checkable" data-set="#kf_list .checkboxes">
 								</th>
 								<th >类型</th>
+								<th >状态</th>
 								<th class="hidden-480">就诊日期</th>
 								<th class="hidden-480">就诊时间</th>
 								<th class="hidden-480">就诊项目</th>
 								<th class="hidden-480">就诊医生</th>
 								<th class="hidden-480">备注</th>
+								<th>最后修改</th>
 								<th>详情</th>
 							</tr>
 						</thead>
@@ -118,6 +124,7 @@
 					</button>
 					<h4 class="modal-title" id="event_modal_label">预约事件</h4>
 				</div>
+
 				<form action="" class="form-horizontal event-form" style="margin-bottom:0px;">
 					<div class="modal-body">
 
@@ -184,11 +191,11 @@
 						</div>
 
 						<div class="control-group">
-							<label class="control-label">已预约号:</label>
+							<label class="control-label">是否预约:</label>
 							<div class="controls">
 								<select class="form-control" id="event_order_success">
-									<option>已预约</option>
 									<option>未预约</option>
+									<option>已预约</option>
 								</select>
 							</div>
 						</div>
@@ -199,6 +206,36 @@
 								<input type="text" id="event_visit_doctor_name" name="event_visit_doctor_name" class="m-wrap medium">
 							</div>
 						</div>
+
+						<!-- <div class="control-group">
+							<label class="control-label">就诊医生:</label>
+							<div class="controls">
+								<select class="form-control" id="event_visit_doctor_name">
+									<option></option>
+									<option>李维敏</option>
+									<option>邱文玉</option>
+									<option>刘兴会</option>
+									<option>游泳</option>
+									<option>王晓东</option>
+									<option>周容</option>
+									<option>邢爱耘</option>
+									<option>张力</option>
+									<option>刘淑德</option>
+									<option>彭冰</option>
+									<option>余海燕</option>
+									<option>姚强</option>
+									<option>周淑</option>
+									<option>胡雅毅</option>
+									<option>候敏敏</option>
+									<option>廖华</option>
+									<option>陈慧</option>
+									<option>龚云辉</option>
+									<option>吴琳</option>
+									<option>吕斌</option>
+									
+								</select>
+							</div>
+						</div> -->
 
 						<div class="control-group">
 							<label class="control-label">就诊科室:</label>
@@ -230,120 +267,217 @@
 	<div class="modal fade" id="kf_modal" tabindex="-1" role="dialog" aria-labelledby="kf_modal_label">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-				<div class="modal-header">
+				<!-- <div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true"></span>
 					</button>
 					<h4 class="modal-title" id="kf_modal_label">陪诊记录</h4>
-				</div>
+				</div> -->
 
 				<form action="" class="form-horizontal kf-form" style="margin-bottom:0px;">
 					<div class="modal-body">
 						
-						<div class="control-group">
-							<label class="control-label" id="kf_id"></label>
-						</div>
+						<div class="portlet box blue tabbable">
 
-						<div class="control-group">
-							<label class="control-label">就诊日期:</label>
-							<div class="controls">
-								<input type="date" id="kf_visit_date" name="kf_visit_date" class="m-wrap medium">
+							<div class="portlet-title">
+
+								<div class="caption"><i class="icon-reorder"></i>陪诊记录</div>
+
 							</div>
-						</div>
 
-						<div class="control-group">
-							<label class="control-label">就诊时间:</label>
-							<div class="controls">
-								<select class="form-control" id="kf_visit_time">
-									<option>07:00</option>
-									<option>07:30</option>
-									<option>08:00</option>
-									<option>08:30</option>
-									<option>09:00</option>
-									<option>09:30</option>
-									<option>10:00</option>
-									<option>10:30</option>
-									<option>11:00</option>
-									<option>11:30</option>
-									<option>12:00</option>
-									<option>12:30</option>
-									<option>13:00</option>
-									<option>13:30</option>
-									<option>14:00</option>
-									<option>14:30</option>
-									<option>15:00</option>
-									<option>15:30</option>
-									<option>16:00</option>
-									<option>16:30</option>
-									<option>17:00</option>
-									<option>17:30</option>
-									<option>18:00</option>
-									<option>18:30</option>
-									<option>19:00</option>
-									<option>19:30</option>
-									<option>20:00</option>
-									<option>20:30</option>
-									<option>21:00</option>
-								</select>
+							<div class="portlet-body">
+
+								<div class="tabbable portlet-tabs">
+
+									<ul class="nav nav-tabs">
+
+										<li class=""><a href="#portlet_tab2" data-toggle="tab">复诊信息</a></li>
+
+										<li class="active"><a href="#portlet_tab1" data-toggle="tab">陪诊信息</a></li>
+
+									</ul>
+
+									<div class="tab-content">
+
+										<div class="tab-pane active" id="portlet_tab1">
+
+											<div class="control-group">
+												<label class="control-label" id="kf_id"></label>
+											</div>
+
+											<div class="control-group">
+												<label class="control-label">就诊日期:</label>
+												<div class="controls">
+													<input type="date" id="kf_visit_date" name="kf_visit_date" class="m-wrap medium">
+												</div>
+											</div>
+
+											<div class="control-group">
+												<label class="control-label">就诊时间:</label>
+												<div class="controls">
+													<select class="form-control" id="kf_visit_time">
+														<option>07:00</option>
+														<option>07:30</option>
+														<option>08:00</option>
+														<option>08:30</option>
+														<option>09:00</option>
+														<option>09:30</option>
+														<option>10:00</option>
+														<option>10:30</option>
+														<option>11:00</option>
+														<option>11:30</option>
+														<option>12:00</option>
+														<option>12:30</option>
+														<option>13:00</option>
+														<option>13:30</option>
+														<option>14:00</option>
+														<option>14:30</option>
+														<option>15:00</option>
+														<option>15:30</option>
+														<option>16:00</option>
+														<option>16:30</option>
+														<option>17:00</option>
+														<option>17:30</option>
+														<option>18:00</option>
+														<option>18:30</option>
+														<option>19:00</option>
+														<option>19:30</option>
+														<option>20:00</option>
+														<option>20:30</option>
+														<option>21:00</option>
+													</select>
+												</div>
+											</div>
+
+											<div class="control-group">
+												<label class="control-label">陪诊人员:</label>
+												<div class="controls">
+													<select class="form-control" id="kf_servicename">
+													</select>
+												</div>
+											</div>
+
+											<div class="control-group">
+												<label class="control-label">就诊项目:</label>
+												<div class="controls">
+													<select class="form-control" id="kf_visit_type">
+														<option>建卡</option>
+														<option>看医生</option>
+														<option>查血</option>
+														<option>B超</option>
+													</select>
+												</div>
+											</div>
+
+											<div class="control-group">
+												<label class="control-label">就诊医生:</label>
+												<div class="controls">
+													<input type="text" id="kf_visit_doctor_name" name="kf_visit_doctor_name" class="m-wrap medium">
+												</div>
+											</div>
+
+											<div class="control-group">
+												<label class="control-label">就诊记录:</label>
+												<div class="controls">
+													<textarea id="kf_result" name="kf_result" class="m-wrap medium" style="height:100px"></textarea>
+												</div>
+											</div>
+
+											<div class="control-group">
+												<label class="control-label">医嘱:</label>
+												<div class="controls">
+													<textarea id="kf_doctor_advise" name="kf_doctor_advise" class="m-wrap medium" style="height:100px"></textarea>
+												</div>
+											</div>
+
+											<div class="control-group">
+												<label class="control-label">备注:</label>
+												<div class="controls">
+													<textarea id="kf_remarks" name="kf_remarks" class="m-wrap medium" style="height:100px"></textarea>
+												</div>
+											</div>
+
+					
+										</div>
+
+										<div class="tab-pane" id="portlet_tab2">
+
+											
+											<div class="control-group">
+												<label class="control-label">复诊日期:</label>
+												<div class="controls">
+													<input type="date" id="kf_next_visit_date" name="kf_next_visit_date" class="m-wrap medium">
+												</div>
+											</div>
+
+											<div class="control-group">
+												<label class="control-label">复诊时间:</label>
+												<div class="controls">
+													<select class="form-control" id="kf_next_visit_time">
+														<option></option>
+														<option>07:00</option>
+														<option>07:30</option>
+														<option>08:00</option>
+														<option>08:30</option>
+														<option>09:00</option>
+														<option>09:30</option>
+														<option>10:00</option>
+														<option>10:30</option>
+														<option>11:00</option>
+														<option>11:30</option>
+														<option>12:00</option>
+														<option>12:30</option>
+														<option>13:00</option>
+														<option>13:30</option>
+														<option>14:00</option>
+														<option>14:30</option>
+														<option>15:00</option>
+														<option>15:30</option>
+														<option>16:00</option>
+														<option>16:30</option>
+														<option>17:00</option>
+														<option>17:30</option>
+														<option>18:00</option>
+														<option>18:30</option>
+														<option>19:00</option>
+														<option>19:30</option>
+														<option>20:00</option>
+														<option>20:30</option>
+														<option>21:00</option>
+													</select>
+												</div>
+											</div>
+
+											<div class="control-group">
+												<label class="control-label">是否预约:</label>
+												<div class="controls">
+													<select class="form-control" id="kf_next_order_success">
+														<option>未预约</option>
+														<option>已预约</option>
+													</select>
+												</div>
+											</div>	
+
+
+											<div class="control-group">
+												<label class="control-label">复诊医生:</label>
+												<div class="controls">
+													<input type="text" id="kf_next_visit_doctor_name" name="kf_next_visit_doctor_name" class="m-wrap medium">
+												</div>
+											</div>
+
+										</div>
+
+									</div>
+
+								</div>
+
 							</div>
+
 						</div>
 
-						<div class="control-group">
-							<label class="control-label">复诊日期:</label>
-							<div class="controls">
-								<input type="date" id="kf_next_visit_date" name="kf_next_visit_date" class="m-wrap medium">
-							</div>
-						</div>
+				
 
-						<div class="control-group">
-							<label class="control-label">陪诊人员:</label>
-							<div class="controls">
-								<select class="form-control" id="kf_servicename">
-								</select>
-							</div>
-						</div>
-
-						<div class="control-group">
-							<label class="control-label">就诊项目:</label>
-							<div class="controls">
-								<select class="form-control" id="kf_visit_type">
-									<option>建卡</option>
-									<option>看医生</option>
-									<option>查血</option>
-									<option>B超</option>
-								</select>
-							</div>
-						</div>
-
-						<div class="control-group">
-							<label class="control-label">就诊医生:</label>
-							<div class="controls">
-								<input type="text" id="kf_visit_doctor_name" name="kf_visit_doctor_name" class="m-wrap medium">
-							</div>
-						</div>
-
-						<div class="control-group">
-							<label class="control-label">就诊记录:</label>
-							<div class="controls">
-								<textarea id="kf_result" name="kf_result" class="m-wrap medium" style="height:100px"></textarea>
-							</div>
-						</div>
-
-						<div class="control-group">
-							<label class="control-label">医嘱:</label>
-							<div class="controls">
-								<textarea id="kf_doctor_advise" name="kf_doctor_advise" class="m-wrap medium" style="height:100px"></textarea>
-							</div>
-						</div>
-
-						<div class="control-group">
-							<label class="control-label">备注:</label>
-							<div class="controls">
-								<textarea id="kf_remarks" name="kf_remarks" class="m-wrap medium" style="height:100px"></textarea>
-							</div>
-						</div>
-
-					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 						<button type="submit" class="btn btn-default" id="save_changes">保存</button>

@@ -46,9 +46,13 @@ local function Execute(post)
 	local _result = post.web.result
 	local _remarks = post.web.remarks
 	local _doctor_advise = post.web.doctor_advise
-	local _next_visit_date = post.web.next_visit_date
 	local _servicename = post.web.servicename
 	local _loginid =post.session.loginid
+
+	local _next_visit_date = post.web.next_visit_date
+	local _next_visit_time = post.web.next_visit_time
+	local _next_visit_doctor_name = post.web.next_visit_doctor_name
+	local _next_order_success = post.web.next_order_success
 	
 	local _query_sql
 	-- if (common.BitAnd(post.session.privilege, 32) ~= 32) then
@@ -74,7 +78,11 @@ local function Execute(post)
 						.. ngx.quote_sql_str(_result) .. ", doctor_advise = " 
 						.. ngx.quote_sql_str(_doctor_advise) .. ", remarks = "
 						.. ngx.quote_sql_str(_remarks) .. ", next_visit_date = "
-						.. ngx.quote_sql_str(_next_visit_date) .. ", servicename = " 
+						.. ngx.quote_sql_str(_next_visit_date) .. ", next_visit_time = "
+						.. ngx.quote_sql_str(_next_visit_time) .. ", next_visit_doctor_name = "
+						.. ngx.quote_sql_str(_next_visit_doctor_name) .. ", next_order_success = "
+						.. ngx.quote_sql_str(_next_order_success) .. ", user_id = " 
+						.. ngx.quote_sql_str(_loginid) .. ", servicename = " 
 						.. ngx.quote_sql_str(_servicename) .. " where id = " .. ngx.quote_sql_str(_id)
 						.. " and verify = 0"	
 	-- end 

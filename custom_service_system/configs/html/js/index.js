@@ -115,7 +115,7 @@ var Index = function () {
             });
 
             jQuery("#loginout").click(function(){
-                window.location.href = "http://139.129.133.155/html/login";
+                window.location.href = "/html/login";
             });
         },
 

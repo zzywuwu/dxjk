@@ -1,6 +1,6 @@
 local function QuerynameBack(result)
 
-	local _query_sql = "select * from record where customer_id = "..ngx.quote_sql_str(result[1].id)
+	local _query_sql = "select record.*,user.name as user_id_name from record,user where record.user_id = user.id and record.customer_id = "..ngx.quote_sql_str(result[1].id).." order by update_time desc"
 
 	local function MysqlCallback(res)
 		local _jsontbl = {

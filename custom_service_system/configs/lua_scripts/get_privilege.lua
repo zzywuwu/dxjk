@@ -1,10 +1,10 @@
 local function ParamCheck(post)
 	if not post.session then
-		return false, WEBERR.PARAM_ERR
+		return false, WEBERR.SESSION_TIMEOUT
 	end
 	
-	if not (post.session.privilege and post.session.name) then
-		return false, WEBERR.PARAM_ERR
+	if not (post.session.privilege) then
+		return false, WEBERR.SESSION_TIMEOUT
 	end
 	
 	return true

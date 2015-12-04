@@ -40,7 +40,7 @@ end
 local function Execute(post)
 	local _id = post.web.id
 
-	local _query_sql = "update customer set update_time = NOW(), vip = 3 where id = "
+	local _query_sql = "update customer set update_time = NOW(), vip = 2 where id = "
 
 	for k, v in pairs(_id) do
 		if k == 1 then

@@ -49,7 +49,6 @@ var KFTableAdvanced = function() {
 								 	// var endTime = new Date().getTime();   
 								 	// var dates = Math.abs((endTime - startTime))/(1000*60*60*24);     
 								    // return  dates
-
 								    return data;
 								}
 							},
@@ -79,7 +78,7 @@ var KFTableAdvanced = function() {
 				{"mDataProp": "id", "bSortable":false,"sWidth":"5px"}, 
 				{"mDataProp": "name","sWidth":"60px"},
 				{"mDataProp": "phonenumber","sClass":"hidden-480","sWidth":"80px"},
-				{"mDataProp": "diffweeks","sClass":"hidden-480","sWidth":"60px"},
+				{"mDataProp": "customer_type","sClass":"hidden-480","sWidth":"60px"},
 				{"mDataProp": "doctor_name","sClass":"hidden-480","sWidth":"65px"},
 				{"mDataProp": "sellname","sClass":"hidden-480","sWidth":"65px"},
 				{"mDataProp": "remarks","sClass":"hidden-480","sWidth":"400px"},
@@ -107,18 +106,20 @@ var KFTableAdvanced = function() {
         var sOut = '<table>';
         sOut += '<tr><td>姓名:</td><td>'+aData.name+'</td></tr>';
         sOut += '<tr><td>电话:</td><td>'+aData.phonenumber+'</td></tr>';
-        sOut += '<tr><td>孕周:</td><td>'+aData.diffdays+'</td></tr>';
+        sOut += '<tr><td>客户类型:</td><td>'+aData.customer_type+'</td></tr>';
+        if (aData.customer_type == "孕妈妈") {
+        	sOut += '<tr><td>孕周:</td><td>'+aData.diffdays+'</td></tr>';
+        	sOut += '<tr><td>末次月经:</td><td>'+aData.last_menses_time.split(" ",1)+'</td></tr>';
+			sOut += '<tr><td>预产期:</td><td>'+aData.due_time.split(" ",1)+'</td></tr>';
+        }
         sOut += '<tr><td>建卡医生:</td><td>'+aData.doctor_name+'</td></tr>';
         sOut += '<tr><td>销售员:</td><td>'+aData.sellname+'</td></tr>';
-		sOut += '<tr><td>末次月经:</td><td>'+aData.last_menses_time.split(" ",1)+'</td></tr>';
-		sOut += '<tr><td>预产期:</td><td>'+aData.due_time.split(" ",1)+'</td></tr>';
         sOut += '<tr><td>身份证:</td><td>'+aData.idnumber+'</td></tr>';
         sOut += '<tr><td>微信号:</td><td>'+aData.wx+'</td></tr>';
         sOut += '<tr><td>年龄:</td><td>'+aData.age+'</td></tr>';
         sOut += '<tr><td>地址:</td><td>'+aData.address+'</td></tr>';
         sOut += '<tr><td>家属姓名:</td><td>'+aData.familyname+'</td></tr>';
         sOut += '<tr><td>家属电话:</td><td>'+aData.familyphonenumber+'</td></tr>';
-        // sOut += '<tr><td>会员:</td><td>'+(aData.vip == 1 ? "会员" : "非会员")+'</td></tr>';
         sOut += '<tr><td>备注:</td><td>'+aData.remarks+'</td></tr>';
         sOut += '</table>';  
         return sOut;
@@ -163,7 +164,8 @@ var KFTableAdvanced = function() {
 					submitData.idnumber = form.kf_idnumber.value;
 					submitData.wx = form.kf_wx.value;
 					submitData.last_menses_time = form.kf_last_menses_time.value;
-					submitData.sellname = jQuery('#sellname_option').val();
+					submitData.sellname = jQuery('#kf_sellname').val();
+					submitData.customer_type = jQuery('#kf_customer_type').val();
 					submitData.remarks = form.kf_remarks.value;
 					
 					submitData.address = form.kf_address.value;
@@ -184,12 +186,49 @@ var KFTableAdvanced = function() {
 				}
 			});
 
-			jQuery('#kf_modal').on('hidden.bs.modal', function (e) {
-				$("input[type='text'], input[type='hidden']").val('');
-				$("input[type='date']").val('');
-				$("#kf_username").prop("disabled", false);
-				$("textarea").val('');
-				jQuery("#sellname_option").empty();
+			jQuery('#addbutton').on("click", function(){
+
+				jQuery('#kf_modal').on('hidden.bs.modal', function (e) {
+					$("input[type='text'], input[type='hidden']").val('');
+					$("input[type='date']").val('');
+					$("#kf_username").prop("disabled", false);
+					$("textarea").val('');
+					jQuery("#kf_sellname").empty();
+				});
+
+				TendaAjax.getData({"script":"ac_get_list"}, function(result){
+				 	if(result.error == GLOBAL.SUCCESS) {
+				 		for(var i = 0; i < result.user_list.length; i++) {
+				 			jQuery('#kf_sellname').append("<option>" + result.user_list[i].name + "</option>");
+				 		}
+				 	}
+				 	else 
+				 		alert(result.error);				 	
+				});
+
+				/*每次选择第一个*/
+				jQuery('#kf_customer_type option').each(function(){
+					$(this).attr("selected",true);
+					return false;
+				});
+
+				jQuery('#kf_doctor_name option').each(function(){
+					$(this).attr("selected",true);
+					return false;
+				});
+			});
+
+			jQuery('#kf_modal').on('show.bs.modal', function (e) {
+				jQuery('#kf_customer_type').on("change", function(){
+					if ("孕妈妈" == $(this).val()){
+						jQuery('#kf_due_time_group').show(100);
+						jQuery('#kf_last_menses_time_group').show(100);
+					}
+					else {
+						jQuery('#kf_due_time_group').hide(100);
+						jQuery('#kf_last_menses_time_group').hide(100);
+					}
+				});
 			});
 
 			$(".upvip-form").validate({
@@ -213,7 +252,7 @@ var KFTableAdvanced = function() {
 					//TODO验证还需要进行权限是否为空的验证
 
 					var submitData = {};
-                	submitData.script = "customer_up";
+                	submitData.script = "customer_upvip";
                 	submitData.id = $("#upvip_id").val();
                 	submitData.order_time = form.upvip_order_time.value;
                 	submitData.order_over_time = form.upvip_order_over_time.value;
@@ -226,18 +265,6 @@ var KFTableAdvanced = function() {
                 			alert(result.error);
                 	});
 				}
-			});
-
-			jQuery('#addbutton').on("click", function(){
-				TendaAjax.getData({"script":"ac_get_list"}, function(result){
-				 	if(result.error == GLOBAL.SUCCESS) {
-				 		for(var i = 0; i < result.user_list.length; i++) {
-				 			jQuery('#sellname_option').append("<option>" + result.user_list[i].name + "</option>");
-				 		}
-				 	}
-				 	else 
-				 		alert(result.error);				 	
-				});
 			});
 
 			jQuery('.kf-index>li').on("click", function(){
@@ -290,27 +317,42 @@ var KFTableAdvanced = function() {
           			TendaAjax.getData({"script":"ac_get_list"}, function(result){
 					 	if(result.error == GLOBAL.SUCCESS) {
 					 		for(var i = 0; i < result.user_list.length; i++) {
-					 			jQuery('#sellname_option').append("<option>" + result.user_list[i].name + "</option>");
+					 			jQuery('#kf_sellname').append("<option>" + result.user_list[i].name + "</option>");
 					 		}
 					 	}
 					 	else
 					 		alert(result.error);
 					 	
-						jQuery('#sellname_option option').each(function(){
+						jQuery('#kf_sellname option').each(function(){
 							if (arr[0].sellname == $(this).text()){
 								$(this).attr("selected",true);
 							}
 						});
 					});
 
+					jQuery('#kf_customer_type option').each(function(){
+						if (arr[0].customer_type == $(this).text()){
+							$(this).attr("selected",true);
+							if (arr[0].customer_type == "孕妈妈") {
+								$("#kf_due_time").val(arr[0].due_time.split(" ",1));
+								$("#kf_last_menses_time").val(arr[0].last_menses_time.split(" ",1));
+								jQuery('#kf_due_time_group').show(100);
+								jQuery('#kf_last_menses_time_group').show(100);
+							}
+							else {
+								jQuery('#kf_due_time_group').hide(100);
+								jQuery('#kf_last_menses_time_group').hide(100);
+							}
+							return false;
+						}
+					});
+
 					$("#kf_username").val(arr[0].name).prop("disabled", true);
 					$("#kf_customer_id").val(arr[0].id).prop("disabled", true);
                 	$("#kf_phonenumber").val(arr[0].phonenumber);
                 	$("#kf_doctor_name").val(arr[0].doctor_name);
-                	$("#kf_due_time").val(arr[0].due_time.split(" ",1));
                 	$("#kf_idnumber").val(arr[0].idnumber);
                 	$("#kf_wx").val(arr[0].wx);
-                	$("#kf_last_menses_time").val(arr[0].last_menses_time.split(" ",1));
                 	$("#kf_remarks").val(arr[0].remarks);
                 	$("#kf_address").val(arr[0].address);
                 	$("#kf_familyname").val(arr[0].familyname);
@@ -407,6 +449,20 @@ var KFTableAdvanced = function() {
 				return;
 			}
 			
+			TendaAjax.getData({"script":"get_privilege"}, function(result){
+			 	if(result.error == GLOBAL.SUCCESS) {
+			 		if ((result.privilege & 1) == 1) {
+	            
+			 		}
+			 		else {
+	      				$('#tools_upvip').hide(100);	
+	                	$('#tools_remove').hide(100);		
+			 		}
+			 	} 
+			 	else
+			 		alert(result.error);
+			});
+
 			App.initUniform();
 			initTableList();
 		}

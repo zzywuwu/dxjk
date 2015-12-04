@@ -35,6 +35,11 @@ var TendaAjax = function(){
 				},
 				complete: function(xhr, textStatus) {
 					xhr = null;
+				},
+				error: function(data) {
+					alert(result.error);
+			 		if (result.error == "长时间未操作,请重新登录")
+			 			window.location.href = "/html/login";
 				}
 			});
 			

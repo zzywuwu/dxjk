@@ -175,7 +175,7 @@ var KFTableAdvanced = function() {
 					submitData.idnumber = form.kf_idnumber.value;
 					submitData.wx = form.kf_wx.value;
 					submitData.last_menses_time = form.kf_last_menses_time.value;
-					submitData.sellname = jQuery('#sellname_option').val();
+					submitData.sellname = jQuery('#kf_sellname_option').val();
 					submitData.remarks = form.kf_remarks.value;
 					submitData.address = form.kf_address.value;
 					submitData.familyname = form.kf_familyname.value;
@@ -200,7 +200,7 @@ var KFTableAdvanced = function() {
 				$("input[type='date']").val('');
 				$("#kf_username").prop("disabled", false);
 				$("textarea").val('');
-				jQuery("#sellname_option").empty();
+				jQuery("#kf_sellname_option").empty();
 			});
 
 			jQuery('.kf-index>li').on("click", function(){
@@ -249,37 +249,34 @@ var KFTableAdvanced = function() {
 					 	if(result.error == GLOBAL.SUCCESS) {
 					 		for(var i = 0; i < result.user_list.length; i++) {
 					 			
-					 			jQuery('#sellname_option').append("<option>" + result.user_list[i].name + "</option>");
+					 			jQuery('#kf_sellname_option').append("<option>" + result.user_list[i].name + "</option>");
 					 		}
 					 	}
 					 	else
 					 		alert(result.error);
 
-					 	
-
-						jQuery('#sellname_option option').each(function(){
+						jQuery('#kf_sellname_option option').each(function(){
 							if (arr[0].sellname == $(this).text()){
 								$(this).attr("selected",true);
 							}
 						});
 					});
 
-					$("#kf_username").val(arr[0].name).prop("disabled", true);
-                	$("#kf_customer_id").val(arr[0].id).prop("disabled", true);
-                	$("#kf_phonenumber").val(arr[0].phonenumber).prop("disabled", true);
-                	$("#kf_idnumber").val(arr[0].idnumber).prop("disabled", true);
-                	$('#sellname_option').prop("disabled",true);
-                	$("#kf_wx").val(arr[0].wx).prop("disabled", true);
-                	$("#kf_address").val(arr[0].address).prop("disabled", true);
-                	$("#kf_familyname").val(arr[0].familyname).prop("disabled", true);
-                	$("#kf_familyphonenumber").val(arr[0].familyphonenumber).prop("disabled", true);
-                	$("#kf_age").val(arr[0].age).prop("disabled", true);
+          			$("#kf_username").val(arr[0].name).prop("disabled", true);
+          			$("#kf_customer_id").val(arr[0].id).prop("disabled", true);
 
+          			$("#kf_phonenumber").val(arr[0].phonenumber);
+                	$("#kf_idnumber").val(arr[0].idnumber);
+                	$('#kf_sellname_option');
+                	$("#kf_wx").val(arr[0].wx);
+                	$("#kf_age").val(arr[0].age);	
+                	$("#kf_familyname").val(arr[0].familyname);
+                	$("#kf_familyphonenumber").val(arr[0].familyphonenumber);
                 	$("#kf_doctor_name").val(arr[0].doctor_name);
                 	$("#kf_due_time").val(arr[0].due_time.split(" ",1));
                 	$("#kf_last_menses_time").val(arr[0].last_menses_time.split(" ",1));
                 	$("#kf_remarks").val(arr[0].remarks);
-
+                	$("#kf_address").val(arr[0].address);
 
                 	$("#kf_modal").modal("show");
                 }
@@ -341,7 +338,24 @@ var KFTableAdvanced = function() {
 				return;
 			}
 
-			//initTable1([]);
+			TendaAjax.getData({"script":"get_privilege"}, function(result){
+			 	if(result.error == GLOBAL.SUCCESS) {
+			 		if ((result.privilege & 1) == 1) {
+	            
+			 		}
+			 		else {
+	      				$("#kf_phonenumber_group").hide(100);
+	                	$("#kf_idnumber_group").hide(100);
+	                	$('#kf_sellname_option_group').hide(100);
+	                	$("#kf_wx_group").hide(100);
+	                	$("#kf_age_group").hide(100);
+	                	$('#tools_remove').hide(100);		
+			 		}
+			 	} 
+			 	else
+			 		alert(result.error);
+			});
+			
 			App.initUniform();
 			initTableList();
 		}

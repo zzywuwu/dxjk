@@ -48,16 +48,17 @@ local function Execute(post)
 	local _remarks = post.web.remarks
 	local _visit_doctor_name = post.web.visit_doctor_name
 	local _visit_address = post.web.visit_address
-	
-	local _query_sql
+	local _loginid = post.session.loginid
 
+	local _query_sql
 	_query_sql = "update record set update_time = NOW(), visit_date = " 
 						.. ngx.quote_sql_str(_visit_date) .. ", visit_time = " 
 						.. ngx.quote_sql_str(_visit_time) .. ", order_success = " 
 						.. ngx.quote_sql_str(_order_success) .. ", visit_type = " 
 						.. ngx.quote_sql_str(_visit_type) .. ", remarks = " 
 						.. ngx.quote_sql_str(_remarks) .. ", visit_doctor_name = "
-						.. ngx.quote_sql_str(_visit_doctor_name) .. ", visit_address = "
+						.. ngx.quote_sql_str(_visit_doctor_name) .. ", user_id = "
+						.. ngx.quote_sql_str(_loginid) .. ", visit_address = "
 						.. ngx.quote_sql_str(_visit_address) .. " where id = " .. ngx.quote_sql_str(_id).." and verify = 0"
 
 

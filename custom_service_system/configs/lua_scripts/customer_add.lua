@@ -17,14 +17,24 @@ local function ParamCheck(post)
 		return false, WEBERR.PARAM_ERR
 	end
 	
-	if not (post.web.name and post.web.phonenumber and post.web.sellname and post.web.age and post.web.due_time and post.web.last_menses_time) then
+	if not (post.web.name and post.web.phonenumber and post.web.sellname and post.web.age and post.web.customer_type) then
 		return false, WEBERR.PARAM_ERR
 	end
 
-	if not (post.web.name ~= '' and post.web.phonenumber ~= '' and post.web.sellname ~= '' and post.web.age ~= '' and post.web.due_time ~= '' and post.web.last_menses_time ~= '') then
+	if not (post.web.name ~= '' and post.web.phonenumber ~= '' and post.web.sellname ~= '' and post.web.age ~= '' and post.web.customer_type ~= '') then
 		return false, WEBERR.PARAM_ERR
 	end
 
+	if (post.web.customer_type == "孕妈妈") then
+		if not (post.web.due_time and post.web.last_menses_time) then
+			return false, WEBERR.PARAM_ERR
+		end
+
+		if not (post.web.due_time ~= '' and post.web.last_menses_time ~= '') then
+			return false, WEBERR.PARAM_ERR
+		end
+	end
+	
 	if not post.session then
 		return false, WEBERR.SESSION_TIMEOUT
 	end
@@ -52,8 +62,17 @@ local function Execute(post)
 	local _address = post.web.address
 	local _familyname = post.web.familyname
 	local _familyphonenumber = post.web.familyphonenumber
+	local _customer_type = post.web.customer_type
+
+	local _query_sql
+	if (post.web.customer_type == "孕妈妈") then
 	
-	local _query_sql = "insert into customer (name,phonenumber,doctor_name,sellname,due_time,idnumber,wx,last_menses_time,age,address,familyname,familyphonenumber,remarks) value("..ngx.quote_sql_str(_name)..","..ngx.quote_sql_str(_phonenumber)..","..ngx.quote_sql_str(_doctor_name)..","..ngx.quote_sql_str(_sellname)..","..ngx.quote_sql_str(_due_time)..","..ngx.quote_sql_str(_idnumber)..","..ngx.quote_sql_str(_wx)..","..ngx.quote_sql_str(_last_menses_time)..","..ngx.quote_sql_str(_age)..","..ngx.quote_sql_str(_address)..","..ngx.quote_sql_str(_familyname)..","..ngx.quote_sql_str(_familyphonenumber)..","..ngx.quote_sql_str(_remarks)..")" 
+		_query_sql = "insert into customer (name,phonenumber,doctor_name,sellname,due_time,idnumber,wx,last_menses_time,age,address,familyname,familyphonenumber,remarks,customer_type) value("..ngx.quote_sql_str(_name)..","..ngx.quote_sql_str(_phonenumber)..","..ngx.quote_sql_str(_doctor_name)..","..ngx.quote_sql_str(_sellname)..","..ngx.quote_sql_str(_due_time)..","..ngx.quote_sql_str(_idnumber)..","..ngx.quote_sql_str(_wx)..","..ngx.quote_sql_str(_last_menses_time)..","..ngx.quote_sql_str(_age)..","..ngx.quote_sql_str(_address)..","..ngx.quote_sql_str(_familyname)..","..ngx.quote_sql_str(_familyphonenumber)..","..ngx.quote_sql_str(_remarks)..","..ngx.quote_sql_str(_customer_type)..")" 
+	else
+
+		_query_sql = "insert into customer (name,phonenumber,doctor_name,sellname,idnumber,wx,age,address,familyname,familyphonenumber,remarks,customer_type) value("..ngx.quote_sql_str(_name)..","..ngx.quote_sql_str(_phonenumber)..","..ngx.quote_sql_str(_doctor_name)..","..ngx.quote_sql_str(_sellname)..","..ngx.quote_sql_str(_idnumber)..","..ngx.quote_sql_str(_wx)..","..ngx.quote_sql_str(_age)..","..ngx.quote_sql_str(_address)..","..ngx.quote_sql_str(_familyname)..","..ngx.quote_sql_str(_familyphonenumber)..","..ngx.quote_sql_str(_remarks)..","..ngx.quote_sql_str(_customer_type)..")" 
+
+	end
 
 	DEBUG("customer_add: " .. _query_sql)
 	local _res,_err = mysql.query(cloud_database, _query_sql, MysqlCallback)

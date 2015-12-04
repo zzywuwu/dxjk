@@ -34,9 +34,26 @@ end
 
 local function Execute(post)
 	local _id = post.web.id
-	
-	local _query_sql = "delete from customer where id = "
-	-- local _query_sql = "update customer set update_time = NOW(), vip = 3 where id = "
+
+	local function QueryCountBack(res)
+		if res[1].count ~= 0 then
+			return nil, WEBERR.DONT_DELETE_CUSTOMER
+		else
+			local _query_sql = "delete from customer where id = "
+			-- local _query_sql = "update customer set update_time = NOW(), vip = 2 where id = "
+			for k, v in pairs(_id) do
+				if k == 1 then
+					_query_sql = _query_sql .. ngx.quote_sql_str(v)
+				else
+					_query_sql = _query_sql .. " or id = " .. ngx.quote_sql_str(v)
+				end
+			end
+			DEBUG("customer_del: " .. _query_sql)
+			return mysql.query(cloud_database, _query_sql, MysqlCallback)
+		end
+	end
+
+	local _query_sql = "select count(*) As count from record where customer_id = "
 
 	for k, v in pairs(_id) do
 		if k == 1 then
@@ -46,9 +63,10 @@ local function Execute(post)
 		end
 	end
 
-	DEBUG("customer_del: " .. _query_sql)
-	return mysql.query(cloud_database, _query_sql, MysqlCallback)
+	DEBUG("QueryCount: " .. _query_sql)
+	return mysql.query(cloud_database, _query_sql, QueryCountBack)
 end
+
 local _M = {
 	ParamCheck = ParamCheck,
 	Execute = Execute

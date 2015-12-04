@@ -16,7 +16,7 @@ local customer_get_list = require("customer_get_list")
 local customer_modify = require("customer_modify")
 local customer_add = require("customer_add")
 local customer_del = require("customer_del")
-local customer_up = require("customer_up")
+local customer_upvip = require("customer_upvip")
 local customer_remove = require("customer_remove")
 local get_privilege = require("get_privilege")
 local vip_modify = require("vip_modify")
@@ -28,7 +28,6 @@ local event_get_all = require("event_get_all")
 local event_modify = require("event_modify")
 local get_no_event_user = require("get_no_event_user")
 local record_get_list = require("record_get_list")
-local record_add = require("record_add")
 local record_del = require("record_del")
 local record_modify = require("record_modify")
 local record_verify = require("record_verify")
@@ -69,7 +68,7 @@ funcsinit = {
 	customer_modify = customer_modify,
 	customer_add = customer_add,
 	customer_del = customer_del,
-	customer_up = customer_up,
+	customer_upvip = customer_upvip,
 	customer_remove = customer_remove,
 	get_privilege = get_privilege,
 	vip_modify = vip_modify,
@@ -81,7 +80,6 @@ funcsinit = {
 	event_modify = event_modify,
 	get_no_event_user = get_no_event_user,
 	record_get_list = record_get_list,
-	record_add = record_add,
 	record_del = record_del,
 	record_modify = record_modify,
 	record_verify = record_verify,
@@ -124,7 +122,7 @@ g_privilege[3] = {
 g_privilege[4] = {
 				value = 64,
 				jsontbl = {
-					title = "审核陪诊记录",
+					title = "陪诊记录",
 					url = "verify_record_index"
 				}
 			}
@@ -175,7 +173,9 @@ WEBERR = {
 	KEY_ALREADY_EXIST = "主键已经存在",
 	SESSION_TIMEOUT = "长时间未操作,请重新登录",
 	USER_PRIVILEGE_NOT_ENOUGH = "你没有权限进行此操作",
-	DEL_USER_SELF = "不能删除自己"
+	DEL_USER_SELF = "不能删除自己",
+	CUSTOMER_DONT_UP_VIP = "普通客户不能升级为会员",
+	DONT_DELETE_CUSTOMER = "拥有记录或事件的客户不能删除"
 }
 
 

@@ -58,7 +58,7 @@ var KFTableAdvanced = function() {
 								}
 							}
 			],
-			"aaSorting": [[2, 'desc']],
+			// "aaSorting": [[2, 'desc']],
 			// "aLengthMenu": [
 			// 	[1,5, 15, 20, -1],
 			// 	[1,5, 15, 20, "所有"]
@@ -93,13 +93,25 @@ var KFTableAdvanced = function() {
         sOut += '<tr><td>姓名:</td><td>'+aData.customer_name.split(" ",1)+'</td></tr>';
         sOut += '<tr><td>就诊日期:</td><td>'+aData.visit_date.split(" ",1)+'</td></tr>';
         sOut += '<tr><td>就诊时间:</td><td>'+aData.visit_time+'</td></tr>';
-        sOut += '<tr><td>复诊日期:</td><td>'+aData.next_visit_date.split(" ",1)+'</td></tr>';
         sOut += '<tr><td>陪诊人员:</td><td>'+aData.servicename+'</td></tr>';
         sOut += '<tr><td>就诊项目:</td><td>'+aData.visit_type+'</td></tr>';
 		sOut += '<tr><td>就诊医生:</td><td>'+aData.visit_doctor_name+'</td></tr>';
 		sOut += '<tr><td>就诊记录:</td><td>'+aData.result+'</td></tr>';
         sOut += '<tr><td>医嘱:</td><td>'+aData.doctor_advise+'</td></tr>';
         sOut += '<tr><td>备注:</td><td>'+aData.remarks+'</td></tr>';
+
+        if (aData.next_visit_date != '') {
+        	if (aData.next_order_success)
+				sOut += '<tr><td>复诊时间:</td><td>'+aData.next_visit_date.split(" ",1)+ ' '+ aData.next_visit_time + ' (已预约)' + '</td></tr>';
+			else
+				sOut += '<tr><td>复诊时间:</td><td>'+aData.next_visit_date.split(" ",1)+ ' '+ aData.next_visit_time + ' (未预约)' + '</td></tr>';
+			sOut += '<tr><td>复诊医生:</td><td>'+aData.next_visit_doctor_name+'</td></tr>';
+        }
+        else {
+        	sOut += '<tr><td>复诊时间:</td><td></td></tr>';
+        	sOut += '<tr><td>复诊医生:</td><td></td></tr>';
+        }
+    
         sOut += '</table>';  
         return sOut;
     }
@@ -144,20 +156,32 @@ var KFTableAdvanced = function() {
 	                	return;
 	                }
 
-                	var submitData = {};
-                	submitData.script = "record_verify";
-                	submitData.id = arr_id;
+      //           	var submitData = {};
+      //           	submitData.script = "record_verify";
+      //           	submitData.id = arr_id;
 
-                	TendaAjax.getData(submitData, function(result){
-                		if(result.error == GLOBAL.SUCCESS) {
-							initTableList();
-						}				
-                		else
-                			alert(result.error);
-                	});
+      //           	TendaAjax.getData(submitData, function(result){
+      //           		if(result.error == GLOBAL.SUCCESS) {
+						// 	initTableList();
+						// }				
+      //           		else
+      //           			alert(result.error);
+      //           	});
+					jQuery('#verify_content').html("");
+					jQuery('#verify_content').append(html);
+					var html = '<ul>';
+					html += '<li>姓名:\t\t\t'+arr[0].customer_name+'</li>';
+			       	html += '<li>就诊日期:\t\t\t'+arr[0].visit_date.split(" ",1)+'</li>';
+			       	html += '<li>就诊时间:\t\t\t'+arr[0].visit_time+'</li>';
+			       	html += '<li>陪诊人员:\t\t\t'+arr[0].servicename+'</li>';
+			       	html += '<li>就诊项目:\t\t\t'+arr[0].visit_type+'</li>';
+			       	html += '<li>就诊医生:\t\t\t'+arr[0].visit_doctor_name+'</li>';
+
+			        html +='</ul>';
+                	jQuery('#verify_content').append(html);
+					$("#event_modal").modal("show");	
                 }
                             
-
 			});
 
 			jQuery('#kf_list .group-checkable').change(function () {
@@ -194,6 +218,17 @@ var KFTableAdvanced = function() {
 			if(!jQuery().dataTable){
 				return;
 			}
+
+			$('#tools_verify').hide(100);	
+			TendaAjax.getData({"script":"get_privilege"}, function(result){
+			 	if(result.error == GLOBAL.SUCCESS) {
+			 		if ((result.privilege & 32) == 32) {           
+			 			$('#tools_verify').show(100);	
+			 		}
+			 	} 
+			 	else
+			 		alert(result.error);
+			});
 
 			App.initUniform();
 			initTableList();

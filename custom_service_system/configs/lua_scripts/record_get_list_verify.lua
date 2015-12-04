@@ -17,11 +17,8 @@ local function ParamCheck(post)
 end
 
 local function Execute(post)
-	local _id = post.web.customer_id
-
-	-- local _query_sql = "select record.*,customer.name As customer_name from customer,record where record.verify = 0 and customer.id = record.customer_id"
-
-	local _query_sql = "select record.*,user.name As username,customer.name As customer_name from customer,record,user where record.verify = 0 and customer.id = record.customer_id and record.user_id = user.id"
+	
+	local _query_sql = "select record.*,user.name As username,customer.name As customer_name from customer,record,user where record.verify = 0 and record.status = 1 and customer.id = record.customer_id and record.user_id = user.id and customer.vip < 2 order by update_time desc"
 
 	DEBUG("verify_record_get_list: " .. _query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)

@@ -1,7 +1,7 @@
 local function MysqlCallback(res)
 	local _affected_rows = res.affected_rows
 	if _affected_rows == 0 then
-		return nil, WEBERR.USER_NO_EXIST
+		return nil, WEBERR.CUSTOMER_DONT_UP_VIP
 	end
 	
 	local _jsontbl = {
@@ -13,15 +13,18 @@ local function MysqlCallback(res)
 end
 
 local function ParamCheck(post)
-	
 	if not post.web then
 		return false, WEBERR.PARAM_ERR
 	end
 	
-	if not post.web.id then
+	if not (post.web.id and post.web.order_time and post.web.order_over_time) then
 		return false, WEBERR.PARAM_ERR
 	end
-	
+
+	if not (post.web.order_time ~= '' and post.web.order_over_time ~= '') then
+		return false, WEBERR.PARAM_ERR
+	end
+
 	if not post.session then
 		return false, WEBERR.SESSION_TIMEOUT
 	end
@@ -39,8 +42,10 @@ end
 
 local function Execute(post)
 	local _id = post.web.id
+	local _order_time = post.web.order_time
+	local _order_over_time = post.web.order_over_time
 
-	local _query_sql = "update customer set update_time = NOW(), vip = 2 where id = "
+	local _query_sql = "update customer set update_time = NOW(), vip = 1, order_time = "..ngx.quote_sql_str(_order_time)..", order_over_time = "..ngx.quote_sql_str(_order_over_time).." where customer_type = '孕妈妈' and id = "
 
 	for k, v in pairs(_id) do
 		if k == 1 then
@@ -50,7 +55,7 @@ local function Execute(post)
 		end
 	end
 
-	DEBUG("vid_del: " .. _query_sql)
+	DEBUG("customer_upvip: " .. _query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)
 end
 local _M = {

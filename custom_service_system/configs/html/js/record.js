@@ -48,34 +48,45 @@ var KFTableAdvanced = function() {
 							{
 								"aTargets":[1],
 								"mRender":function(data, type, full){
-									if (data == 1) {
-										if (full.verify)
-											return "记录(已审核)";
-										else
-											return "记录(未审核)";
+									if (data) {										
+										return "记录";
 									}
 									else {
-										if (full.order_success)
-											return "事件(已预约)";
-										else
-											return "事件(未预约)";
+										return "事件";										
 									}
 								}
 							},
 							{
 								"aTargets":[2],
 								"mRender":function(data, type, full){
+									if (full.status) {
+										if (full.verify)
+											return "已审核";
+										else
+											return "未审核";
+									}
+									else {
+										if (full.order_success)
+											return "已预约";
+										else
+											return "未预约";
+									}
+								}
+							},
+							{
+								"aTargets":[3],
+								"mRender":function(data, type, full){
 									return data.split(" ",1);
 								}
 							},
 							{
-								"aTargets":[7],
+								"aTargets":[9],
 								"mRender":function(data, type, full){
 									return "<span class='row-details row-details-close desc'></span>";
 								}
 							}
 			],
-			"aaSorting": [[1, 'asc']],
+			// "aaSorting": [[1, 'asc']],
 			// "aLengthMenu": [
 			// 	[1,5, 15, 20, -1],
 			// 	[1,5, 15, 20, "所有"]
@@ -86,12 +97,14 @@ var KFTableAdvanced = function() {
 
 			"aoColumns": [
 				{"mDataProp": "id","bSortable":false,"sWidth":"5px"}, 
-				{"mDataProp": "status","sWidth":"70px"},
+				{"mDataProp": "status","sWidth":"40px"},
+				{"mDataProp": "id","sWidth":"40px"},
 				{"mDataProp": "visit_date","sClass":"hidden-480","sWidth":"70px"},
 				{"mDataProp": "visit_time","sClass":"hidden-480","sWidth":"70px"},
 				{"mDataProp": "visit_type","sClass":"hidden-480","sWidth":"70px"},
 				{"mDataProp": "visit_doctor_name","sClass":"hidden-480","sWidth":"70px"},
 				{"mDataProp": "remarks","sClass":"hidden-480","sWidth":"400px"},
+				{"mDataProp": "user_id_name","sWidth":"70px"},
 				{"mDataProp": "id","sWidth":"40px"}
 				]
 		});
@@ -111,25 +124,35 @@ var KFTableAdvanced = function() {
 		sOut += '<tr><td>就诊医生:</td><td>'+aData.visit_doctor_name+'</td></tr>';
         if (aData.status == 1) {
 			// 记录 
-			sOut += '<tr><td>复诊日期:</td><td>'+aData.next_visit_date.split(" ",1)+'</td></tr>';
 			sOut += '<tr><td>陪诊人员:</td><td>'+aData.servicename+'</td></tr>';
 			sOut += '<tr><td>就诊记录:</td><td>'+aData.result+'</td></tr>';
 			sOut += '<tr><td>医嘱:</td><td>'+aData.doctor_advise+'</td></tr>';
-			// if (aData.verify)
-   			// 		sOut += '<tr><td>审核状态:</td><td>已审核</td></tr>';
-  			// else
-   			//      sOut += '<tr><td>审核状态:</td><td>未审核</td></tr>';
+			if (aData.verify)
+   				sOut += '<tr><td>审核状态:</td><td>已审核</td></tr>';
+  			else
+   			    sOut += '<tr><td>审核状态:</td><td>未审核</td></tr>';
         }
         else {
         	// 事件
-        	// sOut += '<tr><td>创建者:</td><td>'+aData.user_id+'</td></tr>';
-        	// if (aData.)
-        	// 	sOut += '<tr><td>预约状态:</td><td>已预约</td></tr>';
-        	// else
-        	// 	sOut += '<tr><td>预约状态:</td><td>未预约</td></tr>';
+        	sOut += '<tr><td>创建者:</td><td>'+aData.user_id+'</td></tr>';
+        	if (aData.order_success)
+        		sOut += '<tr><td>预约状态:</td><td>已预约</td></tr>';
+        	else
+        		sOut += '<tr><td>预约状态:</td><td>未预约</td></tr>';
         	sOut += '<tr><td>就诊地址:</td><td>'+aData.visit_address+'</td></tr>';
         }
         sOut += '<tr><td>备注:</td><td>'+aData.remarks+'</td></tr>';  
+        if (aData.next_visit_date != '') {
+        	if (aData.next_order_success)
+				sOut += '<tr><td>复诊时间:</td><td>'+aData.next_visit_date.split(" ",1)+ ' '+ aData.next_visit_time + ' (已预约)' + '</td></tr>';
+			else
+				sOut += '<tr><td>复诊时间:</td><td>'+aData.next_visit_date.split(" ",1)+ ' '+ aData.next_visit_time + ' (未预约)' + '</td></tr>';
+			sOut += '<tr><td>复诊医生:</td><td>'+aData.next_visit_doctor_name+'</td></tr>';
+        }
+        else {
+        	sOut += '<tr><td>复诊时间:</td><td></td></tr>';
+        	sOut += '<tr><td>复诊医生:</td><td></td></tr>';
+        }
         sOut += '</table>';  
         return sOut;
     }
@@ -175,8 +198,15 @@ var KFTableAdvanced = function() {
 					submitData.result = form.kf_result.value;
 					submitData.doctor_advise = form.kf_doctor_advise.value;
 					submitData.remarks = form.kf_remarks.value;
-					submitData.next_visit_date = form.kf_next_visit_date.value;
 					submitData.servicename = jQuery('#kf_servicename').val();
+
+					submitData.next_visit_date = form.kf_next_visit_date.value;
+					submitData.next_visit_time = form.kf_next_visit_time.value;
+					if (jQuery('#kf_next_order_success').val() == "已预约")
+						submitData.next_order_success = 1;
+					else
+						submitData.next_order_success = 0;
+					submitData.next_visit_doctor_name = form.kf_next_visit_doctor_name.value;
 
 					TendaAjax.getData(submitData, function(result){
 						if(result.error == GLOBAL.SUCCESS) {
@@ -190,11 +220,12 @@ var KFTableAdvanced = function() {
 				}
 			});
 
-			jQuery('#kf_modal').on('hidden.bs.modal', function (e) {
-				$("input[type='text'], input[type='hidden']").val('');
-				$("input[type='date']").val('');
-				$("textarea").val('');
-				jQuery("#kf_servicename").empty();
+			jQuery('#addbutton').on("click", function(){
+				jQuery('#kf_modal').on('hidden.bs.modal', function (e) {
+					$("input[type='text'], input[type='hidden']").val('');
+					$("input[type='date']").val('');
+					$("textarea").val('');
+				});
 			});
 
 			$(".event-form").validate({
@@ -247,13 +278,6 @@ var KFTableAdvanced = function() {
 
 				}
 			});
-
-			jQuery('#event_modal').on('hidden.bs.modal', function (e) {
-				$("input[type='text'], input[type='hidden']").val('');
-				$("input[type='date']").val('');
-				$("textarea").val('');
-			});
-
 
 			jQuery('.kf-index>li').on("click", function(){
 
@@ -315,9 +339,6 @@ var KFTableAdvanced = function() {
 							$(this).attr("selected",true);
 							return false;
 						}
-						else {
-							$(this).attr("selected",true);
-						}
 					});
 					$("#event_visit_doctor_name").val(arr[0].visit_doctor_name);
 					$("#event_visit_address").val(arr[0].visit_address);	
@@ -348,6 +369,12 @@ var KFTableAdvanced = function() {
 	                	alert("请选择一条数据!");
 	                	return;
 	                }
+
+					$("input[type='text'], input[type='hidden']").val('');
+					$("input[type='date']").val('');
+					$("textarea").val('');
+					jQuery("#kf_servicename").empty();
+					
 	                TendaAjax.getData({"script":"ac_get_list"}, function(result){
 					 	if(result.error == GLOBAL.SUCCESS) {
 					 		jQuery('#kf_servicename').append("<option></option>");
@@ -381,7 +408,21 @@ var KFTableAdvanced = function() {
 					$("#kf_result").val(arr[0].result);
 					$("#kf_doctor_advise").val(arr[0].doctor_advise);
 					$("#kf_remarks").val(arr[0].remarks);
+
 					$("#kf_next_visit_date").val(arr[0].next_visit_date.split(" ",1));	
+                	jQuery('#kf_next_visit_time option').each(function(){
+						if (arr[0].next_visit_time == $(this).text()){
+							$(this).attr("selected",true);
+						}
+					});
+                	jQuery('#kf_next_order_success option').each(function(){
+						if ("已预约" == $(this).text() && arr[0].next_order_success){
+							$(this).attr("selected",true);
+							return false;
+						}
+					});
+                	$("#kf_next_visit_doctor_name").val(arr[0].next_visit_doctor_name);	
+
                 	$("#kf_modal").modal("show");	
                 }         
 
