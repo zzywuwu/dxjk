@@ -30,8 +30,6 @@ var Index = function () {
             });
         },
 
-       
-       
         initNavInfo: function () {
 
             //var data = {"error":0,"status":2,"catalogue":[{"title":"版本管理","child":[{"title":"版本列表","url":"C_Product/pd_manage/pd_list"},{"title":"版本列表","url":"C_Product/pd_manage/pd_list"}]},{"title":"版本管理","url":"sdfsg/sdfj"},{"title":"版本管理","child":[{"title":"版本列表","url":"C_Product/pd_manage/pd_list"},{"title":"版本列表","url":"C_Product/pd_manage/pd_list"}]},{"title":"版本管理","url":"sdfsg/sdfj"}]}
@@ -115,7 +113,14 @@ var Index = function () {
             });
 
             jQuery("#loginout").click(function(){
-                window.location.href = "/html/login";
+                var data = {};
+                TendaAjax.getLoginout(data,function(result){
+                    if(result.error == GLOBAL.SUCCESS) {
+                        window.location = "/html/login";
+                    }
+                    else 
+                        alert(result.error);
+                 });
             });
         },
 

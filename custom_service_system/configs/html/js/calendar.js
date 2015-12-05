@@ -5,7 +5,7 @@ var Calendar = function () {
 
         init: function () {
             var submitData = {};
-            submitData.script = "event_get_all";
+            submitData.script = "event_get_list";
             TendaAjax.getData(submitData, function(result){
                 var arr = [];
                 for (i = 0; i < result.user_event.length; i++) {
@@ -123,7 +123,7 @@ var Calendar = function () {
 
             $('#event_box').html("");
             var submitData = {};
-            submitData.script = "get_no_event_user";
+            submitData.script = "get_no_event_user_list";
             TendaAjax.getData(submitData, function(result){
                 $('#event_box').html("");
                 for(var i = 0; i<result.user_list.length; i++) {

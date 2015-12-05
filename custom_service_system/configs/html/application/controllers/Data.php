@@ -120,52 +120,13 @@ class Data extends CI_Controller {
 		} 
     }
 
+    public function loginout()
+    {
+        $this->session->sess_destroy();
+        echo '{"error":"成功"}';
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-public function lua()
+    public function lua()
 	{
 		$data = $this->input->post();
 		$file_name = $this->upload();
@@ -205,7 +166,7 @@ public function lua()
 		$vals = array(
 			'word'        => $word,
 			'img_path'    => './temp/captcha/',
-			'img_url'     => 'http://192.168.10.84/temp/captcha',
+			'img_url'     => 'http://192.168.0.101/temp/captcha',
 			'expiration'  => 60,
 			'font_size'   => 16
 		);
@@ -216,7 +177,7 @@ public function lua()
 	}
 	private function web_to_lua($data)
 	{
-	//log_message('error',$data);
+	   //log_message('error',$data);
         if (empty($data))
             return;
         $CI = &get_instance();

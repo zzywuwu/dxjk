@@ -116,15 +116,8 @@ var KFTableAdvanced = function() {
         sOut += '<tr><td>地址:</td><td>'+aData.address+'</td></tr>';
         sOut += '<tr><td>家属姓名:</td><td>'+aData.familyname+'</td></tr>';
         sOut += '<tr><td>家属电话:</td><td>'+aData.familyphonenumber+'</td></tr>';
-        if (aData.order_time)
-        	sOut += '<tr><td>会员签单日:</td><td>'+aData.order_time.split(" ",1)+'</td></tr>';
-        else
-        	sOut += '<tr><td>会员签单日:</td><td>'+'未设置'+'</td></tr>';
-        if (aData.order_over_time)
-        	sOut += '<tr><td>会员到期日:</td><td>'+aData.order_over_time.split(" ",1)+'</td></tr>';
-    	else
-    		sOut += '<tr><td>会员到期日:</td><td>'+'未设置'+'</td></tr>';
-        // sOut += '<tr><td>会员:</td><td>'+(aData.vip == 1 ? "会员" : "非会员")+'</td></tr>';
+        sOut += '<tr><td>会员签单日:</td><td>'+aData.order_time.split(" ",1)+'</td></tr>';
+        sOut += '<tr><td>会员到期日:</td><td>'+aData.order_over_time.split(" ",1)+'</td></tr>';
         sOut += '<tr><td>备注:</td><td>'+aData.remarks+'</td></tr>';
         sOut += '</table>';
          
@@ -170,6 +163,7 @@ var KFTableAdvanced = function() {
                         required: true
 	                },
 	                kf_age: {
+	                	maxlength: 2,
 	                    digits: true,
                         required: true
 	                },
@@ -186,11 +180,12 @@ var KFTableAdvanced = function() {
 
 	            messages:{
                     kf_username:{
-                        required:"必填"
-
+                        required:"必填",
+                        minlength: "请输入最少2位"	
                     },
                     kf_age:{
                         required:"必填",
+                        maxlength: "请输入最多2位数字",
                         digits: "请输入数字"
                     },
                     kf_phonenumber:{
@@ -198,13 +193,16 @@ var KFTableAdvanced = function() {
                         minlength: "请输入最少8位数字"
                     },
                     kf_due_time:{
-                        required:"必填"
+                        required:"必填",
+                        date:"请输入日期"
                     },
                     kf_last_menses_time:{
-                        required:"必填"
+                        required:"必填",
+                        date:"请输入日期"
                     },
                     kf_wx:{
-                        required:"必填"
+                        required:"必填",
+                         minlength: "请输入最少6位"
                     }                                                        
                 },
 

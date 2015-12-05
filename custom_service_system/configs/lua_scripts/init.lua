@@ -23,9 +23,9 @@ local vip_modify = require("vip_modify")
 local vip_remove = require("vip_remove")
 local vip_get_list = require("vip_get_list")
 local event_add = require("event_add")
-local event_get_all = require("event_get_all")
+local event_get_list = require("event_get_list")
 local event_modify = require("event_modify")
-local get_no_event_user = require("get_no_event_user")
+local get_no_event_user_list = require("get_no_event_user_list")
 local record_get_list = require("record_get_list")
 local record_del = require("record_del")
 local record_modify = require("record_modify")
@@ -71,9 +71,9 @@ funcsinit = {
 	vip_get_list = vip_get_list,
 	event_add = event_add,
 	event_get = event_get,
-	event_get_all = event_get_all,
+	event_get_list = event_get_list,
 	event_modify = event_modify,
-	get_no_event_user = get_no_event_user,
+	get_no_event_user_list = get_no_event_user_list,
 	record_get_list = record_get_list,
 	record_del = record_del,
 	record_modify = record_modify,
@@ -169,5 +169,4 @@ WEBERR = {
 	CUSTOMER_DONT_UP_VIP = "普通客户不能升级为会员",
 	DONT_DELETE_CUSTOMER = "拥有记录或事件的客户不能删除"
 }
-
 

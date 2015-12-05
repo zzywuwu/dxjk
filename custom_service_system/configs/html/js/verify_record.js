@@ -85,8 +85,7 @@ var KFTableAdvanced = function() {
         var aData = oTable.fnGetData( nTr );
         var sOut = '<table>';
         sOut += '<tr><td>姓名:</td><td>'+aData.customer_name.split(" ",1)+'</td></tr>';
-        sOut += '<tr><td>就诊日期:</td><td>'+aData.visit_date.split(" ",1)+'</td></tr>';
-        sOut += '<tr><td>就诊时间:</td><td>'+aData.visit_time+'</td></tr>';
+        sOut += '<tr><td>就诊时间:</td><td>'+aData.visit_date.split(" ",1)+' '+ aData.visit_time+'</td></tr>';
         sOut += '<tr><td>陪诊人员:</td><td>'+aData.servicename+'</td></tr>';
         sOut += '<tr><td>就诊项目:</td><td>'+aData.visit_type+'</td></tr>';
 		sOut += '<tr><td>就诊医生:</td><td>'+aData.visit_doctor_name+'</td></tr>';
@@ -96,16 +95,26 @@ var KFTableAdvanced = function() {
 
    		var obj = jQuery.parseJSON(aData.fzinfo);
 		if (Array.isArray(obj)) {
-			for (var i = 0, j = 1; i < obj.length; i++,j++) {
-				sOut += '<tr><td>复诊('+ j +'):</td><td></td></tr>';
-				if (obj[i].next_order_success)
-					sOut += '<tr><td>复诊时间:</td><td>'+obj[i].next_visit_date.split(" ",1)+ ' '+ obj[i].next_visit_time + ' (已预约)' + obj[i].next_visit_doctor_name + '</td></tr>';
-				else
-					sOut += '<tr><td>复诊时间:</td><td>'+obj[i].next_visit_date.split(" ",1)+ ' '+ obj[i].next_visit_time + ' (未预约)' + obj[i].next_visit_doctor_name + '</td></tr>';
-				sOut += '<tr><td>复诊项目:</td><td>'+obj[i].next_visit_type+'</td></tr>';
-				sOut += '<tr><td>复诊地址:</td><td>'+obj[i].next_visit_address+'</td></tr>';
-				sOut += '<tr><td>复诊备注:</td><td>'+obj[i].next_visit_remarks+'</td></tr>';
-			};	
+			sOut += '<tr><td></br></td><td></td></tr>';
+			if (obj.length == 0) {
+				sOut += '<tr><td>复诊信息:</td><td>' + '<font color="red">无</font>';	
+			}
+			else {
+				for (var i = 0, j = 1; i < obj.length; i++,j++) {
+					if (obj[i].next_order_success)
+						sOut += '<tr><td>复诊信息[' + j + ']:</td><td>'+obj[i].next_visit_date.split(" ",1)+ ' '+ obj[i].next_visit_time + ' (已预约) 项目:' + obj[i].next_visit_type;
+					else
+						sOut += '<tr><td>复诊信息[' + j + ']:</td><td>'+obj[i].next_visit_date.split(" ",1)+ ' '+ obj[i].next_visit_time + ' <font color="red">(未预约)</font> 项目:' + obj[i].next_visit_type;
+					if ( obj[i].next_visit_doctor_name != '') {
+							sOut += ' 医生:'+ obj[i].next_visit_doctor_name;
+						if ( obj[i].next_visit_doctor_name != '')
+							sOut += ' 地址:'+ obj[i].next_visit_address;
+						if ( obj[i].next_visit_doctor_name != '')
+							sOut += ' 备注:'+ obj[i].next_visit_remarks;
+					}
+				}	
+			}
+			sOut += '</td></tr>';			
 		}
 	   
         sOut += '</table>';  
@@ -116,6 +125,27 @@ var KFTableAdvanced = function() {
 
 	return {
 		init: function () {
+
+			var v_verify_form = $('.verify-form');
+			v_verify_form.validate({
+
+				submitHandler: function(form){
+					
+                	var submitData = {};
+                	submitData.script = "record_verify";
+            
+                	submitData.id = $("#verify_id").val();
+                	alert(submitData.id);
+                	TendaAjax.getData(submitData, function(result){
+                		if(result.error == GLOBAL.SUCCESS) {
+							initTableList();
+							$("#verify_modal").modal("hide");
+						}				
+                		else
+                			alert(result.error);
+                	});
+				}
+			});
 
 			jQuery('.kf-index>li').on("click", function(){
 
@@ -152,28 +182,46 @@ var KFTableAdvanced = function() {
 	                	return;
 	                }
 
-      //           	var submitData = {};
-      //           	submitData.script = "record_verify";
-      //           	submitData.id = arr_id;
-
-      //           	TendaAjax.getData(submitData, function(result){
-      //           		if(result.error == GLOBAL.SUCCESS) {
-						// 	initTableList();
-						// }				
-      //           		else
-      //           			alert(result.error);
-      //           	});
+	                $("#verify_id").val(arr_id);
 					jQuery('#verify_content').html("");
 					var html = '<ul>';
-					html += '<li>姓名:\t\t\t'+arr[0].customer_name+'</li>';
-			       	html += '<li>就诊日期:\t\t\t'+arr[0].visit_date.split(" ",1)+'</li>';
-			       	html += '<li>就诊时间:\t\t\t'+arr[0].visit_time+'</li>';
-			       	html += '<li>陪诊人员:\t\t\t'+arr[0].servicename+'</li>';
-			       	html += '<li>就诊项目:\t\t\t'+arr[0].visit_type+'</li>';
-			       	html += '<li>就诊医生:\t\t\t'+arr[0].visit_doctor_name+'</li>';
-			        html +='</ul>';
+					html += '<li>姓名:'+arr[0].customer_name+'</li>';
+			       	html += '<li>就诊时间:'+arr[0].visit_date.split(" ",1)+' '+arr[0].visit_time +'</li>';
+			       	html += '<li>陪诊人员:'+arr[0].servicename+'</li>';
+			       	html += '<li>就诊项目:'+arr[0].visit_type+'</li>';
+			       	html += '<li>就诊医生:'+arr[0].visit_doctor_name+'</li>';	       	
+			       	html += '<li>就诊记录:'+arr[0].result+'</li>';			       	
+			       	html += '<li>医嘱:'+arr[0].doctor_advise+'</li>';
+			       	html += '<li>备注:'+arr[0].remarks+'</li>';
+			       	html += '</br>';
+			       	 
+			        var obj = jQuery.parseJSON(arr[0].fzinfo);
+					if (Array.isArray(obj)) {
+						if (obj.length == 0) {
+							html += '<li>复诊信息:' + '<font color="red">无</font></li>';	
+						}
+						else {	
+							for (var i = 0, j = 1; i < obj.length; i++,j++) {
+								if (obj[i].next_order_success)
+									html += '<li>复诊信息(' + j + '):'+obj[i].next_visit_date.split(" ",1)+ ' '+ obj[i].next_visit_time + ' (已预约) 项目:' + obj[i].next_visit_type;
+								else
+									html += '<li>复诊信息(' + j + '):'+obj[i].next_visit_date.split(" ",1)+ ' '+ obj[i].next_visit_time + ' <font color="red">(未预约)</font> 项目:' + obj[i].next_visit_type;
+
+								if ( obj[i].next_visit_doctor_name != '') {
+										html += ' 医生:'+ obj[i].next_visit_doctor_name;
+									if ( obj[i].next_visit_doctor_name != '')
+										html += ' 地址:'+ obj[i].next_visit_address;
+									if ( obj[i].next_visit_doctor_name != '')
+										html += ' 备注:'+ obj[i].next_visit_remarks;
+								}
+								html += '</li>';
+							}	
+						}
+					}
+					html +='</ul>';
+
                 	jQuery('#verify_content').append(html);
-					$("#event_modal").modal("show");	
+					$("#verify_modal").modal("show");	
                 }
                             
 			});

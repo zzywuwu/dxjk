@@ -31,18 +31,36 @@ var TendaAjax = function(){
 				dataType: 'json',
 				data: obj,
 				success: function(data) {
+					if (data.error == "长时间未操作,请重新登录"){
+			 			alert(data.error);
+			 			window.location = "/html/login";
+			 		}
+			 		else
+						func(data);
+				},
+				complete: function(xhr, textStatus) {
+					xhr = null;
+				}
+			});
+			
+		},
+
+		getLoginout: function(obj, func) {
+
+			var longAjax = jQuery.ajax({
+				url: '/data/loginout',
+				type: 'post',
+				dataType: 'json',
+				data: obj,
+				success: function(data) {
 					func(data);
 				},
 				complete: function(xhr, textStatus) {
 					xhr = null;
-				},
-				error: function(data) {
-					alert(result.error);
-			 		if (result.error == "长时间未操作,请重新登录")
-			 			window.location.href = "/html/login";
 				}
 			});
 			
+			return longAjax;
 		},
 
 		getKFData: function(obj, func) {

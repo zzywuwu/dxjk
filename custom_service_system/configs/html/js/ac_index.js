@@ -48,7 +48,7 @@ var TableAdvanced = function() {
 											result = "激活";
 											break;
 										case "not actived":
-											result = "未激活";
+											result = '<font color="red">未激活</font>';
 											break;
 										
 									}
@@ -112,31 +112,65 @@ var TableAdvanced = function() {
 	return {
 		init: function () {
 
-			$(".ac-form").validate({
+			var v_ac_form = $('.ac-form');
+			v_ac_form.validate({
 
 				errorElement: 'span', //default input error message container
-	            errorClass: 'error', // default input error message class
-	            focusInvalid: false, // do not focus the last invalid input
+                errorClass: 'help-inline', // default input error message class
+                focusInvalid: false, // do not focus the last invalid input
+                ignore: "",
+
 	            rules: {
+	               
 	                ac_username: {
-	                    required: false
+	                    minlength: 2,
+                        required: true
 	                },
-	                ac_email: {
-	                    required: false,
-	                    email:false
+	                ac_phonenumber: {
+	                	minlength: 8,
+	                    digits: true,
+                        required: true
+	                },
+	                ac_wx: {
+	                	minlength: 6,
+                        required: true
 	                }
 	            },
 
 	            messages:{
                     ac_username:{
-                        required:"必填"
-                    },
-                    ac_email:{
                         required:"必填",
-                        email:"E-Mail格式不正确"
-                    }
-                                                   
+                        minlength: "请输入最少2位"
+                    },
+                    ac_phonenumber:{
+                        required:"必填",
+                        minlength: "请输入最少8位数字",
+                        digits:"请输入最少8位数字"        
+                    },
+                    ac_wx:{
+                        required:"必填",
+                        minlength: "请输入最少6位"
+                    }                                                        
                 },
+
+                highlight: function (element) { // hightlight error inputs
+                    $(element)
+                        .closest('.help-inline').removeClass('ok'); // display OK icon
+                    $(element)
+                        .closest('.control-group').removeClass('success').addClass('error'); // set error class to the control group
+                },
+
+                unhighlight: function (element) { // revert the change dony by hightlight
+                    $(element)
+                        .closest('.control-group').removeClass('error'); // set error class to the control group
+                },
+
+                success: function (label) {
+                    label
+                        .addClass('valid').addClass('help-inline ok') // mark the current input as valid and display OK icon
+                    .closest('.control-group').removeClass('error').addClass('success'); // set success class to the control group
+                },
+
 				submitHandler: function(form){
 					//根据获取的ID来进行判断，是修改还是添加
 					//TODO验证还需要进行权限是否为空的验证

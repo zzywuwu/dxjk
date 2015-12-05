@@ -164,6 +164,7 @@ var KFTableAdvanced = function() {
                         required: true
 	                },
 	                kf_age: {
+	                	maxlength: 2,
 	                    digits: true,
                         required: true
 	                },
@@ -180,11 +181,12 @@ var KFTableAdvanced = function() {
 
 	            messages:{
                     kf_username:{
-                        required:"必填"
-
+                        required:"必填",
+                        minlength: "请输入最少2位"	
                     },
                     kf_age:{
                         required:"必填",
+                        maxlength: "请输入最多2位数字",
                         digits: "请输入数字"
                     },
                     kf_phonenumber:{
@@ -192,13 +194,16 @@ var KFTableAdvanced = function() {
                         minlength: "请输入最少8位数字"
                     },
                     kf_due_time:{
-                        required:"必填"
+                        required:"必填",
+                        date:"请输入日期"
                     },
                     kf_last_menses_time:{
-                        required:"必填"
+                        required:"必填",
+                        date:"请输入日期"
                     },
                     kf_wx:{
-                        required:"必填"
+                        required:"必填",
+                         minlength: "请输入最少6位"
                     }                                                        
                 },
 

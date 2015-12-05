@@ -14,68 +14,73 @@ var Login = function () {
         //main function to initiate the module
         init: function () {
         	
-           $('.login-form').validate({
-	            errorElement: 'label', //default input error message container
-	            errorClass: 'help-inline', // default input error message class
-	            focusInvalid: false, // do not focus the last invalid input
+	        var v_login_form = $('.login-form');
+			v_login_form.validate({
+
+				errorElement: 'span', //default input error message container
+                errorClass: 'help-inline', // default input error message class
+                focusInvalid: false, // do not focus the last invalid input
+                ignore: "",
+
 	            rules: {
+	                
 	                username: {
-	                    required: true
+	                    minlength: 2,
+                        required: true
 	                },
+	                
 	                password: {
-	                    required: true
+	                	minlength: 6,
+                        required: true
 	                },
-	                remember: {
-	                    required: false
+	                randcode: {
+	                	minlength: 4,
+	                	maxlength: 4,
+                        required: true
 	                }
 	            },
 
-	            messages: {
-	                username: {
-	                    required: "请输入用户名"
-	                },
-	                password: {
-	                    required: "请输入密码"
-	                }
-	            },
+	            messages:{
+                    username:{
+                        required:"必填",
+                        minlength: "请输入最少2位"	
+                    },
+                    password:{
+                        required:"必填",
+                        minlength: "请输入最多6位"                   
+                    },
+                    randcode:{
+                        required:"必填",
+                        minlength: "请输入最少4位",
+                        maxlength: "请输入最多4位"
+                    }                                                      
+                },
 
-	            invalidHandler: function (event, validator) { //display error alert on form submit   
-					$('.alert-error span', $('.login')).text("请输入用户名和密码");
-	                $('.alert-error', $('.login')).show();
-	            },
+                highlight: function (element) { // hightlight error inputs
+                    $(element)
+                        .closest('.help-inline').removeClass('ok'); // display OK icon
+                    $(element)
+                        .closest('.control-group').removeClass('success').addClass('error'); // set error class to the control group
+                },
 
-	            highlight: function (element) { // hightlight error inputs
-	                $(element)
-	                    .closest('.control-group').addClass('error'); // set error class to the control group
-	            },
+                unhighlight: function (element) { // revert the change dony by hightlight
+                    $(element)
+                        .closest('.control-group').removeClass('error'); // set error class to the control group
+                },
 
-	            success: function (label) {
-	                label.closest('.control-group').removeClass('error');
-	                label.remove();
-	            },
-
-	            errorPlacement: function (error, element) {
-	                error.addClass('help-small no-left-padding').insertAfter(element.closest('.input-icon'));
-	            },
+                success: function (label) {
+                    label
+                        .addClass('valid').addClass('help-inline ok') // mark the current input as valid and display OK icon
+                    .closest('.control-group').removeClass('error').addClass('success'); // set success class to the control group
+                },
 
 	            submitHandler: function (form) {
-
-
 
 	                var name = form.username.value,
 						password = form.password.value,
 						randcode = form.randcode.value.toUpperCase();	
-					//var data = transformSubmit({"name":name, "password":hex_md5(password), "randcode":randcode});
-					
-					//var data = "script=au_login&name=" + name + "&password=" + password + "&randcode=" + randcode;
-					
-					//var obj = {};
-					//obj.script = "au_login";
-
-
+				
 					var data = {"script":"login","name":name, "password": password, "randcode":randcode};
-
-
 					TendaAjax.getData(data, function(result){
 					 	Login.loginHandle(result);
 					});
@@ -136,9 +141,7 @@ var Login = function () {
 			}
 			
 		}
-		
-		
-
+	
     };
 
 }();

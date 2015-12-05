@@ -63,13 +63,13 @@ var KFTableAdvanced = function() {
 										if (full.verify)
 											return "已审核";
 										else
-											return "未审核";
+											return '<font color="red">未审核</font>';
 									}
 									else {
 										if (full.order_success)
 											return "已预约";
 										else
-											return "未预约";
+											return '<font color="red">未预约</font>';
 									}
 								}
 							},
@@ -118,8 +118,7 @@ var KFTableAdvanced = function() {
 	var fnFormatDetails = function( oTable, nTr ) {
         var aData = oTable.fnGetData( nTr );
         var sOut = '<table>';
-		sOut += '<tr><td>就诊日期:</td><td>'+aData.visit_date.split(" ",1)+'</td></tr>';
-		sOut += '<tr><td>就诊时间:</td><td>'+aData.visit_time+'</td></tr>';
+		sOut += '<tr><td>就诊时间:</td><td>'+aData.visit_date.split(" ",1)+ ' '+ aData.visit_time + '</td></tr>';
 		sOut += '<tr><td>就诊项目:</td><td>'+aData.visit_type+'</td></tr>';
 		sOut += '<tr><td>就诊医生:</td><td>'+aData.visit_doctor_name+'</td></tr>';
         if (aData.status == 1) {
@@ -130,7 +129,7 @@ var KFTableAdvanced = function() {
 			if (aData.verify)
    				sOut += '<tr><td>审核状态:</td><td>已审核</td></tr>';
   			else
-   			    sOut += '<tr><td>审核状态:</td><td>未审核</td></tr>';
+   			    sOut += '<tr><td>审核状态:</td><td><font color="red">未审核</font></td></tr>';
         }
         else {
         	// 事件
@@ -138,24 +137,33 @@ var KFTableAdvanced = function() {
         	if (aData.order_success)
         		sOut += '<tr><td>预约状态:</td><td>已预约</td></tr>';
         	else
-        		sOut += '<tr><td>预约状态:</td><td>未预约</td></tr>';
+        		sOut += '<tr><td>预约状态:</td><td><font color="red">(未预约)</font></td></tr>';
         	sOut += '<tr><td>就诊地址:</td><td>'+aData.visit_address+'</td></tr>';
         }
         sOut += '<tr><td>备注:</td><td>'+aData.remarks+'</td></tr>';  
         if (aData.status == 1) {
-	  
 	   		var obj = jQuery.parseJSON(aData.fzinfo);
 			if (Array.isArray(obj)) {
-				for (var i = 0, j = 1; i < obj.length; i++,j++) {
-					sOut += '<tr><td>复诊('+ j +'):</td><td></td></tr>';
-					if (obj[i].next_order_success)
-						sOut += '<tr><td>复诊时间:</td><td>'+obj[i].next_visit_date.split(" ",1)+ ' '+ obj[i].next_visit_time + ' (已预约)' + obj[i].next_visit_doctor_name + '</td></tr>';
-					else
-						sOut += '<tr><td>复诊时间:</td><td>'+obj[i].next_visit_date.split(" ",1)+ ' '+ obj[i].next_visit_time + ' (未预约)' + obj[i].next_visit_doctor_name + '</td></tr>';
-					sOut += '<tr><td>复诊项目:</td><td>'+obj[i].next_visit_type+'</td></tr>';
-					sOut += '<tr><td>复诊地址:</td><td>'+obj[i].next_visit_address+'</td></tr>';
-					sOut += '<tr><td>复诊备注:</td><td>'+obj[i].next_visit_remarks+'</td></tr>';
-				};	
+				sOut += '<tr><td></br></td><td></td></tr>';
+				if (obj.length == 0) {
+					sOut += '<tr><td>复诊信息:</td><td>' + '<font color="red">无</font>';	
+				}
+				else {
+					for (var i = 0, j = 1; i < obj.length; i++,j++) {
+						if (obj[i].next_order_success)
+							sOut += '<tr><td>复诊信息[' + j + ']:</td><td>'+obj[i].next_visit_date.split(" ",1)+ ' '+ obj[i].next_visit_time + ' (已预约) 项目:' + obj[i].next_visit_type;
+						else
+							sOut += '<tr><td>复诊信息[' + j + ']:</td><td>'+obj[i].next_visit_date.split(" ",1)+ ' '+ obj[i].next_visit_time + ' <font color="red">(未预约)</font> 项目:' + obj[i].next_visit_type;
+						if ( obj[i].next_visit_doctor_name != '') {
+								sOut += ' 医生:'+ obj[i].next_visit_doctor_name;
+							if ( obj[i].next_visit_doctor_name != '')
+								sOut += ' 地址:'+ obj[i].next_visit_address;
+							if ( obj[i].next_visit_doctor_name != '')
+								sOut += ' 备注:'+ obj[i].next_visit_remarks;
+						}
+					}	
+				}
+				sOut += '</td></tr>';			
 			}
 	    }
         sOut += '</table>';  
@@ -174,6 +182,40 @@ var KFTableAdvanced = function() {
                 errorClass: 'help-inline', // default input error message class
                 focusInvalid: false, // do not focus the last invalid input
                 ignore: "",
+
+                rules: {
+                	kf_visit_doctor_name: {
+	                    minlength: 2,
+                        required: function() {
+                        	if (jQuery('#kf_visit_type').val() == "看医生" ) {
+                                return true;
+                        	}
+                        	else{
+                        		return false;
+                        	}
+                        }
+	                },
+	                kf_servicename: {
+	                    required: true
+	                },
+	                kf_visit_date: {
+	                    required: true,
+                        date: true
+	                }
+	            },
+
+	            messages:{
+	            	kf_visit_doctor_name:{
+                        required:"必填",
+                        minlength: "请输入最少2位"
+                    },
+                    kf_servicename:{
+                        required:"必填"
+                    },
+                    kf_visit_date:{
+                        required:"必填"
+                    }                                                     
+                },
 	            
 	            highlight: function (element) { // hightlight error inputs
                     $(element)
@@ -212,7 +254,7 @@ var KFTableAdvanced = function() {
 					var fzinfoarr = [];
 					for (var i = 0; i < 4; i++) {
 						var fzinfo = {};
-						alert(jQuery('#portlet_tab2 .accordion-body:eq(' + i + ') input[name="kf_next_visit_date"]').val());
+						// alert(jQuery('#portlet_tab2 .accordion-body:eq(' + i + ') input[name="kf_next_visit_date"]').val());
 						if (jQuery('#portlet_tab2 .accordion-body:eq(' + i + ') input[name="kf_next_visit_date"]').val() == '')
 							continue;
 						fzinfo.next_visit_date = jQuery('#portlet_tab2 .accordion-body:eq(' + i + ') input[name="kf_next_visit_date"]').val();
@@ -243,6 +285,30 @@ var KFTableAdvanced = function() {
 				}
 			});
 
+			jQuery('#kf_visit_type').change(function () {
+        		$("#kf_visit_doctor_name_group .controls span").remove();
+				$("#kf_visit_doctor_name_group").removeClass('success').removeClass('error');
+            	if (jQuery('#kf_visit_type').val() == "看医生" ) {
+	        		var html = '<span class="required">*</span>';
+	        		$('#kf_visit_doctor_name_group').children('label').append(html);	
+	        	}
+	        	else{
+	        		$('#kf_visit_doctor_name_group').children('label').children('span').remove();	
+	        	}
+            });
+
+			for (var i = 0,j = 1; i < 4; i++,j++) {
+				// 给每一个对象零时设置内容，在事件发生的时候取出来
+				jQuery('#portlet_tab2 .accordion-body:eq(' + i + ') input[name="kf_next_visit_date"]').attr("data",i);
+				jQuery('#portlet_tab2 .accordion-body:eq(' + i + ') input[name="kf_next_visit_date"]').on('change', function () {
+	            	if ($(this).val() != '') {
+	            		var index = parseInt($(this).attr("data")) + 1;
+	            		jQuery('#portlet_tab2 .accordion-heading:eq(' + $(this).attr("data") + ') .accordion-toggle').text('复诊'+index+'(已设置)');
+	            	}
+	            	
+		        });
+			};
+            
 			var v_event_form = $('.event-form');        
 			v_event_form.validate({
 	   			errorElement: 'span', //default input error message container
@@ -270,7 +336,8 @@ var KFTableAdvanced = function() {
 
 	            messages:{
                     event_visit_doctor_name:{
-                        required:"必填"
+                        required:"必填",
+                        minlength: "请输入最少2位"
                     },
                     event_visit_date:{
                         required:"必填"
@@ -486,7 +553,8 @@ var KFTableAdvanced = function() {
 
 					var obj = jQuery.parseJSON(arr[0].fzinfo);
 					if (Array.isArray(obj)) {
-						for (var i = 0; i < obj.length; i++) {
+						for (var i = 0,j = 1; i < obj.length; i++,j++) {
+							jQuery('#portlet_tab2 .accordion-heading:eq(' + i + ') .accordion-toggle').text('复诊'+j+'(已设置)');
 							jQuery('#portlet_tab2 .accordion-body:eq(' + i + ') input[name="kf_next_visit_date"]').val(obj[i].next_visit_date);
 							jQuery('#portlet_tab2 .accordion-body:eq(' + i + ') select[name="kf_next_visit_time"] option').each(function(){
 								if (obj[i].next_visit_time == $(this).text()){

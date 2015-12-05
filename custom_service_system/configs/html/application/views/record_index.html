@@ -223,36 +223,6 @@
 							</div>
 						</div>
 
-						<!-- <div class="control-group">
-							<label class="control-label">就诊医生:</label>
-							<div class="controls">
-								<select class="form-control" id="event_visit_doctor_name">
-									<option></option>
-									<option>李维敏</option>
-									<option>邱文玉</option>
-									<option>刘兴会</option>
-									<option>游泳</option>
-									<option>王晓东</option>
-									<option>周容</option>
-									<option>邢爱耘</option>
-									<option>张力</option>
-									<option>刘淑德</option>
-									<option>彭冰</option>
-									<option>余海燕</option>
-									<option>姚强</option>
-									<option>周淑</option>
-									<option>胡雅毅</option>
-									<option>候敏敏</option>
-									<option>廖华</option>
-									<option>陈慧</option>
-									<option>龚云辉</option>
-									<option>吴琳</option>
-									<option>吕斌</option>
-									
-								</select>
-							</div>
-						</div> -->
-
 						<div class="control-group">
 							<label class="control-label">就诊科室:</label>
 							<div class="controls">
@@ -267,10 +237,12 @@
 							</div>
 						</div>
 
+						
+
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-						<button type="submit" class="btn btn-default" id="save_changes">保存</button>
+						<button type="submit" class="btn btn-default" id="save_changes">确认</button>
 					</div>
 				</form>
 			</div>
@@ -278,29 +250,7 @@
 	</div>
 
 
-<!--Account Management Modal BEGIN-->
-	
-	<!-- <div class="modal fade" id="kf_modal" tabindex="-1" role="dialog" aria-labelledby="kf_modal_label">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true"></span>
-					</button>
-					<h4 class="modal-title" id="kf_modal_label">陪诊记录</h4>
-				</div>
-
-				<form action="" class="form-horizontal kf-form" style="margin-bottom:0px;">
-					<div class="modal-body">
-						
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-						<button type="submit" class="btn btn-default" id="save_changes">保存</button>
-					</div>
-				</form>
-			</div>
-		</div>	 
-	</div> -->
+<!--Account Management Modal BEGIN-->	
 
 	<div class="modal fade bs-modal-lg" id="kf_modal" tabindex="-1" role="dialog" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
@@ -340,7 +290,7 @@
 											<div class="row-fluid">
 												<div class="span6 ">
 													<div class="control-group">
-														<label class="control-label span3" style="text-align:right;">就诊日期:</label>
+														<label class="control-label span3" style="text-align:right;">就诊日期:<span class="required">*</span></label>
 														<div class="controls span9">
 															<input type="date" id="kf_visit_date" name="kf_visit_date" style="width:90%;">
 														</div>
@@ -348,9 +298,9 @@
 												</div>
 												<div class="span6 ">
 													<div class="control-group">
-														<label class="control-label span3" style="text-align:right;">就诊时间:</label>
+														<label class="control-label span3" style="text-align:right;">就诊时间:<span class="required">*</span></label>
 														<div class="controls span9">
-															<select class="form-control" id="kf_visit_time" style="width:95%;">
+															<select class="form-control" id="kf_visit_time" name="kf_visit_time" style="width:95%;">
 																<option>07:00</option>
 																<option>07:30</option>
 																<option>08:00</option>
@@ -389,18 +339,18 @@
 											<div class="row-fluid">
 												<div class="span6 ">
 													<div class="control-group">
-														<label class="control-label span3" style="text-align:right;">陪诊人员:</label>
+														<label class="control-label span3" style="text-align:right;">陪诊人员:<span class="required">*</span></label>
 														<div class="controls span9">
-															<select class="form-control" id="kf_servicename" style="width:95%;">
+															<select class="form-control" id="kf_servicename" name="kf_servicename" style="width:95%;">
 															</select>
 														</div>
 													</div>
 												</div>
 												<div class="span6 ">
 													<div class="control-group">
-														<label class="control-label span3" style="text-align:right;">就诊项目:</label>
+														<label class="control-label span3" style="text-align:right;">就诊项目:<span class="required">*</span></label>
 														<div class="controls span9">
-															<select class="form-control" id="kf_visit_type" style="width:95%;">
+															<select class="form-control" id="kf_visit_type" name="kf_visit_type" style="width:95%;">
 																<option>建卡</option>
 																<option>看医生</option>
 																<option>查血</option>
@@ -413,7 +363,7 @@
 
 											<div class="row-fluid">
 												<div class="span6 ">
-													<div class="control-group">
+													<div class="control-group" id="kf_visit_doctor_name_group">
 														<label class="control-label span3" style="text-align:right;">就诊医生:</label>
 														<div class="controls span9">
 															<input type="text" id="kf_visit_doctor_name" name="kf_visit_doctor_name" style="width:90%;">
@@ -491,7 +441,7 @@
 																		<label class="control-label span3">复诊时间:</label>
 																		<div class="controls span9">
 																			<select class="form-control" name="kf_next_visit_time" style="width:95%;">
-																				<option></option>
+																				
 																				<option>07:00</option>
 																				<option>07:30</option>
 																				<option>08:00</option>
@@ -620,7 +570,7 @@
 																		<label class="control-label span3">复诊时间:</label>
 																		<div class="controls span9">
 																			<select class="form-control" name="kf_next_visit_time" style="width:95%;">
-																				<option></option>
+																				
 																				<option>07:00</option>
 																				<option>07:30</option>
 																				<option>08:00</option>
@@ -749,7 +699,7 @@
 																		<label class="control-label span3">复诊时间:</label>
 																		<div class="controls span9">
 																			<select class="form-control" name="kf_next_visit_time" style="width:95%;">
-																				<option></option>
+																				
 																				<option>07:00</option>
 																				<option>07:30</option>
 																				<option>08:00</option>
@@ -878,7 +828,7 @@
 																		<label class="control-label span3">复诊时间:</label>
 																		<div class="controls span9">
 																			<select class="form-control" name="kf_next_visit_time" style="width:95%;">
-																				<option></option>
+																				
 																				<option>07:00</option>
 																				<option>07:30</option>
 																				<option>08:00</option>
@@ -993,7 +943,7 @@
 
 					<div class="modal-footer">
 						<button type="button" class="btn default" data-dismiss="modal">取消</button>
-						<button type="submit" class="btn blue" id="save_changes">保存</button>
+						<button type="submit" class="btn blue" id="save_changes">确认</button>
 					</div>
 				</form>
 			</div>
