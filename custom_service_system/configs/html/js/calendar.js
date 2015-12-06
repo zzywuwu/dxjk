@@ -33,6 +33,7 @@ var Calendar = function () {
                         object.backgroundColor = App.getLayoutColorCode('green');
                     }
                     object.description = result.user_event[i].visit_type;
+                    // object.url = "http://www.baidu.com";
                     arr[i] = object;  
                 }
                 App.addResponsiveHandler(function () {
@@ -173,7 +174,23 @@ var Calendar = function () {
                 allDaySlot:true,  
                 selectable: true,  
                 selectHelper: true,   
-                aspectRatio:1.6,     
+                aspectRatio:1.6,
+                eventMouseover: function(calEvent, jsEvent, view) {
+                    var fstart  = $.fullCalendar.formatDate(calEvent.start, "HH:mm");//yyyy/MM/dd 
+                    // var fend  = $.fullCalendar.formatDate(calEvent.end, "HH:mm");    
+                    $(this).attr('title', fstart + "  " + calEvent.description);
+                    $(this).css('font-weight', 'normal');                
+                    // $(this).tooltip({
+                    // effect:'toggle',
+                    // cancelDefault: true
+                    // });
+                },
+                // eventMouseout: function(calEvent, jsEvent, view) {
+                //     $(this).css('font-weight', 'normal');
+                // },
+                // dayClick: function (date, allDay, jsEvent, view) {
+                //     alert("3");
+                // },     
                 drop: function (date, allDay) { // this function is called when something is dropped
                     // retrieve the dropped element's stored Event Object
                     var originalEventObject = $(this).data('eventObject');
