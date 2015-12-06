@@ -55,7 +55,7 @@ var Index = function () {
                     var first_menu = '<li class="">';
                         //tmp_menu += '<a href="/' + menu_arr[i].url + '">';
                         first_menu += '<a href="javascript:;">';
-                        first_menu += '<i class="icon-home"></i>';
+                        first_menu += '<i class="'+ menu_arr[i].img +'"></i>';
 
                         if(menu_arr[i].url) {
                             first_menu += '<span class="title" data="' + menu_arr[i].url + '">' + menu_arr[i].title + '</span>';

@@ -91,7 +91,8 @@ g_privilege[1] = {
 				value = 16,
 				jsontbl = {
 					title = "日历",
-					url = "calendar_index"
+					url = "calendar_index",
+					img = "icon-list-alt"
 				}
 			}
 
@@ -99,7 +100,8 @@ g_privilege[2] = {
 				value = 2,
 				jsontbl = {
 					title = "会员管理",
-					url = "vip_index"
+					url = "vip_index",
+					img = "icon-user"
 				}
 			}
 
@@ -107,7 +109,8 @@ g_privilege[3] = {
 				value = 4,
 				jsontbl = {
 					title = "预签客户",
-					url = "customer_index"
+					url = "customer_index",
+					img = "icon-phone"
 				}
 			}
 
@@ -115,7 +118,8 @@ g_privilege[4] = {
 				value = 64,
 				jsontbl = {
 					title = "陪诊记录",
-					url = "verify_record_index"
+					url = "verify_record_index",
+					img = "icon-book"
 				}
 			}
 
@@ -123,7 +127,8 @@ g_privilege[5] = {
 				value = 8,
 				jsontbl = {
 					title = "人员管理",
-					url = "ac_index"
+					url = "ac_index",
+					img = "icon-eye-open"
 				}
 			}
 

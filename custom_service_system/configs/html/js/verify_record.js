@@ -135,7 +135,6 @@ var KFTableAdvanced = function() {
                 	submitData.script = "record_verify";
             
                 	submitData.id = $("#verify_id").val();
-                	alert(submitData.id);
                 	TendaAjax.getData(submitData, function(result){
                 		if(result.error == GLOBAL.SUCCESS) {
 							initTableList();

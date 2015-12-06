@@ -8,21 +8,18 @@
 
 	<style >
 
-		#kf_modal .control-group {
+		/*#kf_modal .control-group {
 		  	margin-bottom: 5px;
 		}
 		#event_modal .control-group {
 		  	margin-bottom: 5px;
-		}
-		#kf_remarks {
-			/*width: 380px !important;*/
-		}
-		.row-fluid {
+		}	*/	
+		/*.row-fluid {
 			margin-top: 0px;
 		}
 		.portlet {
 			margin-bottom: 0px;	
-		}
+		}*/
 
 	</style>
 	
@@ -292,7 +289,7 @@
 													<div class="control-group">
 														<label class="control-label span3" style="text-align:right;">就诊日期:<span class="required">*</span></label>
 														<div class="controls span9">
-															<input type="date" id="kf_visit_date" name="kf_visit_date" style="width:90%;">
+															<input type="date" id="kf_visit_date" name="kf_visit_date" >
 														</div>
 													</div>
 												</div>
@@ -300,7 +297,7 @@
 													<div class="control-group">
 														<label class="control-label span3" style="text-align:right;">就诊时间:<span class="required">*</span></label>
 														<div class="controls span9">
-															<select class="form-control" id="kf_visit_time" name="kf_visit_time" style="width:95%;">
+															<select class="form-control" id="kf_visit_time" name="kf_visit_time" >
 																<option>07:00</option>
 																<option>07:30</option>
 																<option>08:00</option>
@@ -341,7 +338,7 @@
 													<div class="control-group">
 														<label class="control-label span3" style="text-align:right;">陪诊人员:<span class="required">*</span></label>
 														<div class="controls span9">
-															<select class="form-control" id="kf_servicename" name="kf_servicename" style="width:95%;">
+															<select class="form-control" id="kf_servicename" name="kf_servicename" >
 															</select>
 														</div>
 													</div>
@@ -350,7 +347,7 @@
 													<div class="control-group">
 														<label class="control-label span3" style="text-align:right;">就诊项目:<span class="required">*</span></label>
 														<div class="controls span9">
-															<select class="form-control" id="kf_visit_type" name="kf_visit_type" style="width:95%;">
+															<select class="form-control" id="kf_visit_type" name="kf_visit_type" >
 																<option>建卡</option>
 																<option>看医生</option>
 																<option>查血</option>
@@ -366,7 +363,7 @@
 													<div class="control-group" id="kf_visit_doctor_name_group">
 														<label class="control-label span3" style="text-align:right;">就诊医生:</label>
 														<div class="controls span9">
-															<input type="text" id="kf_visit_doctor_name" name="kf_visit_doctor_name" style="width:90%;">
+															<input type="text" id="kf_visit_doctor_name" name="kf_visit_doctor_name" >
 														</div>
 													</div>
 												</div>	
@@ -377,7 +374,7 @@
 													<div class="control-group">
 														<label class="control-label span3" style="text-align:right;">就诊记录:</label>
 														<div class="controls span9">
-															<textarea id="kf_result" name="kf_result" style="height:80px;width:235%;"></textarea>
+															<textarea id="kf_result" name="kf_result" style="height:80px;width:210%;"></textarea>
 														</div>
 													</div>
 												</div>
@@ -388,7 +385,7 @@
 													<div class="control-group">
 														<label class="control-label span3" style="text-align:right;">医嘱:</label>
 														<div class="controls span9">
-															<textarea id="kf_doctor_advise" name="kf_doctor_advise" style="height:80px;width:235%;"></textarea>
+															<textarea id="kf_doctor_advise" name="kf_doctor_advise" style="height:80px;width:210%;"></textarea>
 														</div>
 													</div>
 												</div>
@@ -399,7 +396,7 @@
 													<div class="control-group">
 														<label class="control-label span3" style="text-align:right;">备注:</label>
 														<div class="controls span9">
-															<textarea id="kf_remarks" name="kf_remarks" style="height:80px;width:235%;"></textarea>
+															<textarea id="kf_remarks" name="kf_remarks" style="height:80px;width:210%;"></textarea>
 														</div>
 													</div>
 												</div>
@@ -432,7 +429,7 @@
 																	<div class="control-group">
 																		<label class="control-label span3">复诊日期:</label>
 																		<div class="controls span9">
-																			<input type="date" name="kf_next_visit_date" style="width:90%;">
+																			<input type="date" name="kf_next_visit_date" >
 																		</div>
 																	</div>
 																</div>
@@ -440,7 +437,7 @@
 																	<div class="control-group">
 																		<label class="control-label span3">复诊时间:</label>
 																		<div class="controls span9">
-																			<select class="form-control" name="kf_next_visit_time" style="width:95%;">
+																			<select class="form-control" name="kf_next_visit_time" >
 																				
 																				<option>07:00</option>
 																				<option>07:30</option>
@@ -482,7 +479,7 @@
 																	<div class="control-group">
 																		<label class="control-label span3">是否预约:</label>
 																		<div class="controls span9">
-																			<select class="form-control" name="kf_next_order_success" style="width:95%;">
+																			<select class="form-control" name="kf_next_order_success" >
 																				<option>未预约</option>
 																				<option>已预约</option>
 																			</select>
@@ -493,7 +490,7 @@
 																	<div class="control-group">
 																		<label class="control-label span3">复诊医生:</label>
 																		<div class="controls span9">
-																			<input type="text" name="kf_next_visit_doctor_name" style="width:90%;">
+																			<input type="text" name="kf_next_visit_doctor_name" >
 																		</div>
 																	</div>
 																</div>
@@ -504,7 +501,7 @@
 																	<div class="control-group">
 																		<label class="control-label span3" style="text-align:right;">就诊项目:</label>
 																		<div class="controls span9">
-																			<select class="form-control" name="kf_next_visit_type" style="width:95%;">
+																			<select class="form-control" name="kf_next_visit_type" >
 																				<option>建卡</option>
 																				<option>看医生</option>
 																				<option>查血</option>
@@ -517,7 +514,7 @@
 																	<div class="control-group">
 																		<label class="control-label span3">就诊地点:</label>
 																		<div class="controls span9">
-																			<input type="text" name="kf_next_visit_address" style="width:90%;">
+																			<input type="text" name="kf_next_visit_address" >
 																		</div>
 																	</div>
 																</div>
@@ -528,7 +525,7 @@
 																	<div class="control-group">
 																		<label class="control-label span3" style="text-align:right;">备注:</label>
 																		<div class="controls span9">
-																			<textarea name="kf_next_remarks" style="height:80px;width:235%;"></textarea>
+																			<textarea name="kf_next_remarks" style="height:80px;width:210%;"></textarea>
 																		</div>
 																	</div>
 																</div>
@@ -561,7 +558,7 @@
 																	<div class="control-group">
 																		<label class="control-label span3">复诊日期:</label>
 																		<div class="controls span9">
-																			<input type="date" name="kf_next_visit_date" style="width:90%;">
+																			<input type="date" name="kf_next_visit_date" >
 																		</div>
 																	</div>
 																</div>
@@ -569,7 +566,7 @@
 																	<div class="control-group">
 																		<label class="control-label span3">复诊时间:</label>
 																		<div class="controls span9">
-																			<select class="form-control" name="kf_next_visit_time" style="width:95%;">
+																			<select class="form-control" name="kf_next_visit_time" >
 																				
 																				<option>07:00</option>
 																				<option>07:30</option>
@@ -611,7 +608,7 @@
 																	<div class="control-group">
 																		<label class="control-label span3">是否预约:</label>
 																		<div class="controls span9">
-																			<select class="form-control" name="kf_next_order_success" style="width:95%;">
+																			<select class="form-control" name="kf_next_order_success" >
 																				<option>未预约</option>
 																				<option>已预约</option>
 																			</select>
@@ -622,7 +619,7 @@
 																	<div class="control-group">
 																		<label class="control-label span3">复诊医生:</label>
 																		<div class="controls span9">
-																			<input type="text" name="kf_next_visit_doctor_name" style="width:90%;">
+																			<input type="text" name="kf_next_visit_doctor_name" >
 																		</div>
 																	</div>
 																</div>
@@ -633,7 +630,7 @@
 																	<div class="control-group">
 																		<label class="control-label span3" style="text-align:right;">就诊项目:</label>
 																		<div class="controls span9">
-																			<select class="form-control" name="kf_visit_type" style="width:95%;">
+																			<select class="form-control" name="kf_visit_type" >
 																				<option>建卡</option>
 																				<option>看医生</option>
 																				<option>查血</option>
@@ -646,7 +643,7 @@
 																	<div class="control-group">
 																		<label class="control-label span3">就诊地点:</label>
 																		<div class="controls span9">
-																			<input type="text" name="kf_next_visit_address" style="width:90%;">
+																			<input type="text" name="kf_next_visit_address" >
 																		</div>
 																	</div>
 																</div>
@@ -657,7 +654,7 @@
 																	<div class="control-group">
 																		<label class="control-label span3" style="text-align:right;">备注:</label>
 																		<div class="controls span9">
-																			<textarea name="kf_next_remarks" style="height:80px;width:235%;"></textarea>
+																			<textarea name="kf_next_remarks" style="height:80px;width:210%;"></textarea>
 																		</div>
 																	</div>
 																</div>
@@ -690,7 +687,7 @@
 																	<div class="control-group">
 																		<label class="control-label span3">复诊日期:</label>
 																		<div class="controls span9">
-																			<input type="date" name="kf_next_visit_date" style="width:90%;">
+																			<input type="date" name="kf_next_visit_date" >
 																		</div>
 																	</div>
 																</div>
@@ -698,7 +695,7 @@
 																	<div class="control-group">
 																		<label class="control-label span3">复诊时间:</label>
 																		<div class="controls span9">
-																			<select class="form-control" name="kf_next_visit_time" style="width:95%;">
+																			<select class="form-control" name="kf_next_visit_time" >
 																				
 																				<option>07:00</option>
 																				<option>07:30</option>
@@ -740,7 +737,7 @@
 																	<div class="control-group">
 																		<label class="control-label span3">是否预约:</label>
 																		<div class="controls span9">
-																			<select class="form-control" name="kf_next_order_success" style="width:95%;">
+																			<select class="form-control" name="kf_next_order_success" >
 																				<option>未预约</option>
 																				<option>已预约</option>
 																			</select>
@@ -751,7 +748,7 @@
 																	<div class="control-group">
 																		<label class="control-label span3">复诊医生:</label>
 																		<div class="controls span9">
-																			<input type="text" name="kf_next_visit_doctor_name" style="width:90%;">
+																			<input type="text" name="kf_next_visit_doctor_name" >
 																		</div>
 																	</div>
 																</div>
@@ -762,7 +759,7 @@
 																	<div class="control-group">
 																		<label class="control-label span3" style="text-align:right;">就诊项目:</label>
 																		<div class="controls span9">
-																			<select class="form-control" name="kf_visit_type" style="width:95%;">
+																			<select class="form-control" name="kf_visit_type" >
 																				<option>建卡</option>
 																				<option>看医生</option>
 																				<option>查血</option>
@@ -775,7 +772,7 @@
 																	<div class="control-group">
 																		<label class="control-label span3">就诊地点:</label>
 																		<div class="controls span9">
-																			<input type="text" name="kf_next_visit_address" style="width:90%;">
+																			<input type="text" name="kf_next_visit_address" >
 																		</div>
 																	</div>
 																</div>
@@ -786,7 +783,7 @@
 																	<div class="control-group">
 																		<label class="control-label span3" style="text-align:right;">备注:</label>
 																		<div class="controls span9">
-																			<textarea name="kf_next_remarks" style="height:80px;width:235%;"></textarea>
+																			<textarea name="kf_next_remarks" style="height:80px;width:210%;"></textarea>
 																		</div>
 																	</div>
 																</div>
@@ -819,7 +816,7 @@
 																	<div class="control-group">
 																		<label class="control-label span3">复诊日期:</label>
 																		<div class="controls span9">
-																			<input type="date" name="kf_next_visit_date" style="width:90%;">
+																			<input type="date" name="kf_next_visit_date" >
 																		</div>
 																	</div>
 																</div>
@@ -827,7 +824,7 @@
 																	<div class="control-group">
 																		<label class="control-label span3">复诊时间:</label>
 																		<div class="controls span9">
-																			<select class="form-control" name="kf_next_visit_time" style="width:95%;">
+																			<select class="form-control" name="kf_next_visit_time" >
 																				
 																				<option>07:00</option>
 																				<option>07:30</option>
@@ -869,7 +866,7 @@
 																	<div class="control-group">
 																		<label class="control-label span3">是否预约:</label>
 																		<div class="controls span9">
-																			<select class="form-control" name="kf_next_order_success" style="width:95%;">
+																			<select class="form-control" name="kf_next_order_success" >
 																				<option>未预约</option>
 																				<option>已预约</option>
 																			</select>
@@ -880,7 +877,7 @@
 																	<div class="control-group">
 																		<label class="control-label span3">复诊医生:</label>
 																		<div class="controls span9">
-																			<input type="text" name="kf_next_visit_doctor_name" style="width:90%;">
+																			<input type="text" name="kf_next_visit_doctor_name" >
 																		</div>
 																	</div>
 																</div>
@@ -891,7 +888,7 @@
 																	<div class="control-group">
 																		<label class="control-label span3" style="text-align:right;">就诊项目:</label>
 																		<div class="controls span9">
-																			<select class="form-control" name="kf_visit_type" style="width:95%;">
+																			<select class="form-control" name="kf_visit_type">
 																				<option>建卡</option>
 																				<option>看医生</option>
 																				<option>查血</option>
@@ -904,7 +901,7 @@
 																	<div class="control-group">
 																		<label class="control-label span3">就诊地点:</label>
 																		<div class="controls span9">
-																			<input type="text" name="kf_next_visit_address" style="width:90%;">
+																			<input type="text" name="kf_next_visit_address">
 																		</div>
 																	</div>
 																</div>
@@ -915,7 +912,7 @@
 																	<div class="control-group">
 																		<label class="control-label span3" style="text-align:right;">备注:</label>
 																		<div class="controls span9">
-																			<textarea name="kf_next_remarks" style="height:80px;width:235%;"></textarea>
+																			<textarea name="kf_next_remarks" style="height:80px;width:210%;"></textarea>
 																		</div>
 																	</div>
 																</div>

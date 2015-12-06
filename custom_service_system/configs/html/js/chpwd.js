@@ -15,51 +15,55 @@ var ResetPwd = function () {
         //main function to initiate the module
         init: function () {
         	
-	        $('.reset-form').validate({
-	            errorElement: 'label', //default input error message container
-	            errorClass: 'help-inline', // default input error message class
-	            focusInvalid: false, // do not focus the last invalid input
-	            ignore: "",
-	            rules: {
-	          
-	                new_password: {
-	                    required: true
-	                },
-	                rpassword: {
-	                    equalTo: "#new_password"
-	                }
-	                
-	            },
+	        var v_reset_form = $('.reset-form');
+			v_reset_form.validate({
 
-	            messages: {
+				errorElement: 'span', //default input error message container
+                errorClass: 'help-inline', // default input error message class
+                focusInvalid: false, // do not focus the last invalid input
+                ignore: "",
+
+	            rules: {	                
 	                new_password: {
-	                    required: "请输入新密码"
-	                },
+	                	required: true,
+	                    minlength: 6                      
+	                },	                
 	                rpassword: {
-	                    required: "请输入确认密码",
-	                    equalTo: "两次输入密码不一致"
+                        required: true,
+                        minlength: 6,
+                        equalTo: "#new_password"
 	                }
 	            },
 
-	            invalidHandler: function (event, validator) { //display error alert on form submit   
+	            messages:{
+                    new_password:{
+                        required:"必填",
+                        minlength: "请输入最少6位"	
+                    },
+                    rpassword:{
+                        required:"必填",
+                        minlength: "请输入最少6位",	
+                        equalTo: "两次输入密码不一致"                 
+                    }                                                   
+                },
 
-	            },
+                highlight: function (element) { // hightlight error inputs
+                    $(element)
+                        .closest('.help-inline').removeClass('ok'); // display OK icon
+                    $(element)
+                        .closest('.control-group').removeClass('success').addClass('error'); // set error class to the control group
+                },
 
-	            highlight: function (element) { // hightlight error inputs
-	                $(element)
-	                    .closest('.control-group').addClass('error'); // set error class to the control group
-	            },
+                unhighlight: function (element) { // revert the change dony by hightlight
+                    $(element)
+                        .closest('.control-group').removeClass('error'); // set error class to the control group
+                },
 
-	            success: function (label) {
-	                label.closest('.control-group').removeClass('error');
-	                label.remove();
-	            },
-
-	            errorPlacement: function (error, element) {
-	                
-	                error.addClass('help-small no-left-padding').insertAfter(element.closest('.input-icon'));
-	                
-	            },
+                success: function (label) {
+                    label
+                        .addClass('valid').addClass('help-inline ok') // mark the current input as valid and display OK icon
+                    .closest('.control-group').removeClass('error').addClass('success'); // set success class to the control group
+                },
 
 	            submitHandler: function (form) {
 	                var new_password = form.new_password.value;
@@ -81,26 +85,17 @@ var ResetPwd = function () {
 		
 		resetPwdHandle: function(obj){
 							
-			//TODO:跳转路径修改
 			switch(obj.error) {
 				case "成功":
 					window.location = "/html/index";
 					break;
-				// case 5:
-				// 	window.location = "chpwd";
-				// 	break;
 				
 				default:
-					$('.alert-error span', $('.login')).text(obj.error);
-	                $('.alert-error', $('.login')).show();
-					//$("#err_msg").html(err_obj[data]).removeClass("hidden");	
+					break;
+					
 			}
 		}
-			
-	
 		
-		
-
     };
 
 }();

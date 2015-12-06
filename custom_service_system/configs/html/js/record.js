@@ -61,7 +61,7 @@ var KFTableAdvanced = function() {
 								"mRender":function(data, type, full){
 									if (full.status) {
 										if (full.verify)
-											return "已审核";
+											return '<font color="green">已审核</font>';
 										else
 											return '<font color="red">未审核</font>';
 									}
@@ -127,7 +127,7 @@ var KFTableAdvanced = function() {
 			sOut += '<tr><td>就诊记录:</td><td>'+aData.result+'</td></tr>';
 			sOut += '<tr><td>医嘱:</td><td>'+aData.doctor_advise+'</td></tr>';
 			if (aData.verify)
-   				sOut += '<tr><td>审核状态:</td><td>已审核</td></tr>';
+   				sOut += '<tr><td>审核状态:</td><td><font color="green">已审核</font></td></tr>';
   			else
    			    sOut += '<tr><td>审核状态:</td><td><font color="red">未审核</font></td></tr>';
         }
@@ -253,8 +253,7 @@ var KFTableAdvanced = function() {
 
 					var fzinfoarr = [];
 					for (var i = 0; i < 4; i++) {
-						var fzinfo = {};
-						// alert(jQuery('#portlet_tab2 .accordion-body:eq(' + i + ') input[name="kf_next_visit_date"]').val());
+						var fzinfo = {};						
 						if (jQuery('#portlet_tab2 .accordion-body:eq(' + i + ') input[name="kf_next_visit_date"]').val() == '')
 							continue;
 						fzinfo.next_visit_date = jQuery('#portlet_tab2 .accordion-body:eq(' + i + ') input[name="kf_next_visit_date"]').val();
@@ -281,7 +280,6 @@ var KFTableAdvanced = function() {
                 		else
                 			alert(result.error);	
 					});
-
 				}
 			});
 
@@ -301,14 +299,40 @@ var KFTableAdvanced = function() {
 				// 给每一个对象零时设置内容，在事件发生的时候取出来
 				jQuery('#portlet_tab2 .accordion-body:eq(' + i + ') input[name="kf_next_visit_date"]').attr("data",i);
 				jQuery('#portlet_tab2 .accordion-body:eq(' + i + ') input[name="kf_next_visit_date"]').on('change', function () {
-	            	if ($(this).val() != '') {
-	            		var index = parseInt($(this).attr("data")) + 1;
+					var index = parseInt($(this).attr("data")) + 1;
+	            	if ($(this).val() != '') {	    
 	            		jQuery('#portlet_tab2 .accordion-heading:eq(' + $(this).attr("data") + ') .accordion-toggle').text('复诊'+index+'(已设置)');
 	            	}
-	            	
+	            	else {
+	            		jQuery('#portlet_tab2 .accordion-heading:eq(' + $(this).attr("data") + ') .accordion-toggle').text('复诊'+index);
+	            	}
 		        });
-			};
-            
+			}
+	
+			$('#portlet_tab2 .accordion-heading:eq(0)').on("click",function(){
+				$('#collapse_2').collapse('hide');
+				$('#collapse_3').collapse('hide');
+				$('#collapse_4').collapse('hide');
+			});
+
+			$('#portlet_tab2 .accordion-heading:eq(1)').on("click",function(){
+				$('#collapse_1').collapse('hide');
+				$('#collapse_3').collapse('hide');
+				$('#collapse_4').collapse('hide');
+			});
+
+			$('#portlet_tab2 .accordion-heading:eq(2)').on("click",function(){
+				$('#collapse_1').collapse('hide');
+				$('#collapse_2').collapse('hide');
+				$('#collapse_4').collapse('hide');
+			});
+
+			$('#portlet_tab2 .accordion-heading:eq(3)').on("click",function(){
+				$('#collapse_1').collapse('hide');
+				$('#collapse_2').collapse('hide');
+				$('#collapse_3').collapse('hide');
+			});
+			        
 			var v_event_form = $('.event-form');        
 			v_event_form.validate({
 	   			errorElement: 'span', //default input error message container
