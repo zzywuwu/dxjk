@@ -107,12 +107,7 @@ var Login = function () {
         },
 		
 		getCodeReq: function(){
-			// $.get("au_captcha", function(data){
-			// 	var url = "/captcha/" + data + ".jpg";
-		
-			// 	$("#img-code").attr("src", url);	
-			// });
-
+			
 			TendaAjax.getCaptcha(function(result){
 				var url = "/temp/captcha/" + result + ".jpg";
 				$("#img-code").attr("src", url);
@@ -130,14 +125,10 @@ var Login = function () {
 				case "帐号未激活":
 					window.location = "/html/chpwd";
 					break;
-				// case 5:
-				// 	window.location = "chpwd";
-				// 	break;
-				
+								
 				default:
 					$('.alert-error span', $('.login')).text(obj.error);
 	                $('.alert-error', $('.login')).show();
-					//$("#err_msg").html(err_obj[data]).removeClass("hidden");	
 			}
 			
 		}

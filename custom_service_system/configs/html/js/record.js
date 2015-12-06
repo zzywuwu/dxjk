@@ -80,6 +80,15 @@ var KFTableAdvanced = function() {
 								}
 							},
 							{
+								"aTargets":[5],
+								"mRender":function(data, type, full){
+									if (data.length > 12)
+										return data.substr(1,12)+'...';
+									else
+										return data;
+								}
+							},
+							{
 								"aTargets":[9],
 								"mRender":function(data, type, full){
 									return "<span class='row-details row-details-close desc'></span>";
@@ -118,7 +127,7 @@ var KFTableAdvanced = function() {
 	var fnFormatDetails = function( oTable, nTr ) {
         var aData = oTable.fnGetData( nTr );
         var sOut = '<table>';
-		sOut += '<tr><td>就诊时间:</td><td>'+aData.visit_date.split(" ",1)+ ' '+ aData.visit_time + '</td></tr>';
+		sOut += '<tr><td style="width:100px;">就诊时间:</td><td>'+aData.visit_date.split(" ",1)+ ' '+ aData.visit_time + '</td></tr>';
 		sOut += '<tr><td>就诊项目:</td><td>'+aData.visit_type+'</td></tr>';
 		sOut += '<tr><td>就诊医生:</td><td>'+aData.visit_doctor_name+'</td></tr>';
         if (aData.status == 1) {
@@ -184,37 +193,45 @@ var KFTableAdvanced = function() {
                 ignore: "",
 
                 rules: {
-                	kf_visit_doctor_name: {
-	                    minlength: 2,
-                        required: function() {
-                        	if (jQuery('#kf_visit_type').val() == "看医生" ) {
-                                return true;
-                        	}
-                        	else{
-                        		return false;
-                        	}
-                        }
-	                },
+             //    	kf_visit_doctor_name: {
+	            //         minlength: 2,
+             //            required: function() {
+             //            	var flag = false;
+             //            	$("#kf_visit_type option:selected").each(function(){			      
+					        //     if ($(this).text() == GLOBAL.LOOKDOCTOR) {
+					        //     	flag = true;
+				        	// 		return false;		
+					        //     }					       
+					        // });   	
+             //            	return flag;
+             //            }
+	            //     },
 	                kf_servicename: {
 	                    required: true
 	                },
 	                kf_visit_date: {
 	                    required: true,
                         date: true
-	                }
+	                },
+	                kf_visit_type: {
+	                    required: true,                     
+	                }		               
 	            },
 
 	            messages:{
-	            	kf_visit_doctor_name:{
-                        required:"必填",
-                        minlength: "请输入最少2位"
-                    },
+	            	// kf_visit_doctor_name:{
+              //           required:"必填",
+              //           minlength: "请输入最少2位"
+              //       },
                     kf_servicename:{
                         required:"必填"
                     },
                     kf_visit_date:{
                         required:"必填"
-                    }                                                     
+                    },
+                    kf_visit_type:{
+                    	required:"最少选一个"
+                    }                                                                   
                 },
 	            
 	            highlight: function (element) { // hightlight error inputs
@@ -243,8 +260,12 @@ var KFTableAdvanced = function() {
 					submitData.script = "record_modify";					
 					submitData.id = $("#kf_id").val();
 					submitData.visit_date = form.kf_visit_date.value;
-					submitData.visit_time = jQuery('#kf_visit_time').val();
-					submitData.visit_type = jQuery('#kf_visit_type').val();
+					submitData.visit_time = jQuery('#kf_visit_time').val();	
+					var visit_type_arr = [];
+					$("#kf_visit_type option:selected").each(function(){			      
+			            visit_type_arr.push($(this).text());
+			        });
+			        submitData.visit_type = JSON.stringify(visit_type_arr);			
 					submitData.visit_doctor_name = form.kf_visit_doctor_name.value;
 					submitData.result = form.kf_result.value;
 					submitData.doctor_advise = form.kf_doctor_advise.value;
@@ -263,7 +284,12 @@ var KFTableAdvanced = function() {
 						else
 							fzinfo.next_order_success = 0;
 						fzinfo.next_visit_doctor_name = jQuery('#portlet_tab2 .accordion-body:eq(' + i + ') input[name="kf_next_visit_doctor_name"]').val();
-						fzinfo.next_visit_type = jQuery('#portlet_tab2 .accordion-body:eq(' + i + ') select[name="kf_next_visit_type"]').val();
+						
+						var next_visit_type_arr = [];
+						jQuery('#portlet_tab2 .accordion-body:eq(' + i + ') select[name="kf_next_visit_type"] option:selected').each(function(){			      
+				            next_visit_type_arr.push($(this).text());
+				        });
+				        fzinfo.next_visit_type = JSON.stringify(next_visit_type_arr);	
 						fzinfo.next_visit_address = jQuery('#portlet_tab2 .accordion-body:eq(' + i + ') input[name="kf_next_visit_address"]').val();
 						fzinfo.next_visit_remarks = jQuery('#portlet_tab2 .accordion-body:eq(' + i + ') textarea[name="kf_next_remarks"]').val();
 						//alert(JSON.stringify(fzinfo));
@@ -271,7 +297,85 @@ var KFTableAdvanced = function() {
 					};
 					//alert(fzinfoarr);
 					submitData.fzinfo = JSON.stringify(fzinfoarr);
-		
+
+					// alert($('#kf_next_visit_date1').val());
+					if ($('#kf_next_visit_date1').val() !='') {
+						// alert($('#kf_next_visit_type1'));
+						$('#kf_next_visit_type1').rules("add", {
+							required: true,
+							messages: {
+								required: "最少选一个"
+							}
+						});
+						var flag = false;		
+						jQuery('#kf_next_visit_type1 option:selected').each(function(){			      
+				            flag = true;
+				            return false;
+				        });
+				        if (flag == false)
+				        	return;
+					}
+					else {
+						$('#kf_next_visit_type1').rules("remove" );
+					}
+
+					if ($('#kf_next_visit_date2').val() !='') {
+						$('#kf_next_visit_type2').rules("add", {
+							required: true,                 			                	
+							messages: {
+								required: "最少选一个"
+							}
+						});
+						var flag = false;		
+						jQuery('#kf_next_visit_type2 option:selected').each(function(){			      
+				            flag = true;
+				            return false;
+				        });
+				        if (flag == false)
+				        	return;
+					}
+					else {
+						$('#kf_next_visit_type2').rules( "remove" );
+					}
+
+					if ($('#kf_next_visit_date3').val() !='') {
+						$('#kf_next_visit_type3').rules("add", {
+							required: true,                 			                	
+							messages: {
+								required: "最少选一个"
+							}
+						});
+						var flag = false;		
+						jQuery('#kf_next_visit_type3 option:selected').each(function(){			      
+				            flag = true;
+				            return false;
+				        });
+				        if (flag == false)
+				        	return;
+					}
+					else {
+						$('#kf_next_visit_type3').rules( "remove" );
+					}
+
+					if ($('#kf_next_visit_date4').val() !='') {
+						$('#kf_next_visit_type4').rules("add", {
+							required: true,                 			                	
+							messages: {
+								required: "最少选一个"
+							}
+						});
+						var flag = false;		
+						jQuery('#kf_next_visit_type4 option:selected').each(function(){			      
+				            flag = true;
+				            return false;
+				        });
+				        if (flag == false)
+				        	return;
+					}
+					else {
+						$('#kf_next_visit_type4').rules( "remove" );
+					}
+
 					TendaAjax.getData(submitData, function(result){
 						if(result.error == GLOBAL.SUCCESS) {
 							initTableList();
@@ -283,55 +387,33 @@ var KFTableAdvanced = function() {
 				}
 			});
 
-			jQuery('#kf_visit_type').change(function () {
-        		$("#kf_visit_doctor_name_group .controls span").remove();
-				$("#kf_visit_doctor_name_group").removeClass('success').removeClass('error');
-            	if (jQuery('#kf_visit_type').val() == "看医生" ) {
-	        		var html = '<span class="required">*</span>';
-	        		$('#kf_visit_doctor_name_group').children('label').append(html);	
-	        	}
-	        	else{
-	        		$('#kf_visit_doctor_name_group').children('label').children('span').remove();	
-	        	}
-            });
-
-			for (var i = 0,j = 1; i < 4; i++,j++) {
-				// 给每一个对象零时设置内容，在事件发生的时候取出来
-				jQuery('#portlet_tab2 .accordion-body:eq(' + i + ') input[name="kf_next_visit_date"]').attr("data",i);
-				jQuery('#portlet_tab2 .accordion-body:eq(' + i + ') input[name="kf_next_visit_date"]').on('change', function () {
-					var index = parseInt($(this).attr("data")) + 1;
-	            	if ($(this).val() != '') {	    
-	            		jQuery('#portlet_tab2 .accordion-heading:eq(' + $(this).attr("data") + ') .accordion-toggle').text('复诊'+index+'(已设置)');
-	            	}
-	            	else {
-	            		jQuery('#portlet_tab2 .accordion-heading:eq(' + $(this).attr("data") + ') .accordion-toggle').text('复诊'+index);
-	            	}
-		        });
+			if ($('#kf_next_visit_date1').val() !='') {
+				$('#kf_next_visit_type1').rules("add", {
+					required: function() {              	
+                		return;              	
+                	},
+					messages: {
+						required: "最少选一个"
+					}
+				});
 			}
-	
-			$('#portlet_tab2 .accordion-heading:eq(0)').on("click",function(){
-				$('#collapse_2').collapse('hide');
-				$('#collapse_3').collapse('hide');
-				$('#collapse_4').collapse('hide');
-			});
+			else {
+				$('#kf_next_visit_type1').rules( "remove" );
+			}
 
-			$('#portlet_tab2 .accordion-heading:eq(1)').on("click",function(){
-				$('#collapse_1').collapse('hide');
-				$('#collapse_3').collapse('hide');
-				$('#collapse_4').collapse('hide');
-			});
-
-			$('#portlet_tab2 .accordion-heading:eq(2)').on("click",function(){
-				$('#collapse_1').collapse('hide');
-				$('#collapse_2').collapse('hide');
-				$('#collapse_4').collapse('hide');
-			});
-
-			$('#portlet_tab2 .accordion-heading:eq(3)').on("click",function(){
-				$('#collapse_1').collapse('hide');
-				$('#collapse_2').collapse('hide');
-				$('#collapse_3').collapse('hide');
-			});
+			// jQuery('#kf_visit_type').change(function () {
+   //      		$("#kf_visit_doctor_name_group .controls span").remove();
+			// 	$("#kf_visit_doctor_name_group").removeClass('success').removeClass('error');
+			// 	$("#kf_visit_type option:selected").each(function(){			      
+		 //            if ($(this).text() == GLOBAL.LOOKDOCTOR) {
+		 //            	var html = '<span class="required">*</span>';
+	  //       			$('#kf_visit_doctor_name_group').children('label').append(html);
+	  //       			return false;		
+		 //            }
+		 //            else
+		 //            	$('#kf_visit_doctor_name_group').children('label').children('span').remove();	
+		 //        });      
+   //          });
 			        
 			var v_event_form = $('.event-form');        
 			v_event_form.validate({
@@ -341,17 +423,19 @@ var KFTableAdvanced = function() {
                 ignore: "",
 
 	            rules: {
-	                event_visit_doctor_name: {
-	                    minlength: 2,
-                        required: function() {
-                        	if (jQuery('#event_visit_type').val() == "复诊" ) {
-                                return true;
-                        	}
-                        	else{
-                        		return false;
-                        	}
-                        }
-	                },
+	            //     event_visit_doctor_name: {
+	            //         minlength: 2,
+             //            required: function() {
+             //            	var flag = false;
+             //            	$("#event_visit_type option:selected").each(function(){			      
+					        //     if ($(this).text() == GLOBAL.LOOKDOCTOR) {
+					        //     	flag = true;
+				        	// 		return false;		
+					        //     }					       
+					        // });   	
+             //            	return flag;
+             //            }
+	            //     },
 	                event_visit_date: {
 	                    required: true,
                         date: true
@@ -359,10 +443,10 @@ var KFTableAdvanced = function() {
 	            },
 
 	            messages:{
-                    event_visit_doctor_name:{
-                        required:"必填",
-                        minlength: "请输入最少2位"
-                    },
+                    // event_visit_doctor_name:{
+                    //     required:"必填",
+                    //     minlength: "请输入最少2位"
+                    // },
                     event_visit_date:{
                         required:"必填"
                     }                                                     
@@ -399,8 +483,7 @@ var KFTableAdvanced = function() {
 					}
 					submitData.id = $("#event_id").val();
 					submitData.visit_date = form.event_visit_date.value;
-					submitData.visit_time = jQuery('#event_visit_time').val();
-					submitData.visit_type = jQuery('#event_visit_type').val();
+					submitData.visit_time = jQuery('#event_visit_time').val();					
 					if (jQuery('#event_order_success').val() == "已预约")
 						submitData.order_success = 1;
 					else
@@ -409,6 +492,11 @@ var KFTableAdvanced = function() {
 					submitData.visit_doctor_name = form.event_visit_doctor_name.value;
 					submitData.remarks = form.event_remarks.value;
 					
+					var visit_type_arr = [];
+					$("#event_visit_type option:selected").each(function(){			      
+			            visit_type_arr.push($(this).text());
+			        });
+			        submitData.visit_type = JSON.stringify(visit_type_arr);			       
 					TendaAjax.getData(submitData, function(result){
 						if(result.error == GLOBAL.SUCCESS) {
 							initTableList();
@@ -421,18 +509,58 @@ var KFTableAdvanced = function() {
 				}
 			});
 
-        	jQuery('#event_visit_type').change(function () {
-        		$("#event_visit_doctor_name_group .controls span").remove();
-				$("#event_visit_doctor_name_group").removeClass('success').removeClass('error');
-            	if (jQuery('#event_visit_type').val() == "复诊" ) {
-	        		var html = '<span class="required">*</span>';
-	        		$('#event_visit_doctor_name_group').children('label').append(html);	
-	        	}
-	        	else{
-	        		$('#event_visit_doctor_name_group').children('label').children('span').remove();	
-	        	}
-            });
+    //     	jQuery('#event_visit_type').change(function () {
+    //     		$("#event_visit_doctor_name_group .controls span").remove();
+				// $("#event_visit_doctor_name_group").removeClass('success').removeClass('error');
+    //         	$("#event_visit_type option:selected").each(function(){			      
+		  //           if ($(this).text() == GLOBAL.LOOKDOCTOR) {
+		  //           	var html = '<span class="required">*</span>';
+	   //      			$('#event_visit_doctor_name_group').children('label').append(html);
+	   //      			return false;		
+		  //           }
+		  //           else
+		  //           	$('#event_visit_doctor_name_group').children('label').children('span').remove();	
+		  //       });  
+    //         });
 
+            for (var i = 0,j = 1; i < 4; i++,j++) {
+				// 给每一个对象零时设置内容，在事件发生的时候取出来
+				jQuery('#portlet_tab2 .accordion-body:eq(' + i + ') input[name="kf_next_visit_date"]').attr("data",i);
+				jQuery('#portlet_tab2 .accordion-body:eq(' + i + ') input[name="kf_next_visit_date"]').on('change', function () {
+					var index = parseInt($(this).attr("data")) + 1;
+	            	if ($(this).val() != '') {	    	            	
+	            		jQuery('#portlet_tab2 .accordion-heading:eq(' + $(this).attr("data") + ') .accordion-toggle').text('复诊'+index+'(已设置)');
+	            	}
+	            	else {
+	            		jQuery('#portlet_tab2 .accordion-heading:eq(' + $(this).attr("data") + ') .accordion-toggle').text('复诊'+index);
+	            	}
+		        });
+			}
+	
+			$('#portlet_tab2 .accordion-heading:eq(0)').on("click",function(){
+				$('#collapse_2').collapse('hide');
+				$('#collapse_3').collapse('hide');
+				$('#collapse_4').collapse('hide');
+			});
+
+			$('#portlet_tab2 .accordion-heading:eq(1)').on("click",function(){
+				$('#collapse_1').collapse('hide');
+				$('#collapse_3').collapse('hide');
+				$('#collapse_4').collapse('hide');
+			});
+
+			$('#portlet_tab2 .accordion-heading:eq(2)').on("click",function(){
+				$('#collapse_1').collapse('hide');
+				$('#collapse_2').collapse('hide');
+				$('#collapse_4').collapse('hide');
+			});
+
+			$('#portlet_tab2 .accordion-heading:eq(3)').on("click",function(){
+				$('#collapse_1').collapse('hide');
+				$('#collapse_2').collapse('hide');
+				$('#collapse_3').collapse('hide');
+			});
+      
 			jQuery('.kf-index>li').on("click", function(){
 
 				var operation;
@@ -481,6 +609,7 @@ var KFTableAdvanced = function() {
 					$("#event_modal textarea").val('');
 					$("#event_modal .controls span",$(this)).remove();
 					$("#event_modal .control-group").removeClass('success').removeClass('error');	
+					$("#event_visit_type").val('');
 
           			$("#event_id").val(arr[0].id).prop("disabled", true);
 					$("#event_visit_date").val(arr[0].visit_date.split(" ",1));
@@ -489,11 +618,19 @@ var KFTableAdvanced = function() {
 							$(this).attr("selected",true);
 						}
 					});
-					jQuery('#event_visit_type option').each(function(){
-						if (arr[0].visit_type == $(this).text()){
-							$(this).attr("selected",true);
-						}
-					});
+					
+					var obj = jQuery.parseJSON(arr[0].visit_type);
+					if (Array.isArray(obj)) {
+						for (var i = 0; i < obj.length; i++) {
+							jQuery('#event_visit_type option').each(function(){
+								if (obj[i] == $(this).text()){
+									$(this).attr("selected",true);
+									return false;
+								}
+							});
+						};
+					}
+
 					jQuery('#event_order_success option').each(function(){
 						if ("已预约" == $(this).text() && arr[0].order_success){
 							$(this).attr("selected",true);
@@ -540,6 +677,14 @@ var KFTableAdvanced = function() {
 					jQuery("#kf_servicename").empty();
 					$("#kf_modal .controls span",$(this)).remove();
 					$("#kf_modal .control-group").removeClass('success').removeClass('error');
+					for (var i = 0,j = 1; i < 4; i++,j++) {
+						jQuery('#portlet_tab2 .accordion-heading:eq(' + i + ') .accordion-toggle').text('复诊'+j);
+					}
+					$('#collapse_1').collapse('show');
+					$('#collapse_2').collapse('hide');
+					$('#collapse_3').collapse('hide');
+					$('#collapse_4').collapse('hide');
+					$("#kf_visit_type").val('');
 					
 	                TendaAjax.getData({"script":"ac_get_list"}, function(result){
 					 	if(result.error == GLOBAL.SUCCESS) {
@@ -565,11 +710,19 @@ var KFTableAdvanced = function() {
 							$(this).attr("selected",true);
 						}
 					});
-					jQuery('#kf_visit_type option').each(function(){
-						if (arr[0].visit_type == $(this).text()){
-							$(this).attr("selected",true);
-						}
-					});
+
+					var obj = jQuery.parseJSON(arr[0].visit_type);
+					if (Array.isArray(obj)) {
+						for (var i = 0; i < obj.length; i++) {
+							jQuery('#kf_visit_type option').each(function(){
+								if (obj[i] == $(this).text()){
+									$(this).attr("selected",true);
+									return false;
+								}
+							});
+						};
+					}
+				
 					$("#kf_visit_doctor_name").val(arr[0].visit_doctor_name);	
 					$("#kf_result").val(arr[0].result);
 					$("#kf_doctor_advise").val(arr[0].doctor_advise);
@@ -593,12 +746,19 @@ var KFTableAdvanced = function() {
 								}
 							});
 							jQuery('#portlet_tab2 .accordion-body:eq(' + i + ') input[name="kf_next_visit_doctor_name"]').val(obj[i].next_visit_doctor_name);
-							jQuery('#portlet_tab2 .accordion-body:eq(' + i + ') select[name="kf_next_visit_type"] option').each(function(){
-								if (obj[i].next_visit_type == $(this).text()){
-									$(this).attr("selected",true);
-									return false;
-								}
-							});
+							
+							var next_visit_obj = jQuery.parseJSON(obj[i].next_visit_type);
+							if (Array.isArray(next_visit_obj)) {
+								for (var k = 0; k < next_visit_obj.length; k++) {
+									jQuery('#portlet_tab2 .accordion-body:eq(' + i + ') select[name="kf_next_visit_type"] option').each(function(){
+										if (next_visit_obj[k] == $(this).text()){
+											$(this).attr("selected",true);
+											return false;
+										}
+									});
+								};
+							}
+
 							jQuery('#portlet_tab2 .accordion-body:eq(' + i + ')  input[name="kf_next_visit_address"]').val(obj[i].next_visit_address);
 							jQuery('#portlet_tab2 .accordion-body:eq(' + i + ')  textarea[name="kf_next_remarks"]').val(obj[i].next_visit_remarks);
 						};	

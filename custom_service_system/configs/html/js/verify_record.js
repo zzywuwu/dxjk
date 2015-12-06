@@ -46,6 +46,15 @@ var KFTableAdvanced = function() {
 								}
 							},
 							{
+								"aTargets":[4],
+								"mRender":function(data, type, full){
+									if (data.length > 12)
+										return data.substr(1,12)+'...';
+									else
+										return data;
+								}
+							},
+							{
 								"aTargets":[8],
 								"mRender":function(data, type, full){
 									return "<span class='row-details row-details-close desc'></span>";
@@ -84,7 +93,7 @@ var KFTableAdvanced = function() {
 	var fnFormatDetails = function( oTable, nTr ) {
         var aData = oTable.fnGetData( nTr );
         var sOut = '<table>';
-        sOut += '<tr><td>姓名:</td><td>'+aData.customer_name.split(" ",1)+'</td></tr>';
+        sOut += '<tr><td style="width:100px;">姓名:</td><td>'+aData.customer_name.split(" ",1)+'</td></tr>';
         sOut += '<tr><td>就诊时间:</td><td>'+aData.visit_date.split(" ",1)+' '+ aData.visit_time+'</td></tr>';
         sOut += '<tr><td>陪诊人员:</td><td>'+aData.servicename+'</td></tr>';
         sOut += '<tr><td>就诊项目:</td><td>'+aData.visit_type+'</td></tr>';
@@ -197,7 +206,7 @@ var KFTableAdvanced = function() {
 			        var obj = jQuery.parseJSON(arr[0].fzinfo);
 					if (Array.isArray(obj)) {
 						if (obj.length == 0) {
-							html += '<li>复诊信息:' + '<font color="red">无</font></li>';	
+							html += '<li>复诊信息&nbsp&nbsp&nbsp&nbsp:' + '<font color="red">无</font></li>';	
 						}
 						else {	
 							for (var i = 0, j = 1; i < obj.length; i++,j++) {

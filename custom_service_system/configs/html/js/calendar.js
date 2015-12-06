@@ -12,12 +12,18 @@ var Calendar = function () {
                     var object = {};
                     var date = result.user_event[i].visit_date.split(" ",1); 
                     var datearr = date[0].split("-",3);
-                    object.title = result.user_event[i].customer_name + "(" + result.user_event[i].visit_type + ")" + "[" + result.user_event[i].visit_doctor_name + "]";
+                    var visit_type_str = "";
+                    if (result.user_event[i].visit_type.length > 12)
+                        visit_type_str = result.user_event[i].visit_type.substr(1,12)+'...';
+                    else
+                        visit_type_str = result.user_event[i].visit_type;
+                    object.title = result.user_event[i].customer_name + "(" + visit_type_str + ")" + "[" + result.user_event[i].visit_doctor_name + "]";
                     var timearr = result.user_event[i].visit_time.split(":",2); 
                     object.start = new Date(parseInt(datearr[0]),parseInt(datearr[1])-1,parseInt(datearr[2]),parseInt(timearr[0]),parseInt(timearr[1]));
                     object.end = new Date(parseInt(datearr[0]),parseInt(datearr[1])-1,parseInt(datearr[2]),parseInt(timearr[0]),parseInt(timearr[1])+30);
                     object.allDay = false;
-                    if (result.user_event[i].visit_type == "看医生" || result.user_event[i].visit_type == "建卡") {
+                    if (result.user_event[i].visit_type == GLOBAL.CREATE || result.user_event[i].visit_type == GLOBAL.LOOKDOCTOR ||
+                        result.user_event[i].visit_type == GLOBAL.REVIEWDOCTOR ) {
                         if (result.user_event[i].order_success)
                             object.backgroundColor = '#35aa47';//App.getLayoutColorCode('green');
                         else

@@ -104,7 +104,7 @@ var KFTableAdvanced = function() {
 	var fnFormatDetails = function( oTable, nTr ) {
         var aData = oTable.fnGetData( nTr );
         var sOut = '<table>';
-        sOut += '<tr><td>姓名:</td><td>'+aData.name+'</td></tr>';
+        sOut += '<tr><td style="width:100px;">姓名:</td><td>'+aData.name+'</td></tr>';
         sOut += '<tr><td>电话:</td><td>'+aData.phonenumber+'</td></tr>';
         sOut += '<tr><td>客户类型:</td><td>'+aData.customer_type+'</td></tr>';
         if (aData.customer_type == "孕妈妈") {

@@ -74,7 +74,7 @@ CREATE TABLE `record` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `visit_date` datetime NOT NULL,
   `visit_time` varchar(32) DEFAULT '',
-  `visit_type` varchar(32) DEFAULT '',
+  `visit_type` varchar(512) DEFAULT '',
   `order_success` int(11) DEFAULT '0',
   `visit_doctor_name` varchar(32) DEFAULT '',
   `visit_address` varchar(128) DEFAULT '',

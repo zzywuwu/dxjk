@@ -1,5 +1,8 @@
 var GLOBAL = {};
 GLOBAL.SUCCESS = "成功";
+GLOBAL.LOOKDOCTOR = "就诊";
+GLOBAL.REVIEWDOCTOR = "复诊";
+GLOBAL.CREATE = "建卡全套";
 GLOBAL.domain = "http://192.168.0.101";
 GLOBAL.RDINDEX = {};
 
@@ -30,9 +33,7 @@ var Index = function () {
             });
         },
 
-        initNavInfo: function () {
-
-            //var data = {"error":0,"status":2,"catalogue":[{"title":"版本管理","child":[{"title":"版本列表","url":"C_Product/pd_manage/pd_list"},{"title":"版本列表","url":"C_Product/pd_manage/pd_list"}]},{"title":"版本管理","url":"sdfsg/sdfj"},{"title":"版本管理","child":[{"title":"版本列表","url":"C_Product/pd_manage/pd_list"},{"title":"版本列表","url":"C_Product/pd_manage/pd_list"}]},{"title":"版本管理","url":"sdfsg/sdfj"}]}
+        initNavInfo: function () {           
 
             TendaAjax.getData({"script":"au_menu"}, function(obj) {
                 

@@ -2,32 +2,13 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Tenda | 陪诊记录</title>
+<title>陪诊记录</title>
+		
 
-	
-
-	<style >
-
-		/*#kf_modal .control-group {
-		  	margin-bottom: 5px;
-		}
-		#event_modal .control-group {
-		  	margin-bottom: 5px;
-		}	*/	
-		/*.row-fluid {
-			margin-top: 0px;
-		}
-		.portlet {
-			margin-bottom: 0px;	
-		}*/
-
-	</style>
-	
 </head>
 
 <body>
 	
-
 	<!--Account Management Modal END-->
 	<!-- <div class="row-fluid">
 		<div class="span12">
@@ -189,7 +170,7 @@
 							</div>
 						</div>
 
-						<div class="control-group">
+						<!-- <div class="control-group">
 							<label class="control-label">就诊项目:<span class="required">*</span></label>
 							<div class="controls">
 								<select class="form-control" id="event_visit_type">
@@ -201,7 +182,54 @@
 									
 								</select>
 							</div>
+						</div> -->
+
+						<div class="control-group" style="height:120px;">
+
+							<label class="control-label ">就诊项目:<span class="required">*</span></label>
+
+							<div class="controls">
+
+								<select style="height:120px;" multiple="multiple" id="event_visit_type" name="event_visit_type">
+
+									<option>建卡全套</option>
+									<option>复诊</option>
+									<option>就诊</option>									
+									<option>心电图</option>
+									<option>胎监</option>
+									<option>脐血流</option>
+									<option>阳水穿刺</option>
+									<option>凝血功能</option>
+									<option>无创DNA</option>
+									<option>血常规</option>
+									<option>小便常规</option>
+									<option>肝功</option>
+									<option>肾功</option>
+									<option>空腹血糖</option>
+									<option>铁蛋白</option>
+									<option>输血免疫全套</option>
+									<option>甲功</option>
+									<option>胆汁酸</option>
+									<option>血型</option>
+									<option>血型抗价</option>
+									<option>75G糖</option>
+									<option>唐氏筛查(早)</option>
+									<option>唐氏筛查(中)</option>
+									<option>胎儿心脏彩超</option>
+									<option>胎儿系统彩超</option>	
+									<option>NT彩超</option>
+									<option>阴道彩超</option>
+									<option>腹部彩超</option>
+									<option>心脏彩超</option>
+									<option>肝胆胰脾肾彩超</option>
+
+
+								</select>
+
+							</div>
+
 						</div>
+	
 
 						<div class="control-group">
 							<label class="control-label">是否预约:<span class="required">*</span></label>
@@ -344,14 +372,42 @@
 													</div>
 												</div>
 												<div class="span6 ">
-													<div class="control-group">
+													<div class="control-group" style="height:120px;">
 														<label class="control-label span3" style="text-align:right;">就诊项目:<span class="required">*</span></label>
 														<div class="controls span9">
-															<select class="form-control" id="kf_visit_type" name="kf_visit_type" >
-																<option>建卡</option>
-																<option>看医生</option>
-																<option>查血</option>
-																<option>B超</option>
+															<select style="height:120px;" multiple="multiple" id="kf_visit_type" name="kf_visit_type">
+
+																<option>建卡全套</option>
+																<option>复诊</option>
+																<option>就诊</option>									
+																<option>心电图</option>
+																<option>胎监</option>
+																<option>脐血流</option>
+																<option>阳水穿刺</option>
+																<option>凝血功能</option>
+																<option>无创DNA</option>
+																<option>血常规</option>
+																<option>小便常规</option>
+																<option>肝功</option>
+																<option>肾功</option>
+																<option>空腹血糖</option>
+																<option>铁蛋白</option>
+																<option>输血免疫全套</option>
+																<option>甲功</option>
+																<option>胆汁酸</option>
+																<option>血型</option>
+																<option>血型抗价</option>
+																<option>75G糖</option>
+																<option>唐氏筛查(早)</option>
+																<option>唐氏筛查(中)</option>
+																<option>胎儿心脏彩超</option>
+																<option>胎儿系统彩超</option>	
+																<option>NT彩超</option>
+																<option>阴道彩超</option>
+																<option>腹部彩超</option>
+																<option>心脏彩超</option>
+																<option>肝胆胰脾肾彩超</option>
+
 															</select>
 														</div>
 													</div>
@@ -429,7 +485,7 @@
 																	<div class="control-group">
 																		<label class="control-label span3">复诊日期:</label>
 																		<div class="controls span9">
-																			<input type="date" name="kf_next_visit_date" >
+																			<input type="date" id="kf_next_visit_date1" name="kf_next_visit_date">
 																		</div>
 																	</div>
 																</div>
@@ -498,18 +554,47 @@
 
 															<div class="row-fluid">
 																<div class="span6 ">
-																	<div class="control-group">
-																		<label class="control-label span3" style="text-align:right;">就诊项目:</label>
+																	<div class="control-group" style="height:110px;">
+																		<label class="control-label span3" style="text-align:right;">就诊项目:<span class="required">*</span></label>
 																		<div class="controls span9">
-																			<select class="form-control" name="kf_next_visit_type" >
-																				<option>建卡</option>
-																				<option>看医生</option>
-																				<option>查血</option>
-																				<option>B超</option>
+																			<select style="height:110px;" multiple="multiple" id="kf_next_visit_type1" name="kf_next_visit_type">
+
+																				<option>建卡全套</option>
+																				<option>复诊</option>
+																				<option>就诊</option>									
+																				<option>心电图</option>
+																				<option>胎监</option>
+																				<option>脐血流</option>
+																				<option>阳水穿刺</option>
+																				<option>凝血功能</option>
+																				<option>无创DNA</option>
+																				<option>血常规</option>
+																				<option>小便常规</option>
+																				<option>肝功</option>
+																				<option>肾功</option>
+																				<option>空腹血糖</option>
+																				<option>铁蛋白</option>
+																				<option>输血免疫全套</option>
+																				<option>甲功</option>
+																				<option>胆汁酸</option>
+																				<option>血型</option>
+																				<option>血型抗价</option>
+																				<option>75G糖</option>
+																				<option>唐氏筛查(早)</option>
+																				<option>唐氏筛查(中)</option>
+																				<option>胎儿心脏彩超</option>
+																				<option>胎儿系统彩超</option>	
+																				<option>NT彩超</option>
+																				<option>阴道彩超</option>
+																				<option>腹部彩超</option>
+																				<option>心脏彩超</option>
+																				<option>肝胆胰脾肾彩超</option>
+																																
 																			</select>
 																		</div>
 																	</div>
-																</div>	
+																</div>		
+
 																<div class="span6 ">
 																	<div class="control-group">
 																		<label class="control-label span3">就诊地点:</label>
@@ -558,7 +643,7 @@
 																	<div class="control-group">
 																		<label class="control-label span3">复诊日期:</label>
 																		<div class="controls span9">
-																			<input type="date" name="kf_next_visit_date" >
+																			<input type="date" id="kf_next_visit_date2" name="kf_next_visit_date" >
 																		</div>
 																	</div>
 																</div>
@@ -627,14 +712,41 @@
 
 															<div class="row-fluid">
 																<div class="span6 ">
-																	<div class="control-group">
-																		<label class="control-label span3" style="text-align:right;">就诊项目:</label>
+																	<div class="control-group" style="height:110px;">
+																		<label class="control-label span3" style="text-align:right;">就诊项目:<span class="required">*</span></label>
 																		<div class="controls span9">
-																			<select class="form-control" name="kf_visit_type" >
-																				<option>建卡</option>
-																				<option>看医生</option>
-																				<option>查血</option>
-																				<option>B超</option>
+																			<select style="height:110px;" multiple="multiple" id="kf_next_visit_type2" name="kf_next_visit_type">
+
+																				<option>建卡全套</option>
+																				<option>复诊</option>
+																				<option>就诊</option>									
+																				<option>心电图</option>
+																				<option>胎监</option>
+																				<option>脐血流</option>
+																				<option>阳水穿刺</option>
+																				<option>凝血功能</option>
+																				<option>无创DNA</option>
+																				<option>血常规</option>
+																				<option>小便常规</option>
+																				<option>肝功</option>
+																				<option>肾功</option>
+																				<option>空腹血糖</option>
+																				<option>铁蛋白</option>
+																				<option>输血免疫全套</option>
+																				<option>甲功</option>
+																				<option>胆汁酸</option>
+																				<option>血型</option>
+																				<option>血型抗价</option>
+																				<option>75G糖</option>
+																				<option>唐氏筛查(早)</option>
+																				<option>唐氏筛查(中)</option>
+																				<option>胎儿心脏彩超</option>
+																				<option>胎儿系统彩超</option>	
+																				<option>NT彩超</option>
+																				<option>阴道彩超</option>
+																				<option>腹部彩超</option>
+																				<option>心脏彩超</option>
+																				<option>肝胆胰脾肾彩超</option>
 																			</select>
 																		</div>
 																	</div>
@@ -687,7 +799,7 @@
 																	<div class="control-group">
 																		<label class="control-label span3">复诊日期:</label>
 																		<div class="controls span9">
-																			<input type="date" name="kf_next_visit_date" >
+																			<input type="date" id="kf_next_visit_date3" name="kf_next_visit_date" >
 																		</div>
 																	</div>
 																</div>
@@ -756,18 +868,45 @@
 
 															<div class="row-fluid">
 																<div class="span6 ">
-																	<div class="control-group">
-																		<label class="control-label span3" style="text-align:right;">就诊项目:</label>
+																	<div class="control-group" style="height:110px;">
+																		<label class="control-label span3" style="text-align:right;">就诊项目:<span class="required">*</span></label>
 																		<div class="controls span9">
-																			<select class="form-control" name="kf_visit_type" >
-																				<option>建卡</option>
-																				<option>看医生</option>
-																				<option>查血</option>
-																				<option>B超</option>
+																			<select style="height:110px;" multiple="multiple" id="kf_next_visit_type3" name="kf_next_visit_type">
+
+																				<option>建卡全套</option>
+																				<option>复诊</option>
+																				<option>就诊</option>									
+																				<option>心电图</option>
+																				<option>胎监</option>
+																				<option>脐血流</option>
+																				<option>阳水穿刺</option>
+																				<option>凝血功能</option>
+																				<option>无创DNA</option>
+																				<option>血常规</option>
+																				<option>小便常规</option>
+																				<option>肝功</option>
+																				<option>肾功</option>
+																				<option>空腹血糖</option>
+																				<option>铁蛋白</option>
+																				<option>输血免疫全套</option>
+																				<option>甲功</option>
+																				<option>胆汁酸</option>
+																				<option>血型</option>
+																				<option>血型抗价</option>
+																				<option>75G糖</option>
+																				<option>唐氏筛查(早)</option>
+																				<option>唐氏筛查(中)</option>
+																				<option>胎儿心脏彩超</option>
+																				<option>胎儿系统彩超</option>	
+																				<option>NT彩超</option>
+																				<option>阴道彩超</option>
+																				<option>腹部彩超</option>
+																				<option>心脏彩超</option>
+																				<option>肝胆胰脾肾彩超</option>
 																			</select>
 																		</div>
 																	</div>
-																</div>	
+																</div>		
 																<div class="span6 ">
 																	<div class="control-group">
 																		<label class="control-label span3">就诊地点:</label>
@@ -816,7 +955,7 @@
 																	<div class="control-group">
 																		<label class="control-label span3">复诊日期:</label>
 																		<div class="controls span9">
-																			<input type="date" name="kf_next_visit_date" >
+																			<input type="date" id="kf_next_visit_date4" name="kf_next_visit_date" >
 																		</div>
 																	</div>
 																</div>
@@ -885,18 +1024,45 @@
 
 															<div class="row-fluid">
 																<div class="span6 ">
-																	<div class="control-group">
-																		<label class="control-label span3" style="text-align:right;">就诊项目:</label>
+																	<div class="control-group" style="height:110px;">
+																		<label class="control-label span3" style="text-align:right;">就诊项目:<span class="required">*</span></label>
 																		<div class="controls span9">
-																			<select class="form-control" name="kf_visit_type">
-																				<option>建卡</option>
-																				<option>看医生</option>
-																				<option>查血</option>
-																				<option>B超</option>
+																			<select style="height:110px;" multiple="multiple" id="kf_next_visit_type4" name="kf_next_visit_type">
+
+																				<option>建卡全套</option>
+																				<option>复诊</option>
+																				<option>就诊</option>									
+																				<option>心电图</option>
+																				<option>胎监</option>
+																				<option>脐血流</option>
+																				<option>阳水穿刺</option>
+																				<option>凝血功能</option>
+																				<option>无创DNA</option>
+																				<option>血常规</option>
+																				<option>小便常规</option>
+																				<option>肝功</option>
+																				<option>肾功</option>
+																				<option>空腹血糖</option>
+																				<option>铁蛋白</option>
+																				<option>输血免疫全套</option>
+																				<option>甲功</option>
+																				<option>胆汁酸</option>
+																				<option>血型</option>
+																				<option>血型抗价</option>
+																				<option>75G糖</option>
+																				<option>唐氏筛查(早)</option>
+																				<option>唐氏筛查(中)</option>
+																				<option>胎儿心脏彩超</option>
+																				<option>胎儿系统彩超</option>	
+																				<option>NT彩超</option>
+																				<option>阴道彩超</option>
+																				<option>腹部彩超</option>
+																				<option>心脏彩超</option>
+																				<option>肝胆胰脾肾彩超</option>
 																			</select>
 																		</div>
 																	</div>
-																</div>	
+																</div>		
 																<div class="span6 ">
 																	<div class="control-group">
 																		<label class="control-label span3">就诊地点:</label>
@@ -949,12 +1115,12 @@
 		<!-- /.modal-dialog -->
 	</div>
 
-
-
-
-
-</body>
 	
 	<script src="/js/record.js" type="text/javascript"></script>
+	
 
+	
+</body>
+	
+	
 </html>
