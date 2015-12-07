@@ -34,6 +34,7 @@ local record_get_list_verify = require("record_get_list_verify")
 local ac_add = require("ac_add")
 local ac_del = require("ac_del")
 local ac_get_list = require("ac_get_list")
+local wx_serach_customer = require("wx_serach_customer")
 
 file_path = "/opt/nginx/html/temp/file/"
 url_path = "/temp/file/"
@@ -81,8 +82,8 @@ funcsinit = {
 	record_get_list_verify = record_get_list_verify,
 	ac_add = ac_add,
 	ac_del = ac_del,
-	ac_get_list = ac_get_list
-	
+	ac_get_list = ac_get_list,
+	wx_serach_customer = wx_serach_customer
 }
 
 g_privilege = {};

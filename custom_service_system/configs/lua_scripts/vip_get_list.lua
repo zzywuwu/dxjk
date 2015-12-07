@@ -37,7 +37,7 @@ end
 
 local function Execute(post)
 	
-	local _query_sql = "select * from customer where vip = 1 order by update_time asc"
+	local _query_sql = "select * from customer where vip = 1 order by update_time desc"
 
 	DEBUG("vid_get_list: " .. _query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)

@@ -64,10 +64,10 @@ var KFTableAdvanced = function() {
 								}
 							},
 							{
-								"aTargets":[5],
+								"aTargets":[6],
 								"mRender":function(data, type, full){
-									if (data.length > 40)
-										return data.substr(1,40)+'..';
+									if (data.length > 32)
+										return data.substr(1,32)+'..';
 									else
 										return data;
 								}
@@ -79,7 +79,7 @@ var KFTableAdvanced = function() {
 								}
 							}
 			],
-			// "aaSorting": [[2, 'desc']],
+			 "aaSorting": [[8, 'desc']],
 			// "aLengthMenu": [
 			// 	[1,5, 15, 20, -1],
 			// 	[1,5, 15, 20, "所有"]
@@ -97,7 +97,7 @@ var KFTableAdvanced = function() {
 				{"mDataProp": "remarks","sClass":"hidden-480","sWidth":"160px"},
 				{"mDataProp": "result","sClass":"hidden-480","sWidth":"400px"},
 				{"mDataProp": "username","sClass":"hidden-480","sWidth":"50px"},
-				{"mDataProp": "id","sWidth":"40px"}
+				{"mDataProp": "update_time","sWidth":"40px"}
 				]
 
 		});

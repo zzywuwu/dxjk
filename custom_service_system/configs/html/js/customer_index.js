@@ -74,7 +74,7 @@ var KFTableAdvanced = function() {
 								}
 							}
 			],
-			// "aaSorting": [[3, 'asc']],
+			"aaSorting": [[8, 'desc']],
 			// "aLengthMenu": [
 			// 	[1,5, 15, 20, -1],
 			// 	[1,5, 15, 20, "所有"]
@@ -92,7 +92,7 @@ var KFTableAdvanced = function() {
 				{"mDataProp": "sellname","sClass":"hidden-480","sWidth":"65px"},
 				{"mDataProp": "remarks","sClass":"hidden-480","sWidth":"400px"},
 				{"mDataProp": "id","sClass":"hidden-480","sWidth":"65px"},
-				{"mDataProp": "id","sWidth":"40px"}
+				{"mDataProp": "update_time","sWidth":"40px"}
 				]
 
 		});

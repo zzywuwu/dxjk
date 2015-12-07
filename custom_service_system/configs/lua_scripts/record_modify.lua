@@ -49,7 +49,7 @@ local function Execute(post)
 	local _servicename = post.web.servicename
 	local _user_id = post.session.loginid
 	local _fzinfo = post.web.fzinfo
-	
+
 	local _query_sql
 		_query_sql = "update record set update_time = NOW(), status = 1, visit_date = " 
 						.. ngx.quote_sql_str(_visit_date) .. ", visit_time = " 

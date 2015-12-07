@@ -104,7 +104,7 @@ var KFTableAdvanced = function() {
 								}
 							}
 			],
-			// "aaSorting": [[1, 'asc']],
+			"aaSorting": [[1, 'asc']],
 			// "aLengthMenu": [
 			// 	[1,5, 15, 20, -1],
 			// 	[1,5, 15, 20, "所有"]
@@ -123,7 +123,7 @@ var KFTableAdvanced = function() {
 				{"mDataProp": "visit_doctor_name","sClass":"hidden-480","sWidth":"70px"},
 				{"mDataProp": "remarks","sClass":"hidden-480","sWidth":"400px"},
 				{"mDataProp": "user_id_name","sWidth":"70px"},
-				{"mDataProp": "id","sWidth":"40px"}
+				{"mDataProp": "update_time","sWidth":"40px"}
 				]
 		});
 
@@ -151,7 +151,7 @@ var KFTableAdvanced = function() {
         }
         else {
         	// 事件
-        	sOut += '<tr><td>创建者:</td><td>'+aData.user_id+'</td></tr>';
+        	sOut += '<tr><td>创建者:</td><td>'+aData.user_id_name+'</td></tr>';
         	if (aData.order_success)
         		sOut += '<tr><td>预约状态:</td><td>已预约</td></tr>';
         	else
