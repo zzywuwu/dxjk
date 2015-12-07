@@ -48,8 +48,26 @@ var KFTableAdvanced = function() {
 							{
 								"aTargets":[4],
 								"mRender":function(data, type, full){
-									if (data.length > 12)
-										return data.substr(1,12)+'...';
+									if (data.length > 10)
+										return data.substr(1,10)+'..';
+									else
+										return data;
+								}
+							},
+							{
+								"aTargets":[5],
+								"mRender":function(data, type, full){
+									if (data.length > 16)
+										return data.substr(1,16)+'..';
+									else
+										return data;
+								}
+							},
+							{
+								"aTargets":[5],
+								"mRender":function(data, type, full){
+									if (data.length > 40)
+										return data.substr(1,40)+'..';
 									else
 										return data;
 								}

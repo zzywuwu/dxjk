@@ -53,6 +53,15 @@ var KFTableAdvanced = function() {
 								}
 							},
 							{
+								"aTargets":[6],
+								"mRender":function(data, type, full){
+									if (data.length > 40)
+										return data.substr(1,40)+'..';
+									else
+										return data;
+								}
+							},
+							{
 								"aTargets":[7],
 								"mRender":function(data, type, full){
 									return'<a href="#" class="record" data="' + data + '">记录</a>'

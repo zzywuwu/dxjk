@@ -89,6 +89,15 @@ var KFTableAdvanced = function() {
 								}
 							},
 							{
+								"aTargets":[7],
+								"mRender":function(data, type, full){
+									if (data.length > 40)
+										return data.substr(1,40)+'..';
+									else
+										return data;
+								}
+							},
+							{
 								"aTargets":[9],
 								"mRender":function(data, type, full){
 									return "<span class='row-details row-details-close desc'></span>";
