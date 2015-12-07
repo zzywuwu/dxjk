@@ -73,9 +73,9 @@ var KFTableAdvanced = function() {
 			"aoColumns": [
 				{"mDataProp": "id","bSortable":false,"sWidth":"5px"}, 
 				{"mDataProp": "customer_name","sClass":"hidden-480","sWidth":"70px"},
-				{"mDataProp": "visit_date","sClass":"hidden-480","sWidth":"70px"},
+				{"mDataProp": "visit_date","sClass":"hidden-480","sWidth":"80px"},
 				{"mDataProp": "servicename","sClass":"hidden-480","sWidth":"65px"},
-				{"mDataProp": "visit_type","sClass":"hidden-480","sWidth":"65px"},
+				{"mDataProp": "visit_type","sClass":"hidden-480","sWidth":"120px"},
 				{"mDataProp": "remarks","sClass":"hidden-480","sWidth":"160px"},
 				{"mDataProp": "result","sClass":"hidden-480","sWidth":"400px"},
 				{"mDataProp": "username","sClass":"hidden-480","sWidth":"50px"},

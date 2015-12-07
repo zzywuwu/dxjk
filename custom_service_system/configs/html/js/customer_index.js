@@ -107,7 +107,7 @@ var KFTableAdvanced = function() {
         sOut += '<tr><td style="width:100px;">姓名:</td><td>'+aData.name+'</td></tr>';
         sOut += '<tr><td>电话:</td><td>'+aData.phonenumber+'</td></tr>';
         sOut += '<tr><td>客户类型:</td><td>'+aData.customer_type+'</td></tr>';
-        if (aData.customer_type == "孕妈妈") {
+        if (aData.customer_type == GLOBAL.YUNMM) {
         	sOut += '<tr><td>孕周:</td><td>'+aData.diffdays+'</td></tr>';
         	sOut += '<tr><td>末次月经:</td><td>'+aData.last_menses_time.split(" ",1)+'</td></tr>';
 			sOut += '<tr><td>预产期:</td><td>'+aData.due_time.split(" ",1)+'</td></tr>';
@@ -140,7 +140,7 @@ var KFTableAdvanced = function() {
 	                kf_last_menses_time: {
 	                	date: true,
                         required: function() {
-                        	if (jQuery('#kf_customer_type').val() == "孕妈妈" ) {
+                        	if (jQuery('#kf_customer_type').val() == GLOBAL.YUNMM ) {
                                 return true;
                         	}
                         	else{
@@ -151,7 +151,7 @@ var KFTableAdvanced = function() {
 	                kf_due_time: {
 	                	date: true,
                         required: function() {
-                        	if (jQuery('#kf_customer_type').val() == "孕妈妈" ) {
+                        	if (jQuery('#kf_customer_type').val() == GLOBAL.YUNMM ) {
                                 return true;
                         	}
                         	else{
@@ -272,7 +272,7 @@ var KFTableAdvanced = function() {
 				$("#kf_due_time_group").removeClass('success').removeClass('error');
 				$("#kf_last_menses_time_group .controls span").remove();
 				$("#kf_last_menses_time_group").removeClass('success').removeClass('error');
-	         	if ("孕妈妈" == $(this).val()){
+	         	if (GLOBAL.YUNMM == $(this).val()){
 					jQuery('#kf_due_time_group').show(100);
 					jQuery('#kf_last_menses_time_group').show(100);
 				}
@@ -450,7 +450,7 @@ var KFTableAdvanced = function() {
 					jQuery('#kf_customer_type option').each(function(){
 						if (arr[0].customer_type == $(this).text()){
 							$(this).attr("selected",true);
-							if (arr[0].customer_type == "孕妈妈") {
+							if (arr[0].customer_type == GLOBAL.YUNMM) {
 								$("#kf_due_time").val(arr[0].due_time.split(" ",1));
 								$("#kf_last_menses_time").val(arr[0].last_menses_time.split(" ",1));
 								jQuery('#kf_due_time_group').show(100);
@@ -499,6 +499,7 @@ var KFTableAdvanced = function() {
                 	});
                 }
                 else if (operation == "UPVIP") {
+
                 	if(arr.length != 1) {
 	                	alert("请选择一条数据!");
 	                	return;
@@ -511,6 +512,7 @@ var KFTableAdvanced = function() {
            
                 }
                 else if (operation == "REMOVE") {
+                	
                 	if(arr.length != 1) {
 	                	alert("请选择一条数据!");
 	                	return;

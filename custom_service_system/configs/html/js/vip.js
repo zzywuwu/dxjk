@@ -139,7 +139,7 @@ var KFTableAdvanced = function() {
 	                kf_last_menses_time: {
 	                	date: true,
                         required: function() {
-                        	if (jQuery('#kf_customer_type').val() == "孕妈妈" ) {
+                        	if (jQuery('#kf_customer_type').val() == GLOBAL.YUNMM ) {
                                 return true;
                         	}
                         	else{
@@ -150,7 +150,7 @@ var KFTableAdvanced = function() {
 	                kf_due_time: {
 	                	date: true,
                         required: function() {
-                        	if (jQuery('#kf_customer_type').val() == "孕妈妈" ) {
+                        	if (jQuery('#kf_customer_type').val() == GLOBAL.YUNMM ) {
                                 return true;
                         	}
                         	else{

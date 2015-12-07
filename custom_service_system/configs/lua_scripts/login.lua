@@ -37,9 +37,9 @@ local function ParamCheck(post)
 		return false, WEBERR.PARAM_ERR
 	end
 	
-	-- if _web.randcode ~= _session.cap_word then
-	-- 	return false, WEBERR.IDCODE_ERR
-	-- end
+	if _web.randcode ~= _session.cap_word then
+		return false, WEBERR.IDCODE_ERR
+	end
 	
 	if _session.cap_time + 60 < _session.now_time then
 		return false, WEBERR.IDCODE_TIMEOUT

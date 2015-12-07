@@ -82,8 +82,8 @@ var KFTableAdvanced = function() {
 							{
 								"aTargets":[5],
 								"mRender":function(data, type, full){
-									if (data.length > 12)
-										return data.substr(1,12)+'...';
+									if (data.length > 10)
+										return data.substr(1,10)+'..';
 									else
 										return data;
 								}
@@ -106,11 +106,11 @@ var KFTableAdvanced = function() {
 
 			"aoColumns": [
 				{"mDataProp": "id","bSortable":false,"sWidth":"5px"}, 
-				{"mDataProp": "status","sWidth":"40px"},
-				{"mDataProp": "id","sWidth":"40px"},
-				{"mDataProp": "visit_date","sClass":"hidden-480","sWidth":"70px"},
+				{"mDataProp": "status","sWidth":"50px"},
+				{"mDataProp": "id","sWidth":"50px"},
+				{"mDataProp": "visit_date","sClass":"hidden-480","sWidth":"80px"},
 				{"mDataProp": "visit_time","sClass":"hidden-480","sWidth":"70px"},
-				{"mDataProp": "visit_type","sClass":"hidden-480","sWidth":"70px"},
+				{"mDataProp": "visit_type","sClass":"hidden-480","sWidth":"120px"},
 				{"mDataProp": "visit_doctor_name","sClass":"hidden-480","sWidth":"70px"},
 				{"mDataProp": "remarks","sClass":"hidden-480","sWidth":"400px"},
 				{"mDataProp": "user_id_name","sWidth":"70px"},
@@ -387,20 +387,6 @@ var KFTableAdvanced = function() {
 				}
 			});
 
-			if ($('#kf_next_visit_date1').val() !='') {
-				$('#kf_next_visit_type1').rules("add", {
-					required: function() {              	
-                		return;              	
-                	},
-					messages: {
-						required: "最少选一个"
-					}
-				});
-			}
-			else {
-				$('#kf_next_visit_type1').rules( "remove" );
-			}
-
 			// jQuery('#kf_visit_type').change(function () {
    //      		$("#kf_visit_doctor_name_group .controls span").remove();
 			// 	$("#kf_visit_doctor_name_group").removeClass('success').removeClass('error');
@@ -597,20 +583,18 @@ var KFTableAdvanced = function() {
           
                 if(operation == "MODIFY") {
 
-                	operation_modal = "MODIFY";
-
                 	if(arr.length != 1) {
 	                	alert("请选择一条数据!");
 	                	return;
 	                }
 
-	                $("#event_modal input[type='text'], input[type='hidden']").val('');
-					$("#event_modal input[type='date']").val('');
-					$("#event_modal textarea").val('');
-					$("#event_modal .controls span",$(this)).remove();
-					$("#event_modal .control-group").removeClass('success').removeClass('error');	
-					$("#event_visit_type").val('');
+	                if (arr[0].status == 1) {
+	                	alert("这是一条记录，不能当做事件来处理!");
+	                	return;
+	                }
 
+	                operation_modal = "MODIFY";
+	           
           			$("#event_id").val(arr[0].id).prop("disabled", true);
 					$("#event_visit_date").val(arr[0].visit_date.split(" ",1));
 					jQuery('#event_visit_time option').each(function(){
@@ -668,10 +652,10 @@ var KFTableAdvanced = function() {
 	                }
 
 	                $(".tab-content .tab-pane").removeClass('active');
-	                $(".tab-content .tab-pane:first").addClass('active');
-	                $(".nav-tabs li").removeClass('active');
-	                $(".nav-tabs li:last").addClass('active');
-					$("#kf_modal input[type='text'], input[type='hidden']").val('');
+                	$(".tab-content .tab-pane:first").addClass('active');
+                	$(".nav-tabs li").removeClass('active');
+                	$(".nav-tabs li:last").addClass('active');
+                	$("#kf_modal input[type='text'], input[type='hidden']").val('');
 					$("#kf_modal input[type='date']").val('');
 					$("#kf_modal textarea").val('');
 					jQuery("#kf_servicename").empty();
@@ -685,7 +669,10 @@ var KFTableAdvanced = function() {
 					$('#collapse_3').collapse('hide');
 					$('#collapse_4').collapse('hide');
 					$("#kf_visit_type").val('');
-					
+					for (var i = 0; i < 4; i++) {
+						$('#portlet_tab2 .accordion-body:eq(' + i + ') select[name="kf_next_visit_type"]').val('');	
+					};
+				
 	                TendaAjax.getData({"script":"ac_get_list"}, function(result){
 					 	if(result.error == GLOBAL.SUCCESS) {
 					 		jQuery('#kf_servicename').append("<option></option>");
@@ -768,6 +755,16 @@ var KFTableAdvanced = function() {
 
 			});
 
+			jQuery('#event_modal').on('hidden.bs.modal', function (e) {
+				$("#event_modal input[type='text'], input[type='hidden']").val('');
+				$("#event_modal input[type='date']").val('');
+				$("#event_modal textarea").val('');
+				$("#event_modal .controls span",$(this)).remove();
+				$("#event_modal .control-group").removeClass('success').removeClass('error');	
+				$("#event_visit_type").val('');	
+			});
+
+			
 			jQuery('#kf_list .group-checkable').change(function () {
                 var set = jQuery(this).attr("data-set");
                 var checked = jQuery(this).is(":checked");
