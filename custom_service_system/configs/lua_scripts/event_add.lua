@@ -54,6 +54,7 @@ local function Execute(post)
 	local _query_sql = "insert into record (customer_id,visit_date,remarks,visit_time,visit_type,visit_doctor_name,visit_address,order_success,user_id) value("..ngx.quote_sql_str(_customer_id)..","..ngx.quote_sql_str(_visit_date)..","..ngx.quote_sql_str(_remarks)..","..ngx.quote_sql_str(_visit_time)..","..ngx.quote_sql_str(_visit_type)..","..ngx.quote_sql_str(_visit_doctor_name)..","..ngx.quote_sql_str(_visit_address)..","..ngx.quote_sql_str(_order_success)..","..ngx.quote_sql_str(_loginid)..")" 
 
 	DEBUG("event_add: " .. _query_sql)
+	INFO(post.session.name.." 增加事件 ".._query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)
 end
 

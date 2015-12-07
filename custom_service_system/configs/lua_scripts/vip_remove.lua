@@ -9,6 +9,7 @@ local function MysqlCallback(res)
 			error = WEBERR.NO_ERR
 		}
 	}
+	ClearCache("customer_get_list")
 	return _jsontbl
 end
 
@@ -51,6 +52,7 @@ local function Execute(post)
 	end
 
 	DEBUG("vid_remove: " .. _query_sql)
+	INFO(post.session.name.." 过期VIP ".._query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)
 end
 local _M = {

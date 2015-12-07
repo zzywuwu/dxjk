@@ -46,6 +46,7 @@ local function Execute(post)
 			.. ngx.quote_sql_str(_wx)..",123456)" 
 	
 	DEBUG("ac_add: ".._query_sql)
+	INFO(post.session.name.." 添加用户 ".._query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)
 end
 

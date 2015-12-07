@@ -50,6 +50,7 @@ end
 
 local function Execute(post)
 	local _id = post.web.id
+	local _name = post.web.name
 	local _phonenumber = post.web.phonenumber
 	local _due_time = post.web.due_time
 	local _last_menses_time = post.web.last_menses_time
@@ -96,6 +97,7 @@ local function Execute(post)
 	end
 
 	DEBUG("customer_modify: " .. _query_sql)
+	INFO(post.session.name.." 修改客户 ".._query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)
 end
 

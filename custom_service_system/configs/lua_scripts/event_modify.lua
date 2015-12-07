@@ -64,6 +64,7 @@ local function Execute(post)
 
 
 	DEBUG("event_modify: " .. _query_sql)
+	INFO(post.session.name.." 修改事件 ".._query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)
 end
 

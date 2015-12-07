@@ -39,8 +39,7 @@ local function Execute(post)
 	local _query_sql = "delete from record where (id = "
 	if (common.BitAnd(post.session.privilege, 32) ~= 32) then
 		for k, v in pairs(_id) do
-			if k == 1 then
-				
+			if k == 1 then				
 				_query_sql = _query_sql .. ngx.quote_sql_str(v)
 			else
 				_query_sql = _query_sql .. " or id = " .. ngx.quote_sql_str(v)
@@ -50,7 +49,6 @@ local function Execute(post)
 	else
 		for k, v in pairs(_id) do
 			if k == 1 then
-				
 				_query_sql = _query_sql .. ngx.quote_sql_str(v)
 			else
 				_query_sql = _query_sql .. " or id = " .. ngx.quote_sql_str(v)
@@ -60,6 +58,7 @@ local function Execute(post)
 	end
 
 	DEBUG("record_del: " .. _query_sql)
+	INFO(post.session.name.." 删除记录 ".._query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)
 end
 local _M = {

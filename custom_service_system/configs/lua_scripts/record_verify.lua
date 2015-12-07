@@ -50,6 +50,7 @@ local function Execute(post)
 	end
 
 	DEBUG("record_verify: " .. _query_sql)
+	INFO(post.session.name.." 审核记录 ".._query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)
 end
 local _M = {

@@ -299,6 +299,9 @@ var KFTableAdvanced = function() {
 				jQuery("#kf_sellname").empty();
 				$(".controls span",$(this)).remove();
 				$(".control-group").removeClass('success').removeClass('error')
+				jQuery('#kf_customer_type').val(GLOBAL.YUNMM);
+				jQuery('#kf_due_time_group').show(100);
+					jQuery('#kf_last_menses_time_group').show(100);
 			});
 
 			jQuery('#addbutton').on("click", function(){

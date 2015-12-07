@@ -40,6 +40,7 @@ local function Execute(post)
 	local _query_sql = "update user set status = \"actived\",update_time = NOW(),password = " 
 						.. ngx.quote_sql_str(_new_password) .. " where name = " .. ngx.quote_sql_str(_name)
 	DEBUG("update_password: " .. _query_sql)
+	INFO(post.session.name.." 修改密码 ".._query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)
 end
 

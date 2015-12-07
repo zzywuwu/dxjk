@@ -9,6 +9,7 @@ local function MysqlCallback(res)
 			error = WEBERR.NO_ERR
 		}
 	}
+	ClearCache("customer_get_list")
 	return _jsontbl
 end
 
@@ -67,6 +68,7 @@ local function Execute(post)
 						.. ngx.quote_sql_str(_sellname) .. " where id = " .. ngx.quote_sql_str(_id)
 
 	DEBUG("vid_modify: " .. _query_sql)
+	INFO(post.session.name.." 修改VIP ".._query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)
 end
 

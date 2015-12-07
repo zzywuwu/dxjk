@@ -434,6 +434,9 @@ var KFTableAdvanced = function() {
 	                event_visit_date: {
 	                    required: true,
                         date: true
+	                },
+	                event_visit_type: {
+	                    required: true,                
 	                }
 	            },
 
@@ -444,7 +447,10 @@ var KFTableAdvanced = function() {
                     // },
                     event_visit_date:{
                         required:"必填"
-                    }                                                     
+                    },
+                    event_visit_type:{
+                        required:"必填"
+                    }                                                       
                 },
 
                 highlight: function (element) { // hightlight error inputs

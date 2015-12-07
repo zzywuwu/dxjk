@@ -44,6 +44,7 @@ local function Execute(post)
 			if tonumber(v) == tonumber(_loginid) then
 				return nil, WEBERR.DEL_USER_SELF
 			end
+
 			_query_sql = _query_sql .. ngx.quote_sql_str(v)
 		else
 			_query_sql = _query_sql .. " or id = " .. ngx.quote_sql_str(v)
@@ -51,6 +52,7 @@ local function Execute(post)
 	end
 
 	DEBUG("ac_del: ".._query_sql)
+	INFO(post.session.name.." 删除用户 ".._query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)
 end
 local _M = {

@@ -50,13 +50,14 @@ local function Execute(post)
 
 	for k, v in pairs(_id) do
 		if k == 1 then
+
 			_query_sql = _query_sql .. ngx.quote_sql_str(v)
 		else
 			_query_sql = _query_sql .. " or id = " .. ngx.quote_sql_str(v)
 		end
 	end
-
 	DEBUG("customer_upvip: " .. _query_sql)
+	INFO(post.session.name.." 升级VIP ".._query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)
 end
 local _M = {

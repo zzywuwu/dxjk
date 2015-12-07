@@ -76,6 +76,7 @@ local function Execute(post)
 	end
 
 	DEBUG("customer_add: " .. _query_sql)
+	INFO(post.session.name.." 添加客户 ".._query_sql)
 	local _res,_err = mysql.query(cloud_database, _query_sql, MysqlCallback)
 	if _err == WEBERR.KEY_ALREADY_EXIST then
 		_err = WEBERR.USER_ALREADY_EXIST

@@ -65,6 +65,7 @@ local function Execute(post)
 						.. " and verify = 0"	
 	
 	DEBUG("record_modify: " .. _query_sql)
+	INFO(post.session.name.." 修改记录 ".._query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)
 end
 
