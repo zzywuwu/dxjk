@@ -42,7 +42,7 @@ var KFTableAdvanced = function() {
 								}
 							},
 							{
-								"aTargets":[3],
+								"aTargets":[4],
 								"mRender":function(data, type, full){
 									// var last_menses_data = data.split(" ",1);	
 									// var startTime = new Date(last_menses_data).getTime();     
@@ -53,7 +53,7 @@ var KFTableAdvanced = function() {
 								}
 							},
 							{
-								"aTargets":[6],
+								"aTargets":[7],
 								"mRender":function(data, type, full){
 									if (data.length > 40)
 										return data.substr(1,40)+'..';
@@ -62,19 +62,19 @@ var KFTableAdvanced = function() {
 								}
 							},
 							{
-								"aTargets":[7],
+								"aTargets":[8],
 								"mRender":function(data, type, full){
 									return'<a href="#" class="record" data="' + data + '">记录</a>'
 								}
 							},
 							{
-								"aTargets":[8],
+								"aTargets":[9],
 								"mRender":function(data, type, full){
 									return "<span class='row-details row-details-close desc'></span>";
 								}
 							}
 			],
-			"aaSorting": [[8, 'desc']],
+			"aaSorting": [[9, 'desc']],
 			// "aLengthMenu": [
 			// 	[1,5, 15, 20, -1],
 			// 	[1,5, 15, 20, "所有"]
@@ -85,6 +85,7 @@ var KFTableAdvanced = function() {
 
 			"aoColumns": [
 				{"mDataProp": "id", "bSortable":false,"sWidth":"5px"}, 
+				{"mDataProp": "id", "sWidth":"10px"},
 				{"mDataProp": "name","sWidth":"60px"},
 				{"mDataProp": "phonenumber","sClass":"hidden-480","sWidth":"80px"},
 				{"mDataProp": "customer_type","sClass":"hidden-480","sWidth":"60px"},

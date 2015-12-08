@@ -1,5 +1,5 @@
-package.path = package.path..";/usr/lib64/lua/5.1/?.lua;/opt/nginx/lua_scripts/?.lua"
-package.cpath = package.cpath..";/usr/lib64/lua/5.1/?.so;/usr/local/lib/lua/5.1/?.so"
+package.path = package.path..";/usr/lib64/lua/5.1/?.lua;/opt/nginx/lua_scripts/?.lua;/usr/local/share/lua/5.1/?.lua"
+package.cpath = package.cpath..";/usr/lib64/lua/5.1/?.so;/usr/local/lib/lua/5.1/?.so;/usr/local/share/lua/5.1/?.so"
 require "kf_debug"
 local mysql = require "luasql.mysql"
 local http = require "socket.http"
@@ -31,7 +31,7 @@ function GetTokenFromServer()
         local cmd = "curl -v \"https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=wx755e6479b3b52da5&corpsecret=gJqLx9cY77lfgEZr5VRh7ptsSsoWm_B8rlsDMHZrCkbxorkFWC4KAZOUnLBXuW3n\"" 
         local t = io.popen(cmd)
         local res = t:read("*all")
-        io.close(t)
+         io.close(t)
         local content = cjson_safe.decode(res)
         if (content == nil) then
             ERROR("GetTokenFromServer() failed! res = "..res)
@@ -87,7 +87,7 @@ function PushGroupMessage(current_time,info,partyid)
         local cmd = "curl -v \"https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token="..GetToken().."\" -d \"{\\\"touser\\\": \\\"\\\",\\\"toparty\\\": \\\""..partyid.."\\\",\\\"totag\\\": \\\"\\\",\\\"msgtype\\\": \\\"text\\\",\\\"agentid\\\":"..message_agentid..",\\\"text\\\": {\\\"content\\\":\\\""..info.."\\\"},\\\"safe\\\":\\\"0\\\"}\"" 
         local t = io.popen(cmd)
         local res = t:read("*all")
-        io.close(t)
+         io.close(t)
         local content = cjson_safe.decode(res)
         if (content == nil) then
             ERROR("["..current_time.hour..":"..current_time.min..":"..current_time.sec.."] [群发] "..info.." res = "..res ) 
@@ -102,9 +102,9 @@ end
 function GetSecondDayInfo()
 
     tab = os.date("*t",os.time()+86400);
-   
+    after = os.date("*t",os.time()+86400*2);
     tommorow_start = string.format("%s-%s-%s 00:00:00",tab.year,tab.month,tab.day)
-    tommorow_end = string.format("%s-%s-%s 23:59:59",tab.year,tab.month,tab.day)
+    tommorow_end = string.format("%s-%s-%s 00:00:00",after.year,after.month,after.day)
     tommorow = string.format("%s-%s-%s",tab.year,tab.month,tab.day)
     tommorowday = tonumber(os.date("%w",os.time()+86400))
 
@@ -141,6 +141,8 @@ function GetSecondDayInfo()
     else
         info = info .. "\n"
         while row do
+            INFO(row["customer_name"])
+            INFO(row["visit_type"])
             local str = string.format("%-10s %s ",row["customer_name"],row["visit_time"])
             if row["order_success"] == 1 then
                 -- ..string.sub(row["visit_date"],1,10)
@@ -176,14 +178,14 @@ function NotifySecondDay()
         PushGroupMessage(current_time,info,GetPartyID())
         second_day_last_send = os.time()
     elseif ((t-second_day_last_send)>1000) then
-        -- local err,info = GetSecondDayInfo()
-        -- if not err then
-        --     ERROR("GetSecondEventInfo failed!")
-        --     return
-        -- end
-        -- local user = {"zhaoyu"}     
-        -- PushMessage(current_time,info,user)
-        -- second_day_last_send = os.time()  
+        local err,info = GetSecondDayInfo()
+        if not err then
+             ERROR("GetSecondEventInfo failed!")
+             return
+        end
+        local user = {"zhaoyu"}     
+        PushMessage(current_time,info,user)
+        second_day_last_send = os.time()  
     end
 end
 

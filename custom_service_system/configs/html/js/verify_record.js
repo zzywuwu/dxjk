@@ -203,8 +203,8 @@ var KFTableAdvanced = function() {
           
                 if(operation == "SEARCH") {
 
-                	if(arr.length == 0) {
-	                	alert("请至少选择一条数据!");
+                	if(arr.length != 1) {
+	                	alert("请选择一条数据!");
 	                	return;
 	                }
 
