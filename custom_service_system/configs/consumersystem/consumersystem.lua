@@ -21,6 +21,10 @@ function ConnectMysql()
         if not mysql_conn then
             ERROR("Can not connect to Mysql")
         end
+        local cur,err = mysql_conn:execute("set names utf8")
+        if not cur then
+            ERROR("set names utf8 failed...")
+        end
 	    socket.select(nil, nil, 1)
 	end
     INFO("Connet to Mysql successful")
@@ -66,7 +70,6 @@ function PushMessage(current_time,info,user)
                 user_str = user_str.."|"..user[i]
             end
         end
-        -- INFO("user_str = "..user_str)
         local cmd = "curl -v \"https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token="..GetToken().."\" -d \"{\\\"touser\\\":\\\""..user_str.."\\\",\\\"toparty\\\":\\\"\\\",\\\"totag\\\":\\\"\\\",\\\"msgtype\\\":\\\"text\\\",\\\"agentid\\\":"..message_agentid..",\\\"text\\\":{\\\"content\\\":\\\""..info.."\\\"},\\\"safe\\\":\\\"0\\\"}\"" 
         local t = io.popen(cmd)
         local res = t:read("*all")
@@ -166,26 +169,23 @@ function NotifySecondDay()
     local current_time = os.date("*t")
     local t = os.time() 
     second_day_last_send = second_day_last_send or 0;
-    if (current_time.hour == 17 and current_time.min == 30 and ((t-second_day_last_send)>1000)) then
-        INFO("NotifySecondDay Go")
+    if (current_time.hour == 12 and current_time.min == 0 and ((t-second_day_last_send)>1000)) then
         local err,info = GetSecondDayInfo()
         if not err then
             ERROR("GetSecondEventInfo failed!")
             return
         end 
-        -- local user = {"zhaoyu"}     
-        -- PushMessage(current_time,info,user)
         PushGroupMessage(current_time,info,GetPartyID())
         second_day_last_send = os.time()
     elseif ((t-second_day_last_send)>1000) then
-        local err,info = GetSecondDayInfo()
-        if not err then
-             ERROR("GetSecondEventInfo failed!")
-             return
-        end
-        local user = {"zhaoyu"}     
-        PushMessage(current_time,info,user)
-        second_day_last_send = os.time()  
+        -- local err,info = GetSecondDayInfo()
+        -- if not err then
+        --      ERROR("GetSecondEventInfo failed!")
+        --      return
+        -- end
+        -- local user = {"zhaoyu"}     
+        -- PushMessage(current_time,info,user)
+        -- second_day_last_send = os.time()  
     end
 end
 
