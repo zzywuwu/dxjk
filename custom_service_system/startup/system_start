@@ -7,10 +7,7 @@ PHP_FPM_BIN=/usr/local/sbin/php-fpm
 PHP_FPM_CONF=/usr/local/etc/php-fpm.conf.default
 PHP_INI=/usr/local/etc/php.ini
 
-CONSUMERSYSTEM_BIN=$WORK_DIR/consumersystem/consumersystem.lua
-
-
-
+CONSUMERSYSTEM_BIN=$WORK_DIR/sbin/consumersystem.lua
 
 start_nginx() {
     $NGINX_BIN -c $NGINX_CONF

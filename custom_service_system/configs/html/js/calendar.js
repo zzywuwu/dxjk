@@ -21,18 +21,41 @@ var Calendar = function () {
                     var timearr = result.user_event[i].visit_time.split(":",2); 
                     object.start = new Date(parseInt(datearr[0]),parseInt(datearr[1])-1,parseInt(datearr[2]),parseInt(timearr[0]),parseInt(timearr[1]));
                     object.end = new Date(parseInt(datearr[0]),parseInt(datearr[1])-1,parseInt(datearr[2]),parseInt(timearr[0]),parseInt(timearr[1])+30);
-                    object.allDay = false;
-                    if (result.user_event[i].visit_type == GLOBAL.CREATE || result.user_event[i].visit_type == GLOBAL.LOOKDOCTOR ||
-                        result.user_event[i].visit_type == GLOBAL.REVIEWDOCTOR ) {
-                        if (result.user_event[i].order_success)
-                            object.backgroundColor = '#35aa47';//App.getLayoutColorCode('green');
-                        else
-                            object.backgroundColor = '#e02222';//App.getLayoutColorCode('red');
+                    object.allDay = false;    
+                    var obj = jQuery.parseJSON(result.user_event[i].visit_type);
+                    if (Array.isArray(obj)) {
+                        var flag = false;
+                        for (var j = 0; j < obj.length; j++) {                       
+                            if (obj[j] == GLOBAL.CREATE || obj[j] == GLOBAL.LOOKDOCTOR ||
+                                obj[j] == GLOBAL.REVIEWDOCTOR) {
+                                flag = true;
+                                break;
+                            }
+                        };
+                        if (flag == true) {
+                            if (result.user_event[i].order_success)
+                                object.backgroundColor = App.getLayoutColorCode('green');
+                            else
+                                object.backgroundColor = App.getLayoutColorCode('red');     
+                        }
+                        else {
+                            object.backgroundColor = App.getLayoutColorCode('green');   
+                        }                                  
                     }
                     else {
-                        object.backgroundColor = App.getLayoutColorCode('green');
+                        alert("error");
                     }
-                    object.description = result.user_event[i].visit_type;
+                    object.description = "</br>姓名: " + result.user_event[i].customer_name;
+                    object.description += "</br>项目: " + result.user_event[i].visit_type;
+                    if (result.user_event[i].visit_doctor_name != '') {
+                        object.description +=  "</br>医生: " + result.user_event[i].visit_doctor_name;
+                    }
+                    if (result.user_event[i].visit_address != '') {
+                        object.description +=  "</br>地点: " + result.user_event[i].visit_address;
+                    }
+                    if (result.user_event[i].remarks != '') {
+                        object.description +=  "</br>备注: " + result.user_event[i].remarks;
+                    }
                     // object.url = "http://www.baidu.com";
                     arr[i] = object;  
                 }
@@ -140,9 +163,9 @@ var Calendar = function () {
                         str = str + "(会员)";
                         // color = 'style="background-color:#ffb848"';
                     }
-                    else {
-                        str = str + "(预签)" 
-                    }
+                    // else {
+                    //     str = str + "(预签)" 
+                    // }
                     // if (result.user_list[i].visit_date) {
                     //     // var time = result.user_list[i].visit_date.split(" ",1);
                     //     str = str + "[过期]"
@@ -178,19 +201,23 @@ var Calendar = function () {
                 eventMouseover: function(calEvent, jsEvent, view) {
                     var fstart  = $.fullCalendar.formatDate(calEvent.start, "HH:mm");//yyyy/MM/dd 
                     // var fend  = $.fullCalendar.formatDate(calEvent.end, "HH:mm");    
-                    $(this).attr('title', fstart + "  " + calEvent.description);
-                    $(this).css('font-weight', 'normal');                
-                    // $(this).tooltip({
-                    // effect:'toggle',
-                    // cancelDefault: true
-                    // });
+                    $(this).attr('data-original-title', "时间: " + fstart + calEvent.description);          
+                    $(this).tooltip({
+                        html:true,
+                        placement:'bottom'
+                        // trigger:'click'
+                    });
+                    $(this).tooltip('show');
                 },
-                // eventMouseout: function(calEvent, jsEvent, view) {
-                //     $(this).css('font-weight', 'normal');
-                // },
+                eventMouseout: function(calEvent, jsEvent, view) {   
+                    $(this).tooltip('hide');
+                },
                 // dayClick: function (date, allDay, jsEvent, view) {
                 //     alert("3");
                 // },     
+                // eventClick: function(calEvent, jsEvent, view) {
+                //      alert(3)
+                // },
                 drop: function (date, allDay) { // this function is called when something is dropped
                     // retrieve the dropped element's stored Event Object
                     var originalEventObject = $(this).data('eventObject');
