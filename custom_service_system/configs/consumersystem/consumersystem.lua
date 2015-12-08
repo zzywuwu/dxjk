@@ -31,7 +31,7 @@ function GetTokenFromServer()
         local cmd = "curl -v \"https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=wx755e6479b3b52da5&corpsecret=gJqLx9cY77lfgEZr5VRh7ptsSsoWm_B8rlsDMHZrCkbxorkFWC4KAZOUnLBXuW3n\"" 
         local t = io.popen(cmd)
         local res = t:read("*all")
-         io.close(t)
+        io.close(t)
         local content = cjson_safe.decode(res)
         if (content == nil) then
             ERROR("GetTokenFromServer() failed! res = "..res)
@@ -87,7 +87,7 @@ function PushGroupMessage(current_time,info,partyid)
         local cmd = "curl -v \"https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token="..GetToken().."\" -d \"{\\\"touser\\\": \\\"\\\",\\\"toparty\\\": \\\""..partyid.."\\\",\\\"totag\\\": \\\"\\\",\\\"msgtype\\\": \\\"text\\\",\\\"agentid\\\":"..message_agentid..",\\\"text\\\": {\\\"content\\\":\\\""..info.."\\\"},\\\"safe\\\":\\\"0\\\"}\"" 
         local t = io.popen(cmd)
         local res = t:read("*all")
-         io.close(t)
+        io.close(t)
         local content = cjson_safe.decode(res)
         if (content == nil) then
             ERROR("["..current_time.hour..":"..current_time.min..":"..current_time.sec.."] [群发] "..info.." res = "..res ) 
