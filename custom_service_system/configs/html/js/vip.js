@@ -73,7 +73,6 @@ var KFTableAdvanced = function() {
 									if (data.split(" ",1) == '0000-00-00')
 										return '<a href="#" class="review" data_id="' + full.id + '" data_time="" data_content=""' +'>回访</a>';
 									else
-										// return data.split(" ",1);
 										return '<a href="#" class="review" data_id="' + full.id + '" data_time="' + full.review_time +'" data_content="' + full.review_content + '">'+data.split(" ",1)+'</a>';
 								}
 							},
