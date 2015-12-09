@@ -39,8 +39,9 @@ local function ParamCheck(post)
 end
 
 local function Execute(post)
-	local current_time = os.date("%Y-%m-%d %H:%M:%S")
+	
 	local _id = post.web.id
+	local _customer_name = post.web.customer_name
 	local _visit_date = post.web.visit_date
 	_visit_date = _visit_date.." 23:59:59"
 	local _visit_time = post.web.visit_time
@@ -64,7 +65,7 @@ local function Execute(post)
 
 
 	DEBUG("event_modify: " .. _query_sql)
-	INFO(post.session.name.." 修改事件 ".._query_sql)
+	INFO(post.session.name.." 修改事件 ".._customer_name.." ".._query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)
 end
 

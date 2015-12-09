@@ -49,7 +49,7 @@ var KFTableAdvanced = function() {
 								"aTargets":[4],
 								"mRender":function(data, type, full){
 									if (data.length > 10)
-										return data.substr(1,10)+'..';
+										return data.substr(0,10)+'..';
 									else
 										return data;
 								}
@@ -58,7 +58,7 @@ var KFTableAdvanced = function() {
 								"aTargets":[5],
 								"mRender":function(data, type, full){
 									if (data.length > 16)
-										return data.substr(1,16)+'..';
+										return data.substr(0,16)+'..';
 									else
 										return data;
 								}
@@ -67,7 +67,7 @@ var KFTableAdvanced = function() {
 								"aTargets":[6],
 								"mRender":function(data, type, full){
 									if (data.length > 32)
-										return data.substr(1,32)+'..';
+										return data.substr(0,32)+'..';
 									else
 										return data;
 								}
@@ -288,15 +288,9 @@ var KFTableAdvanced = function() {
 			}
 
 			$('#tools_verify').hide(100);	
-			TendaAjax.getData({"script":"get_privilege"}, function(result){
-			 	if(result.error == GLOBAL.SUCCESS) {
-			 		if ((result.privilege & 32) == 32) {           
-			 			$('#tools_verify').show(100);	
-			 		}
-			 	} 
-			 	else
-			 		alert(result.error);
-			});
+			if ((GLOBAL.PRIVILEGE & 32) == 32) {
+  				$('#tools_verify').show(100);		
+	 		}
 
 			App.initUniform();
 			initTableList();

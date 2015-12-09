@@ -1,12 +1,14 @@
 
-var KFTableAdvanced = function() {
+var RecordModule = function() {
 
 	var operation_customer_id = $("#kf_list").attr("data");
+	var operation_customer_name = "";
 
 	var initTableList =  function() {
 		TendaAjax.getData({"script":"record_get_list","customer_id":operation_customer_id}, function(result){
 		if(result.error == GLOBAL.SUCCESS) {
 			$("#record_title").html('<i class="icon-heart"></i>陪诊记录('+result.username+')');
+			operation_customer_name = result.username;
 			initTable1(result.user_record);
 		}
 		else 
@@ -31,7 +33,7 @@ var KFTableAdvanced = function() {
 					"sNext": "下一页",
 					"sLast": "尾页"
 				}
-				//sProcessing : "<img src=... /loading.gif/>"
+				
 			},
 			
 			"aoColumnDefs": [
@@ -83,7 +85,7 @@ var KFTableAdvanced = function() {
 								"aTargets":[5],
 								"mRender":function(data, type, full){
 									if (data.length > 10)
-										return data.substr(1,10)+'..';
+										return data.substr(0,10)+'..';
 									else
 										return data;
 								}
@@ -92,13 +94,30 @@ var KFTableAdvanced = function() {
 								"aTargets":[7],
 								"mRender":function(data, type, full){
 									if (data.length > 40)
-										return data.substr(1,40)+'..';
+										return data.substr(0,40)+'..';
 									else
 										return data;
 								}
 							},
 							{
 								"aTargets":[9],
+								"mRender":function(data, type, full){
+									if (data == null) {
+										return '<a href="#" class="review" data_id="' + full.id + '" data_time="" data_content=""' +'>回访</a>';	
+									}
+									if (data.split(" ",1) == '0000-00-00')
+										return '<a href="#" class="review" data_id="' + full.id + '" data_time="" data_content=""' +'>回访</a>';
+									else{
+										if ((GLOBAL.PRIVILEGE & 1) == 1) {
+											return '<a href="#" class="review" data_id="' + full.id + '" data_time="' + full.review_time +'" data_content="' + full.review_content + '">'+data.split(" ",1)+'</a>';
+										}
+										else
+											return '<a href="#" class="review" data_id="' + full.id + '" data_time="" data_content=""' +'>回访</a>';
+									}
+								}
+							},
+							{
+								"aTargets":[10],
 								"mRender":function(data, type, full){
 									return "<span class='row-details row-details-close desc'></span>";
 								}
@@ -117,18 +136,26 @@ var KFTableAdvanced = function() {
 				{"mDataProp": "id","bSortable":false,"sWidth":"5px"}, 
 				{"mDataProp": "status","sWidth":"50px"},
 				{"mDataProp": "id","sWidth":"50px"},
-				{"mDataProp": "visit_date","sClass":"hidden-480","sWidth":"80px"},
+				{"mDataProp": "visit_date","sClass":"hidden-480","sWidth":"90px"},
 				{"mDataProp": "visit_time","sClass":"hidden-480","sWidth":"70px"},
-				{"mDataProp": "visit_type","sClass":"hidden-480","sWidth":"120px"},
+				{"mDataProp": "visit_type","sClass":"hidden-480","sWidth":"140px"},
 				{"mDataProp": "visit_doctor_name","sClass":"hidden-480","sWidth":"70px"},
 				{"mDataProp": "remarks","sClass":"hidden-480","sWidth":"400px"},
-				{"mDataProp": "user_id_name","sWidth":"70px"},
+				{"mDataProp": "user_id_name","sClass":"hidden-480","sWidth":"70px"},
+				{"mDataProp": "review_time","sClass":"hidden-480","sWidth":"90px"},
 				{"mDataProp": "update_time","sWidth":"40px"}
 				]
 		});
 
 		jQuery("#kf_list_wrapper .dataTables_filter input").addClass("m-wrap small");
 		jQuery("#kf_list_wrapper .dataTables_length select").addClass("m-wrap small");
+
+		jQuery(".review").click(function(){
+			$("#kf_review_id").val($(this).attr("data_id"));
+            $("#kf_review_content").val($(this).attr("data_content"));
+            $("#kf_review_time").text($(this).attr("data_time"));
+            $("#review_modal").modal("show");	
+		});
 
 		App.initUniform("#kf_list .checkboxes");
 	}
@@ -184,6 +211,14 @@ var KFTableAdvanced = function() {
 				sOut += '</td></tr>';			
 			}
 	    }
+
+		if ((GLOBAL.PRIVILEGE & 1) == 1 && aData.review_time != null) {
+  			if (aData.review_time.split(" ",1) != '0000-00-00') {
+	        	sOut += '<tr><td>回访时间:</td><td>'+aData.review_time+'</td></tr>';
+	        	sOut += '<tr><td>回访内容:</td><td>'+aData.review_content+'</td></tr>';
+	        }		
+ 		}
+
         sOut += '</table>';  
         return sOut;
     }
@@ -268,6 +303,7 @@ var KFTableAdvanced = function() {
 					
 					submitData.script = "record_modify";					
 					submitData.id = $("#kf_id").val();
+					submitData.customer_name = operation_customer_name;
 					submitData.visit_date = form.kf_visit_date.value;
 					submitData.visit_time = jQuery('#kf_visit_time').val();	
 					var visit_type_arr = [];
@@ -307,9 +343,7 @@ var KFTableAdvanced = function() {
 					//alert(fzinfoarr);
 					submitData.fzinfo = JSON.stringify(fzinfoarr);
 
-					// alert($('#kf_next_visit_date1').val());
 					if ($('#kf_next_visit_date1').val() !='') {
-						// alert($('#kf_next_visit_type1'));
 						$('#kf_next_visit_type1').rules("add", {
 							required: true,
 							messages: {
@@ -409,6 +443,33 @@ var KFTableAdvanced = function() {
 		 //            	$('#kf_visit_doctor_name_group').children('label').children('span').remove();	
 		 //        });      
    //          });
+
+			var v_review_form = $('.review-form');
+			v_review_form.validate({
+
+				errorElement: 'span', //default input error message container
+                errorClass: 'help-inline', // default input error message class
+                focusInvalid: false, // do not focus the last invalid input
+                ignore: "",
+	                          
+				submitHandler: function(form){
+					//根据获取的ID来进行判断，是修改还是添加
+					//TODO验证还需要进行权限是否为空的验证
+
+					var submitData = {};
+                	submitData.script = "record_review";
+                	submitData.id = $("#kf_review_id").val();
+                	submitData.review_content = $("#kf_review_content").val();
+                	TendaAjax.getData(submitData, function(result){
+                		if(result.error == GLOBAL.SUCCESS) {
+							initTableList();
+							$("#review_modal").modal("hide");
+						}				
+                		else
+                			alert(result.error);
+                	});
+				}
+			});
 			        
 			var v_event_form = $('.event-form');        
 			v_event_form.validate({
@@ -480,9 +541,10 @@ var KFTableAdvanced = function() {
 					}
 					else {
 						submitData.script = "event_add";
-						submitData.customer_id = operation_customer_id;
 					}
 					submitData.id = $("#event_id").val();
+					submitData.customer_id = operation_customer_id;
+					submitData.customer_name = operation_customer_name;
 					submitData.visit_date = form.event_visit_date.value;
 					submitData.visit_time = jQuery('#event_visit_time').val();					
 					if (jQuery('#event_order_success').val() == "已预约")
@@ -647,17 +709,12 @@ var KFTableAdvanced = function() {
 	                	alert("请选择一条数据!");
 	                	return;
 	                }
-                	var submitData = {};
-                	submitData.script = "record_del";
-                	submitData.id = arr_id;
-
-                	TendaAjax.getData(submitData, function(result){
-                		if(result.error == GLOBAL.SUCCESS) {
-							initTableList();
-						}				
-                		else
-                			alert(result.error);
-                	});
+                	
+                	$("#confirm_modal_title").html('删除记录');
+                	$("#confirm_modal_content").html('你确定将记录<font color="red"> ' + arr[0].id +' </font>删除吗?');
+                	$("#confirm_modal_content").attr('data_id',arr[0].id);
+                	$("#confirm_modal_content").attr('data_script','record_del');
+                	$("#confirm_modal").modal("show");
                 }      
                 else if (operation == "RECORD") {
                 	
@@ -770,6 +827,23 @@ var KFTableAdvanced = function() {
 
 			});
 
+			$("#confirm_button").on("click",function(){
+				var submitData = {};
+				submitData.script = $('#confirm_modal_content').attr('data_script');
+				var arr = [];
+				arr.push($('#confirm_modal_content').attr('data_id'));
+				submitData.id = arr;
+				TendaAjax.getData(submitData, function(result){
+					if(result.error == GLOBAL.SUCCESS) {
+						initTableList();
+						$("#confirm_modal").modal("hide");
+					}				
+					else
+						alert(result.error);
+				});
+
+			});
+
 			jQuery('#event_modal').on('hidden.bs.modal', function (e) {
 				$("#event_modal input[type='text'], input[type='hidden']").val('');
 				$("#event_modal input[type='date']").val('');
@@ -819,8 +893,6 @@ var KFTableAdvanced = function() {
 			initTableList();
 		}
 	};
-
 }();
 
-
-KFTableAdvanced.init();
+RecordModule.init();

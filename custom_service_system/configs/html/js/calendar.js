@@ -14,7 +14,7 @@ var Calendar = function () {
                     var datearr = date[0].split("-",3);
                     var visit_type_str = "";
                     if (result.user_event[i].visit_type.length > 14)
-                        visit_type_str = result.user_event[i].visit_type.substr(1,14)+'..';
+                        visit_type_str = result.user_event[i].visit_type.substr(0,14)+'..';
                     else
                         visit_type_str = result.user_event[i].visit_type;
                     object.title = result.user_event[i].customer_name + visit_type_str + " " + result.user_event[i].visit_doctor_name;
@@ -59,20 +59,21 @@ var Calendar = function () {
                     // object.url = "http://www.baidu.com";
                     arr[i] = object;  
                 }
+             
                 App.addResponsiveHandler(function () {
                     Calendar.initCalendar(arr);
                 });
-
+                 
                 $('.page-sidebar .sidebar-toggler').click(function () {
                     Calendar.initCalendar(arr);
                 });
-
+                
                 Calendar.initCalendar(arr);
             });  
         },
 
         initCalendar: function (arr) {
-
+            
             if (!jQuery().fullCalendar) {
                 return;
             }
@@ -158,14 +159,15 @@ var Calendar = function () {
                 $('#event_box').html("");
                 for(var i = 0; i<result.user_list.length; i++) {
                     var str = result.user_list[i].name;
-                    var color = 'style="background-color:#852b99"';
+                    var color;
                     if (result.user_list[i].vip == 1) {
-                        str = str + "(会员)";
-                        // color = 'style="background-color:#ffb848"';
+                        // str = str + "(会员)";
+                        var color = 'style="background-color:#ff0000"';
                     }
-                    // else {
-                    //     str = str + "(预签)" 
-                    // }
+                    else {
+                        // str = str + "(预签)"
+                        var color = 'style="background-color:#852b99"';
+                    }
                     // if (result.user_list[i].visit_date) {
                     //     // var time = result.user_list[i].visit_date.split(" ",1);
                     //     str = str + "[过期]"

@@ -249,28 +249,34 @@ var TableAdvanced = function() {
                 } else {
 
                 	if(arr.length != 1) {
-	                	alert("请选择一条数据");
+	                	alert("请选择一条数据!");
 	                	return;
 	                }
-
-                	//删除数据
-                	var submitData = {};
-                	submitData.script = "ac_del";
-                	submitData.id = arr_id;
-
-                	TendaAjax.getData(submitData, function(result){
-                		if(result.error == GLOBAL.SUCCESS) {
-					 		initTableList();
-					 	}
-					 	else
-					 		alert(result.error);
-                	});
+                	
+                	$("#confirm_modal_title").html('删除员工');
+                	$("#confirm_modal_content").html('你确定将员工<font color="red"> ' + arr[0].name +' </font>删除吗?');
+                	$("#confirm_modal_content").attr('data_id',arr[0].id);
+                	$("#confirm_modal_content").attr('data_script','ac_del');
+                	$("#confirm_modal").modal("show");
                 }
-
-
-
 			});
 
+			$("#confirm_button").on("click",function(){
+				var submitData = {};
+				submitData.script = $('#confirm_modal_content').attr('data_script');
+				var arr = [];
+				arr.push($('#confirm_modal_content').attr('data_id'));
+				submitData.id = arr;
+				TendaAjax.getData(submitData, function(result){
+					if(result.error == GLOBAL.SUCCESS) {
+						initTableList();
+						$("#confirm_modal").modal("hide");
+					}				
+					else
+						alert(result.error);
+				});
+
+			});
 
 			jQuery('#ac_list .group-checkable').change(function () {
                 var set = jQuery(this).attr("data-set");

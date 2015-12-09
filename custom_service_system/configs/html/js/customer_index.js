@@ -42,6 +42,13 @@ var KFTableAdvanced = function() {
 								}
 							},
 							{
+								"aTargets":[2],
+								"data":"name",
+								"mRender": function(data, type, full) {
+									return '<a href="#" class="record" data="' + full.id + '">'+data+'</a>';
+								}
+							},
+							{
 								"aTargets":[4],
 								"mRender":function(data, type, full){
 									// var last_menses_data = data.split(" ",1);	
@@ -56,7 +63,7 @@ var KFTableAdvanced = function() {
 								"aTargets":[7],
 								"mRender":function(data, type, full){
 									if (data.length > 40)
-										return data.substr(1,40)+'..';
+										return data.substr(0,40)+'..';
 									else
 										return data;
 								}
@@ -64,17 +71,11 @@ var KFTableAdvanced = function() {
 							{
 								"aTargets":[8],
 								"mRender":function(data, type, full){
-									return'<a href="#" class="record" data="' + data + '">记录</a>'
-								}
-							},
-							{
-								"aTargets":[9],
-								"mRender":function(data, type, full){
 									return "<span class='row-details row-details-close desc'></span>";
 								}
 							}
 			],
-			"aaSorting": [[9, 'desc']],
+			"aaSorting": [[8, 'desc']],
 			// "aLengthMenu": [
 			// 	[1,5, 15, 20, -1],
 			// 	[1,5, 15, 20, "所有"]
@@ -85,14 +86,13 @@ var KFTableAdvanced = function() {
 
 			"aoColumns": [
 				{"mDataProp": "id", "bSortable":false,"sWidth":"5px"}, 
-				{"mDataProp": "id", "sWidth":"10px"},
+				{"mDataProp": "id", "sWidth":"15px"},
 				{"mDataProp": "name","sWidth":"60px"},
 				{"mDataProp": "phonenumber","sClass":"hidden-480","sWidth":"80px"},
 				{"mDataProp": "customer_type","sClass":"hidden-480","sWidth":"60px"},
 				{"mDataProp": "doctor_name","sClass":"hidden-480","sWidth":"65px"},
 				{"mDataProp": "sellname","sClass":"hidden-480","sWidth":"65px"},
 				{"mDataProp": "remarks","sClass":"hidden-480","sWidth":"400px"},
-				{"mDataProp": "id","sClass":"hidden-480","sWidth":"65px"},
 				{"mDataProp": "update_time","sWidth":"40px"}
 				]
 
@@ -397,6 +397,73 @@ var KFTableAdvanced = function() {
 				}
 			});
 
+			var v_upvip_form = $('.upvip-form');
+			v_upvip_form.validate({
+
+				errorElement: 'span', //default input error message container
+                errorClass: 'help-inline', // default input error message class
+                focusInvalid: false, // do not focus the last invalid input
+                ignore: "",
+
+	            rules: {
+	                upvip_order_time: {
+	                	date: true,
+                        required: true
+	                },
+	                upvip_order_over_time: {
+	                	date: true,
+                        required: true
+	                }
+	            },
+
+	            messages:{
+                    
+                    upvip_order_time:{
+                        required:"必填"
+                    },
+                    upvip_order_over_time:{
+                        required:"必填"
+                    }                                                       
+                },
+
+                highlight: function (element) { // hightlight error inputs
+                    $(element)
+                        .closest('.help-inline').removeClass('ok'); // display OK icon
+                    $(element)
+                        .closest('.control-group').removeClass('success').addClass('error'); // set error class to the control group
+                },
+
+                unhighlight: function (element) { // revert the change dony by hightlight
+                    $(element)
+                        .closest('.control-group').removeClass('error'); // set error class to the control group
+                },
+
+                success: function (label) {
+                    label
+                        .addClass('valid').addClass('help-inline ok') // mark the current input as valid and display OK icon
+                    .closest('.control-group').removeClass('error').addClass('success'); // set success class to the control group
+                },
+
+				submitHandler: function(form){
+					//根据获取的ID来进行判断，是修改还是添加
+					//TODO验证还需要进行权限是否为空的验证
+
+					var submitData = {};
+                	submitData.script = "customer_upvip";
+                	submitData.id = $("#upvip_id").val();
+                	submitData.order_time = form.upvip_order_time.value;
+                	submitData.order_over_time = form.upvip_order_over_time.value;
+                	TendaAjax.getData(submitData, function(result){
+                		if(result.error == GLOBAL.SUCCESS) {
+							initTableList();
+							$("#upvip_modal").modal("hide");
+						}				
+                		else
+                			alert(result.error);
+                	});
+				}
+			});
+
 			jQuery('.kf-index>li').on("click", function(){
 				var operation;
 				if ($(this).find("i").hasClass("icon-pencil")) {
@@ -498,18 +565,13 @@ var KFTableAdvanced = function() {
 	                	alert("请选择一条数据!");
 	                	return;
 	                }
-                	//删除数据
-                	var submitData = {};
-                	submitData.script = "customer_del";
-                	submitData.id = arr_id;
-
-                	TendaAjax.getData(submitData, function(result){
-                		if(result.error == GLOBAL.SUCCESS) {
-							initTableList();
-						}				
-                		else
-                			alert(result.error);
-                	});
+                	
+                	$("#confirm_modal_title").html('删除客户');
+                	$("#confirm_modal_content").html('你确定将客户<font color="red"> ' + arr[0].name +' </font>删除吗?');
+                	$("#confirm_modal_content").attr('data_id',arr[0].id);
+                	$("#confirm_modal_content").attr('data_script','customer_del');
+                	$("#confirm_modal").modal("show");
+	               
                 }
                 else if (operation == "UPVIP") {
 
@@ -530,19 +592,30 @@ var KFTableAdvanced = function() {
 	                	alert("请选择一条数据!");
 	                	return;
 	                }
-                	//删除数据
-                	var submitData = {};
-                	submitData.script = "customer_remove";
-                	submitData.id = arr_id;
 
-                	TendaAjax.getData(submitData, function(result){
-                		if(result.error == GLOBAL.SUCCESS) {
-							initTableList();
-						}				
-                		else
-                			alert(result.error);
-                	});
+                	$("#confirm_modal_title").html('结束服务');
+                	$("#confirm_modal_content").html('你确定结束对<font color="red"> ' + arr[0].name +' </font>的服务吗?');
+                	$("#confirm_modal_content").attr('data_id',arr[0].id);
+                	$("#confirm_modal_content").attr('data_script','customer_remove');
+                	$("#confirm_modal").modal("show");
                 }
+
+			});
+
+			$("#confirm_button").on("click",function(){
+				var submitData = {};
+				submitData.script = $('#confirm_modal_content').attr('data_script');
+				var arr = [];
+				arr.push($('#confirm_modal_content').attr('data_id'));
+				submitData.id = arr;
+				TendaAjax.getData(submitData, function(result){
+					if(result.error == GLOBAL.SUCCESS) {
+						initTableList();
+						$("#confirm_modal").modal("hide");
+					}				
+					else
+						alert(result.error);
+				});
 
 			});
 
@@ -581,19 +654,10 @@ var KFTableAdvanced = function() {
 				return;
 			}
 			
-			TendaAjax.getData({"script":"get_privilege"}, function(result){
-			 	if(result.error == GLOBAL.SUCCESS) {
-			 		if ((result.privilege & 1) == 1) {
-	            
-			 		}
-			 		else {
-	      				$('#tools_upvip').hide(100);	
-	                	$('#tools_remove').hide(100);		
-			 		}
-			 	} 
-			 	else
-			 		alert(result.error);
-			});
+			if ((GLOBAL.PRIVILEGE & 1) != 1) {
+  				$('#tools_upvip').hide(100);	
+            	$('#tools_remove').hide(100);		
+	 		}
 
 			App.initUniform();
 			initTableList();

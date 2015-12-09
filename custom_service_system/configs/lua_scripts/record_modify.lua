@@ -39,6 +39,7 @@ end
 
 local function Execute(post)
 	local _id = post.web.id
+	local _customer_name = post.web.customer_name
 	local _visit_date = post.web.visit_date
 	local _visit_time = post.web.visit_time
 	local _visit_type = post.web.visit_type
@@ -65,7 +66,7 @@ local function Execute(post)
 						.. " and verify = 0"	
 	
 	DEBUG("record_modify: " .. _query_sql)
-	INFO(post.session.name.." 修改记录 ".._query_sql)
+	INFO(post.session.name.." 修改记录 ".._customer_name.." ".._query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)
 end
 

@@ -4,8 +4,7 @@ GLOBAL.LOOKDOCTOR = "就诊";
 GLOBAL.REVIEWDOCTOR = "复诊";
 GLOBAL.CREATE = "建卡全套";
 GLOBAL.YUNMM = "孕妈妈";
-GLOBAL.domain = "http://192.168.0.101";
-GLOBAL.RDINDEX = {};
+GLOBAL.PRIVILEGE = 0;
 
 jQuery(document).ready(function() {    
 
@@ -35,6 +34,14 @@ var Index = function () {
         },
 
         initNavInfo: function () {           
+
+            TendaAjax.getData({"script":"get_privilege"}, function(result){
+                if(result.error == GLOBAL.SUCCESS) {
+                    GLOBAL.PRIVILEGE = result.privilege;
+                } 
+                else
+                    alert(result.error);
+            });
 
             TendaAjax.getData({"script":"au_menu"}, function(obj) {
                 

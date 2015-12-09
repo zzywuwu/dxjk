@@ -1,5 +1,5 @@
 
-var KFTableAdvanced = function() {
+var vipmodule = function() {
 
 	var initTableList =  function() {
 
@@ -63,28 +63,19 @@ var KFTableAdvanced = function() {
 								"aTargets":[7],
 								"mRender":function(data, type, full){
 									if (data.length > 40)
-										return data.substr(1,40)+'..';
+										return data.substr(0,40)+'..';
 									else
 										return data;
 								}
-							},
+							},						
 							{
 								"aTargets":[8],
-								"mRender":function(data, type, full){
-									if (data.split(" ",1) == '0000-00-00')
-										return '<a href="#" class="review" data_id="' + full.id + '" data_time="" data_content=""' +'>回访</a>';
-									else
-										return '<a href="#" class="review" data_id="' + full.id + '" data_time="' + full.review_time +'" data_content="' + full.review_content + '">'+data.split(" ",1)+'</a>';
-								}
-							},
-							{
-								"aTargets":[9],
 								"mRender":function(data, type, full){
 									return "<span class='row-details row-details-close desc'></span>";
 								}
 							}
 			],
-			"aaSorting": [[9, 'asc']],
+			"aaSorting": [[8, 'asc']],
 			// "aLengthMenu": [
 			// 	[1,5, 15, 20, -1],
 			// 	[1,5, 15, 20, "所有"]
@@ -95,14 +86,13 @@ var KFTableAdvanced = function() {
 
 			"aoColumns": [
 				{"mDataProp": "id", "bSortable":false,"sWidth":"5px"}, 
-				{"mDataProp": "id", "sWidth":"10px"},
+				{"mDataProp": "id", "sWidth":"15px"},
 				{"mDataProp": "name","sWidth":"60px"},
 				{"mDataProp": "phonenumber","sClass":"hidden-480","sWidth":"80px"},
 				{"mDataProp": "diffweeks","sClass":"hidden-480","sWidth":"60px"},
 				{"mDataProp": "doctor_name","sClass":"hidden-480","sWidth":"65px"},
 				{"mDataProp": "sellname","sClass":"hidden-480","sWidth":"65px"},
 				{"mDataProp": "remarks","sClass":"hidden-480","sWidth":"400px"},
-				{"mDataProp": "review_time","sClass":"hidden-480","sWidth":"80px"},
 				{"mDataProp": "update_time","sWidth":"40px"}
 				]				
 		});
@@ -126,14 +116,7 @@ var KFTableAdvanced = function() {
 			TendaAjax.getHtml(data, function(result){
 				$(".page-content .container-fluid").html(result);
 			});  
-		});
-
-		jQuery(".review").click(function(){
-			$("#kf_review_id").val($(this).attr("data_id"));
-            $("#kf_review_content").val($(this).attr("data_content"));
-            $("#kf_review_time").text($(this).attr("data_time"));
-            $("#review_modal").modal("show");	
-		});
+		});	
 	}
 
 	var fnFormatDetails = function( oTable, nTr ) {
@@ -154,11 +137,7 @@ var KFTableAdvanced = function() {
         sOut += '<tr><td>家属电话:</td><td>'+aData.familyphonenumber+'</td></tr>';
         sOut += '<tr><td>会员签单日:</td><td>'+aData.order_time.split(" ",1)+'</td></tr>';
         sOut += '<tr><td>会员到期日:</td><td>'+aData.order_over_time.split(" ",1)+'</td></tr>';
-        sOut += '<tr><td>备注:</td><td>'+aData.remarks+'</td></tr>';
-        if (aData.review_time.split(" ",1) != '0000-00-00') {
-        	sOut += '<tr><td>回访时间:</td><td>'+aData.review_time+'</td></tr>';
-        	sOut += '<tr><td>回访内容:</td><td>'+aData.review_content+'</td></tr>';
-        }
+        sOut += '<tr><td>备注:</td><td>'+aData.remarks+'</td></tr>';    
         sOut += '</table>';
          
         return sOut;
@@ -304,33 +283,6 @@ var KFTableAdvanced = function() {
 				}
 			});
 
-			var v_review_form = $('.review-form');
-			v_review_form.validate({
-
-				errorElement: 'span', //default input error message container
-                errorClass: 'help-inline', // default input error message class
-                focusInvalid: false, // do not focus the last invalid input
-                ignore: "",
-	                          
-				submitHandler: function(form){
-					//根据获取的ID来进行判断，是修改还是添加
-					//TODO验证还需要进行权限是否为空的验证
-
-					var submitData = {};
-                	submitData.script = "customer_review";
-                	submitData.id = $("#kf_review_id").val();
-                	submitData.review_content = $("#kf_review_content").val();
-                	TendaAjax.getData(submitData, function(result){
-                		if(result.error == GLOBAL.SUCCESS) {
-							initTableList();
-							$("#review_modal").modal("hide");
-						}				
-                		else
-                			alert(result.error);
-                	});
-				}
-			});
-
 			jQuery('#kf_modal').on('hidden.bs.modal', function (e) {
 				$("input[type='text'], input[type='hidden']").val('');
 				$("input[type='date']").val('');
@@ -347,10 +299,7 @@ var KFTableAdvanced = function() {
 				}
 				else if ($(this).find("i").hasClass("icon-remove")) {
 					operation = "REMOVE";
-				}
-				// else if ($(this).find("i").hasClass("icon-phone")) {
-				// 	operation = "REVIEW";
-				// }
+				}				
 				else {
 					alert("开发中,请耐心等待");
 					return 
@@ -426,30 +375,29 @@ var KFTableAdvanced = function() {
 	                	return;
 	                }
 
-                	var submitData = {};
-                	submitData.script = "vip_remove";
-                	submitData.id = arr_id;
-
-                	TendaAjax.getData(submitData, function(result){
-                		if(result.error == GLOBAL.SUCCESS) {
-							initTableList();
-						}				
-                		else
-                			alert(result.error);
-                	});
+                	$("#confirm_modal_title").html('结束服务');
+                	$("#confirm_modal_content").html('你确定结束对<font color="red"> ' + arr[0].name +' </font>的服务吗?');
+                	$("#confirm_modal_content").attr('data_id',arr[0].id);
+                	$("#confirm_modal_content").attr('data_script','vip_remove');
+                	$("#confirm_modal").modal("show");
                 }
 
-                // else if (operation == "REVIEW") {
+			});
 
-                // 	if(arr.length != 1) {
-	               //  	alert("请选择一条数据!");
-	               //  	return;
-	               //  }
-
-                // 	$("#kf_review_id").val(arr[0].id);
-                // 	$("#kf_review_content").val(arr[0].review_content);
-                // 	$("#review_modal").modal("show");
-                // }
+			$("#confirm_button").on("click",function(){
+				var submitData = {};
+				submitData.script = $('#confirm_modal_content').attr('data_script');
+				var arr = [];
+				arr.push($('#confirm_modal_content').attr('data_id'));
+				submitData.id = arr;
+				TendaAjax.getData(submitData, function(result){
+					if(result.error == GLOBAL.SUCCESS) {
+						initTableList();
+						$("#confirm_modal").modal("hide");
+					}				
+					else
+						alert(result.error);
+				});
 
 			});
 
@@ -488,24 +436,15 @@ var KFTableAdvanced = function() {
 				return;
 			}
 
-			TendaAjax.getData({"script":"get_privilege"}, function(result){
-			 	if(result.error == GLOBAL.SUCCESS) {
-			 		if ((result.privilege & 1) == 1) {
-	            
-			 		}
-			 		else {
-	      				$("#kf_phonenumber_group").hide(100);
-	                	$("#kf_idnumber_group").hide(100);
-	                	$('#kf_sellname_option_group').hide(100);
-	                	$("#kf_wx_group").hide(100);
-	                	$("#kf_age_group").hide(100);
-	                	$('#tools_remove').hide(100);		
-	                	// $('#tools_phone').hide(100);
-			 		}
-			 	} 
-			 	else
-			 		alert(result.error);
-			});
+			if ((GLOBAL.PRIVILEGE & 1) != 1) {
+  				$("#kf_phonenumber_group").hide(100);
+            	$("#kf_idnumber_group").hide(100);
+            	$('#kf_sellname_option_group').hide(100);
+            	$("#kf_wx_group").hide(100);
+            	$("#kf_age_group").hide(100);
+            	$('#tools_remove').hide(100);		
+            	// $('#tools_phone').hide(100);
+	 		}
 			
 			App.initUniform();
 			initTableList();
@@ -514,7 +453,4 @@ var KFTableAdvanced = function() {
 
 }();
 
-
-KFTableAdvanced.init();
-
-//App.init();
+vipmodule.init();

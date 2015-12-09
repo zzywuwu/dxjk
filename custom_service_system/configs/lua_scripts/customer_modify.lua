@@ -97,7 +97,7 @@ local function Execute(post)
 	end
 
 	DEBUG("customer_modify: " .. _query_sql)
-	INFO(post.session.name.." 修改客户 ".._query_sql)
+	INFO(post.session.name.." 修改 ".._name.." ".._query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)
 end
 

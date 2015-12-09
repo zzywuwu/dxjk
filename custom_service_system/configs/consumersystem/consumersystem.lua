@@ -144,10 +144,8 @@ function GetSecondDayInfo()
     else
         info = info .. "\n"
         while row do
-            INFO(row["customer_name"])
-            INFO(row["visit_type"])
             local str = string.format("%-10s %s ",row["customer_name"],row["visit_time"])
-            if row["order_success"] == 1 then
+            if tonumber(row["order_success"]) == 1 then
                 -- ..string.sub(row["visit_date"],1,10)
                 str = str .. "(已预约) "..row["visit_type"].." "..row["remarks"].."\n\n"
             else
@@ -177,15 +175,15 @@ function NotifySecondDay()
         end 
         PushGroupMessage(current_time,info,GetPartyID())
         second_day_last_send = os.time()
-    elseif ((t-second_day_last_send)>1000) then
-        -- local err,info = GetSecondDayInfo()
-        -- if not err then
-        --      ERROR("GetSecondEventInfo failed!")
-        --      return
-        -- end
-        -- local user = {"zhaoyu"}     
-        -- PushMessage(current_time,info,user)
-        -- second_day_last_send = os.time()  
+    -- elseif ((t-second_day_last_send)>1000) then
+    --     local err,info = GetSecondDayInfo()
+    --     if not err then
+    --          ERROR("GetSecondEventInfo failed!")
+    --          return
+    --     end
+    --     local user = {"zhaoyu"}     
+    --     PushMessage(current_time,info,user)
+    --     second_day_last_send = os.time()  
     end
 end
 
