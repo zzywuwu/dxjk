@@ -240,14 +240,14 @@ var Calendar = function () {
 
 }();
 
-Calendar.init();
+// Calendar.init();
 
-    // var layoutColorCodes = {
-    //     'blue': '#4b8df8',
-    //     'red': '#e02222',
-    //     'green': '#35aa47',
-    //     'purple': '#852b99',
-    //     'grey': '#555555',
-    //     'light-grey': '#fafafa',
-    //     'yellow': '#ffb848'
-    // };
+// var layoutColorCodes = {
+//     'blue': '#4b8df8',
+//     'red': '#e02222',
+//     'green': '#35aa47',
+//     'purple': '#852b99',
+//     'grey': '#555555',
+//     'light-grey': '#fafafa',
+//     'yellow': '#ffb848'
+// };

@@ -1,5 +1,5 @@
 
-var KFTableAdvanced = function() {
+var verifyrecordmodule = function() {
 
 	var initTableList =  function() {
 		TendaAjax.getData({"script":"record_get_list_verify"}, function(result){
@@ -292,4 +292,4 @@ var KFTableAdvanced = function() {
 }();
 
 
-KFTableAdvanced.init();
+// verifyrecordmodule.init();

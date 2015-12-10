@@ -4,44 +4,19 @@
 <meta charset="utf-8">
 <title>人员管理</title>
 
-
-
-
-<!-- BEGIN PAGE LEVEL STYLES -->
 	<style >
 		.row-fluid {
 			margin-top: 10px;
 		}
 	</style>
 	
-	<!-- END PAGE LEVEL STYLES -->
 </head>
 
 <body>
-	
-	<!--Account Management Modal END-->
-	<!-- <div class="row-fluid">
-		<div class="span12">
-			<h3 class="page-title">
-				人员管理
-				<small>人员管理列表，根据权限可对列表进行修改</small>
-			</h3>
-			<ul class="breadcrumb">
-				<li>
-					<i class="icon-home"></i>
-					<a href="#">Home</a>
-					<span class="icon-angle-right"></span>
-				</li>
-				<li>
-					<a href="#">人员管理</a>
-				</li>
-			</ul>
-		</div>
-	</div> -->
 
 	<div class="row-fluid">
 		<div class="span12">
-			<!--BEGIN SAMPLE TABLE PORTLET-->
+			
 			<div class="portlet box blue">
 				<div class="portlet-title">
 					<div class="caption"><i class="icon-cogs"></i>人员管理</div>
@@ -51,7 +26,7 @@
 							<i class="icon-pencil"></i> 添加
 
 						</a>
-						<!--<a href="#portlet-config" data-toggle="modal" class="config"></a>-->
+						
 						<div class="btn-group">
 							
 							<a href="#" class="btn green" data-toggle="dropdown">
@@ -94,10 +69,6 @@
 			</div>
 		</div>
 	</div>
-
-<!--Account Management Modal BEGIN-->
-	
-		
 
 	<div class="modal fade" id="ac_modal" tabindex="-1" role="dialog" aria-labelledby="ac_modal_label" data-backdrop="static">
 		<div class="modal-dialog" role="document">
@@ -167,7 +138,16 @@
 		</div>
 	</div>
 
-</body>
+	<script>
 
-	<script type="text/javascript" src="/js/ac_index.js"></script>
+		jQuery(document).ready(function() {       
+		   
+		   usermodule.init();
+
+		});
+
+	</script>
+
+</body>
+	
 </html>

@@ -1,5 +1,5 @@
 
-var TableAdvanced = function() {
+var usermodule = function() {
 
 	var initTableList =  function() {
 
@@ -303,7 +303,4 @@ var TableAdvanced = function() {
 
 }();
 
-
-TableAdvanced.init();
-
-//App.init();
+// usermodule.init();

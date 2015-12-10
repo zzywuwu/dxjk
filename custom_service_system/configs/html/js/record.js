@@ -1,8 +1,11 @@
 
-var RecordModule = function() {
+var recordmodule = function() {
 
-	var operation_customer_id = $("#kf_list").attr("data");
-	var operation_customer_name = "";
+	// var operation_customer_id = $("#kf_list").attr("data");
+	// var operation_customer_name = "";
+
+	var operation_customer_id;
+	var operation_customer_name;
 
 	var initTableList =  function() {
 		TendaAjax.getData({"script":"record_get_list","customer_id":operation_customer_id}, function(result){
@@ -227,6 +230,9 @@ var RecordModule = function() {
 
 	return {
 		init: function () {
+
+			operation_customer_id = $("#kf_list").attr("data");
+			operation_customer_name = "";
 
 			var v_kf_form = $('.kf-form');
 			v_kf_form.validate({
@@ -895,4 +901,4 @@ var RecordModule = function() {
 	};
 }();
 
-RecordModule.init();
+// recordmodule.init();

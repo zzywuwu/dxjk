@@ -1,5 +1,5 @@
 
-var KFTableAdvanced = function() {
+var customermodule = function() {
 
 	var initTableList =  function() {
 
@@ -687,4 +687,4 @@ var KFTableAdvanced = function() {
 
 }();
 
-KFTableAdvanced.init();
+// customermodule.init();
