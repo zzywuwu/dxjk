@@ -222,7 +222,7 @@ $config['log_threshold'] = 1;
 | application/logs/ directory. Use a full server path with trailing slash.
 |
 */
-$config['log_path'] = '/opt/nginx/html/temp/log/';
+$config['log_path'] = '/var/log/';
 
 /*
 |--------------------------------------------------------------------------
