@@ -1,6 +1,6 @@
 require("kf_debug")
 
-DEBUGINIT("ngx_lua.log", 0)
+DEBUGINIT("ngx_lua.log", 1)
 
 mysql = require("connect_mysql")
 redis = require("connect_redis")

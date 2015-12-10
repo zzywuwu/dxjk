@@ -53,7 +53,8 @@ echo "/swap  swap  swap  sw  0  0"  >> /etc/fstab
 
 mysqldump -uroot dtjx > 1202.sql
 
-
+ $this->output->set_header('Cache-Control: private, pre-check=0, post-check=0, max-age=60');
+        $this->output->set_header('Pragma: cache');
 
 
 

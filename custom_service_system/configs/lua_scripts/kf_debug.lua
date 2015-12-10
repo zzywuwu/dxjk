@@ -16,7 +16,7 @@ local function FindScriptPos(str)
 end
 
 function DEBUGINIT(filename, level)
-    local file_path = "/var/log/"..filename
+    local file_path = "/var/logs/"..filename
     debug_file = io.open(file_path, "a+")
     debug_level = level
 end
