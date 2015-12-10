@@ -453,4 +453,4 @@ var vipmodule = function() {
 
 }();
 
-vipmodule.init();
+// vipmodule.init();

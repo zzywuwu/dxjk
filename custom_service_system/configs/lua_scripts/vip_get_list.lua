@@ -23,7 +23,7 @@ local function MysqlCallback(res)
 		_jsontbl.web.user_list[i]["diffweeks"] = diffweeks
 		_jsontbl.web.user_list[i]["diffdays"] = diffweeks
 	end
-
+	SetCache("vip_get_list",_jsontbl)
 	return _jsontbl
 end
 
@@ -36,16 +36,23 @@ local function ParamCheck(post)
 end
 
 local function Execute(post)
+
+	local cache = common.GetCache("vip_get_list")
+	if next(cache) ~= nil then 
+		DEBUG("vip_get_list cache exits")
+		return cache 
+	end
 	
 	local _query_sql = "select * from customer where vip = 1 order by update_time desc"
 
-	DEBUG("vid_get_list: " .. _query_sql)
+	DEBUG("vip_get_list: " .. _query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)
 end
 
 local _M = {
 	ParamCheck = ParamCheck,
-	Execute = Execute
+	Execute = Execute,
+	cache = {}
 }
 
 return _M

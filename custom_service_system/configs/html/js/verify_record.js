@@ -209,47 +209,39 @@ var KFTableAdvanced = function() {
 	                }
 
 	                $("#verify_id").val(arr_id);
-					jQuery('#verify_content').html("");
-					var html = '<ul>';
-					html += '<li>姓名:'+arr[0].customer_name+'</li>';
-			       	html += '<li>就诊时间:'+arr[0].visit_date.split(" ",1)+' '+arr[0].visit_time +'</li>';
-			       	html += '<li>陪诊人员:'+arr[0].servicename+'</li>';
-			       	html += '<li>就诊项目:'+arr[0].visit_type+'</li>';
-			       	html += '<li>就诊医生:'+arr[0].visit_doctor_name+'</li>';	       	
-			       	html += '<li>就诊记录:'+arr[0].result+'</li>';			       	
-			       	html += '<li>医嘱:'+arr[0].doctor_advise+'</li>';
-			       	html += '<li>备注:'+arr[0].remarks+'</li>';
-			       	html += '</br>';
-			       	 
+	                $("#verify_name").text(arr[0].customer_name);
+	                $("#verify_visit_date").text(arr[0].visit_date.split(" ",1));
+					$("#verify_servicename").text(arr[0].servicename);
+					$("#verfiy_visit_type").text(arr[0].visit_type);
+					$("#verfiy_visit_doctor_name").text(arr[0].visit_doctor_name);
+					$("#verify_result").text(arr[0].result);
+					$("#verify_doctor_advise").text(arr[0].doctor_advise);
+					$("#verify_remarks").text(arr[0].remarks);
+							       	
+			       	var html = '<ol>';
 			        var obj = jQuery.parseJSON(arr[0].fzinfo);
 					if (Array.isArray(obj)) {
-						if (obj.length == 0) {
-							html += '<li>复诊信息&nbsp&nbsp&nbsp&nbsp:' + '<font color="red">无</font></li>';	
-						}
-						else {	
-							for (var i = 0, j = 1; i < obj.length; i++,j++) {
-								if (obj[i].next_order_success)
-									html += '<li>复诊信息(' + j + '):'+obj[i].next_visit_date.split(" ",1)+ ' '+ obj[i].next_visit_time + ' (已预约) 项目:' + obj[i].next_visit_type;
-								else
-									html += '<li>复诊信息(' + j + '):'+obj[i].next_visit_date.split(" ",1)+ ' '+ obj[i].next_visit_time + ' <font color="red">(未预约)</font> 项目:' + obj[i].next_visit_type;
-
-								if ( obj[i].next_visit_doctor_name != '') {
-										html += ' 医生:'+ obj[i].next_visit_doctor_name;
-									if ( obj[i].next_visit_doctor_name != '')
-										html += ' 地址:'+ obj[i].next_visit_address;
-									if ( obj[i].next_visit_doctor_name != '')
-										html += ' 备注:'+ obj[i].next_visit_remarks;
-								}
-								html += '</li>';
-							}	
-						}
+						
+						for (var i = 0, j = 1; i < obj.length; i++,j++) {
+							if (obj[i].next_order_success)
+								html += '<li>'+obj[i].next_visit_date.split(" ",1)+ ' '+ obj[i].next_visit_time + ' (已预约) 项目:' + obj[i].next_visit_type;
+							else
+								html += '<li>'+obj[i].next_visit_date.split(" ",1)+ ' '+ obj[i].next_visit_time + ' <font color="red">(未预约)</font> 项目:' + obj[i].next_visit_type;
+							if ( obj[i].next_visit_doctor_name != '') {
+									html += ' 医生:'+ obj[i].next_visit_doctor_name;
+								if ( obj[i].next_visit_doctor_name != '')
+									html += ' 地址:'+ obj[i].next_visit_address;
+								if ( obj[i].next_visit_doctor_name != '')
+									html += ' 备注:'+ obj[i].next_visit_remarks;
+							}
+							html += '</li>';
+						}						
 					}
-					html +='</ul>';
+					html +='</ol>';
+                	jQuery('#verify_next_vist_info').append(html);
 
-                	jQuery('#verify_content').append(html);
 					$("#verify_modal").modal("show");	
-                }
-                            
+                }                     
 			});
 
 			jQuery('#kf_list .group-checkable').change(function () {

@@ -147,11 +147,6 @@ var Calendar = function () {
                 initDrag($(this))
             });
 
-            // $('#event_add').unbind('click').click(function () {
-            //     var title = $('#event_title').val();
-            //     addEvent(title);
-            // });
-
             $('#event_box').html("");
             var submitData = {};
             submitData.script = "get_no_event_user_list";
@@ -167,11 +162,7 @@ var Calendar = function () {
                     else {
                         // str = str + "(预签)"
                         var color = 'style="background-color:#852b99"';
-                    }
-                    // if (result.user_list[i].visit_date) {
-                    //     // var time = result.user_list[i].visit_date.split(" ",1);
-                    //     str = str + "[过期]"
-                    // }
+                    }                    
                     addEvent(str,color);//icon-star-empty
                 }
             }); 
@@ -201,8 +192,7 @@ var Calendar = function () {
                 selectHelper: true,   
                 aspectRatio:1.6,
                 eventMouseover: function(calEvent, jsEvent, view) {
-                    var fstart  = $.fullCalendar.formatDate(calEvent.start, "HH:mm");//yyyy/MM/dd 
-                    // var fend  = $.fullCalendar.formatDate(calEvent.end, "HH:mm");    
+                    var fstart  = $.fullCalendar.formatDate(calEvent.start, "HH:mm");//yyyy/MM/dd    
                     $(this).attr('data-original-title', "时间: " + fstart + calEvent.description);          
                     $(this).tooltip({
                         html:true,
@@ -241,49 +231,7 @@ var Calendar = function () {
                         $(this).remove();
                     }
                 },
-                events: arr
-                // events: [{
-                //     title: 'All Day Event',
-                //     start: new Date(y, m, 1),
-                //     backgroundColor: Metronic.getBrandColor('yellow')
-                // }, {
-                //     title: 'Long Event',
-                //     start: new Date(y, m, d - 5),
-                //     end: new Date(y, m, d - 2),
-                //     backgroundColor: Metronic.getBrandColor('green')
-                // }, {
-                //     title: 'Repeating Event',
-                //     start: new Date(y, m, d - 3, 16, 0),
-                //     allDay: false,
-                //     backgroundColor: Metronic.getBrandColor('red')
-                // }, {
-                //     title: 'Repeating Event',
-                //     start: new Date(y, m, d + 4, 16, 0),
-                //     allDay: false,
-                //     backgroundColor: Metronic.getBrandColor('green')
-                // }, {
-                //     title: 'Meeting',
-                //     start: new Date(y, m, d, 10, 30),
-                //     allDay: false,
-                // }, {
-                //     title: 'Lunch',
-                //     start: new Date(y, m, d, 12, 0),
-                //     end: new Date(y, m, d, 14, 0),
-                //     backgroundColor: Metronic.getBrandColor('grey'),
-                //     allDay: false,
-                // }, {
-                //     title: 'Birthday Party',
-                //     start: new Date(y, m, d + 1, 19, 0),
-                //     end: new Date(y, m, d + 1, 22, 30),
-                //     backgroundColor: Metronic.getBrandColor('purple'),
-                //     allDay: false,
-                // }, {
-                //     title: 'Click for Google',
-                //     start: new Date(y, m, 28),
-                //     end: new Date(y, m, 29),
-                //     backgroundColor: Metronic.getBrandColor('yellow'),
-                //     url: 'http://google.com/',
-                // }]
+                events: arr              
             });
 
         }

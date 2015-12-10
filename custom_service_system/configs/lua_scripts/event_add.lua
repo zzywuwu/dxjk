@@ -38,7 +38,7 @@ local function ParamCheck(post)
 end
 
 local function Execute(post)
-	local current_time = os.date("%Y-%m-%d %H:%M:%S")
+
 	local _customer_id = post.web.customer_id
 	local _customer_name = post.web.customer_name
 	local _visit_date = post.web.visit_date

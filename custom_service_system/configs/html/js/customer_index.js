@@ -121,8 +121,8 @@ var KFTableAdvanced = function() {
         	sOut += '<tr><td>孕周:</td><td>'+aData.diffdays+'</td></tr>';
         	sOut += '<tr><td>末次月经:</td><td>'+aData.last_menses_time.split(" ",1)+'</td></tr>';
 			sOut += '<tr><td>预产期:</td><td>'+aData.due_time.split(" ",1)+'</td></tr>';
+			sOut += '<tr><td>建卡医生:</td><td>'+aData.doctor_name+'</td></tr>';
         }
-        sOut += '<tr><td>建卡医生:</td><td>'+aData.doctor_name+'</td></tr>';
         sOut += '<tr><td>销售员:</td><td>'+aData.sellname+'</td></tr>';
         sOut += '<tr><td>身份证:</td><td>'+aData.idnumber+'</td></tr>';
         sOut += '<tr><td>微信号:</td><td>'+aData.wx+'</td></tr>';
@@ -169,6 +169,16 @@ var KFTableAdvanced = function() {
                         	}
                         }
 	                }, 	
+	                kf_doctor_name: {
+	                	required: function() {
+                        	if (jQuery('#kf_customer_type').val() == GLOBAL.YUNMM ) {
+                                return true;
+                        	}
+                        	else{
+                        		return false;
+                        	}
+                        }
+	                },
 	                kf_username: {
 	                    minlength: 2,
                         required: true
@@ -214,7 +224,10 @@ var KFTableAdvanced = function() {
                     kf_wx:{
                         required:"必填",
                          minlength: "请输入最少6位"
-                    }                                                        
+                    },
+                    kf_doctor_name:{
+                        required:"必填"                   
+                    },                                                        
                 },
 
                 highlight: function (element) { // hightlight error inputs
@@ -282,13 +295,17 @@ var KFTableAdvanced = function() {
 				$("#kf_due_time_group").removeClass('success').removeClass('error');
 				$("#kf_last_menses_time_group .controls span").remove();
 				$("#kf_last_menses_time_group").removeClass('success').removeClass('error');
+				$("#kf_doctor_name_group .controls span").remove();
+				$("#kf_doctor_name_group").removeClass('success').removeClass('error');
 	         	if (GLOBAL.YUNMM == $(this).val()){
 					jQuery('#kf_due_time_group').show(100);
 					jQuery('#kf_last_menses_time_group').show(100);
+					jQuery('#kf_doctor_name_group').show(100);
 				}
 				else {
 					jQuery('#kf_due_time_group').hide(100);
 					jQuery('#kf_last_menses_time_group').hide(100);
+					jQuery('#kf_doctor_name_group').hide(100);
 				}
             });
 
@@ -302,7 +319,8 @@ var KFTableAdvanced = function() {
 				$(".control-group").removeClass('success').removeClass('error')
 				jQuery('#kf_customer_type').val(GLOBAL.YUNMM);
 				jQuery('#kf_due_time_group').show(100);
-					jQuery('#kf_last_menses_time_group').show(100);
+				jQuery('#kf_last_menses_time_group').show(100);
+				jQuery('#kf_doctor_name_group').show(100);
 			});
 
 			jQuery('#addbutton').on("click", function(){
@@ -535,10 +553,14 @@ var KFTableAdvanced = function() {
 								$("#kf_last_menses_time").val(arr[0].last_menses_time.split(" ",1));
 								jQuery('#kf_due_time_group').show(100);
 								jQuery('#kf_last_menses_time_group').show(100);
+								jQuery('#kf_doctor_name_group').show(100);
+								$("#kf_doctor_name").val(arr[0].doctor_name);
 							}
 							else {
 								jQuery('#kf_due_time_group').hide(100);
 								jQuery('#kf_last_menses_time_group').hide(100);
+								jQuery('#kf_doctor_name_group').hide(100);
+								$("#kf_doctor_name").val("");
 							}
 							return false;
 						}
@@ -546,8 +568,7 @@ var KFTableAdvanced = function() {
 
 					$("#kf_username").val(arr[0].name).prop("disabled", true);
 					$("#kf_customer_id").val(arr[0].id).prop("disabled", true);
-                	$("#kf_phonenumber").val(arr[0].phonenumber);
-                	$("#kf_doctor_name").val(arr[0].doctor_name);
+                	$("#kf_phonenumber").val(arr[0].phonenumber);           	
                 	$("#kf_idnumber").val(arr[0].idnumber);
                 	$("#kf_wx").val(arr[0].wx);
                 	$("#kf_remarks").val(arr[0].remarks);

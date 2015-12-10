@@ -19,8 +19,9 @@ local function MysqlCallback(res)
 			privilege = res[1].privilege
 		}
 	}
+	local current_time = os.date("%Y-%m-%d %H:%M:%S")
+	INFO("login name: " .. res[1].name ..", time: "..current_time..", privilege: "..res[1].privilege)
 	
-	INFO("login name: " .. res[1].name ..", id: "..res[1].id..", privilege: "..res[1].privilege)
 	return _jsontbl
 end
 
@@ -38,10 +39,12 @@ local function ParamCheck(post)
 	end
 	
 	if _web.randcode ~= _session.cap_word then
+		ERROR("login name: " .. _web.name .." 填写验证码不正确")
 		return false, WEBERR.IDCODE_ERR
 	end
 	
 	if _session.cap_time + 60 < _session.now_time then
+		ERROR("login name: " .. _web.name .." 填写验超时")
 		return false, WEBERR.IDCODE_TIMEOUT
 	end
 

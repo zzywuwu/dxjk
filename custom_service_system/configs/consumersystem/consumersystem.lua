@@ -15,6 +15,7 @@ function GetPartyID()
 end
 
 function ConnectMysql()
+    mysql_conn = nil
 	local env = mysql.mysql()
     while not mysql_conn do
 	    mysql_conn = env:connect('dtjx', 'root', '', '127.0.0.1', 3306)

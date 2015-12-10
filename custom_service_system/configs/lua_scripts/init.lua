@@ -93,7 +93,7 @@ g_privilege = {};
 g_privilege[1] = {
 				value = 16,
 				jsontbl = {
-					title = "日历",
+					title = "工作日程",
 					url = "calendar_index",
 					img = "icon-list-alt"
 				}
