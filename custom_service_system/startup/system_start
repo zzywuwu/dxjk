@@ -4,8 +4,8 @@ NGINX_CONF=$WORK_DIR/conf/nginx.conf
 NGINX_BIN=$WORK_DIR/sbin/nginx
 
 PHP_FPM_BIN=/usr/local/sbin/php-fpm
-PHP_FPM_CONF=/usr/local/etc/php-fpm.conf.default
-PHP_INI=/usr/local/etc/php.ini
+PHP_FPM_CONF=$WORK_DIR/conf/php-fpm.conf.default
+PHP_INI=$WORK_DIR/conf/php.ini
 
 CONSUMERSYSTEM_BIN=$WORK_DIR/sbin/consumersystem.lua
 

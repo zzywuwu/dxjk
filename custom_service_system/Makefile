@@ -88,6 +88,7 @@ ci:php
 
 config:
 	@echo "copy config file,lua scripts and html files"; \
+	\cp -rf configs/php/* $(PREFIX_DIR)/conf/; \
 	\cp -rf configs/conf/ $(PREFIX_DIR); \
 	\cp -rf configs/lua_scripts/ $(PREFIX_DIR); \
 	\cp -rf configs/html/ $(PREFIX_DIR); \
