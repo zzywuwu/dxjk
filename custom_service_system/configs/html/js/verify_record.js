@@ -40,6 +40,13 @@ var verifyrecordmodule = function() {
 								}
 							},
 							{
+								"aTargets":[1],
+								"data":"name",
+								"mRender": function(data, type, full) {
+									return '<a href="#" class="record" data="' + full.customer_id + '">'+data+'</a>';
+								}
+							},
+							{
 								"aTargets":[2],
 								"mRender":function(data, type, full){
 									return data.split(" ",1);
@@ -106,6 +113,13 @@ var verifyrecordmodule = function() {
 		jQuery("#kf_list_wrapper .dataTables_length select").addClass("m-wrap small");
 
 		App.initUniform("#kf_list .checkboxes");
+
+		jQuery(".record").click(function(){
+			 var data = {"page":"record_index.html","customer_id":$(this).attr("data")};
+			 TendaAjax.getHtml(data, function(result){
+				$(".page-content .container-fluid").html(result);
+			});  
+		});
 	}
 
 	var fnFormatDetails = function( oTable, nTr ) {

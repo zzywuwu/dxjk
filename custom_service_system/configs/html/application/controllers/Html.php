@@ -25,10 +25,18 @@ class Html extends CI_Controller {
 	}
 	public function index()
 	{
+		$this->output->set_header('Cache-Control: private, pre-check=0, post-check=0, max-age=600');
+		$this->output->set_header('Expires: ' . gmstrftime("%a, %d %b %Y %H:%M:%S GMT", time()));
+    	$this->output->set_header('Last-Modified: ' . gmstrftime("%a, %d %b %Y %H:%M:%S GMT", time())); 
+       	$this->output->set_header('Pragma: cache');
 		$this->load->view('index.html');
 	}
 	public function login()
 	{
+		$this->output->set_header('Cache-Control: private, pre-check=0, post-check=0, max-age=600');
+		$this->output->set_header('Expires: ' . gmstrftime("%a, %d %b %Y %H:%M:%S GMT", time()));
+    	$this->output->set_header('Last-Modified: ' . gmstrftime("%a, %d %b %Y %H:%M:%S GMT", time())); 
+       	$this->output->set_header('Pragma: cache');
 		$this->load->view('login.html');
 	}
 	public function chpwd()
@@ -37,15 +45,20 @@ class Html extends CI_Controller {
 	}
 	public function view()
 	{
-		$page = $this->input->post("page", true);
+		$page = $this->input->get("page", true);
 		if (empty($page))
 			return;
-		$customer_id = $this->input->post("customer_id", true);
+		$customer_id = $this->input->get("customer_id", true);
+		$this->output->set_header('Cache-Control: private, pre-check=0, post-check=0, max-age=600');
+		// log_message('error',strftime("%a, %d %b %Y %H:%M:%S +800", time()));
+		$this->output->set_header('Expires: ' . gmstrftime("%a, %d %b %Y %H:%M:%S GMT", time()));
+    	$this->output->set_header('Last-Modified: ' . gmstrftime("%a, %d %b %Y %H:%M:%S GMT", time())); 
+       	$this->output->set_header('Pragma: cache');
 		if (empty($customer_id)) {
 			$this->load->view($page);
 		}
 		else {
-			$data['customer_id'] = $customer_id;
+			$data['customer_id'] = $customer_id;			
 			$this->load->view($page,$data);
 		}
 	}

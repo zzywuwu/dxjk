@@ -64,6 +64,8 @@ local function Execute(post)
 	local _familyname = post.web.familyname
 	local _familyphonenumber = post.web.familyphonenumber
 	local _customer_type = post.web.customer_type
+	local _height = post.web.height
+	local _weight = post.web.weight
 
 	local _query_sql
 	if (post.web.customer_type == "孕妈妈") then
@@ -79,7 +81,9 @@ local function Execute(post)
 						.. ngx.quote_sql_str(_sellname) .. ", age = " 
 						.. ngx.quote_sql_str(_age) .. ", address = " 
 						.. ngx.quote_sql_str(_address) .. ", familyname = " 
-						.. ngx.quote_sql_str(_familyname) .. ", familyphonenumber = "  
+						.. ngx.quote_sql_str(_familyname) .. ", height = "
+						.. ngx.quote_sql_str(_height) .. ", weight = " 
+						.. ngx.quote_sql_str(_weight) .. ", familyphonenumber = "    
 						.. ngx.quote_sql_str(_familyphonenumber) .. " where id = " .. ngx.quote_sql_str(_id)
 	else
 		_query_sql = "update customer set update_time = NOW(), phonenumber = "
@@ -92,7 +96,9 @@ local function Execute(post)
 						.. ngx.quote_sql_str(_sellname) .. ", age = " 
 						.. ngx.quote_sql_str(_age) .. ", address = " 
 						.. ngx.quote_sql_str(_address) .. ", familyname = " 
-						.. ngx.quote_sql_str(_familyname) .. ", familyphonenumber = "  
+						.. ngx.quote_sql_str(_familyname) .. ", height = "
+						.. ngx.quote_sql_str(_height) .. ", weight = " 
+						.. ngx.quote_sql_str(_weight) .. ", familyphonenumber = "    
 						.. ngx.quote_sql_str(_familyphonenumber) .. " where id = " .. ngx.quote_sql_str(_id)
 	end
 

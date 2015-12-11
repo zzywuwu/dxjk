@@ -37,7 +37,7 @@ local ac_del = require("ac_del")
 local ac_get_list = require("ac_get_list")
 local wx_serach_customer = require("wx_serach_customer")
 
-file_path = "/opt/logs/"
+file_path = "/var/logs/"
 url_path = "/temp/file/"
 
 mybit = {
@@ -175,6 +175,6 @@ WEBERR = {
 	USER_PRIVILEGE_NOT_ENOUGH = "你没有权限进行此操作",
 	DEL_USER_SELF = "不能删除自己",
 	CUSTOMER_DONT_UP_VIP = "普通客户不能升级为会员",
-	DONT_DELETE_CUSTOMER = "拥有记录或事件的客户不能删除"
+	DONT_DELETE_CUSTOMER = "拥有记录或事件不能删除"
 }
 

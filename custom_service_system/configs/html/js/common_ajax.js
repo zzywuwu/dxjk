@@ -7,9 +7,9 @@ var TendaAjax = function(){
 		getHtml: function(obj, func) {
 
 			jQuery.ajax({
-				
+				cache: true,
 				url: '/html/view',
-				type: 'post',
+				type: 'get',
 				dataType: 'html',
 				data: obj,
 				success: function(data) {

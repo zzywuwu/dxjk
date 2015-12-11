@@ -123,23 +123,27 @@ var vipmodule = function() {
         var aData = oTable.fnGetData( nTr );
         var sOut = '<table>';
         sOut += '<tr><td style="width:100px;">姓名:</td><td>'+aData.name+'</td></tr>';
-        sOut += '<tr><td>电话:</td><td>'+aData.phonenumber+'</td></tr>';
-        sOut += '<tr><td>孕周:</td><td>'+aData.diffdays+'</td></tr>';
-        sOut += '<tr><td>建卡医生:</td><td>'+aData.doctor_name+'</td></tr>';
-        sOut += '<tr><td>销售员:</td><td>'+aData.sellname+'</td></tr>';
-		sOut += '<tr><td>末次月经:</td><td>'+aData.last_menses_time.split(" ",1)+'</td></tr>';
-		sOut += '<tr><td>预产期:</td><td>'+aData.due_time.split(" ",1)+'</td></tr>';
-        sOut += '<tr><td>身份证:</td><td>'+aData.idnumber+'</td></tr>';
-        sOut += '<tr><td>微信号:</td><td>'+aData.wx+'</td></tr>';
         sOut += '<tr><td>年龄:</td><td>'+aData.age+'</td></tr>';
+        sOut += '<tr><td>电话:</td><td>'+aData.phonenumber+'</td></tr>';
+        sOut += '<tr><td>微信号:</td><td>'+aData.wx+'</td></tr>';
+        sOut += '<tr><td>销售员:</td><td>'+aData.sellname+'</td></tr>';
+        sOut += '<tr><td>客户类型:</td><td>'+aData.customer_type+'</td></tr>';
+        if (aData.customer_type == GLOBAL.YUNMM) {
+        	sOut += '<tr><td>孕周:</td><td>'+aData.diffdays+'</td></tr>';
+        	sOut += '<tr><td>末次月经:</td><td>'+aData.last_menses_time.split(" ",1)+'</td></tr>';
+			sOut += '<tr><td>预产期:</td><td>'+aData.due_time.split(" ",1)+'</td></tr>';
+			sOut += '<tr><td>建卡医生:</td><td>'+aData.doctor_name+'</td></tr>';
+        }
+        sOut += '<tr><td>身份证:</td><td>'+aData.idnumber+'</td></tr>';
         sOut += '<tr><td>地址:</td><td>'+aData.address+'</td></tr>';
+        sOut += '<tr><td>身高:</td><td>'+((aData.height!=null)?aData.height:'')+'</td></tr>';
+        sOut += '<tr><td>体重:</td><td>'+((aData.weight!=null)?aData.height:'')+'</td></tr>';
         sOut += '<tr><td>家属姓名:</td><td>'+aData.familyname+'</td></tr>';
         sOut += '<tr><td>家属电话:</td><td>'+aData.familyphonenumber+'</td></tr>';
         sOut += '<tr><td>会员签单日:</td><td>'+aData.order_time.split(" ",1)+'</td></tr>';
         sOut += '<tr><td>会员到期日:</td><td>'+aData.order_over_time.split(" ",1)+'</td></tr>';
-        sOut += '<tr><td>备注:</td><td>'+aData.remarks+'</td></tr>';    
-        sOut += '</table>';
-         
+        sOut += '<tr><td>备注:</td><td>'+aData.remarks+'</td></tr>';
+         sOut += '</table>'; 
         return sOut;
     }
 
@@ -187,13 +191,23 @@ var vipmodule = function() {
                         required: true
 	                },
 	                kf_phonenumber: {
-	                	minlength: 8,
+	                	maxlength: 11,
+	                	minlength: 11,
 	                    digits: true,
                         required: true
 	                },
 	                kf_wx: {
 	                	minlength: 6,
                         required: true
+	                },
+	                kf_height : {
+	                	number: true
+	                },
+	                kf_weight : {
+	                	number: true	
+	                },
+	                kf_sellname : {
+	                	required: true	
 	                }
 	            },
 
@@ -209,7 +223,8 @@ var vipmodule = function() {
                     },
                     kf_phonenumber:{
                         required:"必填",
-                        minlength: "请输入最少8位数字"
+                        maxlength: "请输入11位数字",
+                        minlength: "请输入11位数字"
                     },
                     kf_due_time:{
                         required:"必填",
@@ -221,8 +236,17 @@ var vipmodule = function() {
                     },
                     kf_wx:{
                         required:"必填",
-                         minlength: "请输入最少6位"
-                    }                                                        
+                        minlength: "请输入最少6位"
+                    },
+                    kf_height : {
+	                	number: "请输入数字"	
+	                },
+	                kf_weight : {
+	                	number: "请输入数字"	
+	                },
+	                kf_sellname : {
+	                	required:"必填"
+	                }                                                            
                 },
 
                 highlight: function (element) { // hightlight error inputs
@@ -263,13 +287,14 @@ var vipmodule = function() {
 					submitData.idnumber = form.kf_idnumber.value;
 					submitData.wx = form.kf_wx.value;
 					submitData.last_menses_time = form.kf_last_menses_time.value;
-					submitData.sellname = jQuery('#kf_sellname_option').val();
+					submitData.sellname = jQuery('#kf_sellname').val();
 					submitData.remarks = form.kf_remarks.value;
 					submitData.address = form.kf_address.value;
 					submitData.familyname = form.kf_familyname.value;
 					submitData.familyphonenumber = form.kf_familyphonenumber.value;
 					submitData.age = form.kf_age.value;
-
+					submitData.height = form.kf_height.value;
+					submitData.weight = form.kf_weight.value;
 					TendaAjax.getData(submitData, function(result){
 						if(result.error == GLOBAL.SUCCESS) {
 							initTableList();
@@ -288,7 +313,7 @@ var vipmodule = function() {
 				$("input[type='date']").val('');
 				$("#kf_username").prop("disabled", false);
 				$("textarea").val('');
-				jQuery("#kf_sellname_option").empty();
+				jQuery("#kf_sellname").empty();
 			});
 
 			jQuery('.kf-index>li').on("click", function(){
@@ -335,15 +360,15 @@ var vipmodule = function() {
 
           			TendaAjax.getData({"script":"ac_get_list"}, function(result){
 					 	if(result.error == GLOBAL.SUCCESS) {
-					 		for(var i = 0; i < result.user_list.length; i++) {
-					 			
-					 			jQuery('#kf_sellname_option').append("<option>" + result.user_list[i].name + "</option>");
+					 		jQuery('#kf_sellname').append("<option></option>");
+					 		for(var i = 0; i < result.user_list.length; i++) {					 			
+					 			jQuery('#kf_sellname').append("<option>" + result.user_list[i].name + "</option>");
 					 		}
 					 	}
 					 	else
 					 		alert(result.error);
 
-						jQuery('#kf_sellname_option option').each(function(){
+						jQuery('#kf_sellname option').each(function(){
 							if (arr[0].sellname == $(this).text()){
 								$(this).attr("selected",true);
 							}
@@ -355,9 +380,11 @@ var vipmodule = function() {
 
           			$("#kf_phonenumber").val(arr[0].phonenumber);
                 	$("#kf_idnumber").val(arr[0].idnumber);
-                	$('#kf_sellname_option');
+                	$('#kf_sellname').val(arr[0].sellname);
                 	$("#kf_wx").val(arr[0].wx);
-                	$("#kf_age").val(arr[0].age);	
+                	$("#kf_age").val(arr[0].age);
+                	$("#kf_height").val(arr[0].height);
+                	$("#kf_weight").val(arr[0].weight);	
                 	$("#kf_familyname").val(arr[0].familyname);
                 	$("#kf_familyphonenumber").val(arr[0].familyphonenumber);
                 	$("#kf_doctor_name").val(arr[0].doctor_name);
@@ -439,7 +466,6 @@ var vipmodule = function() {
 			if ((GLOBAL.PRIVILEGE & 1) != 1) {
   				$("#kf_phonenumber_group").hide(100);
             	$("#kf_idnumber_group").hide(100);
-            	$('#kf_sellname_option_group').hide(100);
             	$("#kf_wx_group").hide(100);
             	$("#kf_age_group").hide(100);
             	$('#tools_remove').hide(100);		

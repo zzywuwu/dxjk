@@ -115,7 +115,10 @@ var customermodule = function() {
         var aData = oTable.fnGetData( nTr );
         var sOut = '<table>';
         sOut += '<tr><td style="width:100px;">姓名:</td><td>'+aData.name+'</td></tr>';
+        sOut += '<tr><td>年龄:</td><td>'+aData.age+'</td></tr>';
         sOut += '<tr><td>电话:</td><td>'+aData.phonenumber+'</td></tr>';
+        sOut += '<tr><td>微信号:</td><td>'+aData.wx+'</td></tr>';
+        sOut += '<tr><td>销售员:</td><td>'+aData.sellname+'</td></tr>';
         sOut += '<tr><td>客户类型:</td><td>'+aData.customer_type+'</td></tr>';
         if (aData.customer_type == GLOBAL.YUNMM) {
         	sOut += '<tr><td>孕周:</td><td>'+aData.diffdays+'</td></tr>';
@@ -123,11 +126,10 @@ var customermodule = function() {
 			sOut += '<tr><td>预产期:</td><td>'+aData.due_time.split(" ",1)+'</td></tr>';
 			sOut += '<tr><td>建卡医生:</td><td>'+aData.doctor_name+'</td></tr>';
         }
-        sOut += '<tr><td>销售员:</td><td>'+aData.sellname+'</td></tr>';
         sOut += '<tr><td>身份证:</td><td>'+aData.idnumber+'</td></tr>';
-        sOut += '<tr><td>微信号:</td><td>'+aData.wx+'</td></tr>';
-        sOut += '<tr><td>年龄:</td><td>'+aData.age+'</td></tr>';
         sOut += '<tr><td>地址:</td><td>'+aData.address+'</td></tr>';
+        sOut += '<tr><td>身高:</td><td>'+((aData.height!=null)?aData.height:'')+'</td></tr>';
+        sOut += '<tr><td>体重:</td><td>'+((aData.weight!=null)?aData.height:'')+'</td></tr>';
         sOut += '<tr><td>家属姓名:</td><td>'+aData.familyname+'</td></tr>';
         sOut += '<tr><td>家属电话:</td><td>'+aData.familyphonenumber+'</td></tr>';
         sOut += '<tr><td>备注:</td><td>'+aData.remarks+'</td></tr>';
@@ -189,13 +191,23 @@ var customermodule = function() {
                         required: true
 	                },
 	                kf_phonenumber: {
-	                	minlength: 8,
+	                	maxlength: 11,
+	                	minlength: 11,
 	                    digits: true,
                         required: true
 	                },
 	                kf_wx: {
 	                	minlength: 6,
                         required: true
+	                },
+	                kf_height : {
+	                	number: true
+	                },
+	                kf_weight : {
+	                	number: true	
+	                },
+	                kf_sellname : {
+	                	required: true	
 	                }
 	            },
 
@@ -211,7 +223,8 @@ var customermodule = function() {
                     },
                     kf_phonenumber:{
                         required:"必填",
-                        minlength: "请输入最少8位数字"
+                       	maxlength: "请输入11位数字",
+                        minlength: "请输入11位数字"
                     },
                     kf_due_time:{
                         required:"必填",
@@ -223,11 +236,20 @@ var customermodule = function() {
                     },
                     kf_wx:{
                         required:"必填",
-                         minlength: "请输入最少6位"
+                        minlength: "请输入最少6位"
                     },
                     kf_doctor_name:{
                         required:"必填"                   
-                    },                                                        
+                    },
+                    kf_height : {
+	                	number: "请输入数字"	
+	                },
+	                kf_weight : {
+	                	number: "请输入数字"	
+	                },
+	                kf_sellname : {
+	                	required:"必填"
+	                }                                                   
                 },
 
                 highlight: function (element) { // hightlight error inputs
@@ -270,12 +292,13 @@ var customermodule = function() {
 					submitData.last_menses_time = form.kf_last_menses_time.value;
 					submitData.sellname = jQuery('#kf_sellname').val();
 					submitData.customer_type = jQuery('#kf_customer_type').val();
-					submitData.remarks = form.kf_remarks.value;
-					
+					submitData.remarks = form.kf_remarks.value;				
 					submitData.address = form.kf_address.value;
 					submitData.familyname = form.kf_familyname.value;
 					submitData.familyphonenumber = form.kf_familyphonenumber.value;
 					submitData.age = form.kf_age.value;
+					submitData.height = form.kf_height.value;
+					submitData.weight = form.kf_weight.value;
 
 					TendaAjax.getData(submitData, function(result){
 						if(result.error == GLOBAL.SUCCESS) {
@@ -291,21 +314,13 @@ var customermodule = function() {
 			});
 
 			jQuery('#kf_customer_type').change(function () {
-        		$("#kf_due_time_group .controls span").remove();
-				$("#kf_due_time_group").removeClass('success').removeClass('error');
-				$("#kf_last_menses_time_group .controls span").remove();
-				$("#kf_last_menses_time_group").removeClass('success').removeClass('error');
-				$("#kf_doctor_name_group .controls span").remove();
-				$("#kf_doctor_name_group").removeClass('success').removeClass('error');
+        		$(".kf-form .modal-body .ymm_group .controls span").remove();
+				$(".kf-form .modal-body .ymm_group").removeClass('success').removeClass('error');
 	         	if (GLOBAL.YUNMM == $(this).val()){
-					jQuery('#kf_due_time_group').show(100);
-					jQuery('#kf_last_menses_time_group').show(100);
-					jQuery('#kf_doctor_name_group').show(100);
+					jQuery('.kf-form .modal-body .ymm_group').show(100);
 				}
 				else {
-					jQuery('#kf_due_time_group').hide(100);
-					jQuery('#kf_last_menses_time_group').hide(100);
-					jQuery('#kf_doctor_name_group').hide(100);
+					jQuery('.kf-form .modal-body .ymm_group').hide(100);
 				}
             });
 
@@ -318,12 +333,22 @@ var customermodule = function() {
 				$(".controls span",$(this)).remove();
 				$(".control-group").removeClass('success').removeClass('error')
 				jQuery('#kf_customer_type').val(GLOBAL.YUNMM);
-				jQuery('#kf_due_time_group').show(100);
-				jQuery('#kf_last_menses_time_group').show(100);
-				jQuery('#kf_doctor_name_group').show(100);
+				jQuery('.kf-form .modal-body .ymm_group').show(100);
 			});
 
 			jQuery('#addbutton').on("click", function(){
+				
+				TendaAjax.getData({"script":"ac_get_list"}, function(result){
+				 	if(result.error == GLOBAL.SUCCESS) {
+				 		jQuery('#kf_sellname').append("<option></option>");
+				 		for(var i = 0; i < result.user_list.length; i++) {
+				 			jQuery('#kf_sellname').append("<option>" + result.user_list[i].name + "</option>");
+				 		}
+				 	}
+				 	else 
+				 		alert(result.error);				 	
+				});
+				
 				/*每次选择第一个*/
 				jQuery('#kf_customer_type option').each(function(){
 					$(this).attr("selected",true);
@@ -333,18 +358,6 @@ var customermodule = function() {
 				jQuery('#kf_doctor_name option').each(function(){
 					$(this).attr("selected",true);
 					return false;
-				});
-			});
-
-			jQuery('#kf_modal').on('show.bs.modal', function (e) {
-				TendaAjax.getData({"script":"ac_get_list"}, function(result){
-				 	if(result.error == GLOBAL.SUCCESS) {
-				 		for(var i = 0; i < result.user_list.length; i++) {
-				 			jQuery('#kf_sellname').append("<option>" + result.user_list[i].name + "</option>");
-				 		}
-				 	}
-				 	else 
-				 		alert(result.error);				 	
 				});
 			});
 
@@ -531,6 +544,7 @@ var customermodule = function() {
 
           			TendaAjax.getData({"script":"ac_get_list"}, function(result){
 					 	if(result.error == GLOBAL.SUCCESS) {
+					 		jQuery('#kf_sellname').append("<option></option>");
 					 		for(var i = 0; i < result.user_list.length; i++) {
 					 			jQuery('#kf_sellname').append("<option>" + result.user_list[i].name + "</option>");
 					 		}
@@ -551,15 +565,11 @@ var customermodule = function() {
 							if (arr[0].customer_type == GLOBAL.YUNMM) {
 								$("#kf_due_time").val(arr[0].due_time.split(" ",1));
 								$("#kf_last_menses_time").val(arr[0].last_menses_time.split(" ",1));
-								jQuery('#kf_due_time_group').show(100);
-								jQuery('#kf_last_menses_time_group').show(100);
-								jQuery('#kf_doctor_name_group').show(100);
+								jQuery('.kf-form .modal-body .ymm_group').show(100);
 								$("#kf_doctor_name").val(arr[0].doctor_name);
 							}
 							else {
-								jQuery('#kf_due_time_group').hide(100);
-								jQuery('#kf_last_menses_time_group').hide(100);
-								jQuery('#kf_doctor_name_group').hide(100);
+								jQuery('.kf-form .modal-body .ymm_group').hide(100);
 								$("#kf_doctor_name").val("");
 							}
 							return false;
@@ -576,7 +586,8 @@ var customermodule = function() {
                 	$("#kf_familyname").val(arr[0].familyname);
                 	$("#kf_familyphonenumber").val(arr[0].familyphonenumber);
                 	$("#kf_age").val(arr[0].age);
-
+                	$("#kf_height").val(arr[0].height);
+                	$("#kf_weight").val(arr[0].weight);
                 	$("#kf_modal").modal("show");
 
                 } 

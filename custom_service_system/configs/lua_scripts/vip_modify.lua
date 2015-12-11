@@ -9,7 +9,7 @@ local function MysqlCallback(res)
 			error = WEBERR.NO_ERR
 		}
 	}
-	ClearCache("customer_get_list")
+	ClearCache("vip_get_list")
 	return _jsontbl
 end
 
@@ -53,6 +53,8 @@ local function Execute(post)
 	local _address = post.web.address
 	local _familyname = post.web.familyname
 	local _familyphonenumber = post.web.familyphonenumber
+	local _height = post.web.height
+	local _weight = post.web.weight
 	
 	local _query_sql = "update customer set update_time = NOW(), phonenumber = " 
 						.. ngx.quote_sql_str(_phonenumber) .. ", due_time = " 
@@ -60,13 +62,15 @@ local function Execute(post)
 						.. ngx.quote_sql_str(_last_menses_time) .. ", doctor_name = " 
 						.. ngx.quote_sql_str(_doctor_name) .. ", idnumber = " 
 						.. ngx.quote_sql_str(_idnumber) .. ", wx = " 
-						.. ngx.quote_sql_str(_wx) .. ", remarks = " 
-						.. ngx.quote_sql_str(_remarks) .. ", age = "
+						.. ngx.quote_sql_str(_wx) .. ", remarks = "
+						.. ngx.quote_sql_str(_remarks) .. ", sellname = "
+						.. ngx.quote_sql_str(_sellname) .. ", age = "
 						.. ngx.quote_sql_str(_age) .. ", address = " 
 						.. ngx.quote_sql_str(_address) .. ", familyname = " 
-						.. ngx.quote_sql_str(_familyname) .. ", familyphonenumber = "  
-						.. ngx.quote_sql_str(_familyphonenumber) .. ", sellname = " 
-						.. ngx.quote_sql_str(_sellname) .. " where id = " .. ngx.quote_sql_str(_id)
+						.. ngx.quote_sql_str(_familyname) .. ", height = "
+						.. ngx.quote_sql_str(_height) .. ", weight = " 
+						.. ngx.quote_sql_str(_weight) .. ", familyphonenumber = "    
+						.. ngx.quote_sql_str(_familyphonenumber).. " where id = " .. ngx.quote_sql_str(_id)
 
 	DEBUG("vid_modify: " .. _query_sql)
 	INFO(post.session.name.." 修改VIP ".._name.." ".._query_sql)
