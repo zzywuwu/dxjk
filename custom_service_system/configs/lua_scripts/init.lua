@@ -37,7 +37,7 @@ local ac_del = require("ac_del")
 local ac_get_list = require("ac_get_list")
 local wx_serach_customer = require("wx_serach_customer")
 
-file_path = "/opt/nginx/html/temp/file/"
+file_path = "/opt/logs/"
 url_path = "/temp/file/"
 
 mybit = {
