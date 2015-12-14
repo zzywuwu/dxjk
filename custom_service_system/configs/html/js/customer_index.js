@@ -51,19 +51,17 @@ var customermodule = function() {
 							{
 								"aTargets":[4],
 								"mRender":function(data, type, full){
-									// var last_menses_data = data.split(" ",1);	
-									// var startTime = new Date(last_menses_data).getTime();     
-								 	// var endTime = new Date().getTime();   
-								 	// var dates = Math.abs((endTime - startTime))/(1000*60*60*24);     
-								    // return  dates
+									
 								    return data;
 								}
 							},
 							{
 								"aTargets":[7],
 								"mRender":function(data, type, full){
-									if (data.length > 40)
-										return data.substr(0,40)+'..';
+									if (data.length > 26) {
+										var str =  data.substr(0,26)+'..';
+										return '<span class="tooltip_view">'+str+'</span>';	
+									}
 									else
 										return data;
 								}
@@ -108,6 +106,36 @@ var customermodule = function() {
 			 TendaAjax.getHtml(data, function(result){
 				$(".page-content .container-fluid").html(result);
 			});  
+		});
+
+		jQuery('.tooltip_view').mouseover(function(){		
+			var arr = [];           
+            var oTable = $("#kf_list").dataTable();
+    		var nTr = $(this).parents("tr");
+    		var tmpObj = oTable.fnGetData(nTr[0]);   		
+    		arr.push(tmpObj);
+    		var str = "";
+    		var obj = $(this).text();
+    		nTr.children().each(function(i,n){
+    			if (obj == $(n).text()) {
+    				switch(i) {
+			    		
+			    		case 7:
+				    		str = arr[0].remarks;
+			    			break;
+			    		
+			    		default:
+			    			break;
+			    	}	
+    			}
+		    });
+		    $(this).attr('data-original-title', str);          	     
+			$(this).tooltip({
+				html:false,           
+				placement:'bottom'
+				// ,trigger:'click'
+			});
+			$(this).tooltip('show');
 		});
 	}
 
