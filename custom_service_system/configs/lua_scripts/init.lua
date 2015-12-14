@@ -1,6 +1,6 @@
 require("kf_debug")
 
-DEBUGINIT("ngx_lua.log", 1)
+DEBUGINIT("ngx_lua.log", 0)
 
 mysql = require("connect_mysql")
 redis = require("connect_redis")
@@ -154,22 +154,11 @@ WEBERR = {
 	NAME_OR_PASSWORD_ERR = "用户名不存在或密码错误",
 	MYSQL_OBJ_ERR = "创建数据库对象出错",
 	MYSQL_CONNECT_FAIL = "连接数据库失败",
-	MYSQL_QUERY_FAIL = "数据库语句出错",
+	MYSQL_QUERY_FAIL = "输入的数据有问题",
 	ACCOUNT_NOT_ACTIVE = "帐号未激活",
 	USER_PRIVILEGE_ERR = "用户权限值不对",
 	USER_ALREADY_EXIST = "用户已存在",
 	USER_NO_EXIST = "用户不存在",
-	NO_USER_PRIVIDED = "未提交用户",
-	NO_AD_PRIVIDED = "未提交广告",
-	NO_VER_PRIVIDED = "未提交版本号",
-	VER_NO_EXIST = "版本号不存在",
-	VER_ID_NO_EXIST = "版本id不存在",
-	VER_ALREADY_EXIST = "版本号已经存在",
-	FATHER_VER_EXIST = "有父版本存在,不能进行删除,请先修改升级逻辑",
-	RD_ID_NO_EXIST = "问题单ID不存在",
-	RD_EMPTY = "问题单为空",
-	MESSAGE_ALREADY_EXIST = "消息已存在",
-	MESSAGE_NO_EXIST = "消息不存在",
 	KEY_ALREADY_EXIST = "主键已经存在",
 	SESSION_TIMEOUT = "长时间未操作,请重新登录",
 	USER_PRIVILEGE_NOT_ENOUGH = "你没有权限进行此操作",

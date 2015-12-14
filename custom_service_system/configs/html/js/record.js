@@ -130,7 +130,7 @@ var recordmodule = function() {
 								}
 							}
 			],
-			"aaSorting": [[2, 'asc']],
+			"aaSorting": [[1, 'desc']],
 			// "aLengthMenu": [
 			// 	[1,5, 15, 20, -1],
 			// 	[1,5, 15, 20, "所有"]
@@ -886,13 +886,21 @@ var recordmodule = function() {
 
 			});
 
+			jQuery('#addbutton').on("click", function(){
+				 operation_modal = "";
+			});
+
 			jQuery('#event_modal').on('hidden.bs.modal', function (e) {
 				$("#event_modal input[type='text'], input[type='hidden']").val('');
 				$("#event_modal input[type='date']").val('');
 				$("#event_modal textarea").val('');
 				$("#event_modal .controls span",$(this)).remove();
 				$("#event_modal .control-group").removeClass('success').removeClass('error');	
-				$("#event_visit_type").val('');	
+				$("#event_visit_type").val('');				
+				jQuery('#event_order_success option').each(function(){
+					$(this).attr("selected",true);
+					return false;
+				});
 			});
 
 			

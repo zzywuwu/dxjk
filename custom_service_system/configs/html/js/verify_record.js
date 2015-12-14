@@ -36,7 +36,8 @@ var verifyrecordmodule = function() {
 								"aTargets":[0],
 								"mRender":function(data, type, full){								
 									if ((GLOBAL.PRIVILEGE & 32) == 32) {
-						  				return '<a href="#" class="verify_record">'+data+'</a>';	
+										return data;
+						  				// return '<a href="#" class="verify_record">'+data+'</a>';	
 							 		}
 							 		else
 							 			return data;
@@ -96,7 +97,7 @@ var verifyrecordmodule = function() {
 							}
 
 			],
-			 "aaSorting": [[8, 'desc']],
+			"aaSorting": [[0, 'desc']],
 			// "aLengthMenu": [
 			// 	[1,5, 15, 20, -1],
 			// 	[1,5, 15, 20, "所有"]

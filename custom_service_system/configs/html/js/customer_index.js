@@ -211,6 +211,7 @@ var customermodule = function() {
 	                },
 	                kf_username: {
 	                    minlength: 2,
+	                    maxlength: 30,
                         required: true
 	                },
 	                kf_age: {
@@ -236,13 +237,24 @@ var customermodule = function() {
 	                },
 	                kf_sellname : {
 	                	required: true	
+	                },
+	                kf_idnumber : {
+	                	maxlength: 18,
+	                	minlength: 18
+	                },
+	                kf_address : {
+	                	maxlength: 30
+	                },
+	                kf_remarks : {
+	                	maxlength: 1022
 	                }
 	            },
 
 	            messages:{
                     kf_username:{
                         required:"必填",
-                        minlength: "请输入最少2位"	
+                        minlength: "请输入最少2位",
+                        maxlength: "请输入的数据太多"		
                     },
                     kf_age:{
                         required:"必填",
@@ -277,7 +289,17 @@ var customermodule = function() {
 	                },
 	                kf_sellname : {
 	                	required:"必填"
-	                }                                                   
+	                },
+	                kf_idnumber : {
+	                	maxlength: "请输入18位",
+                        minlength: "请输入18位"
+	                },
+	                kf_address : {
+	                	maxlength: "你输入的数据太多"
+	                },
+	                kf_remarks : {
+	                	maxlength: "你输入的数据太多"
+	                }                                                  
                 },
 
                 highlight: function (element) { // hightlight error inputs
