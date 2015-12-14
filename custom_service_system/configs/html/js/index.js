@@ -39,8 +39,9 @@ var Index = function () {
                 if(result.error == GLOBAL.SUCCESS) {
                     GLOBAL.PRIVILEGE = result.privilege;
                 } 
-                else
-                    alert(result.error);
+                // 以免弹出两次窗口
+                // else
+                //     alert(result.error);
             });
 
             TendaAjax.getData({"script":"au_menu"}, function(obj) {

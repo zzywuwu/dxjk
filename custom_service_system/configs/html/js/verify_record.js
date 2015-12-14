@@ -31,14 +31,17 @@ var verifyrecordmodule = function() {
 				//sProcessing : "<img src=... /loading.gif/>"
 			},
 			
-			"aoColumnDefs": [
+			"aoColumnDefs": [	
 							{
 								"aTargets":[0],
-								"data":"id",
-								"mRender": function(data, type, full) {
-									return '<input type="checkbox" class="checkboxes" value="' + data +  '"/>';
+								"mRender":function(data, type, full){								
+									if ((GLOBAL.PRIVILEGE & 32) == 32) {
+						  				return '<a href="#" class="verify_record">'+data+'</a>';	
+							 		}
+							 		else
+							 			return data;
 								}
-							},
+							},						
 							{
 								"aTargets":[1],
 								"data":"name",
@@ -73,8 +76,8 @@ var verifyrecordmodule = function() {
 							{
 								"aTargets":[6],
 								"mRender":function(data, type, full){
-									if (data.length > 32)
-										return data.substr(0,32)+'..';
+									if (data.length > 26)
+										return data.substr(0,26)+'..';
 									else
 										return data;
 								}
@@ -85,6 +88,7 @@ var verifyrecordmodule = function() {
 									return "<span class='row-details row-details-close desc'></span>";
 								}
 							}
+
 			],
 			 "aaSorting": [[8, 'desc']],
 			// "aLengthMenu": [
@@ -96,14 +100,14 @@ var verifyrecordmodule = function() {
 			"aaData": account_list,
 
 			"aoColumns": [
-				{"mDataProp": "id","bSortable":false,"sWidth":"5px"}, 
-				{"mDataProp": "customer_name","sClass":"hidden-480","sWidth":"70px"},
-				{"mDataProp": "visit_date","sClass":"hidden-480","sWidth":"80px"},
-				{"mDataProp": "servicename","sClass":"hidden-480","sWidth":"65px"},
-				{"mDataProp": "visit_type","sClass":"hidden-480","sWidth":"120px"},
-				{"mDataProp": "remarks","sClass":"hidden-480","sWidth":"160px"},
-				{"mDataProp": "result","sClass":"hidden-480","sWidth":"400px"},
-				{"mDataProp": "username","sClass":"hidden-480","sWidth":"50px"},
+				{"mDataProp": "id","sWidth":"40px"},
+				{"mDataProp": "customer_name","sClass":"hidden-480","sWidth":"50px"},
+				{"mDataProp": "visit_date","sClass":"hidden-480","sWidth":"85px"},
+				{"mDataProp": "servicename","sClass":"hidden-480","sWidth":"70px"},
+				{"mDataProp": "visit_type","sClass":"hidden-480","sWidth":"140px"},
+				{"mDataProp": "remarks","sClass":"hidden-480","sWidth":"200px"},
+				{"mDataProp": "result","sClass":"hidden-480","sWidth":"300px"},
+				{"mDataProp": "username","sClass":"hidden-480","sWidth":"60px"},
 				{"mDataProp": "update_time","sWidth":"40px"}
 				]
 
@@ -115,10 +119,52 @@ var verifyrecordmodule = function() {
 		App.initUniform("#kf_list .checkboxes");
 
 		jQuery(".record").click(function(){
-			 var data = {"page":"record_index.html","customer_id":$(this).attr("data")};
-			 TendaAjax.getHtml(data, function(result){
+			var data = {"page":"record_index.html","customer_id":$(this).attr("data")};
+			TendaAjax.getHtml(data, function(result){
 				$(".page-content .container-fluid").html(result);
 			});  
+		});
+
+		jQuery(".verify_record").click(function(){
+			var arr = [];           
+            var oTable = $("#kf_list").dataTable();
+    		var nTr = $(this).parents("tr");
+    		var tmpObj = oTable.fnGetData(nTr[0]);   		
+    		arr.push(tmpObj);
+ 
+    		$("#verify_id").val(arr[0].id);
+            $("#verify_name").text(arr[0].customer_name);
+            $("#verify_visit_date").text(arr[0].visit_date.split(" ",1));
+			$("#verify_servicename").text(arr[0].servicename);
+			$("#verfiy_visit_type").text(arr[0].visit_type);
+			$("#verfiy_visit_doctor_name").text(arr[0].visit_doctor_name);
+			$("#verify_result").text(arr[0].result);
+			$("#verify_doctor_advise").text(arr[0].doctor_advise);
+			$("#verify_remarks").text(arr[0].remarks);
+					       	
+	       	var html = '<ol>';
+	        var obj = jQuery.parseJSON(arr[0].fzinfo);
+			if (Array.isArray(obj)) {
+				
+				for (var i = 0, j = 1; i < obj.length; i++,j++) {
+					if (obj[i].next_order_success)
+						html += '<li>'+obj[i].next_visit_date.split(" ",1)+ ' '+ obj[i].next_visit_time + ' (已预约) 项目:' + obj[i].next_visit_type;
+					else
+						html += '<li>'+obj[i].next_visit_date.split(" ",1)+ ' '+ obj[i].next_visit_time + ' <font color="red">(未预约)</font> 项目:' + obj[i].next_visit_type;
+					if ( obj[i].next_visit_doctor_name != '') {
+							html += ' 医生:'+ obj[i].next_visit_doctor_name;
+						if ( obj[i].next_visit_doctor_name != '')
+							html += ' 地址:'+ obj[i].next_visit_address;
+						if ( obj[i].next_visit_doctor_name != '')
+							html += ' 备注:'+ obj[i].next_visit_remarks;
+					}
+					html += '</li>';
+				}						
+			}
+			html +='</ol>';
+        	jQuery('#verify_next_vist_info').html(html);
+
+			$("#verify_modal").modal("show");	
 		});
 	}
 
@@ -187,90 +233,6 @@ var verifyrecordmodule = function() {
 				}
 			});
 
-			jQuery('.kf-index>li').on("click", function(){
-
-				var operation;
-				if ($(this).find("i").hasClass("icon-search")) {
-					operation = "SEARCH";	
-				}
-				else {
-					alert("开发中,请耐心等待");
-					return 
-				}
-
-				var set = jQuery("#kf_list .group-checkable").attr("data-set");
-                var arr = [];
-                var arr_name = [];
-                var arr_id = [];
-                var oTable = $("#kf_list").dataTable();
-                jQuery(set).each(function () {
-                	if($(this).is(':checked')) {
-                		var nTr = $(this).parents("tr");
-                		var tmpObj = oTable.fnGetData(nTr[0]);
-                		if(tmpObj) {
-                			arr.push(tmpObj);
-                			arr_name.push(tmpObj.name);
-                			arr_id.push(tmpObj.id);
-                		}
-                	}
-                });
-          
-                if(operation == "SEARCH") {
-
-                	if(arr.length != 1) {
-	                	alert("请选择一条数据!");
-	                	return;
-	                }
-
-	                $("#verify_id").val(arr_id);
-	                $("#verify_name").text(arr[0].customer_name);
-	                $("#verify_visit_date").text(arr[0].visit_date.split(" ",1));
-					$("#verify_servicename").text(arr[0].servicename);
-					$("#verfiy_visit_type").text(arr[0].visit_type);
-					$("#verfiy_visit_doctor_name").text(arr[0].visit_doctor_name);
-					$("#verify_result").text(arr[0].result);
-					$("#verify_doctor_advise").text(arr[0].doctor_advise);
-					$("#verify_remarks").text(arr[0].remarks);
-							       	
-			       	var html = '<ol>';
-			        var obj = jQuery.parseJSON(arr[0].fzinfo);
-					if (Array.isArray(obj)) {
-						
-						for (var i = 0, j = 1; i < obj.length; i++,j++) {
-							if (obj[i].next_order_success)
-								html += '<li>'+obj[i].next_visit_date.split(" ",1)+ ' '+ obj[i].next_visit_time + ' (已预约) 项目:' + obj[i].next_visit_type;
-							else
-								html += '<li>'+obj[i].next_visit_date.split(" ",1)+ ' '+ obj[i].next_visit_time + ' <font color="red">(未预约)</font> 项目:' + obj[i].next_visit_type;
-							if ( obj[i].next_visit_doctor_name != '') {
-									html += ' 医生:'+ obj[i].next_visit_doctor_name;
-								if ( obj[i].next_visit_doctor_name != '')
-									html += ' 地址:'+ obj[i].next_visit_address;
-								if ( obj[i].next_visit_doctor_name != '')
-									html += ' 备注:'+ obj[i].next_visit_remarks;
-							}
-							html += '</li>';
-						}						
-					}
-					html +='</ol>';
-                	jQuery('#verify_next_vist_info').append(html);
-
-					$("#verify_modal").modal("show");	
-                }                     
-			});
-
-			jQuery('#kf_list .group-checkable').change(function () {
-                var set = jQuery(this).attr("data-set");
-                var checked = jQuery(this).is(":checked");
-                jQuery(set).each(function () {
-                    if (checked) {
-                        $(this).attr("checked", true);
-                    } else {
-                        $(this).attr("checked", false);
-                    }
-                });
-                jQuery.uniform.update(set);
-            });
-
             $('#kf_list').on('click', '  tbody td .desc', function () {
 
             	var oTable = $("#kf_list").dataTable();
@@ -292,11 +254,6 @@ var verifyrecordmodule = function() {
 			if(!jQuery().dataTable){
 				return;
 			}
-
-			$('#tools_verify').hide(100);	
-			if ((GLOBAL.PRIVILEGE & 32) == 32) {
-  				$('#tools_verify').show(100);		
-	 		}
 
 			App.initUniform();
 			initTableList();

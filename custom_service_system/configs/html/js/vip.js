@@ -86,7 +86,7 @@ var vipmodule = function() {
 
 			"aoColumns": [
 				{"mDataProp": "id", "bSortable":false,"sWidth":"5px"}, 
-				{"mDataProp": "id", "sWidth":"15px"},
+				{"mDataProp": "id", "sWidth":"25px"},
 				{"mDataProp": "name","sWidth":"60px"},
 				{"mDataProp": "phonenumber","sClass":"hidden-480","sWidth":"80px"},
 				{"mDataProp": "diffweeks","sClass":"hidden-480","sWidth":"60px"},

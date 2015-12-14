@@ -51,7 +51,7 @@ var recordmodule = function() {
 								}
 							},
 							{
-								"aTargets":[1],
+								"aTargets":[2],
 								"mRender":function(data, type, full){
 									if (data) {										
 										return "记录";
@@ -62,7 +62,7 @@ var recordmodule = function() {
 								}
 							},
 							{
-								"aTargets":[2],
+								"aTargets":[3],
 								"mRender":function(data, type, full){
 									if (full.status) {
 										if (full.verify)
@@ -79,13 +79,13 @@ var recordmodule = function() {
 								}
 							},
 							{
-								"aTargets":[3],
+								"aTargets":[4],
 								"mRender":function(data, type, full){
 									return data.split(" ",1);
 								}
 							},
 							{
-								"aTargets":[5],
+								"aTargets":[6],
 								"mRender":function(data, type, full){
 									if (data.length > 10)
 										return data.substr(0,10)+'..';
@@ -94,7 +94,7 @@ var recordmodule = function() {
 								}
 							},
 							{
-								"aTargets":[7],
+								"aTargets":[8],
 								"mRender":function(data, type, full){
 									if (data.length > 40)
 										return data.substr(0,40)+'..';
@@ -103,7 +103,7 @@ var recordmodule = function() {
 								}
 							},
 							{
-								"aTargets":[9],
+								"aTargets":[10],
 								"mRender":function(data, type, full){
 									if (data == null) {
 										return '<a href="#" class="review" data_id="' + full.id + '" data_time="" data_content=""' +'>回访</a>';	
@@ -120,13 +120,13 @@ var recordmodule = function() {
 								}
 							},
 							{
-								"aTargets":[10],
+								"aTargets":[11],
 								"mRender":function(data, type, full){
 									return "<span class='row-details row-details-close desc'></span>";
 								}
 							}
 			],
-			"aaSorting": [[1, 'asc']],
+			"aaSorting": [[2, 'asc']],
 			// "aLengthMenu": [
 			// 	[1,5, 15, 20, -1],
 			// 	[1,5, 15, 20, "所有"]
@@ -137,14 +137,15 @@ var recordmodule = function() {
 
 			"aoColumns": [
 				{"mDataProp": "id","bSortable":false,"sWidth":"5px"}, 
+				{"mDataProp": "id","sWidth":"40px"},
 				{"mDataProp": "status","sWidth":"50px"},
 				{"mDataProp": "id","sWidth":"50px"},
-				{"mDataProp": "visit_date","sClass":"hidden-480","sWidth":"90px"},
+				{"mDataProp": "visit_date","sClass":"hidden-480","sWidth":"85px"},
 				{"mDataProp": "visit_time","sClass":"hidden-480","sWidth":"70px"},
 				{"mDataProp": "visit_type","sClass":"hidden-480","sWidth":"140px"},
 				{"mDataProp": "visit_doctor_name","sClass":"hidden-480","sWidth":"70px"},
-				{"mDataProp": "remarks","sClass":"hidden-480","sWidth":"400px"},
-				{"mDataProp": "user_id_name","sClass":"hidden-480","sWidth":"70px"},
+				{"mDataProp": "remarks","sClass":"hidden-480","sWidth":"300px"},
+				{"mDataProp": "user_id_name","sClass":"hidden-480","sWidth":"80px"},
 				{"mDataProp": "review_time","sClass":"hidden-480","sWidth":"90px"},
 				{"mDataProp": "update_time","sWidth":"40px"}
 				]
