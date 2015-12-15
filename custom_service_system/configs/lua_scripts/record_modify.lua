@@ -50,6 +50,11 @@ local function Execute(post)
 	local _servicename = post.web.servicename
 	local _user_id = post.session.loginid
 	local _fzinfo = post.web.fzinfo
+	local _womb_height = post.web.womb_height
+	local _belly_length = post.web.belly_length
+	local _body_weight = post.web.body_weight
+	local _blood_pre = post.web.blood_pre
+	local _gest_weeks = post.web.gest_weeks
 
 	local _query_sql
 		_query_sql = "update record set update_time = NOW(), status = 1, visit_date = " 
@@ -60,7 +65,12 @@ local function Execute(post)
 						.. ngx.quote_sql_str(_result) .. ", doctor_advise = " 
 						.. ngx.quote_sql_str(_doctor_advise) .. ", remarks = "
 						.. ngx.quote_sql_str(_remarks) .. ", user_id = " 
-						.. ngx.quote_sql_str(_user_id) .. ", fzinfo = "
+						.. ngx.quote_sql_str(_user_id) .. ", womb_height = "
+						.. ngx.quote_sql_str(_womb_height) .. ", belly_length = "
+						.. ngx.quote_sql_str(_belly_length) .. ", body_weight = "
+						.. ngx.quote_sql_str(_body_weight) .. ", blood_pre = "
+						.. ngx.quote_sql_str(_blood_pre) .. ", gest_weeks = "
+						.. ngx.quote_sql_str(_gest_weeks) .. ", fzinfo = "
 						.. ngx.quote_sql_str(_fzinfo) .. ", servicename = "  
 						.. ngx.quote_sql_str(_servicename) .. " where id = " .. ngx.quote_sql_str(_id)
 						.. " and verify = 0"	

@@ -206,12 +206,17 @@ var recordmodule = function() {
         if (aData.status == 1) {
 			// 记录 
 			sOut += '<tr><td>陪诊人员:</td><td>'+aData.servicename+'</td></tr>';
+			sOut += '<tr><td>宫高:</td><td>'+aData.womb_height+'</td></tr>';
+   			sOut += '<tr><td>腹围:</td><td>'+aData.belly_length+'</td></tr>';
+   			sOut += '<tr><td>体重:</td><td>'+aData.body_weight+'</td></tr>';
+   			sOut += '<tr><td>血压:</td><td>'+aData.blood_pre+'</td></tr>';
+   			sOut += '<tr><td>孕周:</td><td>'+aData.gest_weeks+'</td></tr>';
 			sOut += '<tr><td>就诊记录:</td><td>'+aData.result+'</td></tr>';
 			sOut += '<tr><td>医嘱:</td><td>'+aData.doctor_advise+'</td></tr>';
 			if (aData.verify)
    				sOut += '<tr><td>审核状态:</td><td><font color="green">已审核</font></td></tr>';
   			else
-   			    sOut += '<tr><td>审核状态:</td><td><font color="red">未审核</font></td></tr>';
+   			    sOut += '<tr><td>审核状态:</td><td><font color="red">未审核</font></td></tr>';   			
         }
         else {
         	// 事件
@@ -277,19 +282,7 @@ var recordmodule = function() {
                 ignore: "",
 
                 rules: {
-             //    	kf_visit_doctor_name: {
-	            //         minlength: 2,
-             //            required: function() {
-             //            	var flag = false;
-             //            	$("#kf_visit_type option:selected").each(function(){			      
-					        //     if ($(this).text() == GLOBAL.LOOKDOCTOR) {
-					        //     	flag = true;
-				        	// 		return false;		
-					        //     }					       
-					        // });   	
-             //            	return flag;
-             //            }
-	            //     },
+            
 	                kf_servicename: {
 	                    required: true
 	                },
@@ -299,14 +292,20 @@ var recordmodule = function() {
 	                },
 	                kf_visit_type: {
 	                    required: true,                     
-	                }		               
+	                },	
+	                kf_womb_height: {
+	                    number: true	                    
+	                },
+	                kf_belly_length: {
+	                    number: true                     
+	                },
+	                kf_body_weight: {
+	                    number: true	                    
+	                }           
 	            },
 
 	            messages:{
-	            	// kf_visit_doctor_name:{
-              //           required:"必填",
-              //           minlength: "请输入最少2位"
-              //       },
+	        
                     kf_servicename:{
                         required:"必填"
                     },
@@ -315,7 +314,16 @@ var recordmodule = function() {
                     },
                     kf_visit_type:{
                     	required:"最少选一个"
-                    }                                                                   
+                    },
+                    kf_womb_height: {
+	                	number: "请输入数字"	                   
+	                },
+	                kf_belly_length: {
+	                    number: "请输入数字"	                    
+	                },
+	                kf_body_weight: {
+	                    number: "请输入数字"		                    
+	                }                                                                      
                 },
 	            
 	            highlight: function (element) { // hightlight error inputs
@@ -356,6 +364,11 @@ var recordmodule = function() {
 					submitData.doctor_advise = form.kf_doctor_advise.value;
 					submitData.remarks = form.kf_remarks.value;
 					submitData.servicename = jQuery('#kf_servicename').val();
+					submitData.womb_height = form.kf_womb_height.value;
+					submitData.belly_length = form.kf_belly_length.value;
+					submitData.body_weight = form.kf_body_weight.value;
+					submitData.blood_pre = form.kf_blood_pre.value;
+					submitData.gest_weeks = form.kf_gest_weeks.value;
 
 					var fzinfoarr = [];
 					for (var i = 0; i < 4; i++) {
@@ -470,20 +483,6 @@ var recordmodule = function() {
 				}
 			});
 
-			// jQuery('#kf_visit_type').change(function () {
-   //      		$("#kf_visit_doctor_name_group .controls span").remove();
-			// 	$("#kf_visit_doctor_name_group").removeClass('success').removeClass('error');
-			// 	$("#kf_visit_type option:selected").each(function(){			      
-		 //            if ($(this).text() == GLOBAL.LOOKDOCTOR) {
-		 //            	var html = '<span class="required">*</span>';
-	  //       			$('#kf_visit_doctor_name_group').children('label').append(html);
-	  //       			return false;		
-		 //            }
-		 //            else
-		 //            	$('#kf_visit_doctor_name_group').children('label').children('span').remove();	
-		 //        });      
-   //          });
-
 			var v_review_form = $('.review-form');
 			v_review_form.validate({
 
@@ -519,19 +518,7 @@ var recordmodule = function() {
                 ignore: "",
 
 	            rules: {
-	            //     event_visit_doctor_name: {
-	            //         minlength: 2,
-             //            required: function() {
-             //            	var flag = false;
-             //            	$("#event_visit_type option:selected").each(function(){			      
-					        //     if ($(this).text() == GLOBAL.LOOKDOCTOR) {
-					        //     	flag = true;
-				        	// 		return false;		
-					        //     }					       
-					        // });   	
-             //            	return flag;
-             //            }
-	            //     },
+	    
 	                event_visit_date: {
 	                    required: true,
                         date: true
@@ -542,10 +529,7 @@ var recordmodule = function() {
 	            },
 
 	            messages:{
-                    // event_visit_doctor_name:{
-                    //     required:"必填",
-                    //     minlength: "请输入最少2位"
-                    // },
+            
                     event_visit_date:{
                         required:"必填"
                     },
@@ -611,20 +595,6 @@ var recordmodule = function() {
 
 				}
 			});
-
-    //     	jQuery('#event_visit_type').change(function () {
-    //     		$("#event_visit_doctor_name_group .controls span").remove();
-				// $("#event_visit_doctor_name_group").removeClass('success').removeClass('error');
-    //         	$("#event_visit_type option:selected").each(function(){			      
-		  //           if ($(this).text() == GLOBAL.LOOKDOCTOR) {
-		  //           	var html = '<span class="required">*</span>';
-	   //      			$('#event_visit_doctor_name_group').children('label').append(html);
-	   //      			return false;		
-		  //           }
-		  //           else
-		  //           	$('#event_visit_doctor_name_group').children('label').children('span').remove();	
-		  //       });  
-    //         });
 
             for (var i = 0,j = 1; i < 4; i++,j++) {
 				// 给每一个对象零时设置内容，在事件发生的时候取出来
@@ -826,6 +796,11 @@ var recordmodule = function() {
 					$("#kf_result").val(arr[0].result);
 					$("#kf_doctor_advise").val(arr[0].doctor_advise);
 					$("#kf_remarks").val(arr[0].remarks);
+					$("#kf_womb_height").val(arr[0].womb_height);
+					$("#kf_belly_length").val(arr[0].belly_length);
+					$("#kf_body_weight").val(arr[0].body_weight);
+					$("#kf_blood_pre").val(arr[0].blood_pre);
+					$("#kf_gest_weeks").val(arr[0].gest_weeks);
 
 					var obj = jQuery.parseJSON(arr[0].fzinfo);
 					if (Array.isArray(obj)) {

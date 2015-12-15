@@ -2,8 +2,8 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>会员管理</title>
-
+<title>预签客户</title>
+	
 </head>
 
 <body>
@@ -13,10 +13,14 @@
 			<!--BEGIN SAMPLE TABLE PORTLET-->
 			<div class="portlet box blue">
 				<div class="portlet-title">
-					<div class="caption"><i class="icon-star"></i>会员管理</div>
+					<div class="caption"><i class="icon-phone"></i>预签客户</div>
 					
 					<div class="actions">
 						
+						<a href="#" class="btn blue" data-toggle="modal" data-target="#kf_modal" id="addbutton">
+							<i class="icon-plus" ></i> 添加客户
+						</a>
+
 						<div class="btn-group">
 							
 							<a href="#" class="btn green" data-toggle="dropdown">
@@ -27,8 +31,9 @@
 
 							<ul class="kf-index dropdown-menu pull-right">
 								<li><a href="#"><i class="icon-pencil"></i>修改</a></li>
-								<li id="tools_remove"><a href="#"><i class="icon-remove"></i>结束服务</a></li>
-								<!-- <li id="tools_phone"><a href="#"><i class="icon-phone"></i>回访</a></li> -->
+								<li><a href="#"><i class="icon-trash"></i>删除</a></li>
+								<li id="tools_upvip"><a href="#"><i class="icon-user"></i>升级为会员</a></li>
+								<li id="tools_remove"><a href="#"><i class="icon-remove"></i>结束服务</a></li> -->
 							</ul>
 
 						</div>
@@ -49,9 +54,9 @@
 								<th >Id</th>
 								<th >姓名</th>
 								<th class="hidden-480">电话</th>
-								<th class="hidden-480">孕周</th>
+								<th class="hidden-480">客户类型</th>
 								<th class="hidden-480">建卡医生</th>
-								<th class="hidden-480">销售人员</th>	
+								<th class="hidden-480">销售人员</th>
 								<th class="hidden-480">备注</th>								
 								<th>详情</th>
 							</tr>
@@ -78,7 +83,7 @@
 				</div>
 				<form action="" class="form-horizontal kf-form" style="margin-bottom:0px;">
 					<div class="modal-body">
-						
+							
 						<div class="row-fluid">
 							<div class="span6 ">
 								<div class="control-group">
@@ -127,6 +132,39 @@
 									</div>
 								</div>
 							</div>
+							<div class="span6 ">	
+								<div class="control-group">
+									<label class="control-label span3">客户类型:<span class="required">*</span></label>
+									<div class="controls span9">
+										<select class="form-control" id="kf_customer_type" name="kf_customer_type">
+											<option>孕妈妈</option>
+											<option>普通</option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="row-fluid ymm_group">
+							<div class="span6">
+								<div class="control-group">
+									<label class="control-label span3">预产期:<span class="required">*</span></label>
+									<div class="controls span9">
+										<input type="date" id="kf_due_time" name="kf_due_time" class="m-wrap medium">
+									</div>
+								</div>
+							</div>
+							<div class="span6">		
+								<div class="control-group">
+									<label class="control-label span3">末次月经:<span class="required">*</span></label>
+									<div class="controls span9">
+										<input type="date" id="kf_last_menses_time" name="kf_last_menses_time" class="m-wrap medium">
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="row-fluid ymm_group">
 							<div class="span6 ">
 								<div class="control-group" >
 									<label class="control-label span3">建卡医生:<span class="required">*</span></label>
@@ -154,25 +192,6 @@
 											<option>吴琳</option>
 											<option>吕斌</option>									
 										</select>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div class="row-fluid">
-							<div class="span6">
-								<div class="control-group">
-									<label class="control-label span3">预产期:<span class="required">*</span></label>
-									<div class="controls span9">
-										<input type="date" id="kf_due_time" name="kf_due_time" class="m-wrap medium">
-									</div>
-								</div>
-							</div>
-							<div class="span6">		
-								<div class="control-group">
-									<label class="control-label span3">末次月经:<span class="required">*</span></label>
-									<div class="controls span9">
-										<input type="date" id="kf_last_menses_time" name="kf_last_menses_time" class="m-wrap medium">
 									</div>
 								</div>
 							</div>
@@ -257,8 +276,50 @@
 					</div>
 				</form>
 			</div>
-		</div>	
-	</div>	
+		</div>
+	</div>
+
+	<!--upvip modal-->
+	<div class="modal fade" id="upvip_modal" tabindex="-1" role="dialog" aria-labelledby="upvip_modal_label" data-backdrop="static">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true"></span>
+					</button>
+					<h4 class="modal-title" id="upvip_modal_label">升级为会员</h4>
+				</div>
+				<form action="" class="form-horizontal upvip-form" style="margin-bottom:0px;">
+					<div class="modal-body">
+						
+						<div class="control-group">
+							<label class="control-label" id="upvip_id"></label>
+						</div>
+
+						<div class="control-group">
+							<label class="control-label">会员签单日:<span class="required">*</span></label>
+							<div class="controls">
+								<input type="date" id="upvip_order_time" name="upvip_order_time" class="m-wrap medium">
+							</div>
+						</div>
+
+						<div class="control-group">
+							<label class="control-label">会员到期日:<span class="required">*</span></label>
+							<div class="controls">
+								<input type="date" id="upvip_order_over_time" name="upvip_order_over_time" class="m-wrap medium">
+							</div>
+						</div>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn black btn-default" data-dismiss="modal">取消</button>
+						<button type="submit" class="btn green btn-default" id="save_changes">确认</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
 
 	<div class="modal fade bs-example-modal-sm" id="confirm_modal" tabindex="-1" role="dialog" aria-labelledby="confirm_modal_title" data-backdrop="static">
 		<div class="modal-dialog modal-sm" role="document">
@@ -286,15 +347,13 @@
 	<script>
 
 		jQuery(document).ready(function() {       
-		   // alert(vipmodule);
-		   vipmodule.init();
+		   
+		   customermodule.init();
 
 		});
 
 	</script>
 
-	
-
 </body>
-
+	
 </html>

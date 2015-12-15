@@ -10,6 +10,7 @@ local function MysqlCallback(res)
 		}
 	}
 	ClearCache("customer_get_list")
+	ClearCache("customer_remove_get_list")
 	return _jsontbl
 end
 

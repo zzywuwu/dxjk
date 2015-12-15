@@ -79,14 +79,14 @@ local function Execute(post)
 		end
 
 		for i=1,#user_list do
-			local str
+			local str = ""
 			if (user_list[i].customer_type == "孕妈妈") then
 				str = 	"姓名\t\t\t\t\t\t\t\t: "..user_list[i].name.."\n"..
 						"年龄\t\t\t\t\t\t\t\t: "..user_list[i].age.."\n"..
 						"电话\t\t\t\t\t\t\t\t:"..user_list[i].phonenumber.."\n"..
 						"身份证\t\t\t\t\t\t\t\t:"..user_list[i].idnumber.."\n"..
 						"微信号\t\t\t\t\t\t\t\t:"..user_list[i].wx.."\n"..
-						"销售人员\t\t\t\t\t\t\t\t:"..user_list[i].selllname.."\n"..
+						"销售人员\t\t\t\t\t\t\t\t:"..user_list[i].sellname.."\n"..
 						"孕周\t\t\t\t\t\t\t\t: "..user_list[i].diffweeks.."\n"..
 						"建卡医生\t: "..user_list[i].doctor_name.."\n"..
 						"预产期\t\t\t\t : "..string.sub(user_list[i].due_time,1,11).."\n"..
@@ -100,7 +100,7 @@ local function Execute(post)
 						"电话\t\t\t\t\t\t\t\t:"..user_list[i].phonenumber.."\n"..
 						"身份证\t\t\t\t\t\t\t\t:"..user_list[i].idnumber.."\n"..
 						"微信号\t\t\t\t\t\t\t\t:"..user_list[i].wx.."\n"..
-						"销售人员\t\t\t\t\t\t\t\t:"..user_list[i].selllname.."\n"..
+						"销售人员\t\t\t\t\t\t\t\t:"..user_list[i].sellname.."\n"..
 						"家属\t\t\t\t\t\t\t\t: "..user_list[i].familyname.."\n"..
 						"家属电话 : "..user_list[i].familyphonenumber.."\n"..
 						"地址\t\t\t\t\t\t\t\t: "..user_list[i].address.."\n"

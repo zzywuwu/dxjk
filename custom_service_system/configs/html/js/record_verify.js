@@ -121,6 +121,11 @@ var verifyrecordmodule = function() {
 
 		});
 
+		jQuery("#kf_list_wrapper .dataTables_filter input").addClass("m-wrap small");
+		jQuery("#kf_list_wrapper .dataTables_length select").addClass("m-wrap small");
+
+		App.initUniform("#kf_list .checkboxes");
+
 		if (search_str != "") {
 			jQuery('#kf_list_filter input').val(search_str);
 			jQuery('#kf_list_filter input').focus();	
@@ -131,8 +136,6 @@ var verifyrecordmodule = function() {
 		jQuery('#kf_list_filter input').on('input',function(e){
       		search_str = $(this).val();
         });
-
-		App.initUniform("#kf_list .checkboxes");
 
 		jQuery(".record").click(function(){
 			var data = {"page":"record_index.html","customer_id":$(this).attr("data")};

@@ -1,6 +1,6 @@
 require("kf_debug")
 
-DEBUGINIT("ngx_lua.log", 0)
+DEBUGINIT("ngx_lua.log", 1)
 
 mysql = require("connect_mysql")
 redis = require("connect_redis")
@@ -18,6 +18,8 @@ local customer_add = require("customer_add")
 local customer_del = require("customer_del")
 local customer_upvip = require("customer_upvip")
 local customer_remove = require("customer_remove")
+local customer_remove_get_list = require("customer_remove_get_list")
+local customer_reserver = require("customer_reserver")
 local get_privilege = require("get_privilege")
 local vip_modify = require("vip_modify")
 local vip_remove = require("vip_remove")
@@ -67,6 +69,8 @@ funcsinit = {
 	customer_del = customer_del,
 	customer_upvip = customer_upvip,
 	customer_remove = customer_remove,
+	customer_remove_get_list = customer_remove_get_list,
+	customer_reserver = customer_reserver,
 	get_privilege = get_privilege,
 	vip_modify = vip_modify,
 	vip_remove = vip_remove,
@@ -94,7 +98,7 @@ g_privilege[1] = {
 				value = 16,
 				jsontbl = {
 					title = "工作日程",
-					url = "calendar_index",
+					url = "calendar",
 					img = "icon-list-alt"
 				}
 			}
@@ -103,7 +107,7 @@ g_privilege[2] = {
 				value = 2,
 				jsontbl = {
 					title = "会员管理",
-					url = "vip_index",
+					url = "vip",
 					img = "icon-user"
 				}
 			}
@@ -112,7 +116,7 @@ g_privilege[3] = {
 				value = 4,
 				jsontbl = {
 					title = "预签客户",
-					url = "customer_index",
+					url = "customer",
 					img = "icon-phone"
 				}
 			}
@@ -121,7 +125,7 @@ g_privilege[4] = {
 				value = 64,
 				jsontbl = {
 					title = "陪诊记录",
-					url = "verify_record_index",
+					url = "record_verify",
 					img = "icon-book"
 				}
 			}
@@ -130,17 +134,26 @@ g_privilege[5] = {
 				value = 8,
 				jsontbl = {
 					title = "人员管理",
-					url = "ac_index",
+					url = "ac",
 					img = "icon-eye-open"
 				}
 			}
 
 g_privilege[6] = {
+				value = 128,
+				jsontbl = {
+					title = "过期客户",
+					url = "customer_remove",
+					img = "icon-dropbox"
+				}
+			}
+
+g_privilege[7] = {
 				value = 1
 				-- 会员升级和会员过期权限
 			}
 
-g_privilege[7] = {
+g_privilege[8] = {
 				value = 32,
 				--审核病历的权限 & 修改他人创建的未审核的病历
 			}

@@ -43,7 +43,7 @@ end
 local function Execute(post)
 	local _id = post.web.id
 
-	local _query_sql = "update customer set update_time = NOW(), vip = 2 where id = "
+	local _query_sql = "update customer set update_time = NOW(), vip = 0 where id = "
 
 	for k, v in pairs(_id) do
 		if k == 1 then
@@ -54,8 +54,8 @@ local function Execute(post)
 		end
 	end
 
-	DEBUG("customer_remove: " .. _query_sql)
-	INFO(post.session.name.." 过期客户 ".._query_sql)
+	DEBUG("customer_reserver: " .. _query_sql)
+	INFO(post.session.name.." 重启客户 ".._query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)
 end
 local _M = {
