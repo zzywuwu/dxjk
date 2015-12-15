@@ -1,6 +1,8 @@
 
 var vipmodule = function() {
 
+	var search_str = "";
+
 	var initTableList =  function() {
 
 		 TendaAjax.getData({"script":"vip_get_list"}, function(result){
@@ -14,7 +16,7 @@ var vipmodule = function() {
 	}
 
 	var initTable1 = function(account_list) {
-		
+
 		var oTable = jQuery("#kf_list").dataTable({
 			"bDestroy": true,
 			"oLanguage": {
@@ -99,15 +101,17 @@ var vipmodule = function() {
 				]				
 		});
   
-		// $('#kf_list tbody tr').mouseover(function(){			
-		// 	// $(this).attr('title', str);          	     
-		// 	// $(this).tooltip({
-		// 	// 	html:false,           
-		// 	// 	placement:'auto'
-		// 	// });
-		// 	// $(this).tooltip('show');
-		// });
-
+		if (search_str != "") {
+			jQuery('#kf_list_filter input').val(search_str);
+			jQuery('#kf_list_filter input').focus();	
+			var e = jQuery.Event("keyup");//模拟一个键盘事件
+            e.keyCode =13;//keyCode=13是回车
+            $("#kf_list_filter input").trigger(e);
+		}
+		jQuery('#kf_list_filter input').on('input',function(e){
+      		search_str = $(this).val();
+        });
+		
 		jQuery("#kf_list_wrapper .dataTables_filter input").addClass("m-wrap small");
 		jQuery("#kf_list_wrapper .dataTables_length select").addClass("m-wrap small");
 
@@ -148,6 +152,8 @@ var vipmodule = function() {
 			});
 			$(this).tooltip('show');
 		});
+
+		
 	}
 
 	var fnFormatDetails = function( oTable, nTr ) {
@@ -345,6 +351,7 @@ var vipmodule = function() {
 				$("#kf_username").prop("disabled", false);
 				$("textarea").val('');
 				jQuery("#kf_sellname").empty();
+				jQuery('#kf_list_filter input').val(search_str);
 			});
 
 			jQuery('.kf-index>li').on("click", function(){
@@ -505,6 +512,9 @@ var vipmodule = function() {
 			
 			App.initUniform();
 			initTableList();
+
+
+
 		}
 	};
 

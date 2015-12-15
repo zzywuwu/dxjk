@@ -1,6 +1,8 @@
 
 var customermodule = function() {
 
+	var search_str = "";
+
 	var initTableList =  function() {
 
 		 TendaAjax.getData({"script":"customer_get_list"}, function(result){
@@ -96,6 +98,18 @@ var customermodule = function() {
 
 		});
 
+		if (search_str != "") {
+			jQuery('#kf_list_filter input').val(search_str);
+			jQuery('#kf_list_filter input').focus();	
+			var e = jQuery.Event("keyup");//模拟一个键盘事件
+            e.keyCode = 13;//keyCode=13是回车
+            jQuery("#kf_list_filter input").trigger(e);
+		}
+
+		jQuery('#kf_list_filter input').on('input',function(e){
+      		search_str = $(this).val();
+        });
+
 		jQuery("#kf_list_wrapper .dataTables_filter input").addClass("m-wrap small");
 		jQuery("#kf_list_wrapper .dataTables_length select").addClass("m-wrap small");
 
@@ -136,7 +150,7 @@ var customermodule = function() {
 				// ,trigger:'click'
 			});
 			$(this).tooltip('show');
-		});
+		});		
 	}
 
 	var fnFormatDetails = function( oTable, nTr ) {
@@ -354,6 +368,7 @@ var customermodule = function() {
 						if(result.error == GLOBAL.SUCCESS) {
 							initTableList();
 							$("#kf_modal").modal("hide");
+							
 						}				
                 		else
                 			alert(result.error);
@@ -384,6 +399,7 @@ var customermodule = function() {
 				$(".control-group").removeClass('success').removeClass('error')
 				jQuery('#kf_customer_type').val(GLOBAL.YUNMM);
 				jQuery('.kf-form .modal-body .ymm_group').show(100);
+				jQuery('#kf_list_filter input').val(search_str);
 			});
 
 			jQuery('#addbutton').on("click", function(){
@@ -477,73 +493,7 @@ var customermodule = function() {
                 	});
 				}
 			});
-
-			var v_upvip_form = $('.upvip-form');
-			v_upvip_form.validate({
-
-				errorElement: 'span', //default input error message container
-                errorClass: 'help-inline', // default input error message class
-                focusInvalid: false, // do not focus the last invalid input
-                ignore: "",
-
-	            rules: {
-	                upvip_order_time: {
-	                	date: true,
-                        required: true
-	                },
-	                upvip_order_over_time: {
-	                	date: true,
-                        required: true
-	                }
-	            },
-
-	            messages:{
-                    
-                    upvip_order_time:{
-                        required:"必填"
-                    },
-                    upvip_order_over_time:{
-                        required:"必填"
-                    }                                                       
-                },
-
-                highlight: function (element) { // hightlight error inputs
-                    $(element)
-                        .closest('.help-inline').removeClass('ok'); // display OK icon
-                    $(element)
-                        .closest('.control-group').removeClass('success').addClass('error'); // set error class to the control group
-                },
-
-                unhighlight: function (element) { // revert the change dony by hightlight
-                    $(element)
-                        .closest('.control-group').removeClass('error'); // set error class to the control group
-                },
-
-                success: function (label) {
-                    label
-                        .addClass('valid').addClass('help-inline ok') // mark the current input as valid and display OK icon
-                    .closest('.control-group').removeClass('error').addClass('success'); // set success class to the control group
-                },
-
-				submitHandler: function(form){
-					//根据获取的ID来进行判断，是修改还是添加
-					//TODO验证还需要进行权限是否为空的验证
-
-					var submitData = {};
-                	submitData.script = "customer_upvip";
-                	submitData.id = $("#upvip_id").val();
-                	submitData.order_time = form.upvip_order_time.value;
-                	submitData.order_over_time = form.upvip_order_over_time.value;
-                	TendaAjax.getData(submitData, function(result){
-                		if(result.error == GLOBAL.SUCCESS) {
-							initTableList();
-							$("#upvip_modal").modal("hide");
-						}				
-                		else
-                			alert(result.error);
-                	});
-				}
-			});
+		
 
 			jQuery('.kf-index>li').on("click", function(){
 				var operation;

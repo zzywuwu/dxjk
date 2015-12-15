@@ -79,16 +79,33 @@ local function Execute(post)
 		end
 
 		for i=1,#user_list do
-			local str = "姓名\t\t\t\t\t\t\t\t: "..user_list[i].name.."\n"..
+			local str
+			if (user_list[i].customer_type == "孕妈妈") then
+				str = 	"姓名\t\t\t\t\t\t\t\t: "..user_list[i].name.."\n"..
 						"年龄\t\t\t\t\t\t\t\t: "..user_list[i].age.."\n"..
 						"电话\t\t\t\t\t\t\t\t:"..user_list[i].phonenumber.."\n"..
+						"身份证\t\t\t\t\t\t\t\t:"..user_list[i].idnumber.."\n"..
+						"微信号\t\t\t\t\t\t\t\t:"..user_list[i].wx.."\n"..
+						"销售人员\t\t\t\t\t\t\t\t:"..user_list[i].selllname.."\n"..
 						"孕周\t\t\t\t\t\t\t\t: "..user_list[i].diffweeks.."\n"..
 						"建卡医生\t: "..user_list[i].doctor_name.."\n"..
 						"预产期\t\t\t\t : "..string.sub(user_list[i].due_time,1,11).."\n"..
+						"末次月经\t\t\t\t\t\t\t\t: "..string.sub(user_list[i].last_menses_time,1,11).."\n"..
 						"家属\t\t\t\t\t\t\t\t: "..user_list[i].familyname.."\n"..
 						"家属电话 : "..user_list[i].familyphonenumber.."\n"..
 						"地址\t\t\t\t\t\t\t\t: "..user_list[i].address.."\n"
-						
+			else
+				str = 	"姓名\t\t\t\t\t\t\t\t: "..user_list[i].name.."\n"..
+						"年龄\t\t\t\t\t\t\t\t: "..user_list[i].age.."\n"..
+						"电话\t\t\t\t\t\t\t\t:"..user_list[i].phonenumber.."\n"..
+						"身份证\t\t\t\t\t\t\t\t:"..user_list[i].idnumber.."\n"..
+						"微信号\t\t\t\t\t\t\t\t:"..user_list[i].wx.."\n"..
+						"销售人员\t\t\t\t\t\t\t\t:"..user_list[i].selllname.."\n"..
+						"家属\t\t\t\t\t\t\t\t: "..user_list[i].familyname.."\n"..
+						"家属电话 : "..user_list[i].familyphonenumber.."\n"..
+						"地址\t\t\t\t\t\t\t\t: "..user_list[i].address.."\n"
+
+			end		
 			table.insert(_jsontbl.web.user_info,str)
 		end
 
@@ -97,7 +114,7 @@ local function Execute(post)
 	
 	local _query_sql = "select * from customer where vip < 2 and (phonenumber = "..ngx.quote_sql_str(_key).." or name = "..ngx.quote_sql_str(_key)..")"
 
-	DEBUG("wx_serach_customer: " .. _query_sql)
+	INFO("wx_serach_customer: " .. _query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)
 end
 

@@ -1,9 +1,6 @@
 
 var recordmodule = function() {
 
-	// var operation_customer_id = $("#kf_list").attr("data");
-	// var operation_customer_name = "";
-
 	var operation_customer_id;
 	var operation_customer_name;
 
@@ -155,6 +152,7 @@ var recordmodule = function() {
 				]
 		});
 
+		
 		jQuery("#kf_list_wrapper .dataTables_filter input").addClass("m-wrap small");
 		jQuery("#kf_list_wrapper .dataTables_length select").addClass("m-wrap small");
 

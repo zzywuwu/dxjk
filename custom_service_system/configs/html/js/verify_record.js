@@ -1,6 +1,8 @@
 
 var verifyrecordmodule = function() {
 
+	var search_str = "";
+
 	var initTableList =  function() {
 		TendaAjax.getData({"script":"record_get_list_verify"}, function(result){
 		if(result.error == GLOBAL.SUCCESS) {
@@ -36,8 +38,7 @@ var verifyrecordmodule = function() {
 								"aTargets":[0],
 								"mRender":function(data, type, full){								
 									if ((GLOBAL.PRIVILEGE & 32) == 32) {
-										return data;
-						  				// return '<a href="#" class="verify_record">'+data+'</a>';	
+						  				return '<a href="#" class="verify_record">'+data+'</a>';	
 							 		}
 							 		else
 							 			return data;
@@ -97,7 +98,7 @@ var verifyrecordmodule = function() {
 							}
 
 			],
-			"aaSorting": [[0, 'desc']],
+			"aaSorting": [[8, 'desc']],
 			// "aLengthMenu": [
 			// 	[1,5, 15, 20, -1],
 			// 	[1,5, 15, 20, "所有"]
@@ -119,6 +120,17 @@ var verifyrecordmodule = function() {
 				]
 
 		});
+
+		if (search_str != "") {
+			jQuery('#kf_list_filter input').val(search_str);
+			jQuery('#kf_list_filter input').focus();	
+			var e = jQuery.Event("keyup");//模拟一个键盘事件
+            e.keyCode =13;//keyCode=13是回车
+            $("#kf_list_filter input").trigger(e);
+		}
+		jQuery('#kf_list_filter input').on('input',function(e){
+      		search_str = $(this).val();
+        });
 
 		App.initUniform("#kf_list .checkboxes");
 
@@ -257,8 +269,9 @@ var verifyrecordmodule = function() {
 					
                 	var submitData = {};
                 	submitData.script = "record_verify";
-            
-                	submitData.id = $("#verify_id").val();
+            		
+                	submitData.id = [];
+                	submitData.id.push($("#verify_id").val());
                 	TendaAjax.getData(submitData, function(result){
                 		if(result.error == GLOBAL.SUCCESS) {
 							initTableList();

@@ -1,6 +1,8 @@
 
 var usermodule = function() {
 
+	var search_str = "";
+
 	var initTableList =  function() {
 
 			 TendaAjax.getData({"script":"ac_get_list"}, function(result){
@@ -76,6 +78,17 @@ var usermodule = function() {
 				]
 
 		});
+
+		if (search_str != "") {
+			jQuery('#kf_list_filter input').val(search_str);
+			jQuery('#kf_list_filter input').focus();	
+			var e = jQuery.Event("keyup");//模拟一个键盘事件
+            e.keyCode =13;//keyCode=13是回车
+            $("#kf_list_filter input").trigger(e);
+		}
+		jQuery('#kf_list_filter input').on('input',function(e){
+      		search_str = $(this).val();
+        });
 		
 		jQuery("#ac_list_wrapper .dataTables_filter input").addClass("m-wrap small");
 		jQuery("#ac_list_wrapper .dataTables_length select").addClass("m-wrap small");

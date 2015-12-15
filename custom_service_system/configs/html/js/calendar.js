@@ -5,25 +5,7 @@ var Calendar = function () {
 
         init: function () {
 
-            $('#event_box').html("");
-            var submitData1 = {};
-            submitData1.script = "get_no_event_user_list";
-            TendaAjax.getData(submitData1, function(result){
-                $('#event_box').html("");
-                for(var i = 0; i<result.user_list.length; i++) {
-                    var str = result.user_list[i].name;
-                    var color;
-                    if (result.user_list[i].vip == 1) {
-                        // str = str + "(会员)";
-                        var color = 'style="background-color:#ff0000"';
-                    }
-                    else {
-                        // str = str + "(预签)"
-                        var color = 'style="background-color:#852b99"';
-                    }                    
-                    Calendar.initCalendar.addEvent(str,color);//icon-star-empty
-                }
-            }); 
+            
 
             var submitData = {};
             submitData.script = "event_get_list";
@@ -167,6 +149,25 @@ var Calendar = function () {
             $('#external-events div.external-event').each(function () {
                 initDrag($(this))
             });
+
+            $('#event_box').html("");
+            var submitData = {};
+            submitData.script = "get_no_event_user_list";
+            TendaAjax.getData(submitData, function(result){
+                for(var i = 0; i<result.user_list.length; i++) {
+                    var str = result.user_list[i].name;
+                    var color;
+                    if (result.user_list[i].vip == 1) {
+                        // str = str + "(会员)";
+                        var color = 'style="background-color:#ff0000"';
+                    }
+                    else {
+                        // str = str + "(预签)"
+                        var color = 'style="background-color:#852b99"';
+                    }                    
+                    addEvent(str,color);//icon-star-empty
+                }
+            }); 
 
             $('#calendar').fullCalendar('destroy'); // destroy the calendar
             $('#calendar').fullCalendar({ //re-initialize the calendar
