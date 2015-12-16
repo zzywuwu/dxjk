@@ -68,17 +68,15 @@ var ResetPwd = function () {
 	            submitHandler: function (form) {
 	                var new_password = form.new_password.value;
 
-	                if (new_password == '123456' or new_password == '1234567' or new_password == '12345678') {
-	                	alert("为了安全,密码不能设置太简单！");
-	                	return;
+	                if (new_password == '123456' || new_password == '1234567' || new_password == '12345678') {
+	                	alert("为了安全,密码不能设置太简单!");
 	                } 
-		
-					var data = {"script":"update_password","new_password":new_password};
-					
-					TendaAjax.getData(data, function(result){
-					 	ResetPwd.resetPwdHandle(result);
-					});
-
+					else {
+						var data = {"script":"update_password","new_password":new_password};					
+						TendaAjax.getData(data, function(result){
+						 	ResetPwd.resetPwdHandle(result);
+						});	
+					}
 	            }
 	        });
 
