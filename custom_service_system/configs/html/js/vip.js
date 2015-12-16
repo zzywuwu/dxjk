@@ -11,7 +11,7 @@ var vipmodule = function() {
 		 		initTable1(result.user_list);
 		 	}
 		 	else 
-		 		alert(result.error);
+		 		mainindex.modalwarn(result.error);;
 		 });
 	}
 
@@ -312,7 +312,7 @@ var vipmodule = function() {
 					if(operation == "MODIFY") {
 						submitData.script = "vip_modify";
 					} else {
-						alert("error");
+						mainindex.modalwarn("error");
 					}
 
 					submitData.name = form.kf_username.value;
@@ -337,7 +337,7 @@ var vipmodule = function() {
 							$("#kf_modal").modal("hide");
 						}				
                 		else
-                			alert(result.error);
+                			mainindex.modalwarn(result.error);;
 						
 					});
 
@@ -363,7 +363,7 @@ var vipmodule = function() {
 					operation = "REMOVE";
 				}				
 				else {
-					alert("开发中,请耐心等待");
+					mainindex.modalwarn("开发中,请耐心等待");
 					return 
 				}
 
@@ -391,7 +391,7 @@ var vipmodule = function() {
                 if(operation == "MODIFY") {
 
                 	if(arr.length != 1) {
-	                	alert("请选择一条数据!");
+	                	mainindex.modalwarn("请选择一条数据!");
 	                	return;
 	                }
 
@@ -403,7 +403,7 @@ var vipmodule = function() {
 					 		}
 					 	}
 					 	else
-					 		alert(result.error);
+					 		mainindex.modalwarn(result.error);;
 
 						jQuery('#kf_sellname option').each(function(){
 							if (arr[0].sellname == $(this).text()){
@@ -435,7 +435,7 @@ var vipmodule = function() {
                 else if (operation == "REMOVE") {
 
                 	if(arr.length != 1) {
-	                	alert("请选择一条数据!");
+	                	mainindex.modalwarn("请选择一条数据!");
 	                	return;
 	                }
 
@@ -460,7 +460,7 @@ var vipmodule = function() {
 						$("#confirm_modal").modal("hide");
 					}				
 					else
-						alert(result.error);
+						mainindex.modalwarn(result.error);;
 				});
 
 			});

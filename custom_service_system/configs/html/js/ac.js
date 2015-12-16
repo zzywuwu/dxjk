@@ -10,7 +10,7 @@ var usermodule = function() {
 					initTable1(result.user_list);
 				}
 				else
-					alert(result.error)			
+					mainindex.modalwarn(result.error);			
 			});
 		}
 
@@ -206,7 +206,7 @@ var usermodule = function() {
 							$("#ac_modal").modal("hide");
 					 	}
 					 	else
-					 		alert(result.error);
+					 		mainindex.modalwarn(result.error);
 					});
 
 				}
@@ -217,8 +217,7 @@ var usermodule = function() {
 				$("#ac_username").prop("disabled", false);
 				$("#ac_password").parents(".control-group").css("display", "block").end().val("");
   				$(".ac-form .ac-group").attr("checked", false).parent("span").removeClass("checked");
-  				//alert("hidden");
-  				//TODO:remove错误提示，初始化错误码
+  				
 			});
 
 			jQuery('.ac-index>li').on("click", function(){
@@ -248,7 +247,7 @@ var usermodule = function() {
                 if(operation == "MODIFY") {
 
                 	if(arr.length != 1) {
-	                	alert("请选择一条数据");
+	                	mainindex.modalwarn("请选择一条数据");
 	                	return;
 	                }
 
@@ -262,7 +261,7 @@ var usermodule = function() {
                 } else {
 
                 	if(arr.length != 1) {
-	                	alert("请选择一条数据!");
+	                	mainindex.modalwarn("请选择一条数据!");
 	                	return;
 	                }
                 	
@@ -286,7 +285,7 @@ var usermodule = function() {
 						$("#confirm_modal").modal("hide");
 					}				
 					else
-						alert(result.error);
+						mainindex.modalwarn(result.error);;
 				});
 
 			});

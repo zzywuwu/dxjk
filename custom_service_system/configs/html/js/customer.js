@@ -8,11 +8,10 @@ var customermodule = function() {
 		 TendaAjax.getData({"script":"customer_get_list"}, function(result){
 			
 		 	if(result.error == GLOBAL.SUCCESS) {
-		
 		 		initTable1(result.user_list);
 		 	}
 		 	else 
-		 		alert(result.error)
+		 		mainindex.modalwarn(result.error);
 		 });
 	}
 
@@ -371,7 +370,7 @@ var customermodule = function() {
 							
 						}				
                 		else
-                			alert(result.error);
+                			mainindex.modalwarn(result.error);;
 						
 					});
 
@@ -412,7 +411,7 @@ var customermodule = function() {
 				 		}
 				 	}
 				 	else 
-				 		alert(result.error);				 	
+				 		mainindex.modalwarn(result.error);;				 	
 				});
 				
 				/*每次选择第一个*/
@@ -489,7 +488,7 @@ var customermodule = function() {
 							$("#upvip_modal").modal("hide");
 						}				
                 		else
-                			alert(result.error);
+                			mainindex.modalwarn(result.error);;
                 	});
 				}
 			});
@@ -510,7 +509,7 @@ var customermodule = function() {
 					operation = "REMOVE";	
 				}
 				else {
-					alert("开发中,请耐心等待");
+					mainindex.modalwarn("开发中,请耐心等待");
 					return 
 				}
 
@@ -538,7 +537,7 @@ var customermodule = function() {
                 if(operation == "MODIFY") {
 
                 	if(arr.length != 1) {
-	                	alert("请选择一条数据!");
+	                	mainindex.modalwarn("请选择一条数据!");
 	                	return;
 	                }
 
@@ -550,7 +549,7 @@ var customermodule = function() {
 					 		}
 					 	}
 					 	else
-					 		alert(result.error);
+					 		mainindex.modalwarn(result.error);;
 					 	
 						jQuery('#kf_sellname option').each(function(){
 							if (arr[0].sellname == $(this).text()){
@@ -594,7 +593,7 @@ var customermodule = function() {
                 else if (operation == "DELETE") {
 
                 	if(arr.length != 1) {
-	                	alert("请选择一条数据!");
+	                	mainindex.modalwarn("请选择一条数据!");
 	                	return;
 	                }
                 	
@@ -608,7 +607,7 @@ var customermodule = function() {
                 else if (operation == "UPVIP") {
 
                 	if(arr.length != 1) {
-	                	alert("请选择一条数据!");
+	                	mainindex.modalwarn("请选择一条数据!");
 	                	return;
 	                }
 
@@ -621,7 +620,7 @@ var customermodule = function() {
                 else if (operation == "REMOVE") {
                 	
                 	if(arr.length != 1) {
-	                	alert("请选择一条数据!");
+	                	mainindex.modalwarn("请选择一条数据!");
 	                	return;
 	                }
 
@@ -646,7 +645,7 @@ var customermodule = function() {
 						$("#confirm_modal").modal("hide");
 					}				
 					else
-						alert(result.error);
+						mainindex.modalwarn(result.error);;
 				});
 
 			});

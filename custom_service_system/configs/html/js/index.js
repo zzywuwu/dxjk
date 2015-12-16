@@ -10,13 +10,13 @@ jQuery(document).ready(function() {
 
    App.init(); // initlayout and core plugins
 
-   Index.initNavInfo();
+   mainindex.initNavInfo();
 
-   Index.initNavEvent();
+   mainindex.initNavEvent();
 
 });
 
-var Index = function () {
+var mainindex = function () {
 
 
     return {
@@ -25,7 +25,7 @@ var Index = function () {
         init: function () {
 
             App.addResponsiveHandler(function () {
-                Index.initCalendar();
+                mainindex.initCalendar();
                 jQuery('.vmaps').each(function () {
                     var map = jQuery(this);
                     map.width(map.parent().width());
@@ -41,7 +41,7 @@ var Index = function () {
                 } 
                 // 以免弹出两次窗口
                 // else
-                //     alert(result.error);
+                //     mainindex.modalwarn(result.error);;
             });
 
             TendaAjax.getData({"script":"au_menu"}, function(obj) {
@@ -119,7 +119,7 @@ var Index = function () {
                 } else {
                     firstNav = ".page-sidebar-menu>li:eq(2)>a";
                 }
-                Index.showSubMenu(firstNav);
+                mainindex.showSubMenu(firstNav);
             });
 
             jQuery("#loginout").click(function(){
@@ -129,16 +129,16 @@ var Index = function () {
                         window.location = "/html/login";
                     }
                     else 
-                        alert(result.error);
+                        mainindex.modalwarn(result.error);;
                  });
             });
         },
 
         initNavEvent: function () {
 
-            $(".page-sidebar").on("click", ".page-sidebar-menu>li:gt(1)>a", Index.showSubMenu);
+            $(".page-sidebar").on("click", ".page-sidebar-menu>li:gt(1)>a", mainindex.showSubMenu);
 
-            $(".page-sidebar-menu").on("click", ".sub-menu li>a", Index.showSubMenu);
+            $(".page-sidebar-menu").on("click", ".sub-menu li>a", mainindex.showSubMenu);
 
             $(".navbar .user .dropdown-menu li").on("click", function(){
                 var script = $(this).attr("data");
@@ -209,6 +209,12 @@ var Index = function () {
                 });     
             }
 
+        },
+
+        modalwarn: function(str) {
+            $("#warn_modal_title").html('警告');
+            $("#warn_modal_content").html(str);
+            $("#warn_modal").modal("show");
         }
 
     };

@@ -12,7 +12,7 @@ var customer_remove_module = function() {
 		 		initTable1(result.user_list);
 		 	}
 		 	else 
-		 		alert(result.error)
+		 		mainindex.modalwarn(result.error);
 		 });
 	}
 
@@ -188,7 +188,7 @@ var customer_remove_module = function() {
 					operation = "RESERVER";	
 				}
 				else {
-					alert("开发中,请耐心等待");
+					mainindex.modalwarn("开发中,请耐心等待");
 					return 
 				}
 
@@ -216,7 +216,7 @@ var customer_remove_module = function() {
                 if (operation == "RESERVER") {
                 	
                 	if(arr.length != 1) {
-	                	alert("请选择一条数据!");
+	                	mainindex.modalwarn("请选择一条数据!");
 	                	return;
 	                }
 
@@ -241,7 +241,7 @@ var customer_remove_module = function() {
 						$("#confirm_modal").modal("hide");
 					}				
 					else
-						alert(result.error);
+						mainindex.modalwarn(result.error);;
 				});
 
 			});

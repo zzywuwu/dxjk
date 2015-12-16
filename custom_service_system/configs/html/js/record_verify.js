@@ -9,7 +9,7 @@ var verifyrecordmodule = function() {
 			initTable1(result.user_record);
 		}
 		else 
-			alert(result.error);
+			mainindex.modalwarn(result.error);;
 		});
 	}
 
@@ -291,7 +291,7 @@ var verifyrecordmodule = function() {
 							$("#verify_modal").modal("hide");
 						}				
                 		else
-                			alert(result.error);
+                			mainindex.modalwarn(result.error);;
                 	});
 				}
 			});

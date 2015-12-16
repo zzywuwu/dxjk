@@ -12,7 +12,7 @@ var recordmodule = function() {
 			initTable1(result.user_record);
 		}
 		else 
-			alert(result.error);
+			mainindex.modalwarn(result.error);;
 		});
 	}
 
@@ -390,10 +390,10 @@ var recordmodule = function() {
 				        fzinfo.next_visit_type = JSON.stringify(next_visit_type_arr);	
 						fzinfo.next_visit_address = jQuery('#portlet_tab2 .accordion-body:eq(' + i + ') input[name="kf_next_visit_address"]').val();
 						fzinfo.next_visit_remarks = jQuery('#portlet_tab2 .accordion-body:eq(' + i + ') textarea[name="kf_next_remarks"]').val();
-						//alert(JSON.stringify(fzinfo));
+						
 						fzinfoarr.push(fzinfo);
 					};
-					//alert(fzinfoarr);
+					
 					submitData.fzinfo = JSON.stringify(fzinfoarr);
 
 					if ($('#kf_next_visit_date1').val() !='') {
@@ -478,7 +478,7 @@ var recordmodule = function() {
 							$("#kf_modal").modal("hide");
 						}				
                 		else
-                			alert(result.error);	
+                			mainindex.modalwarn(result.error);;	
 					});
 				}
 			});
@@ -505,7 +505,7 @@ var recordmodule = function() {
 							$("#review_modal").modal("hide");
 						}				
                 		else
-                			alert(result.error);
+                			mainindex.modalwarn(result.error);;
                 	});
 				}
 			});
@@ -590,7 +590,7 @@ var recordmodule = function() {
 							$("#event_modal").modal("hide");
 						}				
                 		else
-                			alert(result.error);
+                			mainindex.modalwarn(result.error);;
 					});
 
 				}
@@ -647,7 +647,7 @@ var recordmodule = function() {
 					operation = "RECORD";	
 				}
 				else {
-					alert("开发中,请耐心等待");
+					mainindex.modalwarn("开发中,请耐心等待");
 					return 
 				}
 
@@ -671,12 +671,12 @@ var recordmodule = function() {
                 if(operation == "MODIFY") {
 
                 	if(arr.length != 1) {
-	                	alert("请选择一条数据!");
+	                	mainindex.modalwarn("请选择一条数据!");
 	                	return;
 	                }
 
 	                if (arr[0].status == 1) {
-	                	alert("这是一条记录，不能当做事件来处理!");
+	                	mainindex.modalwarn("这是一条记录，不能当做事件来处理!");
 	                	return;
 	                }
 
@@ -716,7 +716,7 @@ var recordmodule = function() {
                 else if (operation == "DELETE") {
 
                 	if(arr.length != 1) {
-	                	alert("请选择一条数据!");
+	                	mainindex.modalwarn("请选择一条数据!");
 	                	return;
 	                }
                 	
@@ -729,7 +729,7 @@ var recordmodule = function() {
                 else if (operation == "RECORD") {
                 	
                 	if(arr.length != 1) {
-	                	alert("请选择一条数据!");
+	                	mainindex.modalwarn("请选择一条数据!");
 	                	return;
 	                }
 
@@ -763,7 +763,7 @@ var recordmodule = function() {
 					 		}
 					 	}
 					 	else
-					 		alert(result.error);
+					 		mainindex.modalwarn(result.error);;
 					 	
 						jQuery('#kf_servicename option').each(function(){
 							if (arr[0].servicename == $(this).text()){
@@ -854,7 +854,7 @@ var recordmodule = function() {
 						$("#confirm_modal").modal("hide");
 					}				
 					else
-						alert(result.error);
+						mainindex.modalwarn(result.error);;
 				});
 
 			});
