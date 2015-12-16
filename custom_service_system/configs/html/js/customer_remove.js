@@ -98,18 +98,6 @@ var customer_remove_module = function() {
 
 		});
 
-		if (search_str != "") {
-			jQuery('#kf_list_filter input').val(search_str);
-			jQuery('#kf_list_filter input').focus();	
-			var e = jQuery.Event("keyup");//模拟一个键盘事件
-            e.keyCode = 13;//keyCode=13是回车
-            jQuery("#kf_list_filter input").trigger(e);
-		}
-
-		jQuery('#kf_list_filter input').on('input',function(e){
-      		search_str = $(this).val();
-        });
-
 		jQuery("#kf_list_wrapper .dataTables_filter input").addClass("m-wrap small");
 		jQuery("#kf_list_wrapper .dataTables_length select").addClass("m-wrap small");
 
@@ -151,6 +139,18 @@ var customer_remove_module = function() {
 			});
 			$(this).tooltip('show');
 		});		
+
+		if (search_str != "") {
+			jQuery('#kf_list_filter input').val(search_str);
+			jQuery('#kf_list_filter input').focus();	
+			var e = jQuery.Event("keyup");//模拟一个键盘事件
+            e.keyCode = 13;//keyCode=13是回车
+            jQuery("#kf_list_filter input").trigger(e);
+		}
+
+		jQuery('#kf_list_filter input').on('input',function(e){
+      		search_str = $(this).val();
+        });
 	}
 
 	var fnFormatDetails = function( oTable, nTr ) {

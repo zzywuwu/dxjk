@@ -126,17 +126,6 @@ var verifyrecordmodule = function() {
 
 		App.initUniform("#kf_list .checkboxes");
 
-		if (search_str != "") {
-			jQuery('#kf_list_filter input').val(search_str);
-			jQuery('#kf_list_filter input').focus();	
-			var e = jQuery.Event("keyup");//模拟一个键盘事件
-            e.keyCode =13;//keyCode=13是回车
-            $("#kf_list_filter input").trigger(e);
-		}
-		jQuery('#kf_list_filter input').on('input',function(e){
-      		search_str = $(this).val();
-        });
-
 		jQuery(".record").click(function(){
 			var data = {"page":"record.html","customer_id":$(this).attr("data")};
 			TendaAjax.getHtml(data, function(result){
@@ -218,6 +207,17 @@ var verifyrecordmodule = function() {
 
 			$("#verify_modal").modal("show");	
 		});
+
+		if (search_str != "") {
+			jQuery('#kf_list_filter input').val(search_str);
+			jQuery('#kf_list_filter input').focus();	
+			var e = jQuery.Event("keyup");//模拟一个键盘事件
+            e.keyCode =13;//keyCode=13是回车
+            $("#kf_list_filter input").trigger(e);
+		}
+		jQuery('#kf_list_filter input').on('input',function(e){
+      		search_str = $(this).val();
+        });
 	}
 
 	var fnFormatDetails = function( oTable, nTr ) {

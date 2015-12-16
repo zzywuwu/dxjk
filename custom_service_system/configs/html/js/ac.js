@@ -78,6 +78,11 @@ var usermodule = function() {
 				]
 
 		});
+		
+		jQuery("#ac_list_wrapper .dataTables_filter input").addClass("m-wrap small");
+		jQuery("#ac_list_wrapper .dataTables_length select").addClass("m-wrap small");
+
+		App.initUniform("#ac_list .checkboxes");
 
 		if (search_str != "") {
 			jQuery('#kf_list_filter input').val(search_str);
@@ -89,11 +94,6 @@ var usermodule = function() {
 		jQuery('#kf_list_filter input').on('input',function(e){
       		search_str = $(this).val();
         });
-		
-		jQuery("#ac_list_wrapper .dataTables_filter input").addClass("m-wrap small");
-		jQuery("#ac_list_wrapper .dataTables_length select").addClass("m-wrap small");
-
-		App.initUniform("#ac_list .checkboxes");
 	}
 
 	var initModalCheck = function(num) {
