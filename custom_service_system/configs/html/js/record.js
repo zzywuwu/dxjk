@@ -95,8 +95,8 @@ var recordmodule = function() {
 							{
 								"aTargets":[8],
 								"mRender":function(data, type, full){
-									if (data.length > 26) {
-										var str =  data.substr(0,26)+'..';
+									if (data.length > 20) {
+										var str =  data.substr(0,20)+'..';
 										return '<span class="tooltip_view">'+str+'</span>';	
 									}
 									else
@@ -127,7 +127,7 @@ var recordmodule = function() {
 								}
 							}
 			],
-			"aaSorting": [[1, 'desc']],
+			"aaSorting": [[4, 'desc']],
 			// "aLengthMenu": [
 			// 	[1,5, 15, 20, -1],
 			// 	[1,5, 15, 20, "所有"]
@@ -206,10 +206,10 @@ var recordmodule = function() {
         if (aData.status == 1) {
 			// 记录 
 			sOut += '<tr><td>陪诊人员:</td><td>'+aData.servicename+'</td></tr>';
-			sOut += '<tr><td>宫高:</td><td>'+aData.womb_height+'</td></tr>';
-   			sOut += '<tr><td>腹围:</td><td>'+aData.belly_length+'</td></tr>';
-   			sOut += '<tr><td>体重:</td><td>'+aData.body_weight+'</td></tr>';
-   			sOut += '<tr><td>血压:</td><td>'+aData.blood_pre+'</td></tr>';
+			sOut += '<tr><td>宫高(Cm):</td><td>'+aData.womb_height+'</td></tr>';
+   			sOut += '<tr><td>腹围(Cm):</td><td>'+aData.belly_length+'</td></tr>';
+   			sOut += '<tr><td>血压(Kpa):</td><td>'+aData.blood_pre+'</td></tr>';
+   			sOut += '<tr><td>体重(Kg):</td><td>'+aData.body_weight+'</td></tr>';
    			sOut += '<tr><td>孕周:</td><td>'+aData.gest_weeks+'</td></tr>';
 			sOut += '<tr><td>就诊记录:</td><td>'+aData.result+'</td></tr>';
 			sOut += '<tr><td>医嘱:</td><td>'+aData.doctor_advise+'</td></tr>';

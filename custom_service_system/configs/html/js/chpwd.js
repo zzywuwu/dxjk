@@ -67,6 +67,11 @@ var ResetPwd = function () {
 
 	            submitHandler: function (form) {
 	                var new_password = form.new_password.value;
+
+	                if (new_password == '123456' or new_password == '1234567' or new_password == '12345678') {
+	                	alert("为了安全,密码不能设置太简单！");
+	                	return;
+	                } 
 		
 					var data = {"script":"update_password","new_password":new_password};
 					

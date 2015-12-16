@@ -82,8 +82,8 @@ var verifyrecordmodule = function() {
 							{
 								"aTargets":[6],
 								"mRender":function(data, type, full){
-									if (data.length > 26) {
-										var str =  data.substr(0,26)+'..';
+									if (data.length > 20) {
+										var str =  data.substr(0,20)+'..';
 										return '<span class="tooltip_view">'+str+'</span>';	
 									}
 									else
@@ -98,7 +98,7 @@ var verifyrecordmodule = function() {
 							}
 
 			],
-			"aaSorting": [[8, 'desc']],
+			"aaSorting": [[2, 'asc']],
 			// "aLengthMenu": [
 			// 	[1,5, 15, 20, -1],
 			// 	[1,5, 15, 20, "所有"]
@@ -179,6 +179,11 @@ var verifyrecordmodule = function() {
 			$("#verify_servicename").text(arr[0].servicename);
 			$("#verfiy_visit_type").text(arr[0].visit_type);
 			$("#verfiy_visit_doctor_name").text(arr[0].visit_doctor_name);
+			$("#verify_womb_height").text(arr[0].womb_height);
+			$("#verify_belly_length").text(arr[0].belly_length);
+			$("#verify_blood_pre").text(arr[0].blood_pre);
+			$("#verify_body_weight").text(arr[0].body_weight);
+			$("#verify_gest_weeks").text(arr[0].gest_weeks);
 			$("#verify_result").text(arr[0].result);
 			$("#verify_doctor_advise").text(arr[0].doctor_advise);
 			$("#verify_remarks").text(arr[0].remarks);
@@ -228,6 +233,11 @@ var verifyrecordmodule = function() {
         sOut += '<tr><td>陪诊人员:</td><td>'+aData.servicename+'</td></tr>';
         sOut += '<tr><td>就诊项目:</td><td>'+aData.visit_type+'</td></tr>';
 		sOut += '<tr><td>就诊医生:</td><td>'+aData.visit_doctor_name+'</td></tr>';
+		sOut += '<tr><td>宫高(Cm):</td><td>'+aData.womb_height+'</td></tr>';
+		sOut += '<tr><td>腹围(Cm):</td><td>'+aData.belly_length+'</td></tr>';
+		sOut += '<tr><td>血压(Kpa):</td><td>'+aData.blood_pre+'</td></tr>';
+		sOut += '<tr><td>体重(Kg):</td><td>'+aData.body_weight+'</td></tr>';
+		sOut += '<tr><td>孕周:</td><td>'+aData.gest_weeks+'</td></tr>';
 		sOut += '<tr><td>就诊记录:</td><td>'+aData.result+'</td></tr>';
         sOut += '<tr><td>医嘱:</td><td>'+aData.doctor_advise+'</td></tr>';
         sOut += '<tr><td>备注:</td><td>'+aData.remarks+'</td></tr>';

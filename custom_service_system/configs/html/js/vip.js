@@ -79,7 +79,7 @@ var vipmodule = function() {
 								}
 							}
 			],
-			"aaSorting": [[8, 'asc']],
+			"aaSorting": [[4, 'asc']],
 			// "aLengthMenu": [
 			// 	[1,5, 15, 20, -1],
 			// 	[1,5, 15, 20, "所有"]
