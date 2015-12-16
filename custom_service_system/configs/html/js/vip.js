@@ -118,7 +118,7 @@ var vipmodule = function() {
 		App.initUniform("#kf_list .checkboxes");
 
 		jQuery(".record").click(function(){
-			var data = {"page":"record_index.html","customer_id":$(this).attr("data")};
+			var data = {"page":"record.html","customer_id":$(this).attr("data")};
 			TendaAjax.getHtml(data, function(result){
 				$(".page-content .container-fluid").html(result);
 			});  
