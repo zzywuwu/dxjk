@@ -9,8 +9,7 @@ local function MysqlCallback(res)
 	local current_time_ = os.time()
 	for i=1,#res do
 		if (res[i].customer_type == "孕妈妈") then
-			local strtime = res[i].last_menses_time;
-			local date_ = string.sub(strtime, 1, string.find(strtime, " ") - 1)
+			local date_ = res[i].last_menses_time;
 			local year_ = string.sub(date_,1,4)
 			local month_ = string.sub(date_,6,7)
 			local day_ = string.sub(date_,9,10)

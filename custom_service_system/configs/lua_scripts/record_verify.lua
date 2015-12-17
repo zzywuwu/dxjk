@@ -53,7 +53,6 @@ local function Execute(post)
 			for i=1,#tbl do
 				local _customer_id = res[1].id
 				local _next_visit_date = tbl[i].next_visit_date
-				_next_visit_date = _next_visit_date.." 23:59:59"
 				local _next_visit_time = tbl[i].next_visit_time
 				local _next_order_success = tbl[i].next_order_success
 				local _next_visit_doctor_name = tbl[i].next_visit_doctor_name

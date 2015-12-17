@@ -163,8 +163,8 @@ var customermodule = function() {
         sOut += '<tr><td>客户类型:</td><td>'+aData.customer_type+'</td></tr>';
         if (aData.customer_type == GLOBAL.YUNMM) {
         	sOut += '<tr><td>孕周:</td><td>'+aData.diffdays+'</td></tr>';
-        	sOut += '<tr><td>末次月经:</td><td>'+aData.last_menses_time.split(" ",1)+'</td></tr>';
-			sOut += '<tr><td>预产期:</td><td>'+aData.due_time.split(" ",1)+'</td></tr>';
+        	sOut += '<tr><td>末次月经:</td><td>'+aData.last_menses_time+'</td></tr>';
+			sOut += '<tr><td>预产期:</td><td>'+aData.due_time+'</td></tr>';
 			sOut += '<tr><td>建卡医生:</td><td>'+aData.doctor_name+'</td></tr>';
         }
         sOut += '<tr><td>身份证:</td><td>'+aData.idnumber+'</td></tr>';
@@ -562,8 +562,8 @@ var customermodule = function() {
 						if (arr[0].customer_type == $(this).text()){
 							$(this).attr("selected",true);
 							if (arr[0].customer_type == GLOBAL.YUNMM) {
-								$("#kf_due_time").val(arr[0].due_time.split(" ",1));
-								$("#kf_last_menses_time").val(arr[0].last_menses_time.split(" ",1));
+								$("#kf_due_time").val(arr[0].due_time);
+								$("#kf_last_menses_time").val(arr[0].last_menses_time);
 								jQuery('.kf-form .modal-body .ymm_group').show(100);
 								$("#kf_doctor_name").val(arr[0].doctor_name);
 							}

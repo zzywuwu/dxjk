@@ -13,8 +13,7 @@ var Calendar = function () {
                 var arr = [];
                 for (i = 0; i < result.user_event.length; i++) {
                     var object = {};
-                    var date = result.user_event[i].visit_date.split(" ",1); 
-                    var datearr = date[0].split("-",3);
+                    var datearr = result.user_event[i].visit_date.split("-",3);
                     var visit_type_str = "";
                     if (result.user_event[i].visit_type.length > 20)
                         visit_type_str = result.user_event[i].visit_type.substr(0,20)+'..';

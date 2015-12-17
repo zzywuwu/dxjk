@@ -78,7 +78,7 @@ var recordmodule = function() {
 							{
 								"aTargets":[4],
 								"mRender":function(data, type, full){
-									return data.split(" ",1);
+									return data;
 								}
 							},
 							{
@@ -200,7 +200,7 @@ var recordmodule = function() {
 	var fnFormatDetails = function( oTable, nTr ) {
         var aData = oTable.fnGetData( nTr );
         var sOut = '<table>';
-		sOut += '<tr><td style="width:100px;">就诊时间:</td><td>'+aData.visit_date.split(" ",1)+ ' '+ aData.visit_time + '</td></tr>';
+		sOut += '<tr><td style="width:100px;">就诊时间:</td><td>'+aData.visit_date+ ' '+ aData.visit_time + '</td></tr>';
 		sOut += '<tr><td>就诊项目:</td><td>'+aData.visit_type+'</td></tr>';
 		sOut += '<tr><td>就诊医生:</td><td>'+aData.visit_doctor_name+'</td></tr>';
         if (aData.status == 1) {
@@ -238,9 +238,9 @@ var recordmodule = function() {
 				else {
 					for (var i = 0, j = 1; i < obj.length; i++,j++) {
 						if (obj[i].next_order_success)
-							sOut += '<tr><td>复诊信息[' + j + ']:</td><td>'+obj[i].next_visit_date.split(" ",1)+ ' '+ obj[i].next_visit_time + ' (已预约) 项目:' + obj[i].next_visit_type;
+							sOut += '<tr><td>复诊信息[' + j + ']:</td><td>'+obj[i].next_visit_date+ ' '+ obj[i].next_visit_time + ' (已预约) 项目:' + obj[i].next_visit_type;
 						else
-							sOut += '<tr><td>复诊信息[' + j + ']:</td><td>'+obj[i].next_visit_date.split(" ",1)+ ' '+ obj[i].next_visit_time + ' <font color="red">(未预约)</font> 项目:' + obj[i].next_visit_type;
+							sOut += '<tr><td>复诊信息[' + j + ']:</td><td>'+obj[i].next_visit_date+ ' '+ obj[i].next_visit_time + ' <font color="red">(未预约)</font> 项目:' + obj[i].next_visit_type;
 						if ( obj[i].next_visit_doctor_name != '') {
 								sOut += ' 医生:'+ obj[i].next_visit_doctor_name;
 							if ( obj[i].next_visit_doctor_name != '')
@@ -683,7 +683,7 @@ var recordmodule = function() {
 	                operation_modal = "MODIFY";
 	           
           			$("#event_id").val(arr[0].id).prop("disabled", true);
-					$("#event_visit_date").val(arr[0].visit_date.split(" ",1));
+					$("#event_visit_date").val(arr[0].visit_date);
 					jQuery('#event_visit_time option').each(function(){
 						if (arr[0].visit_time == $(this).text()){
 							$(this).attr("selected",true);
@@ -773,7 +773,7 @@ var recordmodule = function() {
 					});
           			
 					$("#kf_id").val(arr[0].id).prop("disabled", true);
-					$("#kf_visit_date").val(arr[0].visit_date.split(" ",1));
+					$("#kf_visit_date").val(arr[0].visit_date);
 					jQuery('#kf_visit_time option').each(function(){
 						if (arr[0].visit_time == $(this).text()){
 							$(this).attr("selected",true);

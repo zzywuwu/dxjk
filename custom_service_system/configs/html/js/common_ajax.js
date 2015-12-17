@@ -32,7 +32,7 @@ var TendaAjax = function(){
 				data: obj,
 				success: function(data) {
 					if (data.error == "长时间未操作,请重新登录"){
-			 			alert(data.error);
+			 			// alert(data.error);
 			 			window.location = "/html/login";
 			 		}
 			 		else
