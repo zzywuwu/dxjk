@@ -5,7 +5,7 @@ local function MysqlCallback(res)
 			user_event = res
 		}
 	}
-	-- SetCache("event_get_list",_jsontbl)
+	
 	return _jsontbl
 end
 
@@ -18,12 +18,6 @@ local function ParamCheck(post)
 end
 
 local function Execute(post)
-	
-	-- local cache = common.GetCache("event_get_list")
-	-- if next(cache) ~= nil then 
-	-- 	DEBUG("event_get_list cache exits")
-	-- 	return cache 
-	-- end
 	
 	-- local _query_sql = "select event.*,customer.name as customer_name from event,customer where customer.id = event.customer_id and customer.vip < 2 and visit_date >= now() order by event.visit_time asc"
 

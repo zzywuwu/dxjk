@@ -9,7 +9,7 @@ local function MysqlCallback(res)
 			error = WEBERR.NO_ERR
 		}
 	}
-	ClearCache("ac_get_list")
+	common.ClearCache("ac_get_list")
 	return _jsontbl
 end
 

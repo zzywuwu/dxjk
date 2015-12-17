@@ -5,7 +5,6 @@ local function MysqlCallback(res)
 			user_list = res
 		}
 	}
-	-- SetCache("get_no_event_user_list",_jsontbl)
 	return _jsontbl
 end
 
@@ -18,12 +17,6 @@ local function ParamCheck(post)
 end
 
 local function Execute(post)
-
-	-- local cache = common.GetCache("get_no_event_user_list")
-	-- if next(cache) ~= nil then 
-	-- 	DEBUG("get_no_event_user_list cache exits")
-	-- 	return cache 
-	-- end
 	
 	-- local _query_sql = "select xxx.name,xxx.vip from (select customer.name,event.customer_id,customer.vip from event right join customer on customer.id = event.customer_id) AS xxx where customer_id is null and vip !=2"
 

@@ -6,7 +6,7 @@ local function MysqlCallback(res)
 			user_list = res
 		}
 	}
-	SetCache("ac_get_list",_jsontbl)
+	common.SetCache("ac_get_list",_jsontbl)
 	return _jsontbl
 end
 
@@ -19,11 +19,12 @@ local function ParamCheck(post)
 end
 
 local function Execute(post)
-	local cache = common.GetCache("ac_get_list")
-	if next(cache) ~= nil then 
-		DEBUG("ac_get_list cache exits")
-		return cache 
-	end
+	
+	-- local cache = common.GetCache("ac_get_list")
+	-- if next(cache) ~= nil then 
+	-- 	DEBUG("ac_get_list cache exits")
+	-- 	return cache 
+	-- end
 
 	local _query_sql = "select id,update_time,last_login_time,status,privilege,name,phonenumber,wx from user"
 	DEBUG("ac_get_list: ".._query_sql)

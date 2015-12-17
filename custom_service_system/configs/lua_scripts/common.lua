@@ -58,28 +58,23 @@ local function BitAnd(a, b)
 	return  BitToDouble(_bit_r)  
 end
 
-function ClearCache(model)
-	-- INFO("ClearCache= "..model)
+local function ClearCache(model)
 	local _m = funcsinit[model]
 	if _m then
 		_m.cache  = {}
 	end
 end
 
-function SetCache(model,cache)
-	-- INFO("SetCache= "..model)
+local function SetCache(model,cache)
 	local _m = funcsinit[model]
 	if _m then
 		_m.cache = cache
-		-- INFO(_m.cache)
 	end
 end
 
-function GetCache(model)
-	-- INFO("GetCache= "..model)
+local function GetCache(model)	
 	local _m = funcsinit[model]
 	if _m then
-		-- INFO(_m.cache)
 		return _m.cache
 	end
 end
