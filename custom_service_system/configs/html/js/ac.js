@@ -191,7 +191,6 @@ var usermodule = function() {
 					var operation = $("#ac_username").prop("disabled") ? "MODIFY" : "ADD";
 					
 					submitData.name = form.ac_username.value;
-					submitData.name = form.ac_username.value;
 					submitData.phonenumber = form.ac_phonenumber.value;
 					submitData.wx = form.ac_wx.value;
 					if(operation == "MODIFY") {
@@ -251,11 +250,11 @@ var usermodule = function() {
 	                	return;
 	                }
 
-                	$("#ac_username").val(arr[0].name).prop("disabled", true);
-                	$("#ac_email").val(arr[0].email);
-                	$("#ac_password").parents(".control-group").css("display", "none");
+	                jQuery('#modify_warn').html('<font color="red"><h4>修改后自动设置密码123456, 未激活状态！</h4></font>');
 
-                	initModalCheck(arr[0].privilege);
+                	$("#ac_username").val(arr[0].name).prop("disabled", true);
+                	$("#ac_phonenumber").val(arr[0].phonenumber);
+                	$("#ac_wx").val(arr[0].wx);
                 	$("#ac_modal").modal("show");
 
                 } else {

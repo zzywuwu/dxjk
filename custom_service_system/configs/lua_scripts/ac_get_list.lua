@@ -26,7 +26,7 @@ local function Execute(post)
 	-- 	return cache 
 	-- end
 
-	local _query_sql = "select id,update_time,last_login_time,status,privilege,name,phonenumber,wx from user"
+	local _query_sql = "select id,update_time,last_login_time,status,privilege,name,phonenumber,wx from user where status != 'dead'"
 	DEBUG("ac_get_list: ".._query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)
 end

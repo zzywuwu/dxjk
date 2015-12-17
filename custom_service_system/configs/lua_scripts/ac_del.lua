@@ -59,10 +59,10 @@ local function Execute(post)
 	local _loginid = post.session.loginid
 
 	local function QueryCountBack(res)
-		if res[1].count ~= '0' then
-			return nil, WEBERR.DONT_DELETE_CUSTOMER
-		else
-			local _query_sql = "delete from user where id = "
+		-- if res[1].count ~= '0' then
+		-- 	return nil, WEBERR.DONT_DELETE_CUSTOMER
+		-- else
+			local _query_sql = "update user set update_time = NOW(), status = 'dead' where id = "
 			for k, v in pairs(_id) do
 				if k == 1 then				
 					_query_sql = _query_sql .. ngx.quote_sql_str(v)
@@ -73,7 +73,7 @@ local function Execute(post)
 			DEBUG("ac_del: " .. _query_sql)
 			INFO(post.session.name.." 删除用户 ".._query_sql)
 			return mysql.query(cloud_database, _query_sql, MysqlCallback)
-		end
+		-- end
 	end
 
 	local _query_sql = "select count(*) As count from record where user_id = "
