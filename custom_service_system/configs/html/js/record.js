@@ -7,7 +7,8 @@ var recordmodule = function() {
 	var initTableList =  function() {
 		TendaAjax.getData({"script":"record_get_list","customer_id":operation_customer_id}, function(result){
 		if(result.error == GLOBAL.SUCCESS) {
-			$("#record_title").html('<i class="icon-heart"></i>陪诊记录('+result.username+')');
+			$("#record_title").html('<i class="icon-heart"></i>陪诊记录');
+			$("#personinfo").html('<i class="icon-user"></i> '+result.username);
 			operation_customer_name = result.username;
 			initTable1(result.user_record);
 		}
@@ -861,6 +862,58 @@ var recordmodule = function() {
 
 			jQuery('#addbutton').on("click", function(){
 				 operation_modal = "";
+			});
+
+			jQuery('#personinfo').on("click", function(){
+				var submitData = {};
+				submitData.script = "customer_query_by_id";					
+				submitData.id = operation_customer_id;
+				TendaAjax.getData(submitData, function(result){
+				if(result.error == GLOBAL.SUCCESS) {
+						result.user_info.name
+            		$("#personinfo_name").text(result.user_info.name+'(Id: '+result.user_info.id+')');
+            		$("#personinfo_age").text(result.user_info.age);
+
+            		$("#personinfo_phonenumber").text(result.user_info.phonenumber);
+            		$("#personinfo_wx").text(result.user_info.wx);
+            		
+            		$("#personinfo_sellname").text(result.user_info.sellname);
+            		$("#personinfo_customer_type").text(result.user_info.customer_type);
+            		
+            		if(result.user_info.customer_type ==  GLOBAL.YUNMM) {
+            			jQuery('.ymm_group').show(100);
+						jQuery('.normal_group').hide(100);
+            			$("#personinfo_last_menses_time").text(result.user_info.last_menses_time);
+            			$("#personinfo_due_time").text(result.user_info.due_time);
+            			$("#personinfo_doctor_name").text(result.user_info.doctor_name);
+            		}
+            		else {
+            			jQuery('.ymm_group').hide(100);
+						jQuery('.normal_group').show(100);
+            			$("#personinfo_gender").text(result.user_info.gender);
+            		}
+            		$("#personinfo_idnumber").text(result.user_info.idnumber);
+            		$("#personinfo_address").text(result.user_info.address);
+
+            		$("#personinfo_height").text(result.user_info.height);
+            		$("#personinfo_weight").text(result.user_info.weight);
+            		
+            		$("#personinfo_familyname").text(result.user_info.familyname);
+            		$("#personinfo_familynamenumber").text(result.user_info.familynamenumber);
+            		
+            		$("#personinfo_remarks").text(result.user_info.remarks);
+
+            		if(result.user_info.vip == 1) {
+            			
+            			$("#personinfo_order_time").text(result.user_info.order_time);
+            			$("#personinfo_order_over_time").text(result.user_info.order_over_time);
+            		}
+
+					$("#personinfo_modal").modal("show");	
+				}
+				else 
+					mainindex.modalwarn(result.error);;
+				});
 			});
 
 			jQuery('#event_modal').on('hidden.bs.modal', function (e) {

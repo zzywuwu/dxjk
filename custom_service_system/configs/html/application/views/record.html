@@ -3,8 +3,19 @@
 <head>
 <meta charset="utf-8">
 <title>陪诊记录</title>
-		
-
+	
+	<style >	
+		#personinfo_modal .controls .text {
+			word-break: break-all;
+		}
+		#personinfo_modal .form-horizontal .control-label {
+			width: 120px;
+			text-align: center;
+		}
+		#personinfo_modal .form-horizontal .controls {
+			margin-left: 120px;
+		}
+	</style>
 </head>
 
 <body>
@@ -12,12 +23,31 @@
 	<div class="row-fluid selftable">
 		<div class="span12">
 
-			<!-- <div class="portlet box green">
+			<!-- <div class="portlet box blue tabbable">
 				<div class="portlet-title">
-					<div class="caption"><i class="icon-heart"></i>个人信息</div>		
+					<div class="caption"><i class="icon-heart"></i>XXXXXX</div>		
 				</div>
 
 				<div class="portlet-body">
+
+					<div class="tabbable portlet-tabs">
+						<ul class="nav nav-tabs">
+							<li class=""><a href="#portlet_tab2" data-toggle="tab">个人信息</a></li>
+							<li class="active"><a href="#portlet_tab1" data-toggle="tab">陪诊记录</a></li>
+						</ul>
+
+						<div class="tab-content">
+							<div class="tab-pane active" id="portlet_tab1">							
+							</div>
+
+							<div class="tab-pane" id="portlet_tab2">
+								<div style="height: auto;" id="accordion1" class="accordion in collapse">
+								</div>	
+							</div>
+						</div>
+					</div>
+
+
 
 					<div class="row-fluid">
 						<div class="control-group span3">
@@ -61,6 +91,10 @@
 					<div class="caption" id="record_title"><i class="icon-heart"></i>陪诊记录</div>
 					
 					<div class="actions">
+
+						<a href="#" class="btn blue" data-toggle="modal" id="personinfo">
+							<i class="icon-user" ></i> 个人信息
+						</a>
 
 						<a href="#" class="btn blue" data-toggle="modal" data-target="#event_modal" id="addbutton">
 							<i class="icon-plus" ></i> 添加事件
@@ -116,6 +150,221 @@
 				</div>
 			</div>
 
+		</div>
+	</div>
+
+	<!--person info-->
+	<div class="modal fade" id="personinfo_modal" tabindex="-1" role="dialog" aria-labelledby="personinfo_modal_label" data-backdrop="static">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true"></span>
+					</button>
+					<h4 class="modal-title" id="personinfo_modal_label">个人信息</h4>
+				</div>
+				<form action="" class="form-horizontal personinfo-form" style="margin-bottom:0px;">
+					<div class="modal-body">
+			
+						<div class="row-fluid">
+							<div class="span6 ">
+								<div class="control-group">
+									<label class="control-label bold">姓名:</label>
+									
+									<div class="controls">
+										<div class="text" id="personinfo_name"></div>
+									</div>
+								</div>							
+							</div>
+							<div class="span6 ">
+								<div class="control-group">
+									<label class="control-label bold">年龄:</label>
+									
+									<div class="controls">
+										<div class="text" id="personinfo_age"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="row-fluid">
+							<div class="span6 ">
+								<div class="control-group">
+									<label class="control-label bold">电话:</label>
+									
+									<div class="controls">
+										<div class="text" id="personinfo_phonenumber"></div>
+									</div>
+								</div>
+							</div>
+							<div class="span6 ">
+								<div class="control-group">
+									<label class="control-label bold">微信号:</label>
+									
+									<div class="controls">
+										<div class="text" id="personinfo_wx"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					
+						<div class="row-fluid">
+							<div class="span6 ">
+								<div class="control-group">
+									<label class="control-label bold">销售员:</label>							
+									<div class="controls">
+										<div class="text" id="personinfo_sellname"></div>
+									</div>
+								</div>
+							</div>
+							<div class="span6 ">
+								<div class="control-group">
+									<label class="control-label bold">客户类型:</label>							
+									<div class="controls">
+										<div class="text" id="personinfo_customer_type"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="row-fluid ymm_group">
+							<div class="span6 ">
+								<div class="control-group">
+									<label class="control-label bold">末次月经:</label>							
+									<div class="controls">
+										<div class="text" id="personinfo_last_menses_time"></div>
+									</div>
+								</div>
+							</div>
+							<div class="span6 ">
+								<div class="control-group">
+									<label class="control-label bold">预产期:</label>							
+									<div class="controls">
+										<div class="text" id="personinfo_due_time"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="row-fluid ymm_group">
+							<div class="span6 ">
+								<div class="control-group">
+									<label class="control-label bold">建卡医生:</label>							
+									<div class="controls">
+										<div class="text" id="personinfo_doctor_name"></div>
+									</div>
+								</div>
+							</div>
+							
+						</div>
+
+						<div class="row-fluid normal_group">
+							<div class="span6 ">
+								<div class="control-group">
+									<label class="control-label bold">性别:</label>							
+									<div class="controls">
+										<div class="text" id="personinfo_gender"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="row-fluid">
+							<div class="span6 ">
+								<div class="control-group">
+									<label class="control-label bold">地址:</label>							
+									<div class="controls">
+										<div class="text" id="personinfo_address"></div>
+									</div>
+								</div>
+							</div>
+							<div class="span6 ">
+								<div class="control-group">
+									<label class="control-label bold">身份证:</label>							
+									<div class="controls">
+										<div class="text" id="personinfo_idnumber"></div>
+									</div>
+								</div>
+							</div>
+							
+						</div>
+
+						<div class="row-fluid">
+							<div class="span6 ">
+								<div class="control-group">
+									<label class="control-label bold">身高(Cm):</label>							
+									<div class="controls">
+										<div class="text" id="personinfo_height"></div>
+									</div>
+								</div>
+							</div>
+							<div class="span6 ">
+								<div class="control-group">
+									<label class="control-label bold">体重(Kg):</label>							
+									<div class="controls">
+										<div class="text" id="personinfo_weight"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="row-fluid">
+							<div class="span6 ">
+								<div class="control-group">
+									<label class="control-label bold">家属姓名:</label>							
+									<div class="controls">
+										<div class="text" id="personinfo_familyname"></div>
+									</div>
+								</div>
+							</div>
+							<div class="span6 ">
+								<div class="control-group">
+									<label class="control-label bold">家属电话:</label>							
+									<div class="controls">
+										<div class="text" id="personinfo_familynamenumber"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="row-fluid">
+							<div class="span6 ">
+								<div class="control-group">
+									<label class="control-label bold">会员签单日:</label>							
+									<div class="controls">
+										<div class="text" id="personinfo_order_time"></div>
+									</div>
+								</div>
+							</div>
+							<div class="span6 ">
+								<div class="control-group">
+									<label class="control-label bold">会员到期日:</label>							
+									<div class="controls">
+										<div class="text" id="personinfo_order_over_time"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="row-fluid">
+							<div class="control-group">
+								<label class="control-label bold">备注:</label>
+								<div class="controls">
+									<div class="text" id="personinfo_remarks"></div>
+								</div>
+							</div>
+						</div>
+						
+					
+
+
+					</div>
+					
+					<div class="modal-footer">
+						<button type="button" class="btn green btn-default" data-dismiss="modal">确认</button>
+					</div>
+				</form>
+			</div>
 		</div>
 	</div>
 

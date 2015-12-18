@@ -98,6 +98,7 @@ local function Execute(post)
 				str = 	"姓名\t\t\t\t\t\t\t\t: "..user_list[i].name.."\n"..
 						"年龄\t\t\t\t\t\t\t\t: "..user_list[i].age.."\n"..
 						"电话\t\t\t\t\t\t\t\t:"..user_list[i].phonenumber.."\n"..
+						"性别\t\t\t\t\t\t\t\t:"..user_list[i].gender.."\n"..
 						"身份证\t\t\t\t :"..user_list[i].idnumber.."\n"..
 						"微信号\t\t\t\t :"..user_list[i].wx.."\n"..
 						"销售人员\t:"..user_list[i].sellname.."\n"..

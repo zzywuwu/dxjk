@@ -162,11 +162,13 @@ var customer_remove_module = function() {
         sOut += '<tr><td>微信号:</td><td>'+aData.wx+'</td></tr>';
         sOut += '<tr><td>销售员:</td><td>'+aData.sellname+'</td></tr>';
         sOut += '<tr><td>客户类型:</td><td>'+aData.customer_type+'</td></tr>';
-        if (aData.customer_type == GLOBAL.YUNMM) {
-        	
+        if (aData.customer_type == GLOBAL.YUNMM) {     	
         	sOut += '<tr><td>末次月经:</td><td>'+aData.last_menses_time+'</td></tr>';
 			sOut += '<tr><td>预产期:</td><td>'+aData.due_time+'</td></tr>';
 			sOut += '<tr><td>建卡医生:</td><td>'+aData.doctor_name+'</td></tr>';
+        }
+        else {
+        	sOut += '<tr><td>性别:</td><td>'+aData.gender+'</td></tr>';	
         }
         sOut += '<tr><td>身份证:</td><td>'+aData.idnumber+'</td></tr>';
         sOut += '<tr><td>地址:</td><td>'+aData.address+'</td></tr>';

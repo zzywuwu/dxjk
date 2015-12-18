@@ -65,14 +65,15 @@ local function Execute(post)
 	local _customer_type = post.web.customer_type
 	local _height = post.web.height
 	local _weight = post.web.weight
+	local _gender = post.web.gender
 
 	local _query_sql
 	if (post.web.customer_type == "孕妈妈") then
 	
-		_query_sql = "insert into customer (name,phonenumber,doctor_name,sellname,due_time,idnumber,wx,last_menses_time,age,address,familyname,familyphonenumber,remarks,customer_type,height,weight) value("..ngx.quote_sql_str(_name)..","..ngx.quote_sql_str(_phonenumber)..","..ngx.quote_sql_str(_doctor_name)..","..ngx.quote_sql_str(_sellname)..","..ngx.quote_sql_str(_due_time)..","..ngx.quote_sql_str(_idnumber)..","..ngx.quote_sql_str(_wx)..","..ngx.quote_sql_str(_last_menses_time)..","..ngx.quote_sql_str(_age)..","..ngx.quote_sql_str(_address)..","..ngx.quote_sql_str(_familyname)..","..ngx.quote_sql_str(_familyphonenumber)..","..ngx.quote_sql_str(_remarks)..","..ngx.quote_sql_str(_customer_type)..","..ngx.quote_sql_str(_height)..","..ngx.quote_sql_str(_weight)..")" 
+		_query_sql = "insert into customer (name,phonenumber,doctor_name,sellname,due_time,idnumber,wx,last_menses_time,age,address,familyname,familyphonenumber,remarks,customer_type,height,weight,gender) value("..ngx.quote_sql_str(_name)..","..ngx.quote_sql_str(_phonenumber)..","..ngx.quote_sql_str(_doctor_name)..","..ngx.quote_sql_str(_sellname)..","..ngx.quote_sql_str(_due_time)..","..ngx.quote_sql_str(_idnumber)..","..ngx.quote_sql_str(_wx)..","..ngx.quote_sql_str(_last_menses_time)..","..ngx.quote_sql_str(_age)..","..ngx.quote_sql_str(_address)..","..ngx.quote_sql_str(_familyname)..","..ngx.quote_sql_str(_familyphonenumber)..","..ngx.quote_sql_str(_remarks)..","..ngx.quote_sql_str(_customer_type)..","..ngx.quote_sql_str(_height)..","..ngx.quote_sql_str(_weight)..","..ngx.quote_sql_str("女")..")" 
 	else
 
-		_query_sql = "insert into customer (name,phonenumber,doctor_name,sellname,idnumber,wx,age,address,familyname,familyphonenumber,remarks,customer_type,height,weight) value("..ngx.quote_sql_str(_name)..","..ngx.quote_sql_str(_phonenumber)..","..ngx.quote_sql_str(_doctor_name)..","..ngx.quote_sql_str(_sellname)..","..ngx.quote_sql_str(_idnumber)..","..ngx.quote_sql_str(_wx)..","..ngx.quote_sql_str(_age)..","..ngx.quote_sql_str(_address)..","..ngx.quote_sql_str(_familyname)..","..ngx.quote_sql_str(_familyphonenumber)..","..ngx.quote_sql_str(_remarks)..","..ngx.quote_sql_str(_customer_type)..","..ngx.quote_sql_str(_height)..","..ngx.quote_sql_str(_weight)..")" 
+		_query_sql = "insert into customer (name,phonenumber,doctor_name,sellname,idnumber,wx,age,address,familyname,familyphonenumber,remarks,customer_type,height,weight,gender) value("..ngx.quote_sql_str(_name)..","..ngx.quote_sql_str(_phonenumber)..","..ngx.quote_sql_str(_doctor_name)..","..ngx.quote_sql_str(_sellname)..","..ngx.quote_sql_str(_idnumber)..","..ngx.quote_sql_str(_wx)..","..ngx.quote_sql_str(_age)..","..ngx.quote_sql_str(_address)..","..ngx.quote_sql_str(_familyname)..","..ngx.quote_sql_str(_familyphonenumber)..","..ngx.quote_sql_str(_remarks)..","..ngx.quote_sql_str(_customer_type)..","..ngx.quote_sql_str(_height)..","..ngx.quote_sql_str(_weight)..","..ngx.quote_sql_str(_gender)..")" 
 
 	end
 

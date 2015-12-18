@@ -167,6 +167,9 @@ var customermodule = function() {
 			sOut += '<tr><td>预产期:</td><td>'+aData.due_time+'</td></tr>';
 			sOut += '<tr><td>建卡医生:</td><td>'+aData.doctor_name+'</td></tr>';
         }
+        else {
+        	sOut += '<tr><td>性别:</td><td>'+aData.gender+'</td></tr>';	
+        }
         sOut += '<tr><td>身份证:</td><td>'+aData.idnumber+'</td></tr>';
         sOut += '<tr><td>地址:</td><td>'+aData.address+'</td></tr>';
         sOut += '<tr><td>身高:</td><td>'+((aData.height!=null)?aData.height:'')+'</td></tr>';
@@ -352,6 +355,7 @@ var customermodule = function() {
 					submitData.due_time = form.kf_due_time.value;
 					submitData.idnumber = form.kf_idnumber.value;
 					submitData.wx = form.kf_wx.value;
+					submitData.gender = jQuery('#kf_gender').val();
 					submitData.last_menses_time = form.kf_last_menses_time.value;
 					submitData.sellname = jQuery('#kf_sellname').val();
 					submitData.customer_type = jQuery('#kf_customer_type').val();
@@ -382,9 +386,11 @@ var customermodule = function() {
 				$(".kf-form .modal-body .ymm_group").removeClass('success').removeClass('error');
 	         	if (GLOBAL.YUNMM == $(this).val()){
 					jQuery('.kf-form .modal-body .ymm_group').show(100);
+					jQuery('.kf-form .modal-body .normal_group').hide(100);
 				}
 				else {
 					jQuery('.kf-form .modal-body .ymm_group').hide(100);
+					jQuery('.kf-form .modal-body .normal_group').show(100);
 				}
             });
 
@@ -565,11 +571,14 @@ var customermodule = function() {
 								$("#kf_due_time").val(arr[0].due_time);
 								$("#kf_last_menses_time").val(arr[0].last_menses_time);
 								jQuery('.kf-form .modal-body .ymm_group').show(100);
+								jQuery('.kf-form .modal-body .normal_group').hide(100);
 								$("#kf_doctor_name").val(arr[0].doctor_name);
 							}
 							else {
 								jQuery('.kf-form .modal-body .ymm_group').hide(100);
+								jQuery('.kf-form .modal-body .normal_group').show(100);
 								$("#kf_doctor_name").val("");
+								$("#kf_gender").val(arr[0].gender);
 							}
 							return false;
 						}
