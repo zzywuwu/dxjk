@@ -6,11 +6,11 @@ local function MysqlCallback(res)
 		}
 	}
 
-	local current_time_ = os.time()
+	local current_time = os.time()
 	for i=1,#res do
 		if (res[i].customer_type == "孕妈妈") then
-			local last_menses_time = res[i].last_menses_time;
-			local due_time = res[i].due_time;
+			local last_menses_time = res[i].last_menses_time
+			local due_time = res[i].due_time
 
 			local year_ = string.sub(last_menses_time,1,4)
 			local month_ = string.sub(last_menses_time,6,7)
