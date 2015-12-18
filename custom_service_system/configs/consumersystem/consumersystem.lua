@@ -115,19 +115,19 @@ function GetSecondDayInfo()
     local info = "明天 ("..tommorow.." 星期"
 
     if tommorowday == 0 then
-        info = info .. "天) 工作内容:"
+        info = info .. "天) :"
     elseif tommorowday == 1 then
-        info = info .. "一) 工作内容:"
+        info = info .. "一) :"
     elseif tommorowday == 2 then
-        info = info .. "二) 工作内容:"
+        info = info .. "二) :"
     elseif tommorowday == 3 then
-        info = info .. "三) 工作内容:"
+        info = info .. "三) :"
     elseif tommorowday == 4 then
-        info = info .. "四) 工作内容:"
+        info = info .. "四) :"
     elseif tommorowday == 5 then
-        info = info .. "五) 工作内容:"
+        info = info .. "五) :"
     elseif tommorowday == 6 then
-        info = info .. "六) 工作内容:"
+        info = info .. "六) :"
     end
  
     local str_sql = "select record.*,customer.name as customer_name from record,customer where (customer.id = record.customer_id and customer.vip < 2 and record.visit_date >= '"..tommorow_start.."' and record.visit_date < '"..tommorow_end.."' and record.status = 0) order by record.visit_time asc"

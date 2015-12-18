@@ -1,3 +1,15 @@
+local function get_customer_vip(vip)
+	if (vip == 0) then
+		return " (预签)"
+	elseif (vip == 1) then
+		return " (会员)"
+	elseif (vip == 2) then
+		return " (过期)"
+	else
+		return ""
+	end
+end
+
 local function QueryKey(res)
 
 	local _jsontbl = {
@@ -15,7 +27,8 @@ local function QueryKey(res)
 	local user_list = res
 
 	for i=1,#user_list do
-		local str = "姓名\t\t: "..user_list[i].name.."\n"..
+		local str = "姓名\t\t: "..user_list[i].name..get_customer_vip(user_list[i].vip).."\n"..
+					"类型\t\t: "..user_list[i].customer_type.."\n"..
 					"年龄\t\t: "..user_list[i].age.."\n"..
 					"电话\t\t: "..user_list[i].phonenumber.."\n"
 					
@@ -50,7 +63,7 @@ local function Execute(post)
 		local user_list = res
 
 		if #user_list == 0 then
-			local _query_sql = "select * from customer where vip < 2 and name LIKE '%".._key.."%'"
+			local _query_sql = "select * from customer where name LIKE '%".._key.."%'"
 			DEBUG("wx_serach_customer: " .. _query_sql)
 			return mysql.query(cloud_database, _query_sql, QueryKey)
 		end
@@ -62,26 +75,37 @@ local function Execute(post)
 			}
 		}
 		
-		local current_time_ = os.time()
-		for i=1,#res do
-			local strtime = res[i].last_menses_time;
-			local date_ = string.sub(strtime, 1, string.find(strtime, " ") - 1)
-			local year_ = string.sub(date_,1,4)
-			local month_ = string.sub(date_,6,7)
-			local day_ = string.sub(date_,9,10)
-			local tab = {year=tonumber(year_), month=tonumber(month_), day=tonumber(day_), hour=0,min=0,sec=0,isdst=false}
-			local time_ = os.time(tab)
-			local diffsecond = os.difftime(current_time_,time_)
+		local current_time = os.time()
+		local function cal_weeks(user,last_menses_time,due_time)
+			local year_ = string.sub(last_menses_time,1,4)
+			local month_ = string.sub(last_menses_time,6,7)
+			local day_ = string.sub(last_menses_time,9,10)
+			local tab_ = {year=tonumber(year_), month=tonumber(month_), day=tonumber(day_), hour=0,min=0,sec=0,isdst=false}
+			local time_ = os.time(tab_)
+
+			local year__ = string.sub(due_time,1,4)
+			local month__ = string.sub(due_time,6,7)
+			local day__ = string.sub(due_time,9,10)
+			local tab__ = {year=tonumber(year__), month=tonumber(month__), day=tonumber(day__), hour=0,min=0,sec=0,isdst=false}
+			local time__ = os.time(tab__)
+
+			local diffsecond
+			if (time__ > current_time) then
+				diffsecond = os.difftime(current_time,time_)
+			else
+				diffsecond = os.difftime(time__,time_)
+			end
+
 			local diffday = math.floor(diffsecond/(24*60*60)) + 1
 			local diffweeks = math.floor(diffday/7).." + "..diffday%7
-			user_list[i]["diffweeks"] = diffweeks
-			user_list[i]["diffdays"] = diffweeks
+			user["diffweeks"] = diffweeks		
 		end
 
 		for i=1,#user_list do
 			local str = ""
 			if (user_list[i].customer_type == "孕妈妈") then
-				str = 	"姓名\t\t\t\t\t\t\t\t: "..user_list[i].name.."\n"..
+				cal_weeks(user_list[i],user_list[i].last_menses_time)
+				str = 	"姓名\t\t\t\t\t\t\t\t: "..user_list[i].name..get_customer_vip(user_list[i].vip).."\n"..
 						"年龄\t\t\t\t\t\t\t\t: "..user_list[i].age.."\n"..
 						"电话\t\t\t\t\t\t\t\t:"..user_list[i].phonenumber.."\n"..
 						"身份证\t\t\t\t :"..user_list[i].idnumber.."\n"..
@@ -89,13 +113,14 @@ local function Execute(post)
 						"销售人员\t:"..user_list[i].sellname.."\n"..
 						"孕周\t\t\t\t\t\t\t\t: "..user_list[i].diffweeks.."\n"..
 						"建卡医生\t: "..user_list[i].doctor_name.."\n"..
-						"预产期\t\t\t\t : "..string.sub(user_list[i].due_time,1,11).."\n"..
-						"末次月经\t: "..string.sub(user_list[i].last_menses_time,1,11).."\n"..
+						"预产期\t\t\t\t : "..user_list[i].due_time.."\n"..
+						"末次月经\t: "..user_list[i].last_menses_time.."\n"..
 						"家属\t\t\t\t\t\t\t\t: "..user_list[i].familyname.."\n"..
 						"家属电话\t: "..user_list[i].familyphonenumber.."\n"..
-						"地址\t\t\t\t\t\t\t\t: "..user_list[i].address.."\n"
+						"地址\t\t\t\t\t\t\t\t: "..user_list[i].address.."\n"..
+						"备注\t\t\t\t\t\t\t\t: "..user_list[i].remakrs.."\n"
 			else
-				str = 	"姓名\t\t\t\t\t\t\t\t: "..user_list[i].name.."\n"..
+				str = 	"姓名\t\t\t\t\t\t\t\t: "..user_list[i].name..get_customer_vip(user_list[i].vip).."\n"..
 						"年龄\t\t\t\t\t\t\t\t: "..user_list[i].age.."\n"..
 						"电话\t\t\t\t\t\t\t\t:"..user_list[i].phonenumber.."\n"..
 						"性别\t\t\t\t\t\t\t\t:"..user_list[i].gender.."\n"..
@@ -104,7 +129,8 @@ local function Execute(post)
 						"销售人员\t:"..user_list[i].sellname.."\n"..
 						"家属\t\t\t\t\t\t\t\t: "..user_list[i].familyname.."\n"..
 						"家属电话\t: "..user_list[i].familyphonenumber.."\n"..
-						"地址\t\t\t\t\t\t\t\t: "..user_list[i].address.."\n"
+						"地址\t\t\t\t\t\t\t\t: "..user_list[i].address.."\n"..
+						"备注\t\t\t\t\t\t\t\t: "..user_list[i].remakrs.."\n"
 
 			end		
 			table.insert(_jsontbl.web.user_info,str)
@@ -113,7 +139,7 @@ local function Execute(post)
 		return _jsontbl
 	end
 	
-	local _query_sql = "select * from customer where vip < 2 and (phonenumber = "..ngx.quote_sql_str(_key).." or name = "..ngx.quote_sql_str(_key)..")"
+	local _query_sql = "select * from customer where (phonenumber = "..ngx.quote_sql_str(_key).." or name = "..ngx.quote_sql_str(_key)..")"
 
 	INFO("wx_serach_customer: " .. _query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)
