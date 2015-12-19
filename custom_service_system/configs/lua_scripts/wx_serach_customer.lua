@@ -104,7 +104,7 @@ local function Execute(post)
 		for i=1,#user_list do
 			local str = ""
 			if (user_list[i].customer_type == "孕妈妈") then
-				cal_weeks(user_list[i],user_list[i].last_menses_time)
+				cal_weeks(user_list[i],user_list[i].last_menses_time,user_list[i].due_time)
 				str = 	"姓名\t\t\t\t\t\t\t\t: "..user_list[i].name..get_customer_vip(user_list[i].vip).."\n"..
 						"年龄\t\t\t\t\t\t\t\t: "..user_list[i].age.."\n"..
 						"电话\t\t\t\t\t\t\t\t:"..user_list[i].phonenumber.."\n"..
@@ -118,7 +118,7 @@ local function Execute(post)
 						"家属\t\t\t\t\t\t\t\t: "..user_list[i].familyname.."\n"..
 						"家属电话\t: "..user_list[i].familyphonenumber.."\n"..
 						"地址\t\t\t\t\t\t\t\t: "..user_list[i].address.."\n"..
-						"备注\t\t\t\t\t\t\t\t: "..user_list[i].remakrs.."\n"
+						"备注\t\t\t\t\t\t\t\t: "..user_list[i].remarks.."\n"
 			else
 				str = 	"姓名\t\t\t\t\t\t\t\t: "..user_list[i].name..get_customer_vip(user_list[i].vip).."\n"..
 						"年龄\t\t\t\t\t\t\t\t: "..user_list[i].age.."\n"..
@@ -130,7 +130,7 @@ local function Execute(post)
 						"家属\t\t\t\t\t\t\t\t: "..user_list[i].familyname.."\n"..
 						"家属电话\t: "..user_list[i].familyphonenumber.."\n"..
 						"地址\t\t\t\t\t\t\t\t: "..user_list[i].address.."\n"..
-						"备注\t\t\t\t\t\t\t\t: "..user_list[i].remakrs.."\n"
+						"备注\t\t\t\t\t\t\t\t: "..user_list[i].remarks.."\n"
 
 			end		
 			table.insert(_jsontbl.web.user_info,str)

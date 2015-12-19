@@ -93,8 +93,8 @@ config:
 	\cp -rf configs/lua_scripts/ $(PREFIX_DIR); \
 	\cp -rf configs/html/ $(PREFIX_DIR); \
 	\cp -rf configs/consumersystem/consumersystem.lua $(PREFIX_DIR)/sbin/; \
-	\cp -rf	startup/system_start $(PREFIX_DIR)/sbin/; \
-	\chmod +x $(PREFIX_DIR)/sbin/system_start; \
+	\cp -rf	startup/startup.lua $(PREFIX_DIR)/sbin/; \
+	\chmod +x $(PREFIX_DIR)/sbin/startup.lua; \
 	mkdir $(PREFIX_DIR)/html/temp; \
 	mkdir $(PREFIX_DIR)/html/temp/file; \
 	mkdir $(PREFIX_DIR)/html/temp/log; \
