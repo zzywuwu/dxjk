@@ -94,7 +94,9 @@ config:
 	\cp -rf configs/html/ $(PREFIX_DIR); \
 	\cp -rf configs/consumersystem/consumersystem.lua $(PREFIX_DIR)/sbin/; \
 	\cp -rf	startup/startup.lua $(PREFIX_DIR)/sbin/; \
+	\cp -rf	db/backupdb.lua $(PREFIX_DIR)/sbin/; \
 	\chmod +x $(PREFIX_DIR)/sbin/startup.lua; \
+	\chmod +x $(PREFIX_DIR)/sbin/backupdb.lua; \
 	mkdir $(PREFIX_DIR)/html/temp; \
 	mkdir $(PREFIX_DIR)/html/temp/file; \
 	mkdir $(PREFIX_DIR)/html/temp/log; \
