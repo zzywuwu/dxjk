@@ -28,9 +28,9 @@ end
 
 
 local function DeleteData()
-    local command = string.format("find %s -name \"*.sql\" -type f -mtime +21 -exec rm {} \; > /dev/null 2>&1",full_path)
+    local command = string.format("find %s -name \"*.sql\" -type f -mtime +4 -exec rm {} \; > /dev/null 2>&1",full_path)
     os.execute(command)
-    command = string.format("find %s -name \"dtjx-bin.*\" -type f -mtime +21 -exec rm {} \; > /dev/null 2>&1",increment_path)
+    command = string.format("find %s -name \"dtjx-bin.*\" -type f -mtime +4 -exec rm {} \; > /dev/null 2>&1",increment_path)
     os.execute(command)
 end
 
@@ -41,10 +41,12 @@ local function BackupIncDB(time)
     local min = date.min
     local wday = date.wday
         if hour*60+min - 300 >= 0 and hour*60+min - 310 < 0 then
-            local day_3_ago = os.date("*t", time-60*60*24*3)
+            local day_3_ago = os.date("*t", time-60*60*24*2)
             local day_3_ago_str = day_3_ago.year..day_3_ago.month..day_3_ago.day..day_3_ago.hour..day_3_ago.min..day_3_ago.sec
             local command = "mysqladmin -uroot flush-logs && mysql -uroot -e \"purge master logs before "..day_3_ago_str.."\""
             os.execute(command)
+	    command = "echo "..command
+	    os.execute(command)
             command = "cp /var/logs/mysql/dtjx-bin.* "..increment_path
             os.execute(command)
             command = "echo "..date.year.."-"..date.month.."-"..date.day.."-"..date.hour.."-"..date.min.."-"..date.sec.." Done Increament Backup >> "..increment_path.."incdb.log"
