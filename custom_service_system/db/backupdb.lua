@@ -40,19 +40,19 @@ local function BackupIncDB(time)
     local hour = date.hour
     local min = date.min
     local wday = date.wday
-        if hour*60+min - 300 >= 0 and hour*60+min - 310 < 0 then
-            local day_3_ago = os.date("*t", time-60*60*24*2)
-            local day_3_ago_str = day_3_ago.year..day_3_ago.month..day_3_ago.day..day_3_ago.hour..day_3_ago.min..day_3_ago.sec
-            local command = "mysqladmin -uroot flush-logs && mysql -uroot -e \"purge master logs before "..day_3_ago_str.."\""
-            os.execute(command)
-	    command = "echo "..command
-	    os.execute(command)
-            command = "cp /var/logs/mysql/dtjx-bin.* "..increment_path
-            os.execute(command)
-            command = "echo "..date.year.."-"..date.month.."-"..date.day.."-"..date.hour.."-"..date.min.."-"..date.sec.." Done Increament Backup >> "..increment_path.."incdb.log"
-            os.execute(command)
-            DeleteData()
-        end
+    if hour*60+min - 300 >= 0 and hour*60+min - 310 < 0 then
+        local day_2_ago = os.date("*t", time-60*60*24*2)
+        local day_2_m = string.format("%02d",day_2_ago.month)
+        local day_2_d = string.format("%02d",day_2_ago.day)
+        local day_2_ago_str = day_2_ago.year..day_2_m..day_2_d
+        local command = "mysqladmin -uroot flush-logs && mysql -uroot -e \"purge master logs before "..day_2_ago_str.."\""
+        os.execute(command)
+        command = "cp /var/logs/mysql/dtjx-bin.* "..increment_path
+        os.execute(command)
+        command = "echo "..date.year.."-"..date.month.."-"..date.day.."-"..date.hour.."-"..date.min.."-"..date.sec.." Done Increament Backup >> "..increment_path.."incdb.log"
+        os.execute(command)
+        DeleteData()
+    end
 end
 
 -------------------------main---------------------
