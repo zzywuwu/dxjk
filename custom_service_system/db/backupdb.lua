@@ -28,9 +28,9 @@ end
 
 
 local function DeleteData()
-    local command = string.format("find %s -name \"*.sql\" -type f -mtime +4 -exec rm {} \; > /dev/null 2>&1",full_path)
+    local command = string.format("find %s -name \"*.sql\" -type f -mtime +3 -exec rm {} \\; > /dev/null 2>&1",full_path)
     os.execute(command)
-    command = string.format("find %s -name \"dtjx-bin.*\" -type f -mtime +4 -exec rm {} \; > /dev/null 2>&1",increment_path)
+    command = string.format("find %s -name \"dtjx-bin.*\" -type f -mtime +3 -exec rm {} \\; > /dev/null 2>&1",increment_path)
     os.execute(command)
 end
 
