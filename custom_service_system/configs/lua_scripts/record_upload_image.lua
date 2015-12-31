@@ -49,13 +49,14 @@ local function Execute(post)
 			},
 			web = {
 				error = WEBERR.NO_ERR,
-				image = _new_image_json
+				user_info = res
 			}
 		}
 		return _jsontbl
 	end
 
-	local _query_sql = "select image from record where id = "..ngx.quote_sql_str(_record_id)
+	local _query_sql = "select *,customer.name as customer_name from record,customer where record.id = "..ngx.quote_sql_str(_record_id).." and customer.id = record.customer_id"
+	INFO(_query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)
 end
 

@@ -87,22 +87,46 @@
 			</div>
 
 			<div class="portlet-body light-grey">
-				<div class="row-fluid submit_start">
-					<form action="/data/lua" method="post" enctype="multipart/form-data" class="form-horizontal" id="submit_form">					
-						<input type="hidden" name="script" value="record_upload_image">
+
+				<div class="control-group" style="margin-bottom:30px;">
+					<div id="imginfo">
+						<span></span>
+					</div>
+				</div>
+
+				<div class="row-fluid submit_first">
+					<form action="" class="form-horizontal kf-form">				
+						
 						<div class="modal-body">
 							<div class="control-group">
 								<label class="control-label">
 									订单号：<span class="required">*</span>
 								</label>
 								<div >
-									<input type="text" class="form-control" id="record_id" name="record_id">
+									<input type="text" class="form-control" id="record_id_first" name="record_id_first">
 								</div>
 							</div>
 
 							<div class="control-group">
 								<label class="control-label">
-									重命名：<span class="required">*</span>
+								</label>	
+								<div >
+									<button type="submit" class="btn green btn-default" id="btn_submit">查询</button>
+								</div>
+							</div>
+							
+						</div>
+					</form>
+				</div>
+
+				<div class="row-fluid submit_start">
+					<form action="/data/lua" method="post" enctype="multipart/form-data" class="form-horizontal" id="submit_form">					
+						<input type="hidden" name="script" value="record_upload_image">
+						<div class="modal-body">
+							
+							<div class="control-group">
+								<label class="control-label">
+									新名称：<span class="required">*</span>
 								</label>
 								<div >
 									<input type="text" class="form-control" id="image_name" name="image_name">
@@ -139,7 +163,9 @@
 								<label class="control-label">
 								</label>	
 								<div >
+									<button type="button" class="btn green btn-default" id="return_query">返回</button>
 									<button type="submit" class="btn green btn-default" id="btn_submit">提交</button>
+									
 								</div>
 							</div>
 							<div class="control-group">
@@ -147,24 +173,24 @@
 									<input type="text" class="form-control" id="org_name" name="org_name">
 								</div>
 							</div>
+							<div class="control-group">
+								<div >
+									<input type="text" class="form-control" id="record_id" name="record_id">
+								</div>
+							</div>
 						</div>
 					</form>
 				</div>
 
 				<div class="row-fluid submit_end">
-					<div class="control-group image_start" id="upload_container">
+					<div class="control-group" id="upload_container">
 						<div class="progress progress-striped progress-success" style="width:320px;">
-							<div style="width: 0%;" class="bar"></div>
+							<div style="width: 1%;" class="bar"></div>
 							<div class="imgpercent hide">
 								<span></span>%
 							</div>
 						</div>
-						<div class="imginfo hide">
-							<span></span>
-						</div>
-					</div>
-					<div class="control-group image_end">
-						<div class="span4">
+						<div class="imgzoom span4 hide" style="margin-left:0px;">
 							<div class="item">
 								<a class="fancybox-button" data-rel="fancybox-button" title="Photo" id="photo_href" href=""> 
 									<!-- zoom 鼠标 移动上去有个放大镜的效果，手机上不爽。去掉zoom鼠标点击，依然有动态图效果-->
@@ -173,10 +199,10 @@
 										<!-- <div class="zoom-icon"></div> -->
 									<!-- </div> -->
 								</a>
-								
 							</div>
 						</div>
 					</div>
+					
 				</div>
 
 				<div class="row-fluid submit_end">
