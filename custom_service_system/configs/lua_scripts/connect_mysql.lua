@@ -24,7 +24,11 @@ local function query(database, query_str, callback)
 	end
 	_db:set_keepalive()
 	
-	return callback(_res)
+	if callback then
+		return callback(_res)
+	else
+		return
+	end
 end
 
 local function connect(props)

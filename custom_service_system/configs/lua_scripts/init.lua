@@ -40,6 +40,7 @@ local ac_modify = require("ac_modify")
 local ac_del = require("ac_del")
 local ac_get_list = require("ac_get_list")
 local wx_serach_customer = require("wx_serach_customer")
+local record_upload_image = require("record_upload_image")
 
 file_path = "/var/logs/"
 url_path = "/temp/file/"
@@ -88,12 +89,14 @@ funcsinit = {
 	record_modify = record_modify,
 	record_verify = record_verify,
 	record_get_list_verify = record_get_list_verify,
+	record_upload_image = record_upload_image,
 	record_review = record_review,
 	ac_add = ac_add,
 	ac_modify = ac_modify,
 	ac_del = ac_del,
 	ac_get_list = ac_get_list,
 	wx_serach_customer = wx_serach_customer
+	
 }
 
 g_privilege = {};
@@ -161,6 +164,15 @@ g_privilege[8] = {
 				value = 32,
 				--审核病历的权限 & 修改他人创建的未审核的病历
 			}
+
+-- g_privilege[9] = {
+-- 				value = 256,
+-- 				jsontbl = {
+-- 					title = "上传",
+-- 					url = "upload",
+-- 					img = "icon-dropbox"
+-- 				}
+-- 			}
 
 
 WEBERR = {

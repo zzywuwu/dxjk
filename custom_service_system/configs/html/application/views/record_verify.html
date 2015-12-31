@@ -38,12 +38,13 @@
 							<tr>						
 								<th>单号</th>
 								<th >姓名</th>
-								<th >就诊日期</th>
+								<th class="hidden-480">就诊日期</th>
 								<th class="hidden-480">陪诊人员</th>
 								<th class="hidden-480">就诊项目</th>	
 								<th class="hidden-480">备注</th>
 								<th class="hidden-480">就诊记录</th>
 								<th class="hidden-480">提交者</th>
+								<th class="hidden-480">图片</th>
 								<th>详情</th>
 								
 							</tr>
@@ -200,7 +201,14 @@
 							</div>
 						</div>
 
-
+						<div class="row-fluid">					
+							<div class="control-group">
+								<div class="item">
+									<a class="fancybox-button" data-rel="fancybox-button" href="/media/image/favicon.ico">
+									</a>
+								</div>
+							</div>	
+						</div>
 
 					</div>
 					<div class="modal-footer">
@@ -215,7 +223,7 @@
 	<script>
 
 		jQuery(document).ready(function() {       
-		   
+		 
 		   verifyrecordmodule.init();
 
 		});

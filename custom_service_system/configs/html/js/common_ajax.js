@@ -97,49 +97,31 @@ var TendaAjax = function(){
 			
 		},
 
-		uploadFile: function($form, filecontainerId, submitData, successfunc, errorfunc) {
-			var $infoContainer = $(filecontainerId);
-			var progress_info = $infoContainer.find(".upload-progress");
-			var progress = $infoContainer.find(".progress");
-			var bar = $infoContainer.find(".bar");
+		uploadFile: function($form, submitData, successfunc, errorfunc) {
+			
 			var options = {
 			 	beforeSend: function() {
-			 		//$(filecontainerId).html("上传中...");
+			 		
 			 	},
 			 	uploadProgress: function(event, position, total, percentComplete) {
-			 		if(progress_info.hasClass('hide')) {
-			 			progress_info.removeClass("hide");
-			 			progress.removeClass('hide');
-			 		}
-
-			 		progress_info.find("span").html(percentComplete);
-
-			 		progress.find(".bar").css("width", percentComplete + '%');
-
+			 		$('#upload_container .bar').css("width", percentComplete + '%');
+            		$('#upload_container .imgpercent').removeClass("hide");
+            		$('#upload_container .imgpercent span').html(percentComplete);
 			 	},
 			 	data: submitData,
 			 	dataType: 'json',
-			 	error: function(data) {
-			 		
-			 		$infoContainer.find(".upload-info").html("上传失败");
+			 	error: function(data) {			 		
+					errorfunc(data);
 			 	},
 			 	success: function(data) {
-			 		$infoContainer.find(".upload-info").html("上传成功");
-
-			 		progress_info.find("span").html(100);
-
-			 		progress.find(".bar").css("width", 100 + '%');
-
-			 		if(typeof successfunc == "function") {
-			 			successfunc(data);
-			 		}
+			 		successfunc(data);
 			 	},
 				complete: function(xhr, textStatus) {
 					xhr = null;
 				}
-			 };
+			};
 
-		 $form.ajaxSubmit(options);
+		 	$form.ajaxSubmit(options);
 		}
 
 	} 

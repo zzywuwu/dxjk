@@ -93,6 +93,28 @@ var verifyrecordmodule = function() {
 							{
 								"aTargets":[8],
 								"mRender":function(data, type, full){
+									var obj = jQuery.parseJSON(full.image);
+									if (Array.isArray(obj)) {
+										Gallery.init();
+										var img = '';				
+										for (var i = 0; i < obj.length; i++) {
+											var path = obj[i];
+											var arr = obj[i].split('_',2);
+											var file = arr[1].split('.',2);
+											if (i == 0)
+												var str = '<a class="fancybox-button" data-rel="fancybox-button" title="' +file[0]+ '" href="/temp/file/' +path+ '">' +obj.length+ '</a>';
+											else
+												var str = '<a class="fancybox-button" data-rel="fancybox-button" title="' +file[0]+ '" href="/temp/file/' +path+ '"></a>';
+											img += str;
+										}
+										return img;	
+									}
+									return "";
+								}
+							},
+							{
+								"aTargets":[9],
+								"mRender":function(data, type, full){
 									return "<span class='row-details row-details-close desc'></span>";
 								}
 							}
@@ -116,6 +138,7 @@ var verifyrecordmodule = function() {
 				{"mDataProp": "remarks","sClass":"hidden-480","sWidth":"200px"},
 				{"mDataProp": "result","sClass":"hidden-480","sWidth":"300px"},
 				{"mDataProp": "username","sClass":"hidden-480","sWidth":"60px"},
+				{"mDataProp": "image","sClass":"hidden-480","sWidth":"40px"},
 				{"mDataProp": "update_time","sWidth":"40px"}
 				]
 
@@ -153,6 +176,7 @@ var verifyrecordmodule = function() {
 			    		case 6:
 				    		str = arr[0].result;
 			    			break;
+			    		
 			    		default:
 			    			break;
 			    	}	
@@ -226,6 +250,7 @@ var verifyrecordmodule = function() {
 	}
 
 	var fnFormatDetails = function( oTable, nTr ) {
+		Gallery.init();
         var aData = oTable.fnGetData( nTr );
         var sOut = '<table>';
         sOut += '<tr><td style="width:100px;">姓名:</td><td>'+aData.customer_name+'</td></tr>';
@@ -241,6 +266,21 @@ var verifyrecordmodule = function() {
 		sOut += '<tr><td>就诊记录:</td><td>'+aData.result+'</td></tr>';
         sOut += '<tr><td>医嘱:</td><td>'+aData.doctor_advise+'</td></tr>';
         sOut += '<tr><td>备注:</td><td>'+aData.remarks+'</td></tr>';
+
+        var obj = jQuery.parseJSON(aData.image);
+		if (Array.isArray(obj)) {
+			if (obj.length != 0) {
+				sOut += '<tr><td>图片:</td><td>';				
+				for (var i = 0; i < obj.length; i++) {
+					var path = obj[i];
+					var arr = obj[i].split('_',2);
+					var file = arr[1].split('.',2);
+					var str = '<a class="fancybox-button" data-rel="fancybox-button" title="' +file[0]+ '" href="/temp/file/' +path+ '">' +file[0]+ '</a>';
+					sOut += "[" + str + "]" + "&nbsp&nbsp&nbsp&nbsp";
+				}	
+				sOut += '</td></tr>';	
+			}
+		}
 
    		var obj = jQuery.parseJSON(aData.fzinfo);
 		if (Array.isArray(obj)) {
@@ -265,7 +305,7 @@ var verifyrecordmodule = function() {
 			}
 			sOut += '</td></tr>';			
 		}
-	   
+
         sOut += '</table>';  
         return sOut;
     }

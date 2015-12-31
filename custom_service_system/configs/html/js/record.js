@@ -83,7 +83,7 @@ var recordmodule = function() {
 								}
 							},
 							{
-								"aTargets":[6],
+								"aTargets":[5],
 								"mRender":function(data, type, full){
 									if (data.length > 10) {
 										var str =  data.substr(0,10)+'..';
@@ -94,7 +94,7 @@ var recordmodule = function() {
 								}
 							},
 							{
-								"aTargets":[8],
+								"aTargets":[7],
 								"mRender":function(data, type, full){
 									if (data.length > 20) {
 										var str =  data.substr(0,20)+'..';
@@ -102,6 +102,28 @@ var recordmodule = function() {
 									}
 									else
 										return data;
+								}
+							},
+							{
+								"aTargets":[9],
+								"mRender":function(data, type, full){
+									var obj = jQuery.parseJSON(full.image);
+									if (Array.isArray(obj)) {
+										Gallery.init();
+										var img = '';				
+										for (var i = 0; i < obj.length; i++) {
+											var path = obj[i];
+											var arr = obj[i].split('_',2);
+											var file = arr[1].split('.',2);
+											if (i == 0)
+												var str = '<a class="fancybox-button" data-rel="fancybox-button" title="' +file[0]+ '" href="/temp/file/' +path+ '">' +obj.length+ '</a>';
+											else
+												var str = '<a class="fancybox-button" data-rel="fancybox-button" title="' +file[0]+ '" href="/temp/file/' +path+ '"></a>';
+											img += str;
+										}
+										return img;	
+									}
+									return "";
 								}
 							},
 							{
@@ -143,11 +165,11 @@ var recordmodule = function() {
 				{"mDataProp": "status","sWidth":"50px"},
 				{"mDataProp": "id","sWidth":"50px"},
 				{"mDataProp": "visit_date","sClass":"hidden-480","sWidth":"85px"},
-				{"mDataProp": "visit_time","sClass":"hidden-480","sWidth":"70px"},
 				{"mDataProp": "visit_type","sClass":"hidden-480","sWidth":"140px"},
 				{"mDataProp": "visit_doctor_name","sClass":"hidden-480","sWidth":"70px"},
 				{"mDataProp": "remarks","sClass":"hidden-480","sWidth":"300px"},
 				{"mDataProp": "user_id_name","sClass":"hidden-480","sWidth":"80px"},
+				{"mDataProp": "image","sClass":"hidden-480","sWidth":"40px"},
 				{"mDataProp": "review_time","sClass":"hidden-480","sWidth":"90px"},
 				{"mDataProp": "update_time","sWidth":"40px"}
 				]
@@ -175,13 +197,13 @@ var recordmodule = function() {
     		nTr.children().each(function(i,n){
     			if (obj == $(n).text()) {
     				switch(i) {
-			    		case 6:
+			    		case 5:
 			    			str = arr[0].visit_type;
 			    			break;
-			    		case 8:
+			    		case 7:
 				    		str = arr[0].remarks;
-			    			break;
-			    		
+				    		break;
+				    	
 			    		default:
 			    			break;
 			    	}	
@@ -199,6 +221,7 @@ var recordmodule = function() {
 	}
 
 	var fnFormatDetails = function( oTable, nTr ) {
+		Gallery.init();
         var aData = oTable.fnGetData( nTr );
         var sOut = '<table>';
 		sOut += '<tr><td style="width:100px;">就诊时间:</td><td>'+aData.visit_date+ ' '+ aData.visit_time + '</td></tr>';
@@ -229,6 +252,22 @@ var recordmodule = function() {
         	sOut += '<tr><td>就诊地址:</td><td>'+aData.visit_address+'</td></tr>';
         }
         sOut += '<tr><td>备注:</td><td>'+aData.remarks+'</td></tr>';  
+
+        var obj = jQuery.parseJSON(aData.image);
+		if (Array.isArray(obj)) {
+			if (obj.length != 0) {
+				sOut += '<tr><td>图片:</td><td>';				
+				for (var i = 0; i < obj.length; i++) {
+					var path = obj[i];
+					var arr = obj[i].split('_',2);
+					var file = arr[1].split('.',2);
+					var str = '<a class="fancybox-button" data-rel="fancybox-button" title="' +file[0]+ '" href="/temp/file/' +path+ '">' +file[0]+ '</a>';
+					sOut += "[" + str + "]" + "&nbsp&nbsp&nbsp&nbsp";
+				}	
+				sOut += '</td></tr>';	
+			}
+		}
+
         if (aData.status == 1) {
 	   		var obj = jQuery.parseJSON(aData.fzinfo);
 			if (Array.isArray(obj)) {

@@ -79,6 +79,19 @@ local function GetCache(model)
 	end
 end
 
+local function getFileName(str)  
+    local idx = str:match(".+()%.%w+$")  
+    if(idx) then  
+        return string.lower(str:sub(1, idx-1))  
+    else  
+        return string.lower(str)  
+    end  
+end 
+
+local function getExtension(str)
+    return string.lower(str:match(".+%.(%w+)$"))
+end
+
 local _M = {
 	ErrToJson = ErrToJson,
 	SuccessToJson = SuccessToJson,
@@ -86,7 +99,9 @@ local _M = {
 	BitAnd = BitAnd,
 	ClearCache = ClearCache,
 	SetCache = SetCache,
-	GetCache = GetCache
+	GetCache = GetCache,
+	getFileName = getFileName,
+	getExtension = getExtension
 }
 
 return _M

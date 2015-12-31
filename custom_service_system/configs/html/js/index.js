@@ -8,11 +8,11 @@ GLOBAL.PRIVILEGE = 0;
 
 jQuery(document).ready(function() {    
 
-   App.init(); // initlayout and core plugins
+    App.init(); // initlayout and core plugins
 
-   mainindex.initNavInfo();
+    mainindex.initNavInfo();
 
-   mainindex.initNavEvent();
+    mainindex.initNavEvent();
 
 });
 

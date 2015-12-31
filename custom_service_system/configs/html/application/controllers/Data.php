@@ -130,10 +130,10 @@ class Data extends CI_Controller {
 	{
 		$data = $this->input->post();
 		$file_name = $this->upload();
-		if(!empty($file_name)) {
-			$this->session->set_userdata('file', $file_name);
-		}
-
+		if ($file_name == false) {
+            echo '{"error":"失败"}';
+            return;
+        }
 		$this->session->set_userdata('now_time', time());
 		$code = $this->web_to_lua($data);
 		$r_code = $this->lua_to_web($code);
@@ -210,42 +210,45 @@ class Data extends CI_Controller {
         $web_json = json_encode($data_array['web'], false);
         return $web_json;
 	}
-    
+
     private function upload()
     {
-        $files = array();
-        //$config['upload_path']      = '/opt/nginx/html/temp/file/temp';
-        //$config['allowed_types']    = 'gif|jpg|png';
+        
         $config['allowed_types']    = '*';
         $config['max_size']     = 0;
         $config['overwrite'] = true;
-
-        //$this->load->library('upload', $config);
         $this->load->library('upload');
-        //print_r($_FILES);
-        $order_id = $this->input->post('id');
-            
+        
         foreach($_FILES as $key=>$val){
+            // $files = array();
+            $record_id = $this->input->post('record_id');
+            $new_name = $this->input->post('image_name');
             $filename = $_FILES[$key]['name'];
-            $config['file_name']  = $filename;
-            if (empty($order_id)) {
-                $config['upload_path'] = '/opt/nginx/html/temp/file/temp';
-            }else{
-                $config['upload_path'] = '/opt/nginx/html/temp/file/'.$order_id;
+            $filename_ext = strtolower(substr(strrchr($filename, '.'), 1));
+            if ($filename_ext != "jpg" && $filename_ext != "jpeg" && $filename_ext != "png" && $filename_ext != "gif") {
+                $errormsg = "filename = ".$filename." ext error!";
+                log_message('error',$errormsg);
+                return false; 
             }
+            $config['file_name']  = $record_id."_".$new_name.".".$filename_ext;
+            $config['file_type']  = ".".$filename_ext;
+            $config['upload_path'] = '/opt/nginx/html/temp/file';
 
             $this->upload->initialize($config);
-              
+            
             if(!$this->upload->do_upload($key)) {
                 if($this->upload->display_errors() != "<p>You did not select a file to upload.</p>") {
                     echo $this->upload->display_errors();
-                    return;
+                    $errormsg = "id = ".$record_id." filename = ".$filename." upload faild!";
+                    log_message('error',$errormsg);
+                    return false;
                 }
-			} else{
-                $data = array('upload_data' => $this->upload->data());
-                $files[$key] = $data['upload_data']['file_name'];
-        	    }	
-    	}
-        return $files;
+            } 
+            else {
+                // $data = array('upload_data' => $this->upload->data());
+                // $files[$key] = $data['upload_data']['file_name'];
+            }   
+        }
+        return true;
     }
 }

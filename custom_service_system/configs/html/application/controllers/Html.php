@@ -43,6 +43,10 @@ class Html extends CI_Controller {
 	{
 		$this->load->view('chpwd.html');
 	}
+	public function upload()
+	{
+		$this->load->view('upload.html');
+	}
 	public function view()
 	{
 		$page = $this->input->get("page", true);
