@@ -177,7 +177,7 @@ var vipmodule = function() {
         sOut += '<tr><td>体重:</td><td>'+aData.weight+'</td></tr>';
         sOut += '<tr><td>家属姓名:</td><td>'+aData.familyname+'</td></tr>';
         sOut += '<tr><td>家属电话:</td><td>'+aData.familyphonenumber+'</td></tr>';
-        sOut += '<tr><td>家属身高:</td><td>'+aData.familyheight+'</td></tr>';
+        sOut += '<tr><td>家属年龄:</td><td>'+aData.familyage+'</td></tr>';
         sOut += '<tr><td>会员签单日:</td><td>'+aData.order_time+'</td></tr>';
         sOut += '<tr><td>会员到期日:</td><td>'+aData.order_over_time+'</td></tr>';
         sOut += '<tr><td>备注:</td><td>'+aData.remarks+'</td></tr>';
@@ -250,8 +250,9 @@ var vipmodule = function() {
 	                kf_cordnumber : {
 	                	required: true	
 	                },
-	                kf_familyheight : {
-	                	number: true
+	                kf_familyage : {
+	                	maxlength: 2,
+	                    digits: true
 	                }	    
 	            },
 
@@ -294,8 +295,9 @@ var vipmodule = function() {
 	                kf_cordnumber : {
 	                	required:"必填"
 	                },
-	                kf_familyheight : {
-	                	number: "请输入数字"	
+	                kf_familyage : {
+	                	maxlength: "请输入最多2位数字",
+                        digits: "请输入数字"	
 	                }                                                             
                 },
 
@@ -346,7 +348,7 @@ var vipmodule = function() {
 					submitData.height = form.kf_height.value;
 					submitData.weight = form.kf_weight.value;
 					submitData.cordnumber = form.kf_cordnumber.value;
-					submitData.familyheight = form.kf_familyheight.value;
+					submitData.familyage = form.kf_familyage.value;
 					TendaAjax.getData(submitData, function(result){
 						if(result.error == GLOBAL.SUCCESS) {
 							initTableList();
@@ -446,7 +448,7 @@ var vipmodule = function() {
                 	$("#kf_remarks").val(arr[0].remarks);
                 	$("#kf_address").val(arr[0].address);
                 	$("#kf_cordnumber").val(arr[0].cordnumber);
-                	$("#kf_familyheight").val(arr[0].familyheight);	
+                	$("#kf_familyage").val(arr[0].familyage);	
                 	$("#kf_modal").modal("show");
                 }
                 else if (operation == "REMOVE") {

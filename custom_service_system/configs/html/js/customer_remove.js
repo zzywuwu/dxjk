@@ -177,7 +177,7 @@ var customer_remove_module = function() {
         sOut += '<tr><td>体重:</td><td>'+aData.weight+'</td></tr>';
         sOut += '<tr><td>家属姓名:</td><td>'+aData.familyname+'</td></tr>';
         sOut += '<tr><td>家属电话:</td><td>'+aData.familyphonenumber+'</td></tr>';
-        sOut += '<tr><td>家属身高:</td><td>'+aData.familyheight+'</td></tr>';
+        sOut += '<tr><td>家属年龄:</td><td>'+aData.familyage+'</td></tr>';
         sOut += '<tr><td>备注:</td><td>'+aData.remarks+'</td></tr>';
         sOut += '</table>';  
         return sOut;

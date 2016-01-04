@@ -69,7 +69,7 @@ local function Execute(post)
 	local _weight = post.web.weight
 	local _gender = post.web.gender
 	local _cordnumber = post.web.cordnumber
-	local _familyheight = post.web.familyheight
+	local _familyage = post.web.familyage
 
 	local _query_sql
 	if (post.web.customer_type == "孕妈妈") then
@@ -88,8 +88,8 @@ local function Execute(post)
 						.. ngx.quote_sql_str(_familyname) .. ", height = "
 						.. ngx.quote_sql_str(_height) .. ", weight = "
 						.. ngx.quote_sql_str(_weight) .. ", gender = "  
-						.. ngx.quote_sql_str("女") .. ", familyheight = "
-						.. ngx.quote_sql_str(_familyheight) .. ", cordnumber = "    
+						.. ngx.quote_sql_str("女") .. ", familyage = "
+						.. ngx.quote_sql_str(_familyage) .. ", cordnumber = "    
 						.. ngx.quote_sql_str(_cordnumber) .. ", familyphonenumber = "        
 						.. ngx.quote_sql_str(_familyphonenumber) .. " where id = " .. ngx.quote_sql_str(_id)
 	else
@@ -106,8 +106,8 @@ local function Execute(post)
 						.. ngx.quote_sql_str(_familyname) .. ", height = "
 						.. ngx.quote_sql_str(_height) .. ", weight = " 
 						.. ngx.quote_sql_str(_weight) .. ", gender = "  
-						.. ngx.quote_sql_str(_gender) .. ", familyheight = "   
-						.. ngx.quote_sql_str(_familyheight) .. ", cordnumber = "    
+						.. ngx.quote_sql_str(_gender) .. ", familyage = "   
+						.. ngx.quote_sql_str(_familyage) .. ", cordnumber = "    
 						.. ngx.quote_sql_str(_cordnumber) .. ", familyphonenumber = "    
 						.. ngx.quote_sql_str(_familyphonenumber) .. " where id = " .. ngx.quote_sql_str(_id)
 	end

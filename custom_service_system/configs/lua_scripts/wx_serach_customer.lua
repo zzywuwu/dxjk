@@ -118,7 +118,7 @@ local function Execute(post)
 						"末次月经\t: "..user_list[i].last_menses_time.."\n"..
 						"家属\t\t\t\t\t\t\t\t: "..user_list[i].familyname.."\n"..
 						"家属电话\t: "..user_list[i].familyphonenumber.."\n"..
-						"家属身高\t: "..user_list[i].familyheight.."\n"..
+						"家属年龄\t: "..user_list[i].familyage.."\n"..
 						"地址\t\t\t\t\t\t\t\t: "..user_list[i].address.."\n"..
 						"备注\t\t\t\t\t\t\t\t: "..user_list[i].remarks.."\n"
 			else
@@ -132,7 +132,7 @@ local function Execute(post)
 						"销售人员\t:"..user_list[i].sellname.."\n"..
 						"家属\t\t\t\t\t\t\t\t: "..user_list[i].familyname.."\n"..
 						"家属电话\t: "..user_list[i].familyphonenumber.."\n"..
-						"家属身高\t: "..user_list[i].familyheight.."\n"..
+						"家属年龄\t: "..user_list[i].familyage.."\n"..
 						"地址\t\t\t\t\t\t\t\t: "..user_list[i].address.."\n"..
 						"备注\t\t\t\t\t\t\t\t: "..user_list[i].remarks.."\n"
 
