@@ -55,6 +55,8 @@ local function Execute(post)
 	local _familyphonenumber = post.web.familyphonenumber
 	local _height = post.web.height
 	local _weight = post.web.weight
+	local _cordnumber = post.web.cordnumber
+	local _familyheight = post.web.familyheight
 	
 	local _query_sql = "update customer set update_time = NOW(), phonenumber = " 
 						.. ngx.quote_sql_str(_phonenumber) .. ", due_time = " 
@@ -69,7 +71,9 @@ local function Execute(post)
 						.. ngx.quote_sql_str(_address) .. ", familyname = " 
 						.. ngx.quote_sql_str(_familyname) .. ", height = "
 						.. ngx.quote_sql_str(_height) .. ", weight = " 
-						.. ngx.quote_sql_str(_weight) .. ", familyphonenumber = "    
+						.. ngx.quote_sql_str(_weight) .. ", familyheight = "    
+						.. ngx.quote_sql_str(_familyheight) .. ", cordnumber = "    
+						.. ngx.quote_sql_str(_cordnumber) .. ", familyphonenumber = "    
 						.. ngx.quote_sql_str(_familyphonenumber).. " where id = " .. ngx.quote_sql_str(_id)
 
 	DEBUG("vid_modify: " .. _query_sql)

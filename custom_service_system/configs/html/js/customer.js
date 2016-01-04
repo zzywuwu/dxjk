@@ -157,6 +157,7 @@ var customermodule = function() {
         var sOut = '<table>';
         sOut += '<tr><td style="width:100px;">姓名:</td><td>'+aData.name+'</td></tr>';
         sOut += '<tr><td>年龄:</td><td>'+aData.age+'</td></tr>';
+        sOut += '<tr><td>就诊卡号:</td><td>'+aData.cordnumber+'</td></tr>';
         sOut += '<tr><td>电话:</td><td>'+aData.phonenumber+'</td></tr>';
         sOut += '<tr><td>微信号:</td><td>'+aData.wx+'</td></tr>';
         sOut += '<tr><td>销售员:</td><td>'+aData.sellname+'</td></tr>';
@@ -172,10 +173,11 @@ var customermodule = function() {
         }
         sOut += '<tr><td>身份证:</td><td>'+aData.idnumber+'</td></tr>';
         sOut += '<tr><td>地址:</td><td>'+aData.address+'</td></tr>';
-        sOut += '<tr><td>身高:</td><td>'+((aData.height!=null)?aData.height:'')+'</td></tr>';
-        sOut += '<tr><td>体重:</td><td>'+((aData.weight!=null)?aData.height:'')+'</td></tr>';
+        sOut += '<tr><td>身高:</td><td>'+aData.height+'</td></tr>';
+        sOut += '<tr><td>体重:</td><td>'+aData.weight+'</td></tr>';
         sOut += '<tr><td>家属姓名:</td><td>'+aData.familyname+'</td></tr>';
         sOut += '<tr><td>家属电话:</td><td>'+aData.familyphonenumber+'</td></tr>';
+        sOut += '<tr><td>家属身高:</td><td>'+aData.familyheight+'</td></tr>';
         sOut += '<tr><td>备注:</td><td>'+aData.remarks+'</td></tr>';
         sOut += '</table>';  
         return sOut;
@@ -263,6 +265,12 @@ var customermodule = function() {
 	                },
 	                kf_remarks : {
 	                	maxlength: 1022
+	                },
+	                kf_cordnumber : {
+	                	required: true
+	                },
+	                kf_familyheight : {
+	                	number: true
 	                }
 	            },
 
@@ -315,7 +323,13 @@ var customermodule = function() {
 	                },
 	                kf_remarks : {
 	                	maxlength: "你输入的数据太多"
-	                }                                                  
+	                },
+	                kf_cordnumber : {
+	                	required:"必填"
+	                },
+	                kf_familyheight : {
+	                	number: "请输入数字"	
+	                }                                               
                 },
 
                 highlight: function (element) { // hightlight error inputs
@@ -366,6 +380,8 @@ var customermodule = function() {
 					submitData.age = form.kf_age.value;
 					submitData.height = form.kf_height.value;
 					submitData.weight = form.kf_weight.value;
+					submitData.cordnumber = form.kf_cordnumber.value;
+					submitData.familyheight = form.kf_familyheight.value;
 
 					TendaAjax.getData(submitData, function(result){
 						if(result.error == GLOBAL.SUCCESS) {
@@ -596,6 +612,8 @@ var customermodule = function() {
                 	$("#kf_age").val(arr[0].age);
                 	$("#kf_height").val(arr[0].height);
                 	$("#kf_weight").val(arr[0].weight);
+                	$("#kf_cordnumber").val(arr[0].cordnumber);
+                	$("#kf_familyheight").val(arr[0].familyheight);
                 	$("#kf_modal").modal("show");
 
                 } 

@@ -107,6 +107,7 @@ local function Execute(post)
 				cal_weeks(user_list[i],user_list[i].last_menses_time,user_list[i].due_time)
 				str = 	"姓名\t\t\t\t\t\t\t\t: "..user_list[i].name..get_customer_vip(user_list[i].vip).."\n"..
 						"年龄\t\t\t\t\t\t\t\t: "..user_list[i].age.."\n"..
+						"就诊卡号\t:"..user_list[i].cordnumber.."\n"..
 						"电话\t\t\t\t\t\t\t\t:"..user_list[i].phonenumber.."\n"..
 						"身份证\t\t\t\t :"..user_list[i].idnumber.."\n"..
 						"微信号\t\t\t\t :"..user_list[i].wx.."\n"..
@@ -117,11 +118,13 @@ local function Execute(post)
 						"末次月经\t: "..user_list[i].last_menses_time.."\n"..
 						"家属\t\t\t\t\t\t\t\t: "..user_list[i].familyname.."\n"..
 						"家属电话\t: "..user_list[i].familyphonenumber.."\n"..
+						"家属身高\t: "..user_list[i].familyheight.."\n"..
 						"地址\t\t\t\t\t\t\t\t: "..user_list[i].address.."\n"..
 						"备注\t\t\t\t\t\t\t\t: "..user_list[i].remarks.."\n"
 			else
 				str = 	"姓名\t\t\t\t\t\t\t\t: "..user_list[i].name..get_customer_vip(user_list[i].vip).."\n"..
 						"年龄\t\t\t\t\t\t\t\t: "..user_list[i].age.."\n"..
+						"就诊卡号\t:"..user_list[i].cordnumber.."\n"..
 						"电话\t\t\t\t\t\t\t\t:"..user_list[i].phonenumber.."\n"..
 						"性别\t\t\t\t\t\t\t\t:"..user_list[i].gender.."\n"..
 						"身份证\t\t\t\t :"..user_list[i].idnumber.."\n"..
@@ -129,6 +132,7 @@ local function Execute(post)
 						"销售人员\t:"..user_list[i].sellname.."\n"..
 						"家属\t\t\t\t\t\t\t\t: "..user_list[i].familyname.."\n"..
 						"家属电话\t: "..user_list[i].familyphonenumber.."\n"..
+						"家属身高\t: "..user_list[i].familyheight.."\n"..
 						"地址\t\t\t\t\t\t\t\t: "..user_list[i].address.."\n"..
 						"备注\t\t\t\t\t\t\t\t: "..user_list[i].remarks.."\n"
 

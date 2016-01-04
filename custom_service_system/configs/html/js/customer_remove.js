@@ -158,6 +158,7 @@ var customer_remove_module = function() {
         var sOut = '<table>';
         sOut += '<tr><td style="width:100px;">姓名:</td><td>'+aData.name+'</td></tr>';
         sOut += '<tr><td>年龄:</td><td>'+aData.age+'</td></tr>';
+        sOut += '<tr><td>就诊卡号:</td><td>'+aData.cordnumber+'</td></tr>';
         sOut += '<tr><td>电话:</td><td>'+aData.phonenumber+'</td></tr>';
         sOut += '<tr><td>微信号:</td><td>'+aData.wx+'</td></tr>';
         sOut += '<tr><td>销售员:</td><td>'+aData.sellname+'</td></tr>';
@@ -172,10 +173,11 @@ var customer_remove_module = function() {
         }
         sOut += '<tr><td>身份证:</td><td>'+aData.idnumber+'</td></tr>';
         sOut += '<tr><td>地址:</td><td>'+aData.address+'</td></tr>';
-        sOut += '<tr><td>身高:</td><td>'+((aData.height!=null)?aData.height:'')+'</td></tr>';
-        sOut += '<tr><td>体重:</td><td>'+((aData.weight!=null)?aData.height:'')+'</td></tr>';
+        sOut += '<tr><td>身高:</td><td>'+aData.height+'</td></tr>';
+        sOut += '<tr><td>体重:</td><td>'+aData.weight+'</td></tr>';
         sOut += '<tr><td>家属姓名:</td><td>'+aData.familyname+'</td></tr>';
         sOut += '<tr><td>家属电话:</td><td>'+aData.familyphonenumber+'</td></tr>';
+        sOut += '<tr><td>家属身高:</td><td>'+aData.familyheight+'</td></tr>';
         sOut += '<tr><td>备注:</td><td>'+aData.remarks+'</td></tr>';
         sOut += '</table>';  
         return sOut;
