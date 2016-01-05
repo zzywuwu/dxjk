@@ -47,7 +47,7 @@ local function BackupIncDB(time)
         local day_2_ago_str = day_2_ago.year..day_2_m..day_2_d
         local command = "mysql -uroot -e \"purge master logs before "..day_2_ago_str.."\""
         os.execute(command)
-        command = "cp /var/logs/mysql/dtjx-bin.* "..increment_path
+        command = "cp -a /var/logs/mysql/dtjx-bin.* "..increment_path
         os.execute(command)
         command = "echo "..date.year.."-"..date.month.."-"..date.day.."-"..date.hour.."-"..date.min.."-"..date.sec.." Done Increament Backup >> "..increment_path.."incdb.log"
         os.execute(command)
