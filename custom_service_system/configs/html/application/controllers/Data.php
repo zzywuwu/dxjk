@@ -162,7 +162,8 @@ class Data extends CI_Controller {
 	public function captcha()
 	{
 		$this->load->helper('captcha');
-		$word = strtoupper(substr(md5(rand()),0,4));
+		#$word = strtoupper(substr(md5(rand()),0,4));
+        $word = rand(1000,9999);
 		$vals = array(
 			'word'        => $word,
 			'img_path'    => './temp/captcha/',
