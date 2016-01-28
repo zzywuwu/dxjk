@@ -139,7 +139,6 @@ var sms_notify_module = function() {
         	$("#sms_info").val($(this).attr("sms_send_info"));    
         	$("#sms_info").attr("sms_id",$(this).attr("sms_id")); 	
         	$("#sms_info").attr("sms_phonenumber",$(this).attr("sms_phonenumber")); 	
-        	alert($(this).attr("sms_send_info"));
         	$("#sms_modal").modal("show");	
 		});
 

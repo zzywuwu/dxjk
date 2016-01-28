@@ -17,8 +17,11 @@ local function ParamCheck(post)
 end
 
 local function Execute(post)
-	
-	local _query_sql = "select record.*,customer.phonenumber As phonenumber,customer.name As customer_name,customer.gender As gender from customer,record where record.status = 0 and customer.id = record.customer_id and customer.vip < 2 order by update_time desc"
+	local date = os.date("*t",os.time()-60*60*24);
+	local yeset_day_str = date.year.."-"..date.month.."-"..date.day	
+	date = os.date("*t",os.time()+60*60*24*10);
+	local ten_day_str = date.year.."-"..date.month.."-"..date.day
+	local _query_sql = "select record.*,customer.phonenumber As phonenumber,customer.name As customer_name,customer.gender As gender from customer,record where record.status = 0 and customer.id = record.customer_id and customer.vip < 2 and record.visit_date > '"..yeset_day_str.."' and record.visit_date < '"..ten_day_str.."'"
 
 	DEBUG("sms_get_list: " .. _query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)
