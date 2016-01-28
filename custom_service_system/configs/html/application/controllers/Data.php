@@ -140,6 +140,41 @@ class Data extends CI_Controller {
 		echo $r_code;
 	}
 
+    public function smssend()
+    {
+        $data = $this->input->post();
+        $this->session->set_userdata('now_time', time());
+        session_write_close();
+        $ch = curl_init();
+        $url = "http://api.sczht.cc:8888/sms.aspx";
+        $content = $this->input->post('content');
+        log_message('error',$content);
+        $phonenumber = $this->input->post('phonenumber');
+        $message = "action=send&userid=846&account=dtjx&password=qnivdCyRj4nAABSUEaAa&mobile=".$phonenumber."&content=".$content."&sendTime=&extno=";
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true) ;      
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $message);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+        $r = curl_exec($ch);
+        curl_close($ch);
+        log_message('error',$r);
+        if(!empty($r)) {
+            $xml = simplexml_load_string($r);
+            $status = $xml->returnstatus;
+            $message = $xml->message;
+            $data['status'] = (string)$status;
+            $data['message'] = (string)$message;   
+        }
+        else {
+            $data['status'] = "Faild";
+            $data['message'] = "输入的格式不正确！";
+        }
+        $code = $this->web_to_lua($data);
+        $r_code = $this->lua_to_web($code);
+        echo $r_code;
+    }
+
     public function kfsub()
     {
         $channel = $this->input->get("name");
@@ -159,6 +194,7 @@ class Data extends CI_Controller {
         
         echo $r;
     }
+
 	public function captcha()
 	{
 		$this->load->helper('captcha');
@@ -207,7 +243,7 @@ class Data extends CI_Controller {
             foreach($data_array['session'] as $key=>$val) {
                 $CI->session->set_userdata($key,$val);
             }
-        }
+        }       
         $web_json = json_encode($data_array['web'], false);
         return $web_json;
 	}

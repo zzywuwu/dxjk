@@ -42,6 +42,9 @@ local ac_del = require("ac_del")
 local ac_get_list = require("ac_get_list")
 local wx_serach_customer = require("wx_serach_customer")
 local record_upload_image = require("record_upload_image")
+local sms_get_list = require("sms_get_list")
+local sms_send = require("sms_send")
+
 
 file_path = "/var/logs/"
 url_path = "/temp/file/"
@@ -97,6 +100,8 @@ funcsinit = {
 	ac_modify = ac_modify,
 	ac_del = ac_del,
 	ac_get_list = ac_get_list,
+	sms_get_list = sms_get_list,
+	sms_send = sms_send,
 	wx_serach_customer = wx_serach_customer
 	
 }
@@ -113,6 +118,15 @@ g_privilege[1] = {
 			}
 
 g_privilege[2] = {
+				value = 256,
+				jsontbl = {
+					title = "短信通知",
+					url = "sms_notify",
+					img = "icon-list-alt"
+				}
+			}
+
+g_privilege[3] = {
 				value = 2,
 				jsontbl = {
 					title = "会员管理",
@@ -121,7 +135,7 @@ g_privilege[2] = {
 				}
 			}
 
-g_privilege[3] = {
+g_privilege[4] = {
 				value = 4,
 				jsontbl = {
 					title = "预签客户",
@@ -130,7 +144,7 @@ g_privilege[3] = {
 				}
 			}
 
-g_privilege[4] = {
+g_privilege[5] = {
 				value = 64,
 				jsontbl = {
 					title = "陪诊记录",
@@ -139,21 +153,12 @@ g_privilege[4] = {
 				}
 			}
 
-g_privilege[5] = {
+g_privilege[6] = {
 				value = 8,
 				jsontbl = {
 					title = "人员管理",
 					url = "ac",
 					img = "icon-eye-open"
-				}
-			}
-
-g_privilege[6] = {
-				value = 128,
-				jsontbl = {
-					title = "过期客户",
-					url = "customer_remove",
-					img = "icon-dropbox"
 				}
 			}
 
@@ -167,14 +172,14 @@ g_privilege[8] = {
 				--审核病历的权限 & 修改他人创建的未审核的病历
 			}
 
--- g_privilege[9] = {
--- 				value = 256,
--- 				jsontbl = {
--- 					title = "上传",
--- 					url = "upload",
--- 					img = "icon-dropbox"
--- 				}
--- 			}
+g_privilege[9] = {
+				value = 128,
+				jsontbl = {
+					title = "过期客户",
+					url = "customer_remove",
+					img = "icon-dropbox"
+				}
+			}
 
 
 WEBERR = {
@@ -195,6 +200,7 @@ WEBERR = {
 	USER_PRIVILEGE_NOT_ENOUGH = "你没有权限进行此操作",
 	DEL_USER_SELF = "不能删除自己",
 	CUSTOMER_DONT_UP_VIP = "普通客户不能升级为会员",
-	DONT_DELETE_CUSTOMER = "拥有记录或事件不能删除"
+	DONT_DELETE_CUSTOMER = "拥有记录或事件不能删除",
+	SMS_SEND_ERR = "发送失败",
 }
 

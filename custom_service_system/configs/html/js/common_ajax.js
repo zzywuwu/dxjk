@@ -45,6 +45,29 @@ var TendaAjax = function(){
 			
 		},
 
+		smsSend: function(obj, func) {
+
+			jQuery.ajax({
+				url: '/data/smssend',
+				type: 'post',
+				dataType: 'json',
+				data: obj,
+				success: function(data) {
+					if (data.error == "长时间未操作,请重新登录"){
+			 			// alert(data.error);
+			 			window.location = "/html/login";
+			 		}
+			 		else
+						func(data);
+				},
+				complete: function(xhr, textStatus) {
+					xhr = null;
+				}
+			});
+			
+		},
+
+
 		getLoginout: function(obj, func) {
 
 			var longAjax = jQuery.ajax({
