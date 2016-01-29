@@ -20,7 +20,7 @@ var sms_notify_module = function() {
 			str += '先生：';
 		else
 			str += '女士：';
-		str += '请您于'+date+'日'+time+'到医院，项目：'+job+'，热线'+phone+'或17708009229';
+		str += '请您于'+date+'日'+time+'到医院，项目：'+job+'，联系电话'+phone+'，如有疑问请咨询18908182406';
 		return str;
 	}
 
