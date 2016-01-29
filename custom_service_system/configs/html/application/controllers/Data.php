@@ -98,7 +98,7 @@ class Data extends CI_Controller {
     	{
     		case "enter_agent":
 				$userid = $xml->getElementsByTagName('FromUserName')->item(0)->nodeValue;
-				$info = "1：输入手机号或姓名可以查询到客户的详细资料。\n\n2：输入名字中的任意一个字进行模糊查询,例如输入'君',即可查询出所有名字里含'君'字的客户。";
+				$info = "1：输入ID号,姓名,手机号,可以查询到客户的详细资料。\n\n2：输入名字中的任意一个字进行模糊查询,例如输入'君',即可查询出所有名字里含'君'字的客户。";
 				$this->sendmessage($info,$userid,$wxcpt);
 				break;
 			default:

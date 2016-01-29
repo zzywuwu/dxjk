@@ -27,7 +27,7 @@ local function QueryKey(res)
 	local user_list = res
 
 	for i=1,#user_list do
-		local str = "姓名\t\t: "..user_list[i].name..get_customer_vip(user_list[i].vip).."\n"..
+		local str = "姓名\t\t: "..user_list[i].name..get_customer_vip(user_list[i].vip).." ID:"..user_list[i].id.."\n"..
 					"类型\t\t: "..user_list[i].customer_type.."\n"..
 					"年龄\t\t: "..user_list[i].age.."\n"..
 					"电话\t\t: "..user_list[i].phonenumber.."\n"
@@ -105,7 +105,7 @@ local function Execute(post)
 			local str = ""
 			if (user_list[i].customer_type == "孕妈妈") then
 				cal_weeks(user_list[i],user_list[i].last_menses_time,user_list[i].due_time)
-				str = 	"姓名\t\t\t\t\t\t\t\t: "..user_list[i].name..get_customer_vip(user_list[i].vip).."\n"..
+				str = 	"姓名\t\t\t\t\t\t\t\t: "..user_list[i].name..get_customer_vip(user_list[i].vip).." ID:"..user_list[i].id.."\n"..
 						"年龄\t\t\t\t\t\t\t\t: "..user_list[i].age.."\n"..
 						"就诊卡号\t:"..user_list[i].cordnumber.."\n"..
 						"电话\t\t\t\t\t\t\t\t:"..user_list[i].phonenumber.."\n"..
@@ -122,7 +122,7 @@ local function Execute(post)
 						"地址\t\t\t\t\t\t\t\t: "..user_list[i].address.."\n"..
 						"备注\t\t\t\t\t\t\t\t: "..user_list[i].remarks.."\n"
 			else
-				str = 	"姓名\t\t\t\t\t\t\t\t: "..user_list[i].name..get_customer_vip(user_list[i].vip).."\n"..
+				str = 	"姓名\t\t\t\t\t\t\t\t: "..user_list[i].name..get_customer_vip(user_list[i].vip).." ID:"..user_list[i].id.."\n"..
 						"年龄\t\t\t\t\t\t\t\t: "..user_list[i].age.."\n"..
 						"就诊卡号\t:"..user_list[i].cordnumber.."\n"..
 						"电话\t\t\t\t\t\t\t\t:"..user_list[i].phonenumber.."\n"..
@@ -143,7 +143,7 @@ local function Execute(post)
 		return _jsontbl
 	end
 	
-	local _query_sql = "select * from customer where (phonenumber = "..ngx.quote_sql_str(_key).." or name = "..ngx.quote_sql_str(_key)..")"
+	local _query_sql = "select * from customer where (phonenumber = "..ngx.quote_sql_str(_key).." or name = "..ngx.quote_sql_str(_key).. " or id = "..ngx.quote_sql_str(_key)..")"
 
 	INFO("wx_serach_customer: " .. _query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)

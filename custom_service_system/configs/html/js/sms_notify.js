@@ -14,13 +14,25 @@ var sms_notify_module = function() {
 	}
 
 	var format_sms = function(name,gender,job,date,time,phone) {
+		var objstr = "";
+		var obj = jQuery.parseJSON(job);
+        if (Array.isArray(obj)) {
+            if (obj.length != 0) {
+                for (var i = 0; i < obj.length; i++) {              
+                    objstr += obj[i]+"，";
+                }   
+            }
+        }
+        else
+      		objstr = job+"，";
+
 		var str = '【鼎鑫孕妈妈】';
 		str += name.substring(0, 1);
 		if (gender == "男")
 			str += '先生：';
 		else
 			str += '女士：';
-		str += '请您于'+date+'日'+time+'到医院，项目：'+job+'，联系电话'+phone+'，如有疑问请咨询18908182406';
+		str += '请您于'+date+'日'+time+'到医院'+objstr+'联系电话'+phone+'，咨询电话18908182406';
 		return str;
 	}
 

@@ -80,6 +80,166 @@
 		</div>
 	</div>
 
+	<!--event modal-->
+	<div class="modal fade bs-modal-lg" id="event_modal" tabindex="-1" role="dialog" aria-labelledby="event_modal_label" data-backdrop="static">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true"></span>
+					</button>
+					<h4 class="modal-title" id="event_modal_label">预约事件</h4>
+				</div>
+
+				<form action="" class="form-horizontal event-form" style="margin-bottom:0px;">
+					<div class="modal-body">	
+
+						<div class="control-group">
+								<label class="control-label" id="event_id"></label>
+						</div>
+						<div class="row-fluid">
+							<div class="span6 ">
+								<div class="control-group">
+									<label class="control-label span3">就诊日期:</label>
+									<div class="controls span9">
+										<input type="date" id="event_visit_date" name="event_visit_date">
+									</div>
+								</div>
+							</div>
+							<div class="span6 ">
+								<div class="control-group">
+									<label class="control-label span3">就诊时间:</label>
+									<div class="controls span9">
+										<select class="form-control" id="event_visit_time">
+											
+											<option>07:00</option>
+											<option>07:30</option>
+											<option>08:00</option>
+											<option>08:30</option>
+											<option>09:00</option>
+											<option>09:30</option>
+											<option>10:00</option>
+											<option>10:30</option>
+											<option>11:00</option>
+											<option>11:30</option>
+											<option>12:00</option>
+											<option>12:30</option>
+											<option>13:00</option>
+											<option>13:30</option>
+											<option>14:00</option>
+											<option>14:30</option>
+											<option>15:00</option>
+											<option>15:30</option>
+											<option>16:00</option>
+											<option>16:30</option>
+											<option>17:00</option>
+											<option>17:30</option>
+											<option>18:00</option>
+											<option>18:30</option>
+											<option>19:00</option>
+											<option>19:30</option>
+											<option>20:00</option>
+											<option>20:30</option>
+											<option>21:00</option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="row-fluid">
+							<div class="span6 ">
+								<div class="control-group">
+									<label class="control-label span3">是否预约:</label>
+									<div class="controls span9">
+										<select class="form-control" id="event_order_success">
+											<option>未预约</option>
+											<option>已预约</option>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="span6 ">
+								<div class="control-group" id="event_visit_doctor_name_group">
+									<label class="control-label span3">就诊医生:</label>
+									<div class="controls span9">
+										<input type="text" id="event_visit_doctor_name" name="event_visit_doctor_name" >
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="row-fluid">
+							<div class="span6 ">
+								<div class="control-group" style="height:250px;">
+									<label class="control-label span3" style="text-align:right;">就诊项目:</label>
+									<div class="controls span9">
+										<select style="height:250px;" multiple="multiple" id="event_visit_type" name="event_visit_type">
+
+											<option>建卡全套</option>
+											<option>复诊</option>				
+											<option>就诊</option>									
+											<option>心电图</option>
+											<option>胎监</option>
+											<option>脐血流</option>
+											<option>羊水穿刺</option>
+											<option>凝血功能</option>
+											<option>无创DNA</option>
+											<option>血常规</option>
+											<option>小便常规</option>
+											<option>肝功</option>
+											<option>肾功</option>
+											<option>空腹血糖</option>
+											<option>铁蛋白</option>
+											<option>输血免疫全套</option>
+											<option>甲功</option>
+											<option>胆汁酸</option>
+											<option>血型</option>
+											<option>血型抗价</option>
+											<option>75G糖</option>
+											<option>唐氏筛查早</option>
+											<option>唐氏筛查中</option>
+											<option>胎儿心脏彩超</option>
+											<option>胎儿系统彩超</option>	
+											<option>NT彩超</option>
+											<option>阴道彩超</option>
+											<option>腹部彩超</option>
+											<option>心脏彩超</option>
+											<option>肝胆胰脾肾彩超</option>
+											<option>出院手续</option>
+											<option>入院手续</option>
+											<option>24小时动态心动图</option>												
+										</select>
+									</div>
+								</div>
+							</div>		
+
+							<div class="span6 ">
+								<div class="control-group">
+									<label class="control-label span3">就诊科室:</label>
+									<div class="controls span9">
+										<input type="text" id="event_visit_address" name="event_visit_address" >
+									</div>
+								</div>
+								<div class="control-group">
+									<label class="control-label span3">备注:</label>
+									<div class="controls span9">
+										<textarea id="event_remarks" name="event_remarks" style="height:150px;"></textarea>
+									</div>
+								</div>
+							</div>
+						</div>					
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn black btn-default" data-dismiss="modal">取消</button>
+						<button type="submit" class="btn green btn-default" id="save_changes">确认</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
 	<script>
 
 		jQuery(document).ready(function() {       
