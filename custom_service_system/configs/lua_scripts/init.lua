@@ -122,7 +122,7 @@ g_privilege[2] = {
 				jsontbl = {
 					title = "短信通知",
 					url = "sms_notify",
-					img = "icon-list-alt"
+					img = "icon-envelope"
 				}
 			}
 
