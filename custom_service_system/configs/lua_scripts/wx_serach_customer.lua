@@ -33,13 +33,12 @@ local function QueryKey(res)
 	end
 
 	local user_list = res
-
 	for i=1,#user_list do
 		local str = "姓名\t\t: "..user_list[i].name..get_customer_vip(user_list[i].vip).." ID:"..user_list[i].id.."\n"..
-					"类型\t\t: "..user_list[i].customer_type.."\n"..
-					"年龄\t\t: "..user_list[i].age.."\n"..
+					-- "类型\t\t: "..user_list[i].customer_type.."\n"..
+					-- "年龄\t\t: "..user_list[i].age.."\n"..
 					"电话\t\t: "..user_list[i].phonenumber.."\n"..
-					"病历\t\t\t\t\t\t\t\t: "..cal_link(user_list[i].create_time,user_list[i].id).."\n"
+					"病历: "..cal_link(user_list[i].create_time,user_list[i].id).."\n"
 					
 		table.insert(_jsontbl.web.user_info,str)
 	end
@@ -66,11 +65,11 @@ end
 
 local function Execute(post)
 	local _key = post.web.key
-
+	
 	local function MysqlCallback(res)
-
+		
 		local user_list = res
-
+		
 		if #user_list == 0 then
 			local _query_sql = "select * from customer where name LIKE '%".._key.."%'"
 			DEBUG("wx_serach_customer: " .. _query_sql)
