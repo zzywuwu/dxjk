@@ -83,10 +83,10 @@ class Data extends CI_Controller {
         $code = $this->web_to_lua($data);
         $info = $this->lua_to_web($code);
     	$data_array = json_decode($info, true);
-    	log_message('error',$data_array['error']);
+    	// log_message('error',$data_array['error']);
         $info = "";
     	foreach($data_array['user_info'] as $key=>$val) {
-    		log_message('error',$val);
+    		// log_message('error',$val);
             $info = $info.$val."\n";
     	}	
         $this->sendmessage($info,$userid,$wxcpt);

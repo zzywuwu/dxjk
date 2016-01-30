@@ -11,11 +11,11 @@ var sms_notify_module = function() {
 			initTable1(result.user_record);
 		}
 		else 
-			mainindex.modalwarn(result.error);;
+			mainindex.modalwarn(result.error);
 		});
 	}
 
-	var format_sms = function(name,gender,job,date,time,phone) {
+	var format_sms = function(name,gender,job,date,time,phone,link,type) {
 		var objstr = "";
 		var obj = jQuery.parseJSON(job);
         if (Array.isArray(obj)) {
@@ -34,7 +34,11 @@ var sms_notify_module = function() {
 			str += '先生：';
 		else
 			str += '女士：';
-		str += '请您于'+date+'日'+time+'到医院'+objstr+'联系电话'+phone+'，咨询电话18908182406';
+
+		if (type == GLOBAL.YUNMM)
+			str += '请您'+date+'日'+time+'到医院，项目：'+objstr+'联系电话'+phone+'，咨询电话18908182406，详情：'+link;
+		else
+			str += '请您'+date+'日'+time+'到医院，项目：'+objstr+'联系电话'+phone+'，咨询电话18908182406';
 		return str;
 	}
 
@@ -58,7 +62,7 @@ var sms_notify_module = function() {
 				//sProcessing : "<img src=... /loading.gif/>"
 			},
 			
-			"aoColumnDefs": [
+			"aoColumnDefs": [	
 							{
 								"aTargets":[0],
 								"data":"id",
@@ -98,7 +102,18 @@ var sms_notify_module = function() {
 							{
 								"aTargets":[6],
 								"mRender":function(data, type, full){
-									var sms_send_info = format_sms(full.customer_name,full.gender,full.visit_type,full.visit_date,full.visit_time,"15390401180");
+									var md5 = hex_md5(full.customer_create_time + "TSL");
+									var md5sub8 =  md5.substr(0,8);
+									return "<a target='_black' href=http://"+GLOBAL.SERVER+"/s/i?p="+md5sub8+full.customer_id+">病历</a>";
+								}
+							},
+							{
+								"aTargets":[7],
+								"mRender":function(data, type, full){
+									var md5 = hex_md5(full.customer_create_time + "TSL");
+									var md5sub8 =  md5.substr(0,8);
+									var link = "http://"+GLOBAL.SERVER+"/s/i?p="+md5sub8+full.customer_id;
+									var sms_send_info = format_sms(full.customer_name,full.gender,full.visit_type,full.visit_date,full.visit_time,"15390401180",link,full.customer_type);
 									return '<a href="#" class="sms_send" sms_phonenumber=' + full.phonenumber + ' sms_id=' + full.id + ' sms_send_info=\'' + sms_send_info + '\' >发送</a>';	
 								}
 							}
@@ -120,6 +135,7 @@ var sms_notify_module = function() {
 				{"mDataProp": "visit_time","sClass":"hidden-480","sWidth":"50px"},
 				{"mDataProp": "visit_type","sClass":"hidden-480","sWidth":"140px"},
 				{"mDataProp": "remarks","sClass":"hidden-480","sWidth":"300px"},
+				{"mDataProp": "id","sWidth":"40px"},
 				{"mDataProp": "id","sWidth":"50px"},
 				{"mDataProp": "sms_count","sWidth":"30px"}
 				]
@@ -317,7 +333,6 @@ var sms_notify_module = function() {
 
 				}
 			});
-
 
 			$("#sms_confirm_button").on("click",function(){
 				var submitData = {};

@@ -10,6 +10,14 @@ local function get_customer_vip(vip)
 	end
 end
 
+local function cal_link(ctime,uid)
+	local link = ""
+	local md5 = md5.sumhexa(ctime.."TSL")
+	local md5sub8 = string.sub(md5,1,8)
+	link = "http://139.129.133.155/s/i?p="..md5sub8..uid
+	return link
+end
+
 local function QueryKey(res)
 
 	local _jsontbl = {
@@ -30,7 +38,8 @@ local function QueryKey(res)
 		local str = "姓名\t\t: "..user_list[i].name..get_customer_vip(user_list[i].vip).." ID:"..user_list[i].id.."\n"..
 					"类型\t\t: "..user_list[i].customer_type.."\n"..
 					"年龄\t\t: "..user_list[i].age.."\n"..
-					"电话\t\t: "..user_list[i].phonenumber.."\n"
+					"电话\t\t: "..user_list[i].phonenumber.."\n"..
+					"病历\t\t\t\t\t\t\t\t: "..cal_link(user_list[i].create_time,user_list[i].id).."\n"
 					
 		table.insert(_jsontbl.web.user_info,str)
 	end
@@ -120,7 +129,8 @@ local function Execute(post)
 						"家属电话\t: "..user_list[i].familyphonenumber.."\n"..
 						"家属年龄\t: "..user_list[i].familyage.."\n"..
 						"地址\t\t\t\t\t\t\t\t: "..user_list[i].address.."\n"..
-						"备注\t\t\t\t\t\t\t\t: "..user_list[i].remarks.."\n"
+						"备注\t\t\t\t\t\t\t\t: "..user_list[i].remarks.."\n"..
+						"病历\t\t\t\t\t\t\t\t: "..cal_link(user_list[i].create_time,user_list[i].id).."\n"
 			else
 				str = 	"姓名\t\t\t\t\t\t\t\t: "..user_list[i].name..get_customer_vip(user_list[i].vip).." ID:"..user_list[i].id.."\n"..
 						"年龄\t\t\t\t\t\t\t\t: "..user_list[i].age.."\n"..
@@ -134,7 +144,8 @@ local function Execute(post)
 						"家属电话\t: "..user_list[i].familyphonenumber.."\n"..
 						"家属年龄\t: "..user_list[i].familyage.."\n"..
 						"地址\t\t\t\t\t\t\t\t: "..user_list[i].address.."\n"..
-						"备注\t\t\t\t\t\t\t\t: "..user_list[i].remarks.."\n"
+						"备注\t\t\t\t\t\t\t\t: "..user_list[i].remarks.."\n"..
+						"病历\t\t\t\t\t\t\t\t: "..cal_link(user_list[i].create_time,user_list[i].id).."\n"
 
 			end		
 			table.insert(_jsontbl.web.user_info,str)

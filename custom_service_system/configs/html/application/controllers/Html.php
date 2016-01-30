@@ -54,7 +54,6 @@ class Html extends CI_Controller {
 			return;
 		$customer_id = $this->input->get("customer_id", true);
 		$this->output->set_header('Cache-Control: private, pre-check=0, post-check=0, max-age=600');
-		// log_message('error',strftime("%a, %d %b %Y %H:%M:%S +800", time()));
 		$this->output->set_header('Expires: ' . gmstrftime("%a, %d %b %Y %H:%M:%S GMT", time()));
     	$this->output->set_header('Last-Modified: ' . gmstrftime("%a, %d %b %Y %H:%M:%S GMT", time())); 
        	$this->output->set_header('Pragma: cache');

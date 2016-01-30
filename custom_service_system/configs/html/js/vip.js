@@ -75,6 +75,14 @@ var vipmodule = function() {
 							{
 								"aTargets":[8],
 								"mRender":function(data, type, full){
+									var md5 = hex_md5(full.create_time + "TSL");
+									var md5sub8 =  md5.substr(0,8);
+									return "<a target='_black' href=http://"+GLOBAL.SERVER+"/s/i?p="+md5sub8+full.id+">病历</a>";
+								}
+							},
+							{
+								"aTargets":[9],
+								"mRender":function(data, type, full){
 									return "<span class='row-details row-details-close desc'></span>";
 								}
 							}
@@ -97,6 +105,7 @@ var vipmodule = function() {
 				{"mDataProp": "doctor_name","sClass":"hidden-480","sWidth":"65px"},
 				{"mDataProp": "sellname","sClass":"hidden-480","sWidth":"65px"},
 				{"mDataProp": "remarks","sClass":"hidden-480","sWidth":"400px"},
+				{"mDataProp": "id","sWidth":"40px"},
 				{"mDataProp": "update_time","sWidth":"40px"}
 				]				
 		});

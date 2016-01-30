@@ -4,6 +4,8 @@ GLOBAL.LOOKDOCTOR = "就诊";
 GLOBAL.REVIEWDOCTOR = "复诊";
 GLOBAL.CREATE = "建卡全套";
 GLOBAL.YUNMM = "孕妈妈";
+GLOBAL.SERVER = "139.129.133.155";
+// GLOBAL.SERVER = "192.168.0.101";
 GLOBAL.PRIVILEGE = 0;
 
 jQuery(document).ready(function() {    

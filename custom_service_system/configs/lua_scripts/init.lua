@@ -1,3 +1,4 @@
+require("md5");
 require("kf_debug")
 
 DEBUGINIT("ngx_lua.log", 1)
@@ -44,7 +45,7 @@ local wx_serach_customer = require("wx_serach_customer")
 local record_upload_image = require("record_upload_image")
 local sms_get_list = require("sms_get_list")
 local sms_send = require("sms_send")
-
+local query_bingli = require("query_bingli")
 
 file_path = "/var/logs/"
 url_path = "/temp/file/"
@@ -102,6 +103,7 @@ funcsinit = {
 	ac_get_list = ac_get_list,
 	sms_get_list = sms_get_list,
 	sms_send = sms_send,
+	query_bingli = query_bingli,
 	wx_serach_customer = wx_serach_customer
 	
 }
@@ -201,6 +203,6 @@ WEBERR = {
 	DEL_USER_SELF = "不能删除自己",
 	CUSTOMER_DONT_UP_VIP = "普通客户不能升级为会员",
 	DONT_DELETE_CUSTOMER = "拥有记录或事件不能删除",
-	SMS_SEND_ERR = "发送失败",
+	SMS_SEND_ERR = "发送失败"
 }
 

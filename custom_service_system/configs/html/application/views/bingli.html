@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+
+<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
+
+<!-- BEGIN HEAD -->
+
+<head>
+
+	<meta charset="utf-8" />
+
+	<title >鼎鑫孕妈妈</title>
+
+	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+	<meta content="" name="description" />
+
+	<meta content="" name="author" />
+
+	<!-- BEGIN GLOBAL MANDATORY STYLES -->
+
+	<link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+	
+	<link href="/css/modal.css" rel="stylesheet" type="text/css">
+
+	<link href="/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css"/>
+
+	<link href="/media/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+
+	<link href="/css/style-metro.css" rel="stylesheet" type="text/css"/>
+
+	<link href="/media/css/style.css" rel="stylesheet" type="text/css"/>
+
+	<link href="/media/css/style-responsive.css" rel="stylesheet" type="text/css"/>
+
+	<link href="/media/css/default.css" rel="stylesheet" type="text/css" id="style_color"/>
+
+	<link href="/media/css/uniform.default.css" rel="stylesheet" type="text/css"/>
+
+	<link href="/media/css/select2_metro.css" rel="stylesheet" type="text/css"/>
+
+	<link href="/media/css/jquery.fancybox.css" rel="stylesheet" />
+
+	<link href="/media/css/news.css" rel="stylesheet" type="text/css"/>
+
+	<link rel="shortcut icon" href="/media/image/dtjxlogo.png" />
+
+	<style >
+		body,button,input,select,textarea,h1,h2,h3,h4,h5,h6 { 
+			font-family: Microsoft YaHei,'宋体' , Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif !important;
+		}
+		.form-horizontal input {
+			width: 230px;
+		}
+		.form-horizontal .input-append {
+			width: 145px;
+		}
+		.form-horizontal .uneditable-input {
+			width: 145px;
+		}
+		.form-horizontal .control-label {
+			width: 70px;
+			text-align: left;
+		}
+		.news-blocks {
+			background: #F7EED2;
+		}	
+		#bingli .top-news {
+			margin: 0px 0;
+		}
+		#bingli .top-news a{
+			margin-bottom: 0px;	 
+		}
+		
+	
+	</style>	
+
+</head>
+
+<body>
+
+	<div class="modal fade bs-example-modal-sm" id="warn_modal" tabindex="-1" role="dialog" aria-labelledby="warn_modal_title" data-backdrop="static">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="warn_modal_title"></h4>
+				</div>
+				<div class="modal-body">
+					<div class="control-group">
+						<label class="control-label" id="warn_modal_content"></label>
+					</div>
+					<div class="control-group">
+						
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn green btn-default" data-dismiss="modal">确认</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="span3" >
+		<div class="top-news">
+			<a href="#" class="btn white" style="margin-bottom: 0px;">
+			<span id="title"></span>
+			</a>
+		</div>
+
+		<div id="event">
+		</div>
+
+		<!-- <div class="top-news" style="margin-top: 10px;">
+			<a href="#" class="btn white" style="margin-bottom: 0px;">
+			<span>历史记录</span>
+			</a>
+		</div> -->
+		<a class="fancybox-button hide" data-rel="fancybox-button" href="/media/image/favicon.ico"></a>
+		<div id="bingli" p="<?php echo $p ?>">
+			<!-- 有下面这句，会有gellry -->
+			<a class="fancybox-button hide" data-rel="fancybox-button" href="/media/image/favicon.ico"></a>
+
+
+			<!-- <div class="top-news">
+				<a href="#" class="btn purple">
+				<span>2016-01-18</span>
+				<em>
+				<i class="icon-tags"></i>
+				 <strong>["心电图","肝功","胆汁酸","腹部彩超","心脏彩超"]</strong>
+				</em>
+				</a>
+			</div>
+
+			<div class="news-blocks">
+				<h3>就诊记录：</h3> 
+				<div class="news-block-tags">	
+					<em>&nbsp&nbsp&nbsp&nbsp小便常规尿蛋白1+，白细胞计数7.6/L，红细胞计数3.54/L，血红蛋白105g/l，血小板计数238/L，丙氨酸氨基转移酶14U/L,门冬氨酸氨基转移酶20U/L,总胆汁酸2.9umol/L，铁蛋白11.6ng/ml,成人心脏超声心脏形态结构及血流未见异常，左室收缩功能测值正常，胎位LOP，双顶径7.8cm，头围28.5cm，股骨长5.8cm，腹围27.75cm，胎盘附着子宫后前壁，厚度3.2cm，成熟度0+I级，羊水6.3cm，胎儿脐带见绕颈一周，宫内单活胎，心电图1.窦性心律2.电轴不偏3.心电图未见明显异常</em>
+				</div>
+
+				<h3>医生建议：</h3>
+				<div class="news-block-tags">
+					<em>&nbsp&nbsp&nbsp&nbsp一周复查，数胎动，复查小便</em>
+				</div>
+
+				<h3>图片：</h3>
+				<div class="imgzoom" style="margin-left:0px;">
+					<div id="photo_href">	
+					</div>      
+				</div>	            
+			</div> -->
+
+		</div>
+
+
+	</div>
+
+	
+	
+	<!-- END FOOTER -->
+
+	<!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
+
+	<!-- BEGIN CORE PLUGINS -->
+
+	<script src="/media/js/jquery-1.10.1.min.js" type="text/javascript"></script>
+
+	<script src="/media/js/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
+
+	<!-- IMPORTANT! Load jquery-ui-1.10.1.custom.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
+
+	<script src="/media/js/jquery-ui-1.10.1.custom.min.js" type="text/javascript"></script>      
+
+	<script src="/js/bootstrap.js" type="text/javascript"></script>
+
+	<!--[if lt IE 9]>
+
+	<script src="/media/js/excanvas.min.js"></script>
+
+	<script src="/media/js/respond.min.js"></script>  
+
+	<![endif]-->   
+
+	<script src="/media/js/jquery.slimscroll.min.js" type="text/javascript"></script>
+
+	<script src="/media/js/jquery.blockui.min.js" type="text/javascript"></script>  
+
+	<script src="/media/js/jquery.cookie.min.js" type="text/javascript"></script>
+
+	<script src="/media/js/jquery.uniform.min.js" type="text/javascript" ></script>
+
+	<script src="/media/js/select2.min.js" type="text/javascript"></script>
+
+	<script type="text/javascript" src="/media/js/gallery.js"></script>  
+
+	<script src="/media/js/app.js" type="text/javascript"></script>
+
+	<script src="/js/common_ajax.js" type="text/javascript"></script>
+
+	<script src="/js/bingli.js" type="text/javascript"></script>      
+
+	<script>
+
+		jQuery(document).ready(function() {       
+		   App.init();
+		   Gallery.init();
+		   bingli.init();
+
+		});
+
+	</script>
+
+	<!-- END JAVASCRIPTS -->
+</body>
+
+<!-- END BODY -->
+
+</html>

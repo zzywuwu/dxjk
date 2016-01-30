@@ -31,7 +31,7 @@ end
 
 local function Execute(post)
 	local _id = post.web.id
-	local _query_sql = "select *,customer.name as customer_name from record,customer where record.id = "..ngx.quote_sql_str(_id).." and record.customer_id = customer.id limit 1"
+	local _query_sql = "select record.*,customer.name as customer_name from record,customer where record.id = "..ngx.quote_sql_str(_id).." and record.customer_id = customer.id limit 1"
 
 	DEBUG("record_query_by_id: " .. _query_sql)
 	return mysql.query(cloud_database, _query_sql, MysqlCallback)
