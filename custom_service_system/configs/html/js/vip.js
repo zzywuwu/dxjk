@@ -94,6 +94,7 @@ var vipmodule = function() {
 			// ],
 			"iDisplayLength": "100",
 			
+			
 			"aaData": account_list,
 
 			"aoColumns": [
@@ -115,7 +116,7 @@ var vipmodule = function() {
 
 		App.initUniform("#kf_list .checkboxes");
 
-		jQuery(".record").click(function(){
+		jQuery("#kf_list").on("click",' tbody td .record',function(){	
 			var data = {"page":"record.html","customer_id":$(this).attr("data")};
 			TendaAjax.getHtml(data, function(result){
 				$(".page-content .container-fluid").html(result);

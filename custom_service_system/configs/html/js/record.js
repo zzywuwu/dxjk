@@ -179,7 +179,7 @@ var recordmodule = function() {
 		jQuery("#kf_list_wrapper .dataTables_filter input").addClass("m-wrap small");
 		jQuery("#kf_list_wrapper .dataTables_length select").addClass("m-wrap small");
 
-		jQuery(".review").click(function(){
+		jQuery("#kf_list").on("click",' tbody td .review',function(){	
 			$("#kf_review_id").val($(this).attr("data_id"));
             $("#kf_review_content").val($(this).attr("data_content"));
             $("#kf_review_time").text($(this).attr("data_time"));

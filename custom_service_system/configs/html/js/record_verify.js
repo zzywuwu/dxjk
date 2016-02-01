@@ -149,7 +149,7 @@ var verifyrecordmodule = function() {
 
 		App.initUniform("#kf_list .checkboxes");
 
-		jQuery(".record").click(function(){
+		jQuery("#kf_list").on("click",' tbody td .record',function(){	
 			var data = {"page":"record.html","customer_id":$(this).attr("data")};
 			TendaAjax.getHtml(data, function(result){
 				$(".page-content .container-fluid").html(result);
@@ -190,7 +190,7 @@ var verifyrecordmodule = function() {
 			$(this).tooltip('show');
 		});
 
-		jQuery(".verify_record").click(function(){
+		jQuery("#kf_list").on("click",' tbody td .verify_record',function(){	
 			var arr = [];           
             var oTable = $("#kf_list").dataTable();
     		var nTr = $(this).parents("tr");

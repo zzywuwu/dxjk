@@ -61,7 +61,7 @@ var sms_notify_module = function() {
 				}
 				//sProcessing : "<img src=... /loading.gif/>"
 			},
-			
+
 			"aoColumnDefs": [	
 							{
 								"aTargets":[0],
@@ -125,8 +125,9 @@ var sms_notify_module = function() {
 			// 	[1,5, 15, 20, "所有"]
 			// ],
 			"iDisplayLength": "100",
-			
 			"aaData": account_list,
+			//"bPaginate": true, //翻页功能
+			//"bFilter": true, 
 
 			"aoColumns": [
 				{"mDataProp": "id","sWidth":"40px"},
@@ -142,13 +143,12 @@ var sms_notify_module = function() {
 
 		});
 
-		jQuery("#kf_list_wrapper .dataTables_filter input").addClass("m-wrap small");
+        jQuery("#kf_list_wrapper .dataTables_filter input").addClass("m-wrap small");
 		jQuery("#kf_list_wrapper .dataTables_length select").addClass("m-wrap small");
 
 		App.initUniform("#kf_list .checkboxes");
 
-		jQuery(".event_action").click(function(){
-
+		jQuery("#kf_list").on("click",' tbody td .event_action',function(){	
 			var arr = [];           
             var oTable = $("#kf_list").dataTable();
     		var nTr = $(this).parents("tr");
@@ -190,7 +190,7 @@ var sms_notify_module = function() {
         	$("#event_modal").modal("show");	
 		});
 
-		jQuery(".record").click(function(){
+		jQuery("#kf_list").on("click",' tbody td .record',function(){	
 			var data = {"page":"record.html","customer_id":$(this).attr("data")};
 			TendaAjax.getHtml(data, function(result){
 				$(".page-content .container-fluid").html(result);
@@ -228,7 +228,7 @@ var sms_notify_module = function() {
 			$(this).tooltip('show');
 		});
 
-		jQuery(".sms_send").click(function(){
+		jQuery("#kf_list").on("click",' tbody td .sms_send',function(){	
 			$("#sms_modal_title").html('发送短信'); 
         	$("#sms_info").val($(this).attr("sms_send_info"));    
         	$("#sms_info").attr("sms_id",$(this).attr("sms_id")); 	
@@ -246,6 +246,7 @@ var sms_notify_module = function() {
 		jQuery('#kf_list_filter input').on('input',function(e){
       		search_str = $(this).val();
         });
+
 	}
 
 	var operation_modal;
