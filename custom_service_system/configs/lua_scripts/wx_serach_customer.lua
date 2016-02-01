@@ -38,7 +38,7 @@ local function QueryKey(res)
 					-- "类型\t\t: "..user_list[i].customer_type.."\n"..
 					-- "年龄\t\t: "..user_list[i].age.."\n"..
 					"电话\t\t: "..user_list[i].phonenumber.."\n"..
-					"病历: "..cal_link(user_list[i].create_time,user_list[i].id).."\n"
+					"病历\t\t: "..cal_link(user_list[i].create_time,user_list[i].id).."\n"
 					
 		table.insert(_jsontbl.web.user_info,str)
 	end
