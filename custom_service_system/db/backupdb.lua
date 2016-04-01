@@ -51,6 +51,8 @@ local function BackupIncDB(time)
         os.execute(command)
         command = "echo "..date.year.."-"..date.month.."-"..date.day.."-"..date.hour.."-"..date.min.."-"..date.sec.." Done Increament Backup >> "..increment_path.."incdb.log"
         os.execute(command)
+	    command = "cp -a /opt/nginx/html/temp/file/*.* /root/image/"
+        os.execute(command)
         DeleteData()
     end
 end
