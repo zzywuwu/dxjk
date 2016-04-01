@@ -44,16 +44,16 @@ nginx:
 	cd ../$(RESTY_REDIS); \
 	make install LUA_INCLUDE_DIR=$(LUAJIT_INC) LUA_LIB_DIR=/usr/local/luajit/share/luajit-2.0.2; \
 	cd ../$(LUA_CJSON); \
-	make install LUA_CMODULE_DIR=/usr/local/luajit/lib/lua/5.1/ LUA_INCLUDE_DIR=/usr/local/luajit/include/luajit-2.0/; \
+	make install; \
 	cd ../$(LUA_SQL); \
 	export LIBRARY_PATH=/usr/lib64/mysql:$$LIBRARY_PATH; \
 	make; \
-	make install LUA_LIBDIR=/usr/local/luajit/lib/lua/5.1; \
+	make install; \
 	cd ../$(LUA_REDIS); \
 	\cp src/redis.lua /usr/local/luajit/share/luajit-2.0.2/; \
 	cd ../$(LUA_SOCKET); \
 	make; \
-	make install INSTALL_TOP_SHARE=/usr/local/luajit/share/luajit-2.0.2 INSTALL_TOP_LIB=/usr/local/luajit/lib; \
+	make install; \
 	cd ..; \
 	tar -xvf $(NGX_VER).tar.gz; \
 	tar -xvf $(NGX_DEV_KIT).tar.gz; \

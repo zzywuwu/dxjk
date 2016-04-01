@@ -1,0 +1,37 @@
+1 开始
+yum install install pcre-devel openssl openssl-devel bzip2-devel
+yum install libjpeg-devel libpng-devel libxml2 libxml2-devel curl
+yum install curl-devel libmcrypt libmcrypt-devel
+yum install mysql
+yum install mysql-server
+
+2 mysql升级
+wget http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+rpm -Uvh epel-release-6-8.noarch.rpm
+wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+rpm -Uvh remi-release-6.rpm 
+yum --enablerepo=remi install mysql mysql-server
+
+3 进入目录make
+
+4 运行lua ./startup restart
+
+5 luasql.mysql找不到，说明安装luasql-2.3.0出错，进入luasql-2.3.0目录，修改config
+
+找不到lua.h头文件
+DRIVER_INCS= -I/usr/include/mysql 
+DRIVER_INCS= -I/usr/include/mysql -I/usr/local/luajit/include/luajit-2.0/
+
+找不到mysqlclient
+DRIVER_LIBS= -L/usr/lib -lmysqlclient -lz
+DRIVER_LIBS= -L/usr/lib -L/usr/lib/mysql -lmysqlclient -lz
+make; make install
+
+6 socket找不到，说明安装luasocket-2.0.2出错，进入luasocket-2.0.2目录，修改config
+找不到lua.h头文件
+CFLAGS= $(LUAINC) $(DEF) -pedantic -Wall -O2 -fpic 
+CFLAGS= $(LUAINC) $(DEF) -pedantic -Wall -O2 -fpic -I/usr/local/luajit/include/luajit-2.0/
+make; make install
+
+7 cjson
+make; make install
