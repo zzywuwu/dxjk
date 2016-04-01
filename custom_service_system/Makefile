@@ -101,6 +101,7 @@ config:
 	mkdir $(PREFIX_DIR)/html/temp/file; \
 	mkdir $(PREFIX_DIR)/html/temp/log; \
 	mkdir $(PREFIX_DIR)/html/temp/captcha;\
+	chmod 777 -R $(PREFIX_DIR)/html/temp;\
 	\echo "ok";
 
 clean:
