@@ -4,13 +4,11 @@ yum install libjpeg-devel libpng-devel libxml2 libxml2-devel curl
 yum install curl-devel libmcrypt libmcrypt-devel
 yum install mysql
 yum install mysql-server
+yum install libmcrypt mhash mcrypt
+yum install php-mcrypt libmcrypt libmcrypt-devel
 
-2 mysql升级
-wget http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
-rpm -Uvh epel-release-6-8.noarch.rpm
-wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
-rpm -Uvh remi-release-6.rpm 
-yum --enablerepo=remi install mysql mysql-server
+2 安装mysql，在云笔记有多种安装方法
+导入数据 mysql -uroot dtjx < 2016_4_6.sql
 
 3 进入目录make
 
@@ -35,3 +33,9 @@ make; make install
 
 7 cjson
 make; make install
+
+8 md5
+CFLAGS= $(WARN) $(INCS) -I/usr/local/luajit/include/luajit-2.0/
+make install LUA_DIR=/usr/local/share/lua/5.1/ LUA_LIBDIR=/usr/local/luajit/lib/lua/5.1/
+
+
