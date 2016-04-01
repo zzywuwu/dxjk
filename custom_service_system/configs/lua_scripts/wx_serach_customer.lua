@@ -71,7 +71,7 @@ local function Execute(post)
 		local user_list = res
 		
 		if #user_list == 0 then
-			local _query_sql = "select * from customer where name LIKE '%".._key.."%'"
+			local _query_sql = "select * from customer where vip < 2 and name LIKE '%".._key.."%'"
 			DEBUG("wx_serach_customer: " .. _query_sql)
 			return mysql.query(cloud_database, _query_sql, QueryKey)
 		end
